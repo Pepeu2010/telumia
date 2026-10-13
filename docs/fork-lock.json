@@ -1,13 +1,13 @@
 {
-  "recordedAtUtc": "2026-10-13T18:21:54.4949515Z",
+  "recordedAtUtc": "2026-10-13T18:27:40.5721098Z",
   "repositories": [
     {
       "repository": "Pepeu2010/telumia-desktop",
       "url": "https://github.com/Pepeu2010/telumia-desktop.git",
       "branch": "main",
-      "commit": "57f618bf295e5e6e7adaca19760187991d2064c9",
+      "commit": "14cd7b81be812eb0dda53f2c343eb492f36854d2",
       "checkout": "repos/desktop",
-      "milestone": "1.0.0 publicada: 279 testes selecionados/MSI, JNI Windows e oito execucoes de renderer/1092 verificacoes passaram. Canal de atualizacao regular; 22 assets remotos verificados; release regular Latest nos tres repositorios. Conta oficial, WebView2 completo, hardware/HDR/Linux/macOS e meta integral seguem abertos. Main inclui README e infraestrutura de CI posteriores; o commit de fonte publicado e os pacotes permanecem fixos. Commits posteriores de CI e registros de submodulos; builds Linux/macOS em andamento, sem aprovacao de portabilidade. Ver DESKTOP_PORTABILITY.md.",
+      "milestone": "1.0.0 publicada: 279 testes selecionados/MSI, JNI Windows e oito execucoes de renderer/1092 verificacoes passaram. Canal de atualizacao regular; 22 assets remotos verificados; release regular Latest nos tres repositorios. Conta oficial, WebView2 completo, hardware/HDR/Linux/macOS e meta integral seguem abertos. Main inclui README e infraestrutura de CI e correção de input opcional posteriores; o commit de fonte publicado e os pacotes permanecem fixos. Commits posteriores de CI e registros de submodulos; builds Linux/macOS em andamento, sem aprovacao de portabilidade. Ver DESKTOP_PORTABILITY.md.",
       "packageSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
       "publishedRelease": "v1.0.0",
       "publishedSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60"

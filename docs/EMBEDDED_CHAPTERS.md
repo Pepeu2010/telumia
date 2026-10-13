@@ -10,7 +10,7 @@ O incremento `e4ec9bfa7660339e8c533fb1b237ba0c7e5bb9e7` amplia a abstração tem
 - O controller verifica o source capturado antes/depois da consulta, além de handle e estado de release. A troca de source invalida o snapshot anterior. A prova de uma sequência completa de trocas de episódio/fonte na UI real continua como gate próprio.
 - A origem é `embedded-mpv`. Não há confiança fabricada nem fallback para elenco global: os títulos de capítulos não viram afirmações de ator/música/Scene Info. A UI mantém escape por `textContent` e descrição acessível no seek.
 
-Os wrappers equivalentes Linux/macOS estão no código e nos inputs de build, sem afirmar execução dessas plataformas. O caminho Media3 TV, seleção de capítulos com seek pela interface, Scene Info e o restante de 2-B/2-C continuam pendentes.
+Os wrappers equivalentes Linux/macOS estão no código e nos inputs de build. Os builds nativos dessas plataformas estão em execução no [gate de portabilidade](DESKTOP_PORTABILITY.md), ainda sem aprovação de runtime. O caminho Media3 TV, seleção de capítulos com seek pela interface, Scene Info e o restante de 2-B/2-C continuam pendentes.
 
 ## Evidência
 
@@ -22,4 +22,4 @@ Os [seis casos JNI](telumia-embedded-chapters-native-cases.json) usam o libmpv e
 
 ## Distribuição
 
-O código está em `main`, **posterior à release 0.2.2-alpha.1**. O MSI preservado deste incremento ainda usa o nome de versão de desenvolvimento 0.2.2-alpha.1; não foi publicado nem substitui o MSI da release, que permanece ligado ao commit `b39b6ea79d37b7c9eb1383ef68692dd2309d664d`. Uma próxima release terá outra versão e seus próprios gates. A meta integral permanece em execução.
+Os capítulos Desktop estão incluídos na release regular **1.0.0**, cujo MSI publicado está ligado ao commit `470c38d5cc02e597c94ea562f5d645f49f8fad60`. A build de desenvolvimento citada acima permanece como evidência histórica do incremento anterior; não substitui os arquivos imutáveis das releases. [Gates da 1.0.0](VERSION_100.md), [publicação e hashes remotos](RELEASES.md). A meta integral permanece em execução.
