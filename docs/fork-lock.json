@@ -1,5 +1,5 @@
 {
-  "recordedAtUtc": "2026-10-13T02:04:36.7707626Z",
+  "recordedAtUtc": "2026-10-13T13:10:50.9694251Z",
   "repositories": [
     {
       "repository": "Pepeu2010/telumia-desktop",
@@ -16,10 +16,10 @@
       "repository": "Pepeu2010/telumia-tv",
       "url": "https://github.com/Pepeu2010/telumia-tv.git",
       "branch": "main",
-      "commit": "6b0db494b2ceb04641580cf8b00575dccba7c75b",
+      "commit": "219d89c31be13f15e29c7adbaa901c7d67cde45a",
       "checkout": "repos/tv",
-      "milestone": "1.0.0 publicada: 214 testes selecionados e cinco APKs passaram; extracao Media3 nativa, cinco casos por API 24/36, e startup real de 30 segundos passaram. Integracao visual/D-pad das miniaturas, conta oficial e hardware permanecem pendentes. Main inclui apenas um commit posterior de README; o commit de fonte publicado e os pacotes permanecem fixos.",
-      "packageSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
+      "milestone": "Depois da release 1.0.0: cancelamento enfileirado e de corpo HTTP ativo, isolamento de chamadas e recuperacao passaram em 215 testes selecionados e sete casos nativos por API 24/36. Main mescla somente o README sobre esse codigo. UI de thumbnails/filmstrip esta no codigo local af115980, em validacao; nao esta nos pacotes publicados 1.0.0.",
+      "packageSourceCommit": "55cd5f33f27a1a63878614dfda8c182bc5a44915",
       "publishedRelease": "v1.0.0",
       "publishedSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb"
     }

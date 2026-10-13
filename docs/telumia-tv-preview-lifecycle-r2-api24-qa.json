@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "startedAtUtc": "2026-10-13T02:35:30.6601325Z",
+  "sourceCommit": "55cd5f33f27a1a63878614dfda8c182bc5a44915",
+  "buildLabel": "telumia-tv-preview-lifecycle-r2",
+  "androidApi": "24",
+  "emulator": "Telumia_API24_01a10441",
+  "scope": "Seven actual Media3 frame cases, including release before queued preparation and cancellation of a live HTTP body with observed peer connection closure and recovery. No product UI, D-pad, HDR or physical-device proof.",
+  "apkSha256": "fa942c338011309855ddc628c1c06d6502e5687afc9306574ab2355a675760fa",
+  "testApkSha256": "814485b6942cbcc1ec9eb0aa91be5a027febb35e64bb8a39f52f1b5f4dd6f947",
+  "captures": [
+    {
+      "file": "telumia-timeline-frame-500.png",
+      "pixels": "320x180",
+      "sha256": "3b43791d91d3ece19d9ebaddb59a105571c83db9a0c511f24e5e5cfa6bdec169",
+      "decodedMs": 500
+    },
+    {
+      "file": "telumia-timeline-frame-4500.png",
+      "pixels": "320x180",
+      "sha256": "86fbeb5b61f0c61a897bdd84d31ba76aedd5b659b7842723cc2a8d61a67b0800",
+      "decodedMs": 4500
+    }
+  ],
+  "testsPassed": 7,
+  "finishedAtUtc": "2026-10-13T02:36:52.7227275Z"
+}

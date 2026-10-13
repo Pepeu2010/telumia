@@ -56,7 +56,7 @@ try {
     }
     if ($head -ne (git -C $checkout rev-parse HEAD).Trim() -or @(git -C $checkout status --porcelain).Count) { throw 'Source changed during instrumentation.' }
     $record['captures']=$captures; $record['testsPassed']=$ExpectedTests; $record.status='passed'
-    if ($ExpectedTests -eq 7) { $record.scope = 'Seven actual Media3 frame cases, including release before queued preparation and cancellation of a live HTTP body with observed peer connection closure and recovery. No product UI, D-pad, HDR or physical-device proof.' }
+    if ($ExpectedTests -ge 7) { $record.scope = "$ExpectedTests actual Media3 frame cases, including release before queued preparation and cancellation of a live HTTP body with observed peer connection closure and recovery. For the expanded nine-case class, includes audio-only fallback and bound continuous seeking. No full player route, HDR or physical-device proof." }
 } catch { $record.status='failed';$record['failure']=$_.Exception.Message;throw }
 finally {
     $record['finishedAtUtc']=[DateTime]::UtcNow.ToString('o')

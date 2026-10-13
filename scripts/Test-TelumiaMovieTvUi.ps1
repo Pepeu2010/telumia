@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [ValidateSet('720','1080','2160')][string]$Resolution = '1080',
-    [ValidateSet('movie','live-design','home','timed-metadata','cache-settings','profile-studio','profile-selection','scene-bookmarks','sidebar')][string]$Suite = 'movie',
+    [ValidateSet('movie','live-design','home','timed-metadata','cache-settings','profile-studio','profile-selection','scene-bookmarks','sidebar','timeline-preview')][string]$Suite = 'movie',
     [ValidateSet('24','36')][string]$AndroidApi = '36',
     [ValidatePattern('^[a-z0-9-]+$')][string]$BuildLabel,
     [ValidatePattern('^[a-z0-9-]+$')][string]$EvidenceLabel,
@@ -15,7 +15,7 @@ $adb = Join-Path $env:LOCALAPPDATA 'Android/Sdk/platform-tools/adb.exe'
 $serial = if ($AndroidApi -eq '24') { 'emulator-5570' } else { 'emulator-5568' }
 $appId = 'io.github.pepeu2010.telumia.tv.debug'
 $checkout = Join-Path $workspace 'repos/tv'
-$label = switch ($Suite) { 'movie' { 'cinematic-tv-ui' }; 'live-design' { 'live-design-tv-ui' }; 'home' { 'telumia-home-tv-ui' }; 'timed-metadata' { 'telumia-timed-tv-ui' }; 'cache-settings' { 'telumia-cache-tv-ui' }; 'profile-studio' { 'telumia-studio-tv-ui' }; 'profile-selection' { 'telumia-profile-selection-tv-ui' }; 'scene-bookmarks' { 'telumia-scene-bookmarks-tv-ui' }; 'sidebar' { 'telumia-sidebar-tv-ui' } }
+$label = switch ($Suite) { 'movie' { 'cinematic-tv-ui' }; 'live-design' { 'live-design-tv-ui' }; 'home' { 'telumia-home-tv-ui' }; 'timed-metadata' { 'telumia-timed-tv-ui' }; 'cache-settings' { 'telumia-cache-tv-ui' }; 'profile-studio' { 'telumia-studio-tv-ui' }; 'profile-selection' { 'telumia-profile-selection-tv-ui' }; 'scene-bookmarks' { 'telumia-scene-bookmarks-tv-ui' }; 'sidebar' { 'telumia-sidebar-tv-ui' }; 'timeline-preview' { 'telumia-timeline-preview-tv-ui' } }
 $output = Join-Path $workspace "artifacts/$label-$Resolution"
 if ($EvidenceLabel) { $output = Join-Path $workspace "artifacts/$EvidenceLabel-$Resolution" }
 if (Test-Path -LiteralPath (Join-Path $output 'qa.json')) { throw 'Refusing to overwrite existing native QA evidence. Choose a new EvidenceLabel.' }
@@ -29,7 +29,7 @@ if ($LASTEXITCODE -ne 0 -or $api -ne $AndroidApi) { throw 'Unexpected Android AP
 if ($AppLocale -and $AndroidApi -ne '36') { throw 'The per-app locale gate requires the owned API 36 emulator.' }
 $apk = Join-Path $checkout 'app/build/outputs/apk/full/debug/app-full-universal-debug.apk'
 $testApk = Join-Path $checkout 'app/build/outputs/apk/androidTest/full/debug/app-full-debug-androidTest.apk'
-if ($Suite -in @('scene-bookmarks','sidebar') -and -not $BuildLabel) { throw 'This suite requires a preserved build binding.' }
+if ($Suite -in @('scene-bookmarks','sidebar','timeline-preview') -and -not $BuildLabel) { throw 'This suite requires a preserved build binding.' }
 if ($BuildLabel) {
     $binding = Get-Content -LiteralPath (Join-Path $workspace "docs/$BuildLabel-build-binding.json") -Raw | ConvertFrom-Json
     if ($binding.buildStatus -ne 'passed' -or $binding.sourceCommit -ne (git -C $checkout rev-parse HEAD).Trim() -or @(git -C $checkout status --porcelain).Count) { throw 'Current clean source must match a passed build.' }
@@ -66,6 +66,7 @@ $record = [ordered]@{
     scope = $(if ($Suite -eq 'scene-bookmarks') { 'Real scene bookmark dialog, D-pad activation, private durable local files and seek callback. No actual video playback, account/backend, Android IME or physical-TV performance proof.' } else { 'Owned emulator, native component fixtures and D-pad; no playback, channel availability or physical TV performance claim' })
     status = 'running'
 }
+if ($Suite -eq 'timeline-preview') { $record.scope = 'Actual generated AVC decoding in the production preview/progress components, full/reduced/off motion, D-pad focus and a real primary seek on key-up. Controlled local input and recording callbacks; no authenticated MainActivity, entire player route, HDR or physical-TV proof.' }
 $priorAppLocale = $null
 try {
     if ($AppLocale) {
@@ -97,12 +98,13 @@ try {
         'profile-selection' { 'com.nuvio.tv.ui.screens.profile.TelumiaProfileSelectionTvTest' }
         'scene-bookmarks' { 'com.nuvio.tv.ui.screens.player.SceneBookmarksTvTest' }
         'sidebar' { 'com.nuvio.tv.TelumiaSidebarTvTest' }
+        'timeline-preview' { 'com.nuvio.tv.ui.screens.player.TimelinePreviewSurfaceTvTest' }
     }
     $log = & $adb -s $serial shell am instrument -w -r -e class $testClass "$appId.test/androidx.test.runner.AndroidJUnitRunner" 2>&1
     $log | Set-Content -LiteralPath (Join-Path $output 'instrumentation.log') -Encoding utf8
     $text = $log -join "`n"
     if ($text -notmatch "OK \($ExpectedTests tests\)" -or $text -match 'INSTRUMENTATION_STATUS_CODE: -2|FAILURES!!!') { throw "Native UI instrumentation did not pass all $ExpectedTests tests. See the local instrumentation log." }
-    $capture = Join-Path $output $(if ($Suite -eq 'scene-bookmarks') { 'scene-bookmarks.png' } elseif ($Suite -eq 'sidebar') { 'sidebar-full.png' } else { 'movie-hero.png' })
+    $capture = Join-Path $output $(if ($Suite -eq 'scene-bookmarks') { 'scene-bookmarks.png' } elseif ($Suite -eq 'sidebar') { 'sidebar-full.png' } elseif ($Suite -eq 'timeline-preview') { 'timeline-preview-full.png' } else { 'movie-hero.png' })
     $screenshot = switch ($Suite) {
         'movie' { 'cinematic-movie-hero-tv.png' }
         'live-design' { 'live-guide-components.png' }
@@ -113,6 +115,7 @@ try {
         'profile-selection' { 'telumia-profile-selection-tv.png' }
         'scene-bookmarks' { 'telumia-scene-bookmarks-tv.png' }
         'sidebar' { 'telumia-sidebar-full-tv.png' }
+        'timeline-preview' { 'telumia-timeline-preview-full.png' }
     }
     & $adb -s $serial pull "/sdcard/Android/data/$appId/files/$screenshot" $capture
     if ($LASTEXITCODE -ne 0) { throw 'Fixture screenshot could not be exported.' }
@@ -122,6 +125,18 @@ try {
     $height = [int64]$bytes[20] * 16777216 + [int64]$bytes[21] * 65536 + [int64]$bytes[22] * 256 + $bytes[23]
     $record['capturedPixels'] = "${width}x${height}"
     if ($record.capturedPixels -ne $dimensions) { throw 'Actual framebuffer differs from the requested viewport; this is not a valid resolution gate.' }
+    if ($Suite -eq 'timeline-preview') {
+        $reduced = Join-Path $output 'timeline-preview-reduced.png'
+        & $adb -s $serial pull "/sdcard/Android/data/$appId/files/telumia-timeline-preview-reduced.png" $reduced
+        if ($LASTEXITCODE -ne 0) { throw 'Reduced-motion preview capture could not be exported.' }
+        $reducedBytes = [IO.File]::ReadAllBytes($reduced)
+        if ($reducedBytes.Length -lt 24 -or $reducedBytes[0] -ne 137 -or $reducedBytes[1] -ne 80) { throw 'Reduced-motion preview is not PNG.' }
+        $rw = [int64]$reducedBytes[16]*16777216 + [int64]$reducedBytes[17]*65536 + [int64]$reducedBytes[18]*256 + $reducedBytes[19]
+        $rh = [int64]$reducedBytes[20]*16777216 + [int64]$reducedBytes[21]*65536 + [int64]$reducedBytes[22]*256 + $reducedBytes[23]
+        if ("${rw}x${rh}" -ne $dimensions) { throw 'Reduced-motion preview framebuffer differs.' }
+        $record['motionCaptures'] = @(@{mode='full';file=(Split-Path $capture -Leaf);pixels=$record.capturedPixels;sha256=(Get-FileHash -LiteralPath $capture).Hash.ToLowerInvariant()},
+            @{mode='reduced';file=(Split-Path $reduced -Leaf);pixels="${rw}x${rh}";sha256=(Get-FileHash -LiteralPath $reduced).Hash.ToLowerInvariant()})
+    }
     if ($Suite -eq 'sidebar') {
         $motionCaptures = @()
         foreach ($mode in @('reduced','off')) {
