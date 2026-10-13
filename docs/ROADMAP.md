@@ -7,7 +7,7 @@ para trocar stack, login/backend, remover recursos ou publicar como oficial.
 
 ## Estado desta execução
 
-Estado mais recente: a release `v0.2.2-alpha.1` reúne os incrementos de conta/coleções/addons, navegação/motion, perfis, momentos salvos e player Windows com thumbnails/filmstrip. Passaram 268 testes selecionados PC, 200 TV, 1052 verificações de renderer, 12 casos nativos TV nas três resoluções e startup real em APIs 24/36. Os 22 assets remotos foram conferidos por hash. [Entrega e limites](ALPHA_022.md), [publicação](RELEASES.md). A conta oficial autenticada, hardware físico e as demais fases continuam pendentes; nenhuma fase integral é encerrada apenas por esses gates.
+Estado mais recente: a release regular `v1.0.0` está publicada como “Latest” nos três repositórios, com MSI, APK universal/quatro ABIs e fontes. Reúne os incrementos anteriores e acrescenta capítulos embutidos Windows e a fundação de extração Media3 TV. Passaram 279 testes selecionados PC, 214 TV, 1.092 verificações do renderer, dez casos nativos de frames e startup real em APIs 24/36. Os 22 assets remotos foram conferidos por hash. [Entrega e limites](VERSION_100.md), [publicação](RELEASES.md). A integração visual/D-pad das miniaturas TV, conta oficial autenticada, hardware físico e as demais fases continuam pendentes; a numeração 1.0.0 não encerra a meta integral.
 
 - Checkouts oficiais dos seis projetos concluídos e commits registrados.
 - Auditoria estática e matriz de lacunas/contratos produzidas.
@@ -57,7 +57,7 @@ Estado mais recente: a release `v0.2.2-alpha.1` reúne os incrementos de conta/c
 
 ## Gates e entregas
 
-- Continuação 2-A depois da alpha 0.2.2: capítulos embutidos lidos do libmpv e projetados no índice temporal/marcadores existentes, com posições/títulos reais, limites e ausência de confiança inventada. **279 testes selecionados/MSI, seis casos JNI e oito execuções/1084 verificações do renderer passaram.** O código está em `main`, fora dos binários publicados; Media3 TV, seleção de capítulos/seek na UI e Scene Info seguem como próximas entregas. [Evidências e limites](EMBEDDED_CHAPTERS.md).
+- Continuação 2-A depois da alpha 0.2.2: capítulos embutidos lidos do libmpv e projetados no índice temporal/marcadores existentes, com posições/títulos reais, limites e ausência de confiança inventada. **279 testes selecionados/MSI, seis casos JNI e oito execuções/1084 verificações do renderer passaram nesse incremento.** O código está incluído na release 1.0.0; capítulos Media3 TV, seleção de capítulos/seek na UI e Scene Info seguem como próximas entregas. [Evidências e limites](EMBEDDED_CHAPTERS.md).
 
 - Continuação 3: ownership/cancelamento/timeout dos cards Desktop e consultas TV, pool Media3 exclusivo, preload conservador e movimento por perfil. 174 testes/MSI Desktop, 137 testes/cinco APKs TV e oito testes nativos de áudio local/ownership em APIs 24/36. Trailers embutidos Windows, vídeo remoto e performance física continuam pendentes. [Previews](PREVIEWS.md).
 - Prioridade de 08/10/2026: mesma conta Nuvio, atualização bidirecional, mesclagem e navegação fluida. Primeiro incremento compilado: 208 testes/MSI PC, 162 testes/cinco APKs TV, 12 execuções nativas do menu nos três modos de movimento e APIs 24/36. Reconciliação durável de coleções: 225 testes/MSI PC e 176 testes/cinco APKs TV passaram; journal, recuperação offline, alterações durante upload e exclusões confirmadas. Addons e conta real ainda precisam de entrega/prova. Depois desses incrementos, a meta integral segue aberta. [Conta e navegação](ACCOUNT_SYNC_MOTION.md).

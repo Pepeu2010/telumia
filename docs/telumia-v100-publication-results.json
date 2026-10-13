@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "tag": "v1.0.0",
+  "prerelease": false,
+  "startedAtUtc": "2026-10-13T01:54:40.7834793Z",
+  "releases": [
+    {
+      "repository": "Pepeu2010/telumia",
+      "id": 411166528,
+      "sourceCommit": "ded35541178aa2bc36b43fcc33db7d382ee3a889",
+      "state": "published",
+      "assetCount": 10
+    },
+    {
+      "repository": "Pepeu2010/telumia-desktop",
+      "id": 411168269,
+      "sourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
+      "state": "published",
+      "assetCount": 4
+    },
+    {
+      "repository": "Pepeu2010/telumia-tv",
+      "id": 411168997,
+      "sourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
+      "state": "published",
+      "assetCount": 8
+    }
+  ],
+  "finishedAtUtc": "2026-10-13T01:59:49.1292047Z"
+}

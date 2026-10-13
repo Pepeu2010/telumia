@@ -1,6 +1,6 @@
 # Telumia 1.0.0
 
-A versão pública passa a `1.0.0`, sem sufixo alpha. Os novos binários estão compilados e os gates de preparação passaram. A publicação será uma release regular do GitHub (`prerelease=false`); nenhum pacote ou tag das alphas é substituído. A conferência dos uploads e do estado remoto precede o anúncio da publicação.
+A [Telumia 1.0.0](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.0) está publicada sem sufixo alpha, como release regular e “Latest” nos três repositórios (`draft=false`, `prerelease=false`). São novos binários compilados desta versão; nenhum pacote ou tag das alphas foi substituído. Os 22 assets remotos foram conferidos por tamanho, estado e digest SHA-256. [Verificação dos uploads e tags](telumia-v100-publication-r1-verification.json), [publicação](telumia-v100-publication-results.json).
 
 ## Pacotes e atualização
 

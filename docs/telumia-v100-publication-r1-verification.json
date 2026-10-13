@@ -1,0 +1,196 @@
+{
+  "verifiedAtUtc": "2026-10-13T01:59:48.6973267Z",
+  "scope": "Published release assets compared with local SHA-256; not runtime or device QA",
+  "releases": [
+    {
+      "repository": "Pepeu2010/telumia",
+      "url": "https://github.com/Pepeu2010/telumia/releases/tag/v1.0.0",
+      "tag": "v1.0.0",
+      "tagObject": "ded35541178aa2bc36b43fcc33db7d382ee3a889",
+      "tagCommit": "ded35541178aa2bc36b43fcc33db7d382ee3a889",
+      "sourceCommitVerified": false,
+      "prerelease": false,
+      "latestRegularReleaseVerified": true,
+      "assets": [
+        {
+          "name": "release-manifest.json",
+          "bytes": 4691,
+          "sha256": "77d611efc96445e91e4331280931f8e3f33240a118c57ec731c99dbf003d2557",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/release-manifest.json"
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "bytes": 757,
+          "sha256": "905c6a49b18ce60e025e8c5581c27896e2d7cebfeaefd1a7c9413d2847c862d3",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/SHA256SUMS.txt"
+        },
+        {
+          "name": "Telumia-desktop-source.zip",
+          "bytes": 248044500,
+          "sha256": "bc1267cee3520f55e5554f705414da9636433268f7a2a32f57042504f82e7a7c",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-desktop-source.zip"
+        },
+        {
+          "name": "Telumia-TV-arm64-v8a-debug.apk",
+          "bytes": 91581324,
+          "sha256": "abaff126516cc117c5fe5740ccde6a2feb2770934812722a5c3878545e91a16c",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-TV-arm64-v8a-debug.apk"
+        },
+        {
+          "name": "Telumia-TV-armeabi-v7a-debug.apk",
+          "bytes": 89479738,
+          "sha256": "2c253d61e8854dd044a5cc8b1519654baf4e996795af6219e90b81ddd89491d0",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-TV-armeabi-v7a-debug.apk"
+        },
+        {
+          "name": "Telumia-tv-source.zip",
+          "bytes": 82317028,
+          "sha256": "f477a1f68eb89c4949a4e65a4bb1c917078a7970b5d2203e457d75acfea14dff",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-tv-source.zip"
+        },
+        {
+          "name": "Telumia-TV-universal-debug.apk",
+          "bytes": 178552566,
+          "sha256": "b58aaad4c470e5b5cff7034d0f6b15ab2129f4df4890edfd2651cfbd5f219ba6",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-TV-universal-debug.apk"
+        },
+        {
+          "name": "Telumia-TV-x86-debug.apk",
+          "bytes": 93161974,
+          "sha256": "4c63cdaed7bee327213470ea79b4c33189d7cb8a2f84b0da09fc7d2d87d2572f",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-TV-x86-debug.apk"
+        },
+        {
+          "name": "Telumia-TV-x86_64-debug.apk",
+          "bytes": 94001839,
+          "sha256": "d13d60ab745b6c3cedfca90ab76587ad35600dada37f589157ca942b324cef79",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-TV-x86_64-debug.apk"
+        },
+        {
+          "name": "Telumia-Windows-x64.msi",
+          "bytes": 215647000,
+          "sha256": "9f8e3cc98b716421da0784afa0fa3d9bb2f5b8cfadb59f44481c72f2d4aff306",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-Windows-x64.msi"
+        }
+      ]
+    },
+    {
+      "repository": "Pepeu2010/telumia-desktop",
+      "url": "https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.0",
+      "tag": "v1.0.0",
+      "tagObject": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
+      "tagCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
+      "sourceCommitVerified": true,
+      "prerelease": false,
+      "latestRegularReleaseVerified": true,
+      "assets": [
+        {
+          "name": "release-manifest.json",
+          "bytes": 4691,
+          "sha256": "77d611efc96445e91e4331280931f8e3f33240a118c57ec731c99dbf003d2557",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-desktop/releases/download/v1.0.0/release-manifest.json"
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "bytes": 757,
+          "sha256": "905c6a49b18ce60e025e8c5581c27896e2d7cebfeaefd1a7c9413d2847c862d3",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-desktop/releases/download/v1.0.0/SHA256SUMS.txt"
+        },
+        {
+          "name": "Telumia-desktop-source.zip",
+          "bytes": 248044500,
+          "sha256": "bc1267cee3520f55e5554f705414da9636433268f7a2a32f57042504f82e7a7c",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-desktop/releases/download/v1.0.0/Telumia-desktop-source.zip"
+        },
+        {
+          "name": "Telumia-Windows-x64.msi",
+          "bytes": 215647000,
+          "sha256": "9f8e3cc98b716421da0784afa0fa3d9bb2f5b8cfadb59f44481c72f2d4aff306",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-desktop/releases/download/v1.0.0/Telumia-Windows-x64.msi"
+        }
+      ]
+    },
+    {
+      "repository": "Pepeu2010/telumia-tv",
+      "url": "https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.0",
+      "tag": "v1.0.0",
+      "tagObject": "6b58f39aa4af718d8208205115b45fa04f1359cb",
+      "tagCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
+      "sourceCommitVerified": true,
+      "prerelease": false,
+      "latestRegularReleaseVerified": true,
+      "assets": [
+        {
+          "name": "release-manifest.json",
+          "bytes": 4691,
+          "sha256": "77d611efc96445e91e4331280931f8e3f33240a118c57ec731c99dbf003d2557",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-tv/releases/download/v1.0.0/release-manifest.json"
+        },
+        {
+          "name": "SHA256SUMS.txt",
+          "bytes": 757,
+          "sha256": "905c6a49b18ce60e025e8c5581c27896e2d7cebfeaefd1a7c9413d2847c862d3",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-tv/releases/download/v1.0.0/SHA256SUMS.txt"
+        },
+        {
+          "name": "Telumia-TV-arm64-v8a-debug.apk",
+          "bytes": 91581324,
+          "sha256": "abaff126516cc117c5fe5740ccde6a2feb2770934812722a5c3878545e91a16c",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-tv/releases/download/v1.0.0/Telumia-TV-arm64-v8a-debug.apk"
+        },
+        {
+          "name": "Telumia-TV-armeabi-v7a-debug.apk",
+          "bytes": 89479738,
+          "sha256": "2c253d61e8854dd044a5cc8b1519654baf4e996795af6219e90b81ddd89491d0",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-tv/releases/download/v1.0.0/Telumia-TV-armeabi-v7a-debug.apk"
+        },
+        {
+          "name": "Telumia-tv-source.zip",
+          "bytes": 82317028,
+          "sha256": "f477a1f68eb89c4949a4e65a4bb1c917078a7970b5d2203e457d75acfea14dff",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-tv/releases/download/v1.0.0/Telumia-tv-source.zip"
+        },
+        {
+          "name": "Telumia-TV-universal-debug.apk",
+          "bytes": 178552566,
+          "sha256": "b58aaad4c470e5b5cff7034d0f6b15ab2129f4df4890edfd2651cfbd5f219ba6",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-tv/releases/download/v1.0.0/Telumia-TV-universal-debug.apk"
+        },
+        {
+          "name": "Telumia-TV-x86-debug.apk",
+          "bytes": 93161974,
+          "sha256": "4c63cdaed7bee327213470ea79b4c33189d7cb8a2f84b0da09fc7d2d87d2572f",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-tv/releases/download/v1.0.0/Telumia-TV-x86-debug.apk"
+        },
+        {
+          "name": "Telumia-TV-x86_64-debug.apk",
+          "bytes": 94001839,
+          "sha256": "d13d60ab745b6c3cedfca90ab76587ad35600dada37f589157ca942b324cef79",
+          "remoteDigestVerified": true,
+          "url": "https://github.com/Pepeu2010/telumia-tv/releases/download/v1.0.0/Telumia-TV-x86_64-debug.apk"
+        }
+      ]
+    }
+  ]
+}

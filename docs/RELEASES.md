@@ -1,5 +1,13 @@
 # Releases da Telumia
 
+## v1.0.0 — release regular
+
+A [Telumia 1.0.0](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.0) foi publicada sem sufixo alpha, como release regular e “Latest” nos três repositórios. Inclui MSI Windows x64, APK TV universal/quatro ABIs, fontes, manifesto e SHA256SUMS. **22 assets remotos verificados por tamanho, estado e digest SHA-256.** [Verificação](telumia-v100-publication-r1-verification.json), [registro da publicação](telumia-v100-publication-results.json), [entrega e limites](VERSION_100.md).
+
+Distribui Desktop `470c38d5cc02e597c94ea562f5d645f49f8fad60` e TV `6b58f39aa4af718d8208205115b45fa04f1359cb`; a tag central aponta para `ded35541178aa2bc36b43fcc33db7d382ee3a889`. Passaram 279 testes selecionados Windows e 214 TV, sem falhas/erros/skips. O renderer passou oito execuções/1.092 verificações; dez casos nativos de frames e startup real de 30 segundos passaram nas APIs 24 e 36. As fontes incluem 142 objetos Git LFS reais no Desktop, sem ponteiros pendentes.
+
+Acrescenta capítulos reais do arquivo no PC, canal de atualização regular e a fundação de extração Media3 na TV, além dos incrementos anteriores. A numeração interna MSI 2.0.0 supera a alpha 1.2.2 com UpgradeCode preservado. APKs informam 1.0.0/código 10000 e conservam ID/certificado anteriores. Continuam **Android TV Full Debug de desenvolvimento**; integração visual/D-pad das miniaturas TV, conta oficial autenticada, hardware/HDR, migração de dados instalados e a meta integral permanecem pendentes. Nenhum arquivo das alphas foi alterado.
+
 ## v0.2.2-alpha.1 — conta, navegação, momentos e player
 
 A [nova pré-release](https://github.com/Pepeu2010/telumia/releases/tag/v0.2.2-alpha.1) está publicada nos três repositórios: MSI Windows x64, APK TV universal/quatro ABIs, fontes, manifesto e SHA256SUMS. **22 assets remotos verificados por tamanho, estado e digest SHA-256.** [Verificação](telumia-v022-release-verification.json), [entrega e limites](ALPHA_022.md).

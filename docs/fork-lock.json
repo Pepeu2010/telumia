@@ -1,27 +1,27 @@
 {
-  "recordedAtUtc": "2026-10-13T01:52:57.5923031Z",
+  "recordedAtUtc": "2026-10-13T02:04:36.7707626Z",
   "repositories": [
     {
       "repository": "Pepeu2010/telumia-desktop",
       "url": "https://github.com/Pepeu2010/telumia-desktop.git",
       "branch": "main",
-      "commit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
+      "commit": "fedc59419a47b34891a32bd01856b7453f1fba40",
       "checkout": "repos/desktop",
-      "milestone": "1.0.0 preparada: 279 testes selecionados/MSI, JNI Windows e oito execucoes de renderer/1092 verificacoes passaram. Canal de atualizacao regular; publicacao ainda pendente. Conta oficial, WebView2 completo, hardware/HDR/Linux/macOS e meta integral seguem abertos.",
+      "milestone": "1.0.0 publicada: 279 testes selecionados/MSI, JNI Windows e oito execucoes de renderer/1092 verificacoes passaram. Canal de atualizacao regular; 22 assets remotos verificados; release regular Latest nos tres repositorios. Conta oficial, WebView2 completo, hardware/HDR/Linux/macOS e meta integral seguem abertos. Main inclui apenas um commit posterior de README; o commit de fonte publicado e os pacotes permanecem fixos.",
       "packageSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
-      "publishedRelease": "v0.2.2-alpha.1",
-      "publishedSourceCommit": "b39b6ea79d37b7c9eb1383ef68692dd2309d664d"
+      "publishedRelease": "v1.0.0",
+      "publishedSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60"
     },
     {
       "repository": "Pepeu2010/telumia-tv",
       "url": "https://github.com/Pepeu2010/telumia-tv.git",
       "branch": "main",
-      "commit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
+      "commit": "6b0db494b2ceb04641580cf8b00575dccba7c75b",
       "checkout": "repos/tv",
-      "milestone": "1.0.0 preparada: 214 testes selecionados e cinco APKs passaram; extracao Media3 nativa, cinco casos por API 24/36, e startup real de 30 segundos passaram. Integracao visual/D-pad das miniaturas, conta oficial e hardware permanecem pendentes.",
+      "milestone": "1.0.0 publicada: 214 testes selecionados e cinco APKs passaram; extracao Media3 nativa, cinco casos por API 24/36, e startup real de 30 segundos passaram. Integracao visual/D-pad das miniaturas, conta oficial e hardware permanecem pendentes. Main inclui apenas um commit posterior de README; o commit de fonte publicado e os pacotes permanecem fixos.",
       "packageSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
-      "publishedRelease": "v0.2.2-alpha.1",
-      "publishedSourceCommit": "e1962f736410a288f3a8db92fa6d2eaa4eaaa66b"
+      "publishedRelease": "v1.0.0",
+      "publishedSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb"
     }
   ]
 }
