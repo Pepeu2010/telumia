@@ -1,0 +1,13 @@
+{
+  "status": "failed",
+  "startedAtUtc": "2026-10-13T18:15:41.8523705Z",
+  "sourceCommit": "f890570a46e3558f1f267005bc76d7702531a287",
+  "buildLabel": "telumia-tv-timeline-ui-r4",
+  "androidApi": "24",
+  "emulator": "Telumia_API24_01a10441",
+  "scope": "Real Media3 AVC decoding, generated original red/blue video, timestamps, primary position isolation, source ownership, queued cancellation, failure recovery, filmstrip, authenticated localhost HTTP and an explicit native DataSource byte-range read. No active HTTP cancellation, product UI, D-pad, HDR or physical-device proof.",
+  "apkSha256": "f53f385acbf76a274443b3907f9766c4bbc2139bfa04965576ad8a662239d3b0",
+  "testApkSha256": "c6e627137f06a00597cb32dc5f3f3892ca0d3f5767d587d76b671347fbad393c",
+  "failure": "Every expected real frame-extraction case must pass; inspect preserved native log.",
+  "finishedAtUtc": "2026-10-13T18:17:21.3472272Z"
+}

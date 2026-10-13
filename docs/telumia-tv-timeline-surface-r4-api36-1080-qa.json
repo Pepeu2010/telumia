@@ -1,0 +1,28 @@
+{
+  "startedAtUtc": "2026-10-13T18:10:21.7454558Z",
+  "sourceCommit": "f890570a46e3558f1f267005bc76d7702531a287",
+  "trackedChanges": [],
+  "sourceChanges": [],
+  "apkSha256": "f53f385acbf76a274443b3907f9766c4bbc2139bfa04965576ad8a662239d3b0",
+  "testApkSha256": "c6e627137f06a00597cb32dc5f3f3892ca0d3f5767d587d76b671347fbad393c",
+  "emulator": "NuvioEnhanced_ATV_01a10441",
+  "androidApi": "36",
+  "buildLabel": "telumia-tv-timeline-ui-r4",
+  "requestedPixels": "1920x1080",
+  "density": 320,
+  "suite": "timeline-preview",
+  "requestedAppLocale": "pt-BR",
+  "scope": "Actual generated AVC decoding in the production preview/progress components, full/reduced/off motion, D-pad focus and a real primary seek on key-up. Controlled local input and recording callbacks; no authenticated MainActivity, entire player route, HDR or physical-TV proof.",
+  "status": "failed",
+  "priorAppLocale": "pt-BR",
+  "localeManagerReported": "Locales for io.github.pepeu2010.telumia.tv.debug for user 0 are [pt-BR]",
+  "localeFreshProcessGate": "The owned app has no remaining process before instrumentation starts with its confirmed app locale.",
+  "displayReported": [
+    "Physical size: 1920x1080"
+  ],
+  "failure": "Native UI instrumentation did not pass all 4 tests. See the local instrumentation log.",
+  "diagnosticsCaptured": true,
+  "appLocaleRestored": true,
+  "finishedAtUtc": "2026-10-13T18:11:04.5384938Z",
+  "sourceChangesAfter": []
+}
