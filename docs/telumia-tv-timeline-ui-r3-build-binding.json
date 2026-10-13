@@ -1,0 +1,56 @@
+{
+  "exportedAtUtc": "2026-10-13T13:20:04.1404737Z",
+  "label": "telumia-tv-timeline-ui-r3",
+  "target": "tv",
+  "sourceCommit": "af115980da861b5b526005c7315745c6ac6f808d",
+  "buildStatus": "passed",
+  "sourceChangesBefore": [],
+  "sourceChangesAfter": [],
+  "junitSummary": {
+    "tests": 222,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "files": 43,
+    "attempt": "telumia-tv-timeline-ui-r3"
+  },
+  "scope": "Clean-source build and preserved package hashes. Development packages are not a new published release; installation/playback/device claims require separate evidence.",
+  "packages": [
+    {
+      "file": "app-full-arm64-v8a-debug.apk",
+      "bytes": 99285535,
+      "sha256": "f486a792826dfeb646df859eb0adc7ecca90ac88fee6ac07186b8715d6c5d4f8",
+      "path": "artifacts/telumia-tv-timeline-ui-r3/tv/package/app-full-arm64-v8a-debug.apk"
+    },
+    {
+      "file": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 97183949,
+      "sha256": "37999f5ca613e9cf4c7897d3c094be3cc911705fe61b02f0755286140772c7db",
+      "path": "artifacts/telumia-tv-timeline-ui-r3/tv/package/app-full-armeabi-v7a-debug.apk"
+    },
+    {
+      "file": "app-full-universal-debug.apk",
+      "bytes": 186256777,
+      "sha256": "f53f385acbf76a274443b3907f9766c4bbc2139bfa04965576ad8a662239d3b0",
+      "path": "artifacts/telumia-tv-timeline-ui-r3/tv/package/app-full-universal-debug.apk"
+    },
+    {
+      "file": "app-full-x86_64-debug.apk",
+      "bytes": 101706050,
+      "sha256": "79cb6b21354450d817577dddd6a3c9eb929cc05284158c9f3841803b20816838",
+      "path": "artifacts/telumia-tv-timeline-ui-r3/tv/package/app-full-x86_64-debug.apk"
+    },
+    {
+      "file": "app-full-x86-debug.apk",
+      "bytes": 100866185,
+      "sha256": "c38ac01690e4ea5192c35e36de9b7f2b2ab83251a3a1c66ba1460d19759f3517",
+      "path": "artifacts/telumia-tv-timeline-ui-r3/tv/package/app-full-x86-debug.apk"
+    },
+    {
+      "file": "app-full-debug-androidTest.apk",
+      "bytes": 2261110,
+      "sha256": "3cddf954be8698f7c5256a69f3987569ce2731a5aea1f7b04ee02b4af44102d4",
+      "path": "artifacts/telumia-tv-timeline-ui-r3/tv/package/app-full-debug-androidTest.apk"
+    }
+  ]
+}
