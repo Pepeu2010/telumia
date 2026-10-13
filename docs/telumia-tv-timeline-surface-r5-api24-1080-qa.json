@@ -1,0 +1,38 @@
+{
+  "startedAtUtc": "2026-10-13T18:38:48.7543454Z",
+  "sourceCommit": "ddd55a9924c8bc58295f17fe55a462bac7d39f9b",
+  "trackedChanges": [],
+  "sourceChanges": [],
+  "apkSha256": "b0e41fda2306bddcff2d3dce4fc26dc4a0d1f985adf1a82ca650977508b4e693",
+  "testApkSha256": "3b5d5c492e48ca4cc99392ab26ef21c11b98fd1424a3dc15ef7ae5180e7ef538",
+  "emulator": "Telumia_API24_01a10441",
+  "androidApi": "24",
+  "buildLabel": "telumia-tv-timeline-ui-r5",
+  "requestedPixels": "1920x1080",
+  "density": 320,
+  "suite": "timeline-preview",
+  "requestedAppLocale": "",
+  "scope": "Actual generated AVC decoding in the production preview/progress components, full/reduced/off motion, D-pad focus and a real primary seek on key-up. Controlled local input and recording callbacks; no authenticated MainActivity, entire player route, HDR or physical-TV proof.",
+  "status": "passed",
+  "displayReported": [
+    "Physical size: 1920x1080"
+  ],
+  "capturedPixels": "1920x1080",
+  "motionCaptures": [
+    {
+      "mode": "full",
+      "pixels": "1920x1080",
+      "file": "timeline-preview-full.png",
+      "sha256": "df948f9436b7c4a59c37dc5995fee61c7260eb72ae3a26960b33b04737c44963"
+    },
+    {
+      "mode": "reduced",
+      "pixels": "1920x1080",
+      "file": "timeline-preview-reduced.png",
+      "sha256": "df948f9436b7c4a59c37dc5995fee61c7260eb72ae3a26960b33b04737c44963"
+    }
+  ],
+  "testsPassed": 4,
+  "finishedAtUtc": "2026-10-13T18:39:18.0381078Z",
+  "sourceChangesAfter": []
+}

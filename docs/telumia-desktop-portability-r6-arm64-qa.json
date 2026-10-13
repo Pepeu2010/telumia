@@ -1,0 +1,25 @@
+{
+  "runId": 38446641827,
+  "sourceCommit": "14cd7b81be812eb0dda53f2c343eb492f36854d2",
+  "platform": "macos-arm64",
+  "status": "passed",
+  "packages": [
+    {
+      "path": "composeApp/build/compose/binaries/main-release/dmg/Telumia-macOS-arm64-1.0.0.dmg",
+      "bytes": 251223038,
+      "sha256": "ab69e2f6702298e3c5f102120c5a27823c8ba56c71667361a3bdc0e03f94dd4f"
+    }
+  ],
+  "junitSummary": {
+    "passed": 38,
+    "failures": 0,
+    "skipped": 1,
+    "tests": 39,
+    "files": 9,
+    "errors": 0
+  },
+  "skippedScope": "actualWindowsFileChaptersPreserveUtf8AndIntegrateWithTimedMetadata: Windows native chapter integration gate",
+  "packageHashVerified": true,
+  "scope": "Downloaded unsigned DMG and selected JUnit reports; no authenticated runtime, macOS playback, signing or physical hardware proof",
+  "verifiedAtUtc": "2026-10-13T19:10:59.0141161Z"
+}

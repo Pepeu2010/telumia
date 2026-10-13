@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "startedAtUtc": "2026-10-13T18:56:48.5956937Z",
+  "sourceCommit": "b41763e63f955e0305e632bd01cf248ef64431bc",
+  "buildLabel": "telumia-tv-frame-repeat-red-r1",
+  "androidApi": "36",
+  "emulator": "NuvioEnhanced_ATV_01a10441",
+  "scope": "10 actual Media3 frame cases, including release before queued preparation and cancellation of a live HTTP body with observed peer connection closure and recovery. For the expanded nine-case class, includes audio-only fallback and bound continuous seeking. No full player route, HDR or physical-device proof.",
+  "apkSha256": "b0e41fda2306bddcff2d3dce4fc26dc4a0d1f985adf1a82ca650977508b4e693",
+  "testApkSha256": "9b1413c9f37a5c3e806fd27f981a0dac2fef9ce471ac49102f69dee0f7fe05d6",
+  "captures": [
+    {
+      "file": "telumia-timeline-frame-500.png",
+      "pixels": "320x180",
+      "decodedMs": 500,
+      "sha256": "f3344853ba9878f056cc3946f41a8e9add581dfa6ccd0891a4b4fbf19b514f8e"
+    },
+    {
+      "file": "telumia-timeline-frame-4500.png",
+      "pixels": "320x180",
+      "decodedMs": 4500,
+      "sha256": "b522627af7d1c936ee9f8a7889e507c72bfe2b1f60f21b5b0653ec514cc9f26c"
+    }
+  ],
+  "testsPassed": 10,
+  "finishedAtUtc": "2026-10-13T18:57:29.3409668Z"
+}

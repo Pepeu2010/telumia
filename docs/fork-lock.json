@@ -1,13 +1,13 @@
 {
-  "recordedAtUtc": "2026-10-13T18:27:40.5721098Z",
+  "recordedAtUtc": "2026-10-13T19:10:59.0751593Z",
   "repositories": [
     {
       "repository": "Pepeu2010/telumia-desktop",
       "url": "https://github.com/Pepeu2010/telumia-desktop.git",
       "branch": "main",
-      "commit": "14cd7b81be812eb0dda53f2c343eb492f36854d2",
+      "commit": "bdfc648c52a60f3d958e34b7c8aed606f3fca383",
       "checkout": "repos/desktop",
-      "milestone": "1.0.0 publicada: 279 testes selecionados/MSI, JNI Windows e oito execucoes de renderer/1092 verificacoes passaram. Canal de atualizacao regular; 22 assets remotos verificados; release regular Latest nos tres repositorios. Conta oficial, WebView2 completo, hardware/HDR/Linux/macOS e meta integral seguem abertos. Main inclui README e infraestrutura de CI e correção de input opcional posteriores; o commit de fonte publicado e os pacotes permanecem fixos. Commits posteriores de CI e registros de submodulos; builds Linux/macOS em andamento, sem aprovacao de portabilidade. Ver DESKTOP_PORTABILITY.md.",
+      "milestone": "1.0.0 publicada: 279 testes selecionados/MSI, JNI Windows e oito execucoes de renderer/1092 verificacoes passaram. Canal de atualizacao regular; 22 assets remotos verificados; release regular Latest nos tres repositorios. Conta oficial, WebView2 completo, hardware/HDR/Linux/macOS e meta integral seguem abertos. Main inclui README e infraestrutura de CI e correção de input opcional posteriores; o commit de fonte publicado e os pacotes permanecem fixos. Commits posteriores de CI e registros de submodulos; builds Linux/macOS em andamento, sem aprovacao de portabilidade. Ver DESKTOP_PORTABILITY.md. Native CI 068ba7b9 passed Linux DEB and unsigned macOS DMG builds; package verification ongoing. See DESKTOP_PORTABILITY.md.",
       "packageSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
       "publishedRelease": "v1.0.0",
       "publishedSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60"
@@ -18,7 +18,7 @@
       "branch": "main",
       "commit": "219d89c31be13f15e29c7adbaa901c7d67cde45a",
       "checkout": "repos/tv",
-      "milestone": "Depois da release 1.0.0: cancelamento enfileirado e de corpo HTTP ativo, isolamento de chamadas e recuperacao passaram em 215 testes selecionados e sete casos nativos por API 24/36. Main mescla somente o README sobre esse codigo. UI de thumbnails/filmstrip esta no codigo local ddd55a992, em validacao; nao esta nos pacotes publicados 1.0.0.",
+      "milestone": "Depois da release 1.0.0: cancelamento enfileirado e de corpo HTTP ativo, isolamento de chamadas e recuperacao passaram em 215 testes selecionados e sete casos nativos por API 24/36. Main mescla somente o README sobre esse codigo. UI de thumbnails/filmstrip esta no codigo local 4a90855db, em validacao; nao esta nos pacotes publicados 1.0.0.",
       "packageSourceCommit": "55cd5f33f27a1a63878614dfda8c182bc5a44915",
       "publishedRelease": "v1.0.0",
       "publishedSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb"
