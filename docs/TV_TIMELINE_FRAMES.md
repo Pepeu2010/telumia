@@ -29,3 +29,9 @@ As imagens abaixo são frames efetivamente decodificados do vídeo AVC original 
 |---|---|---|
 | 24 | ![Frame vermelho original API 24](evidence/telumia-tv-timeline/r4-api24-frame-500.png) | ![Frame azul original API 24](evidence/telumia-tv-timeline/r4-api24-frame-4500.png) |
 | 36 | ![Frame vermelho original API 36](evidence/telumia-tv-timeline/r4-api36-frame-500.png) | ![Frame azul original API 36](evidence/telumia-tv-timeline/r4-api36-frame-4500.png) |
+
+## Continuação após a release 1.0.0
+
+A interface de seek TV ainda não está entregue. Antes de integrá-la, a continuação local acrescentou cancelamento dos futures de preparação/extração enfileirados, proteção contra callbacks depois de `release()` e liberação idempotente. O commit local `14d699ce9a45151a84b80fa060060e5405f43842` compilou os APKs e passou nos 214 testes selecionados. O gate API36 ampliado passou em seis dos sete casos, mas falhou ao exigir o fechamento de uma conexão HTTP com corpo parcialmente enviado antes do timeout. Essa falha foi preservada e não conta como aprovação de cancelamento ativo.
+
+O commit local seguinte, `55cd5f33f27a1a63878614dfda8c182bc5a44915`, registra chamadas da prévia por `EventListener` até a conclusão do corpo, cancela essas chamadas antes de liberar o decoder e rejeita chamadas tardias daquela sessão. Acrescenta uma regressão JVM para a etapa em que o dispatcher já está vazio, mas o corpo HTTP ainda está aberto, incluindo isolamento de outra sessão. Build e sete casos nativos por API estão em execução; o código posterior não integra os pacotes publicados da 1.0.0 nem está anunciado como feature pronta.

@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory)][ValidatePattern('^[a-z0-9-]+$')][string]$BuildLabel,
     [Parameter(Mandatory)][ValidatePattern('^[a-z0-9-]+$')][string]$EvidenceLabel,
     [ValidateSet('24','36')][string]$AndroidApi = '36',
+    [ValidateRange(1,100)][int]$ExpectedTests = 5,
     [switch]$Install
 )
 $ErrorActionPreference = 'Stop'
@@ -39,7 +40,7 @@ try {
     $log = @(& $adb -s $serial shell am instrument -w -r -e class com.nuvio.tv.ui.screens.player.TimelineFramesTvTest "$appId.test/androidx.test.runner.AndroidJUnitRunner" 2>&1)
     $log | Set-Content -LiteralPath (Join-Path $output 'instrumentation.log') -Encoding utf8
     $report = $log -join "`n"
-    if ($report -notmatch 'OK \(5 tests\)' -or $report -match 'INSTRUMENTATION_STATUS_CODE: -2|FAILURES!!!') { throw 'All five real frame-extraction cases must pass; inspect preserved native log.' }
+    if ($report -notmatch ("OK \(" + $ExpectedTests + " tests\)") -or $report -match 'INSTRUMENTATION_STATUS_CODE: -2|FAILURES!!!') { throw 'Every expected real frame-extraction case must pass; inspect preserved native log.' }
     $captures = @()
     foreach ($position in @(500,4500)) {
         $name = "telumia-timeline-frame-$position.png"
@@ -54,10 +55,11 @@ try {
         $captures += @{file=$name;decodedMs=$position;pixels="${width}x${height}";sha256=(Get-FileHash -LiteralPath $capture).Hash.ToLowerInvariant()}
     }
     if ($head -ne (git -C $checkout rev-parse HEAD).Trim() -or @(git -C $checkout status --porcelain).Count) { throw 'Source changed during instrumentation.' }
-    $record['captures']=$captures; $record['testsPassed']=5; $record.status='passed'
+    $record['captures']=$captures; $record['testsPassed']=$ExpectedTests; $record.status='passed'
+    if ($ExpectedTests -eq 7) { $record.scope = 'Seven actual Media3 frame cases, including release before queued preparation and cancellation of a live HTTP body with observed peer connection closure and recovery. No product UI, D-pad, HDR or physical-device proof.' }
 } catch { $record.status='failed';$record['failure']=$_.Exception.Message;throw }
 finally {
     $record['finishedAtUtc']=[DateTime]::UtcNow.ToString('o')
     $record | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $output 'qa.json') -Encoding utf8
 }
-Write-Output "Five real TV timeline frame cases passed on API $AndroidApi."
+Write-Output "$ExpectedTests real TV timeline frame cases passed on API $AndroidApi."
