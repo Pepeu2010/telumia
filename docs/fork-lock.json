@@ -1,14 +1,14 @@
 {
-  "recordedAtUtc": "2026-10-10T15:12:04.1315063Z",
+  "recordedAtUtc": "2026-10-13T01:52:57.5923031Z",
   "repositories": [
     {
       "repository": "Pepeu2010/telumia-desktop",
       "url": "https://github.com/Pepeu2010/telumia-desktop.git",
       "branch": "main",
-      "commit": "e4ec9bfa7660339e8c533fb1b237ba0c7e5bb9e7",
+      "commit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
       "checkout": "repos/desktop",
-      "milestone": "Post-release embedded mpv chapters integrated with existing timed metadata/index and markers. 279 selected tests/MSI, six actual JNI cases including generated Matroska chapters/Unicode/frame extraction, and eight renderer executions/1084 checks passed. Code main is newer than published alpha 0.2.2; current development package is not a new release. Actual complete source switching/WebView2/physical/Linux/macOS gates and Media3 TV remain pending.",
-      "packageSourceCommit": "e4ec9bfa7660339e8c533fb1b237ba0c7e5bb9e7",
+      "milestone": "1.0.0 preparada: 279 testes selecionados/MSI, JNI Windows e oito execucoes de renderer/1092 verificacoes passaram. Canal de atualizacao regular; publicacao ainda pendente. Conta oficial, WebView2 completo, hardware/HDR/Linux/macOS e meta integral seguem abertos.",
+      "packageSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
       "publishedRelease": "v0.2.2-alpha.1",
       "publishedSourceCommit": "b39b6ea79d37b7c9eb1383ef68692dd2309d664d"
     },
@@ -16,10 +16,10 @@
       "repository": "Pepeu2010/telumia-tv",
       "url": "https://github.com/Pepeu2010/telumia-tv.git",
       "branch": "main",
-      "commit": "e1962f736410a288f3a8db92fa6d2eaa4eaaa66b",
+      "commit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
       "checkout": "repos/tv",
-      "milestone": "Published alpha 0.2.2: 200 selected tests, five APKs/test APK passed; own native Portuguese bookmark panel passed twelve cases in 720p/1080p/4K. Real MainActivity startup API24/API36 passed 30-second crash/ANR checks. Account reconciliation/backend contracts preserved; real official account, full product and physical device gates remain pending.",
-      "packageSourceCommit": "e1962f736410a288f3a8db92fa6d2eaa4eaaa66b",
+      "milestone": "1.0.0 preparada: 214 testes selecionados e cinco APKs passaram; extracao Media3 nativa, cinco casos por API 24/36, e startup real de 30 segundos passaram. Integracao visual/D-pad das miniaturas, conta oficial e hardware permanecem pendentes.",
+      "packageSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
       "publishedRelease": "v0.2.2-alpha.1",
       "publishedSourceCommit": "e1962f736410a288f3a8db92fa6d2eaa4eaaa66b"
     }

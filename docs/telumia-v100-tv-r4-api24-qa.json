@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "startedAtUtc": "2026-10-10T20:13:47.4168425Z",
+  "sourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
+  "buildLabel": "telumia-v100-tv-r4",
+  "androidApi": "24",
+  "emulator": "Telumia_API24_01a10441",
+  "scope": "Real Media3 AVC decoding, generated original red/blue video, timestamps, primary position isolation, source ownership, queued cancellation, failure recovery, filmstrip, authenticated localhost HTTP and an explicit native DataSource byte-range read. No active HTTP cancellation, product UI, D-pad, HDR or physical-device proof.",
+  "apkSha256": "b58aaad4c470e5b5cff7034d0f6b15ab2129f4df4890edfd2651cfbd5f219ba6",
+  "testApkSha256": "343a3fa23aa9b854d937d995fd851d220c77614c505716bfae4de6ac09ccd6a9",
+  "captures": [
+    {
+      "file": "telumia-timeline-frame-500.png",
+      "sha256": "3b43791d91d3ece19d9ebaddb59a105571c83db9a0c511f24e5e5cfa6bdec169",
+      "decodedMs": 500,
+      "pixels": "320x180"
+    },
+    {
+      "file": "telumia-timeline-frame-4500.png",
+      "sha256": "86fbeb5b61f0c61a897bdd84d31ba76aedd5b659b7842723cc2a8d61a67b0800",
+      "decodedMs": 4500,
+      "pixels": "320x180"
+    }
+  ],
+  "testsPassed": 5,
+  "finishedAtUtc": "2026-10-10T20:16:09.5000538Z"
+}

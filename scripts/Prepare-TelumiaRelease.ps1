@@ -1,8 +1,8 @@
 [CmdletBinding()]
 param(
-    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+$')][string]$Tag = 'v0.2.0-alpha.1',
+    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+(?:-alpha\.[0-9]+)?$')][string]$Tag = 'v1.0.0',
     [ValidatePattern('^[a-z0-9-]+$')][string]$LabelPrefix = 'telumia',
-    [string]$Scope = 'Experimental branding, Brazil catalog and native motion increment; full approved product remains incomplete'
+    [string]$Scope = 'Clientes nativos Telumia; alcance, evidencias e pendencias documentados. A meta integral continua em implementacao.'
 )
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path $PSScriptRoot -Parent
@@ -34,9 +34,26 @@ foreach ($result in $inspection.results) {
 }
 $pc = $inspection.results | Where-Object target -eq desktop
 $tv = $inspection.results | Where-Object target -eq tv
+$runtimeGates = $null
+if (-not $Tag.Contains('-')) {
+    $runtimeGates = Get-Content -LiteralPath (Join-Path $workspace "docs/$LabelPrefix-runtime-gates.json") -Raw | ConvertFrom-Json
+    if ($runtimeGates.status -ne 'passed' -or $runtimeGates.sourceCommits.desktop -ne $pc.sourceCommit -or
+        $runtimeGates.sourceCommits.tv -ne $tv.sourceCommit -or $runtimeGates.evidence.Count -ne 6) {
+        throw 'Regular releases require runtime gates from the packaged sources.'
+    }
+    foreach ($evidence in $runtimeGates.evidence) {
+        if ($evidence.file -notmatch '^[a-z0-9-]+\.json$' -or
+            (Get-FileHash -LiteralPath (Join-Path $workspace "docs/$($evidence.file)")).Hash.ToLowerInvariant() -ne $evidence.sha256) {
+            throw 'Runtime release evidence changed after verification.'
+        }
+    }
+}
 if (@($pc.artifacts).Count -ne 1 -or @($tv.artifacts).Count -ne 5) { throw 'Expected one Windows package and five TV packages.' }
 $versionParts = $Tag.Substring(1).Split('-')[0].Split('.')
 $expectedMsiVersion = "$([Math]::Max(1, [int]$versionParts[0])).$([int]$versionParts[1]).$([int]$versionParts[2])"
+$windowsVersion = Get-Content -LiteralPath (Join-Path $workspace 'repos/desktop/composeApp/Configuration/DesktopVersion.properties') |
+    Where-Object { $_ -match '^WINDOWS_PACKAGE_VERSION=([0-9]+\.[0-9]+\.[0-9]+)$' }
+if ($windowsVersion) { $expectedMsiVersion = ($windowsVersion -split '=',2)[1].Trim() }
 if ($pc.inspection.msiProperties.ProductVersion -ne $expectedMsiVersion) { throw 'Numeric Windows installer version does not match this release.' }
 $msi = Join-Path $workspace "repos/desktop/composeApp/build/compose/release-msis/$($pc.artifacts[0].file)"
 if ($pc.artifacts[0].file -notlike "*-$($Tag.Substring(1)).msi") { throw 'MSI filename version does not match the release tag.' }
@@ -67,9 +84,10 @@ $assets = @(Get-ChildItem -LiteralPath $output -File | Where-Object Extension -i
     [ordered]@{name=$_.Name;bytes=$_.Length;sha256=(Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()}
 })
 if ($assets.Count -ne 8) { throw 'Expected MSI, five APKs and two source archives.' }
-$manifest = [ordered]@{tag=$Tag;product='Telumia';preparedAtUtc=[DateTime]::UtcNow.ToString('o');
+$manifest = [ordered]@{tag=$Tag;product='Telumia';prerelease=$Tag.Contains('-');preparedAtUtc=[DateTime]::UtcNow.ToString('o');
     sourceCommits=@{desktop=$pc.sourceCommit;tv=$tv.sourceCommit};
-    scope=$Scope;validationLabel=$LabelPrefix;assets=$assets;sourceArchiveInspections=$sourceArchiveInspections}
+    distributions=@{windows=@{displayVersion=$Tag.Substring(1);installerVersion=$pc.inspection.msiProperties.ProductVersion};android=@{distribution=$tv.inspection.distribution;versionName=$tv.artifacts[0].versionName;versionCode=$tv.artifacts[0].versionCode}};
+    scope=$Scope;validationLabel=$LabelPrefix;runtimeGates=$runtimeGates;assets=$assets;sourceArchiveInspections=$sourceArchiveInspections}
 $manifest | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $output 'release-manifest.json') -Encoding utf8
 $assets | ForEach-Object { "$($_.sha256)  $($_.name)" } | Set-Content (Join-Path $output 'SHA256SUMS.txt') -Encoding ascii
 Write-Output "Prepared 10 release assets in $output; publishing is a separate step."

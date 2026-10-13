@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "exportedAtUtc": "2026-10-10T20:45:04.8857589Z",
+  "sourceCommits": {
+    "desktop": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
+    "tv": "6b58f39aa4af718d8208205115b45fa04f1359cb"
+  },
+  "evidence": [
+    {
+      "file": "telumia-v100-tv-r4-api24-qa.json",
+      "sha256": "a888e50d27df9ad50620e110f6c6b4ce5e7e4ea97c8205d53ef0768227448de3"
+    },
+    {
+      "file": "telumia-v100-r4-startup-api24-qa.json",
+      "sha256": "99f26fe6dd9bde43083befd5032ffcfd2c5413c91ec6593299ee7cfcf4c97254"
+    },
+    {
+      "file": "telumia-v100-tv-r4-api36-qa.json",
+      "sha256": "8db92fcb0906a6c79076b414ee5c36242e2be1d8524640b713d6e256769375f6"
+    },
+    {
+      "file": "telumia-v100-r4-startup-api36-qa.json",
+      "sha256": "0949bc8e1cd13e08081d0299ef1e7b8cb0b40e4bf6e3ec43536ce295910f4bac"
+    },
+    {
+      "file": "telumia-v100-renderer-qa.json",
+      "sha256": "a8ad5246ca6e6aa2f0497947abb5ad0110a68a99b1223296dc6b06d472cd7fdf"
+    },
+    {
+      "file": "telumia-v100-upgrade-inspection.json",
+      "sha256": "fea5aaccc64b8ccbf847af2f86f578c9336388ba0d3404a97dbd13cc59cc655f"
+    }
+  ],
+  "desktopRendererChecks": 1092,
+  "nativeFrameCases": 10,
+  "startupApis": [
+    "24",
+    "36"
+  ],
+  "scope": "Selected native extraction, controlled renderer, 30-second startup and package-upgrade metadata gates. No full-product, real-account, installed-data migration, HDR, physical-device or Linux/macOS proof."
+}

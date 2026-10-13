@@ -1,0 +1,56 @@
+{
+  "exportedAtUtc": "2026-10-10T20:09:53.1630272Z",
+  "label": "telumia-v100-tv-r4",
+  "target": "tv",
+  "sourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
+  "buildStatus": "passed",
+  "sourceChangesBefore": [],
+  "sourceChangesAfter": [],
+  "junitSummary": {
+    "tests": 214,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "files": 42,
+    "attempt": "telumia-v100-tv-r4"
+  },
+  "scope": "Clean-source build and preserved package hashes. Development packages are not a new published release; installation/playback/device claims require separate evidence.",
+  "packages": [
+    {
+      "file": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91581324,
+      "sha256": "abaff126516cc117c5fe5740ccde6a2feb2770934812722a5c3878545e91a16c",
+      "path": "artifacts/telumia-v100-tv-r4/tv/package/app-full-arm64-v8a-debug.apk"
+    },
+    {
+      "file": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89479738,
+      "sha256": "2c253d61e8854dd044a5cc8b1519654baf4e996795af6219e90b81ddd89491d0",
+      "path": "artifacts/telumia-v100-tv-r4/tv/package/app-full-armeabi-v7a-debug.apk"
+    },
+    {
+      "file": "app-full-universal-debug.apk",
+      "bytes": 178552566,
+      "sha256": "b58aaad4c470e5b5cff7034d0f6b15ab2129f4df4890edfd2651cfbd5f219ba6",
+      "path": "artifacts/telumia-v100-tv-r4/tv/package/app-full-universal-debug.apk"
+    },
+    {
+      "file": "app-full-x86_64-debug.apk",
+      "bytes": 94001839,
+      "sha256": "d13d60ab745b6c3cedfca90ab76587ad35600dada37f589157ca942b324cef79",
+      "path": "artifacts/telumia-v100-tv-r4/tv/package/app-full-x86_64-debug.apk"
+    },
+    {
+      "file": "app-full-x86-debug.apk",
+      "bytes": 93161974,
+      "sha256": "4c63cdaed7bee327213470ea79b4c33189d7cb8a2f84b0da09fc7d2d87d2572f",
+      "path": "artifacts/telumia-v100-tv-r4/tv/package/app-full-x86-debug.apk"
+    },
+    {
+      "file": "app-full-debug-androidTest.apk",
+      "bytes": 2261110,
+      "sha256": "343a3fa23aa9b854d937d995fd851d220c77614c505716bfae4de6ac09ccd6a9",
+      "path": "artifacts/telumia-v100-tv-r4/tv/package/app-full-debug-androidTest.apk"
+    }
+  ]
+}

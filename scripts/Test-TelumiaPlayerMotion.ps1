@@ -42,6 +42,17 @@ $fixture = @'
   const checks=[];
   const assert=(condition,name)=>{checks.push({name,passed:Boolean(condition)});if(!condition)throw Error(name);};
   const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+  const fadeDiagnostics=[];
+  // Start style resolution now and observe the real CSS transition, rather than
+  // assuming a timer also guarantees a compositor frame on a loaded 4K host.
+  const settleFade=async element=>{
+    const start=performance.now(),before=getComputedStyle(element);
+    const initial={opacity:before.opacity,pointerEvents:before.pointerEvents};
+    const animations=element.getAnimations();
+    const durations=animations.map(animation=>animation.effect.getComputedTiming().duration);
+    await Promise.race([Promise.all(animations.map(animation=>animation.finished.catch(()=>{}))),sleep(400)]);
+    fadeDiagnostics.push({initial,durations,elapsedMs:performance.now()-start,finalOpacity:getComputedStyle(element).opacity});
+  };
   const root=document.getElementById('playerRoot'),modal=document.getElementById('speedModal');
   const key=code=>document.dispatchEvent(new KeyboardEvent('keydown',{key:code==='Escape'?'Escape':'`',code,bubbles:true}));
   const cases=[];let token=0;
@@ -83,7 +94,9 @@ $fixture = @'
     const titleBounds=document.getElementById('title').getBoundingClientRect();
     assert(titleBounds.right<=document.querySelector('.header-actions').getBoundingClientRect().left,
       'Metadata cannot overlap the window actions');
-    window.playerControls({controlsVisible:false});await sleep(220);
+    window.playerControls({controlsVisible:false});
+    assert(getComputedStyle(dock).pointerEvents==='none','Hidden playback chrome releases pointer interaction immediately');
+    await settleFade(dock);
     assert(getComputedStyle(dock).opacity==='0'&&getComputedStyle(dock).pointerEvents==='none',
       'Hidden playback chrome releases pointer interaction');
     window.playerControls({controlsVisible:true,showOpeningOverlay:true});
@@ -92,11 +105,11 @@ $fixture = @'
       'Opening playback suppresses the masthead and dock');
     window.playerUpdate({duration:2400,position:612,paused:true,loading:false,audioTracks:[],subtitleTracks:[]});
     window.playerControls({playbackErrorMessage:'Fonte indisponível para esta fixture',playbackErrorActionLabel:'Voltar'});
-    await sleep(220);
+    await settleFade(dock);
     assert(root.classList.contains('error-active')&&getComputedStyle(dock).pointerEvents==='none'&&
       document.getElementById('playbackError').getAttribute('aria-hidden')==='false',
       'An actual error message replaces playback chrome with its recovery action');
-    window.playerControls({playbackErrorMessage:'',showOpeningOverlay:false,controlsVisible:true});await sleep(220);
+    window.playerControls({playbackErrorMessage:'',showOpeningOverlay:false,controlsVisible:true});await settleFade(dock);
     assert(getComputedStyle(dock).opacity==='1','Playback chrome returns after a recoverable state clears');
     const bookmark=document.querySelector('[data-command="sceneBookmarks"]');
     const bookmarkCommands=()=>window.telumiaCommands.filter(m=>m.type==='sceneBookmarks');
@@ -245,7 +258,7 @@ $fixture = @'
       'Final visual capture contains the visible filmstrip inside the viewport');
     assert(window.telumiaErrors.length===0,'No JavaScript error or rejected promise');
   }catch(error){window.telumiaErrors.push(String(error));}
-  const report={checks,cases,errors:window.telumiaErrors,osReduced:matchMedia('(prefers-reduced-motion: reduce)').matches,
+  const report={checks,cases,fadeDiagnostics,errors:window.telumiaErrors,osReduced:matchMedia('(prefers-reduced-motion: reduce)').matches,
     viewport:{width:innerWidth,height:innerHeight},commands:window.telumiaCommands.filter(m=>m.type==='setPlaybackSpeed')};
   const pre=document.createElement('pre');pre.id='telumia-motion-report';pre.hidden=true;pre.textContent=JSON.stringify(report);document.body.append(pre);
 })();

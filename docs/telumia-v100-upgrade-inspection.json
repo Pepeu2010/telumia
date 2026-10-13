@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "inspectedAtUtc": "2026-10-10T20:45:03.9736548Z",
+  "buildLabels": {
+    "desktop": "telumia-v100-desktop-r1",
+    "tv": "telumia-v100-tv-r4"
+  },
+  "scope": "Package metadata and public signing certificate checks. Does not prove migration of installed user data or a real MSI upgrade installation.",
+  "windows": {
+    "upgradeIdentityPreserved": true,
+    "monotonicVersion": true,
+    "current": {
+      "ProductName": "Telumia",
+      "ProductCode": "{37D16798-C89F-3C87-B58D-C4D4B2C0E58B}",
+      "UpgradeCode": "{1C69D968-D0E0-4B0F-B5C0-615B8EA92F90}",
+      "ProductVersion": "2.0.0"
+    },
+    "previous": {
+      "ProductName": "Telumia",
+      "ProductCode": "{CAB4615C-83FE-3267-B5B6-9CF498FFD416}",
+      "UpgradeCode": "{1C69D968-D0E0-4B0F-B5C0-615B8EA92F90}",
+      "ProductVersion": "1.2.2"
+    }
+  },
+  "android": {
+    "packageAndSigningIdentityPreserved": true,
+    "current": [
+      {
+        "abi": "universal",
+        "identity": {
+          "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+          "versionName": "1.0.0",
+          "versionCode": 10000,
+          "signingCertificateSha256": "ff2d4eda827287ee3ea1a6d87830c9e5427917d50e007ca4552271e54551b746"
+        }
+      },
+      {
+        "abi": "arm64-v8a",
+        "identity": {
+          "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+          "versionName": "1.0.0",
+          "versionCode": 10000,
+          "signingCertificateSha256": "ff2d4eda827287ee3ea1a6d87830c9e5427917d50e007ca4552271e54551b746"
+        }
+      },
+      {
+        "abi": "armeabi-v7a",
+        "identity": {
+          "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+          "versionName": "1.0.0",
+          "versionCode": 10000,
+          "signingCertificateSha256": "ff2d4eda827287ee3ea1a6d87830c9e5427917d50e007ca4552271e54551b746"
+        }
+      },
+      {
+        "abi": "x86",
+        "identity": {
+          "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+          "versionName": "1.0.0",
+          "versionCode": 10000,
+          "signingCertificateSha256": "ff2d4eda827287ee3ea1a6d87830c9e5427917d50e007ca4552271e54551b746"
+        }
+      },
+      {
+        "abi": "x86_64",
+        "identity": {
+          "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+          "versionName": "1.0.0",
+          "versionCode": 10000,
+          "signingCertificateSha256": "ff2d4eda827287ee3ea1a6d87830c9e5427917d50e007ca4552271e54551b746"
+        }
+      }
+    ],
+    "previous": {
+      "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionName": "0.2.2-alpha.1",
+      "versionCode": 2020,
+      "signingCertificateSha256": "ff2d4eda827287ee3ea1a6d87830c9e5427917d50e007ca4552271e54551b746"
+    }
+  }
+}

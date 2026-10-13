@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "startedAtUtc": "2026-10-10T19:38:42.2666174Z",
+  "sourceCommit": "9b71c7e33772ecf6d99f5567d70631233d77a193",
+  "buildLabel": "telumia-v100-tv-r3",
+  "androidApi": "36",
+  "emulator": "NuvioEnhanced_ATV_01a10441",
+  "scope": "Real Media3 AVC decoding, generated original red/blue video, timestamps, primary position isolation, source ownership, queued cancellation, failure recovery, filmstrip, authenticated localhost HTTP and an explicit native DataSource byte-range read. No active HTTP cancellation, product UI, D-pad, HDR or physical-device proof.",
+  "apkSha256": "a195995858db5dcb81505b68720415bdeb8ec0d0a7cc838a6105564909f6c5c7",
+  "testApkSha256": "343a3fa23aa9b854d937d995fd851d220c77614c505716bfae4de6ac09ccd6a9",
+  "captures": [
+    {
+      "pixels": "320x180",
+      "decodedMs": 500,
+      "sha256": "f3344853ba9878f056cc3946f41a8e9add581dfa6ccd0891a4b4fbf19b514f8e",
+      "file": "telumia-timeline-frame-500.png"
+    },
+    {
+      "pixels": "320x180",
+      "decodedMs": 4500,
+      "sha256": "b522627af7d1c936ee9f8a7889e507c72bfe2b1f60f21b5b0653ec514cc9f26c",
+      "file": "telumia-timeline-frame-4500.png"
+    }
+  ],
+  "testsPassed": 5,
+  "finishedAtUtc": "2026-10-10T19:39:12.3913324Z"
+}

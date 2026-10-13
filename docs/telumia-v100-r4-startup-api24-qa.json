@@ -1,0 +1,16 @@
+{
+  "startedAtUtc": "2026-10-10T20:16:11.0527064Z",
+  "sourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb",
+  "buildLabel": "telumia-v100-tv-r4",
+  "emulator": "Telumia_API24_01a10441",
+  "androidApi": "24",
+  "apkSha256": "b58aaad4c470e5b5cff7034d0f6b15ab2129f4df4890edfd2651cfbd5f219ba6",
+  "status": "passed",
+  "scope": "Owned test AVD, real MainActivity startup and 30-second process/resumed/crash checks. No login, account sync, playback, full navigation or physical-device performance proof. Screenshot and raw device logs remain private.",
+  "processAliveAfterSeconds": 30,
+  "mainActivityResumed": true,
+  "appCrashRecorded": false,
+  "appAnrRecorded": false,
+  "privateCaptureSha256": "681556d07fc39e1dc866c1df58647168d3a45be7fd3f9cefe53cdedc41cacd23",
+  "finishedAtUtc": "2026-10-10T20:18:39.2246607Z"
+}

@@ -1,5 +1,8 @@
 [CmdletBinding()]
-param()
+param(
+    [ValidatePattern('^[a-z0-9-]+$')][string]$BootstrapLabel,
+    [ValidateSet('software','swangle','swiftshader','host','swiftshader_indirect')][string]$GpuMode = 'software'
+)
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path $PSScriptRoot -Parent
 $sdk = Join-Path $env:LOCALAPPDATA 'Android/Sdk'
@@ -17,10 +20,12 @@ if ($LASTEXITCODE -eq 0 -and $state -eq 'device') {
 }
 $config = Join-Path $env:ANDROID_AVD_HOME "$avdName.avd/config.ini"
 if (-not (Test-Path -LiteralPath $config)) { throw 'Create the isolated API 24 TV AVD first.' }
-$output = Join-Path $workspace 'artifacts/telumia-api24-qa-emulator'
-New-Item -ItemType Directory -Force -Path $output | Out-Null
-$process = Start-Process -FilePath $emulator -ArgumentList @('-avd',$avdName,'-port','5570','-no-window','-no-audio','-no-snapshot','-gpu','swiftshader_indirect','-memory','1536','-cores','2') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $output 'emulator.log') -RedirectStandardError (Join-Path $output 'emulator-error.log')
-[ordered]@{startedAtUtc=[DateTime]::UtcNow.ToString('o');pid=$process.Id;avd=$avdName;port=5570;scope='Isolated API 24 TV test AVD only'} |
+if (-not $BootstrapLabel) { $BootstrapLabel = "telumia-api24-qa-emulator-$([DateTime]::UtcNow.ToString('yyyyMMddTHHmmssZ').ToLowerInvariant())" }
+$output = Join-Path $workspace "artifacts/$BootstrapLabel"
+if (Test-Path -LiteralPath $output) { throw 'Choose a new bootstrap label; preserve earlier emulator evidence.' }
+New-Item -ItemType Directory -Path $output | Out-Null
+$process = Start-Process -FilePath $emulator -ArgumentList @('-avd',$avdName,'-port','5570','-no-window','-no-audio','-no-snapshot','-gpu',$GpuMode,'-memory','1536','-cores','2') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $output 'emulator.log') -RedirectStandardError (Join-Path $output 'emulator-error.log')
+[ordered]@{startedAtUtc=[DateTime]::UtcNow.ToString('o');pid=$process.Id;avd=$avdName;port=5570;gpuMode=$GpuMode;scope='Isolated API 24 TV test AVD only'} |
     ConvertTo-Json | Set-Content -LiteralPath (Join-Path $output 'bootstrap.json') -Encoding utf8
 $deadline = [DateTime]::UtcNow.AddMinutes(4)
 while ([DateTime]::UtcNow -lt $deadline) {

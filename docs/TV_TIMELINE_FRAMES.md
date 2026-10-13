@@ -1,0 +1,31 @@
+# Frames reais na timeline TV
+
+O caminho de extração amplia `PlayerMediaSourceFactory` e utiliza o Media3 1.8.0 já empacotado no cliente. A adaptação Apache 2.0 de `ExperimentalFrameExtractor` permite injetar o transporte por fonte e limitar o load-control. Não troca o motor principal, não faz seek nele e não abre o cache de vídeo da reprodução.
+
+## Comportamento implementado
+
+- Uma fila conflada atende a posição mais recente, com uma única extração ativa. Os pedidos incluem sessão opaca, origem e duração; mudar sessão ou esconder a prévia cancela trabalho, libera o decoder e apaga os frames da sessão anterior.
+- Frames são decodificados de verdade, com o timestamp recebido do renderer. A saída tem 320 × 180 pixels com letterboxing e SDR; uma posição indisponível não recebe imagem inventada. Há deadline de 6 s por frame e limite de diferença de 1.250 ms.
+- O filmstrip solicita quatro posições vizinhas dentro do arquivo, preservando timestamps reais e eliminando duplicações. O cache é apenas RAM nesta entrega: até 4 MiB, subordinado às quotas de thumbnails/filmstrip da política Auto/Manual existente. Persistência/offline de thumbnails na TV fica para outro incremento.
+- O transporte da prévia usa certificados do sistema, não aceita credenciais na URL, não compartilha cookies e não possui fallback trust-all. Headers fornecidos pelo addon ficam restritos a scheme/host/porta da origem; redirecionamento ou segmento em outra origem perde esses headers. Ranges gerados pelo Media3 permanecem disponíveis. Nenhum header/URL é publicado no estado do componente ou na mensagem de erro.
+- A origem que depende de credenciais em outra autoridade precisa de configuração explícita futura; a prévia pode ficar indisponível enquanto o player existente continua sua reprodução. O transporte legado do player principal ainda possui políticas de TLS/redirect a revisar e não é anunciado como endurecido por esta mudança.
+- Nas APIs 24 e 25, o grafo SDR da prévia solicita contexto ES2 diretamente através de um `GlObjectsProvider` próprio, delegado ao provider Media3 padrão. O renderer continua responsável pela liberação do grafo; o motor principal mantém sua configuração. Nas APIs posteriores, permanece o grafo padrão.
+
+## Validação em execução
+
+Há cinco casos nativos que geram um vídeo AVC original de seis segundos no próprio aparelho: frames vermelhos/azuis com PTS conhecidos, isolamento da posição do player principal, pedido mais recente e cancelamento de pedidos em fila/troca de sessão, erro e recuperação, filmstrip real e HTTP localhost autenticado. O caso HTTP também lê e compara 64 bytes de um intervalo através do DataSource nativo utilizado pela prévia. Um MP4 pequeno pode caber no buffer e dispensar outro pedido HTTP durante a extração; não se exige um Range artificial nesse caso. Cancelamento de uma transferência HTTP já ativa continua exigindo outro gate.
+
+Cinco testes JVM complementam redirecionamentos entre portas, segmentos em outra origem, Range, headers exatos e rejeição antes da rede. A licença e o hash da referência AndroidX estão nos assets do APK.
+
+Os builds 1.0.0 anteriores passaram nos 214 testes selecionados, mas os gates nativos identificaram dois problemas no teste HTTP: loopback IPv6 com URL IPv4 e a suposição de que um vídeo pequeno sempre faria outro pedido de Range. As tentativas e falhas foram preservadas. O build final `6b58f39aa4af718d8208205115b45fa04f1359cb` passou nos mesmos 214 testes e nos cinco casos nativos em cada API, 24 e 36. Ainda não há afirmação de UI pronta, desempenho físico ou HDR. A integração visual/D-pad no player existente será feita após os gates de extração; não há função fictícia exposta nesta etapa. A release 0.2.2-alpha.1 permanece intacta.
+
+O gate API24 identificou `eglChooseConfig failed` em quatro casos, enquanto o caso com player principal inicializado passou. Repetir com modo gráfico `swangle` manteve a falha e o backend efetivo SwiftShader. A inspeção do `GlUtil` empacotado e do [fallback do processor Media3 1.8.0](https://github.com/androidx/media/blob/1.8.0/libraries/effect/src/main/java/androidx/media3/effect/DefaultVideoFrameProcessor.java) revelou que a criação ES3 que falha pode terminar o display antes da tentativa ES2. O novo caminho ES2 restrito à prévia evita esse probe nas APIs 24/25. A regressão passou com o mesmo modo gráfico solicitado no teste inicialmente falho, sem depender de trocar o backend para esconder a falha. A configuração do bootstrap registra o modo solicitado e conserva os logs do backend efetivo. [Modos gráficos suportados e descontinuados](https://developer.android.com/studio/run/emulator-acceleration).
+
+O APK final 1.0.0, commit `6b58f39aa4af718d8208205115b45fa04f1359cb`, SHA-256 `b58aaad4c470e5b5cff7034d0f6b15ab2129f4df4890edfd2651cfbd5f219ba6`, passou nos cinco casos corrigidos em [Android 24](telumia-v100-tv-r4-api24-qa.json) e [Android 36](telumia-v100-tv-r4-api36-qa.json). A MainActivity real também permaneceu ativa e resumed, sem crash/ANR nos 30 segundos observados, em [API 24](telumia-v100-r4-startup-api24-qa.json) e [API 36](telumia-v100-r4-startup-api36-qa.json). Isso não testa login ou navegação completa.
+
+As imagens abaixo são frames efetivamente decodificados do vídeo AVC original gerado pelo teste final; as barras laterais preservam a proporção 96 × 64 na saída 320 × 180. A revisão visual conferiu cor, dimensões e letterboxing. Não representam uma prévia de filme comercial ou prova de HDR.
+
+| API | PTS real 500 ms | PTS real 4500 ms |
+|---|---|---|
+| 24 | ![Frame vermelho original API 24](evidence/telumia-tv-timeline/r4-api24-frame-500.png) | ![Frame azul original API 24](evidence/telumia-tv-timeline/r4-api24-frame-4500.png) |
+| 36 | ![Frame vermelho original API 36](evidence/telumia-tv-timeline/r4-api36-frame-500.png) | ![Frame azul original API 36](evidence/telumia-tv-timeline/r4-api36-frame-4500.png) |

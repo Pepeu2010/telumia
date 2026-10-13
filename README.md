@@ -10,7 +10,7 @@ O projeto acrescenta busca voltada ao Brasil, editores de avatar, cache configur
 
 ## Baixar e instalar
 
-Na [release 0.2.2-alpha.1](https://github.com/Pepeu2010/telumia/releases/tag/v0.2.2-alpha.1), escolha:
+Na [release 1.0.0](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.0), escolha:
 
 | Aparelho | Arquivo |
 |---|---|
@@ -20,7 +20,7 @@ Na [release 0.2.2-alpha.1](https://github.com/Pepeu2010/telumia/releases/tag/v0.
 
 Confira os checksums SHA-256 incluídos na release. Os APKs atuais são **Android TV Full Debug**, assinados para desenvolvimento. Ainda não há interface específica para celulares nem pacotes Linux/macOS publicados.
 
-**Nova alpha disponível:** a `0.2.2-alpha.1` acrescenta seleção de perfis, navegação/motion, momentos salvos e reconciliação durável de coleções/addons. No PC, distribui o player reorganizado com miniaturas e filmstrip reais de um decoder separado. MSI, cinco APKs e fontes foram publicados; os 22 arquivos dos três repositórios tiveram seus hashes conferidos. [Entrega, testes e limites](docs/ALPHA_022.md). Os arquivos das versões anteriores são preservados; a meta integral continua em implementação.
+**Versão 1.0.0:** reúne os avanços de perfis, navegação/motion, momentos salvos e reconciliação durável de coleções/addons. No PC, inclui o player reorganizado, miniaturas, filmstrip e capítulos reais do arquivo. A TV inclui a fundação de extração de frames; sua integração visual com D-pad continua em desenvolvimento. [Entrega e limites](docs/VERSION_100.md). A publicação dos novos pacotes está em preparação, sem substituir as alphas anteriores. A numeração 1.0.0 não encerra a meta integral.
 
 ## Melhorias já implementadas
 
@@ -32,8 +32,9 @@ Confira os checksums SHA-256 incluídos na release. Os APKs atuais são **Androi
 - **Movimento no player PC:** painéis e controles nativos seguem a preferência de movimento e intensidade do perfil, com navegação por teclado e tempos de interação preservados. [Builds e validação visual](docs/NATIVE_PLAYER_MOTION.md).
 - **Timeline e momentos salvos:** eventos temporais disponíveis de intro, recap e créditos nos dois players; momentos com nome/data, renomear, remover e voltar à cena no código PC e TV. No PC, o botão do player e a tecla D abrem o painel; a tecla B continua alternando áudio. Os momentos ficam neste aparelho, por conta/perfil/episódio, com confirmação para outra fonte. A reprodução e o seek reais continuam com gates próprios. [Timeline](docs/TIMED_METADATA.md), [momentos](docs/SCENE_BOOKMARKS.md).
 - **Miniaturas e filmstrip no player PC:** a timeline solicita frames a um decoder libmpv separado, com cancelamento e cache por conta/perfil/fonte. Ao arrastar por mais tempo, exibe frames vizinhos disponíveis. 267 testes selecionados e 980 verificações do renderer passaram, incluindo extração JNI local, HTTP controlado e seek/reprodução do player principal Windows. TV, provedores externos/HDR e interação completa com WebView2 continuam pendentes. [Evidências](docs/NATIVE_TIMELINE_FRAMES.md).
-- **Composição do player PC:** título e episódio no topo, dock de reprodução centralizado, rótulo visível, thumb e PiP compacto. O pacote da nova alpha passou em 1052 verificações de renderer, incluindo loading, erro, recuperação e movimento reduzido. O redesign integral do player continua em andamento. [Captura de QA e limites](docs/ALPHA_022.md).
-- **Capítulos do arquivo no código atual:** o PC já lê capítulos nomeados pelo libmpv e os mostra nos marcadores da timeline existente. Esse incremento passou em 279 testes e está em `main`, posterior aos binários da alpha 0.2.2; seleção/seek de capítulos pela interface e o caminho TV continuam em desenvolvimento. [Evidências](docs/EMBEDDED_CHAPTERS.md).
+- **Composição do player PC:** título e episódio no topo, dock de reprodução centralizado, rótulo visível, thumb e PiP compacto. O incremento passou em verificações do renderer, incluindo loading, erro, recuperação e movimento reduzido. O redesign integral do player continua em andamento. [Captura de QA e limites](docs/ALPHA_022.md).
+- **Capítulos do arquivo:** o PC lê capítulos nomeados pelo libmpv e os mostra nos marcadores da timeline existente. O incremento anterior passou em 279 testes; seleção/seek de capítulos pela interface e o caminho TV continuam em desenvolvimento. [Evidências](docs/EMBEDDED_CHAPTERS.md).
+- **Extração de frames na TV:** base Media3 com decoder separado, timestamps reais, cache RAM limitado e headers restritos à origem da prévia. A integração com o seek por controle remoto continua pendente. [Estado e evidências](docs/TV_TIMELINE_FRAMES.md).
 - **Mesma conta:** atualização de perfis, configurações suportadas, addons, plugins, biblioteca, progresso, coleções e Home ao retornar ao app e periodicamente em atividade. Coleções e addons nos dois clientes possuem mesclagem durável de alterações pendentes. A comprovação ponta a ponta com a conta nos clientes oficial e Telumia continua pendente. [Evidências e limites](docs/ACCOUNT_SYNC_MOTION.md).
 
 ### Novelas e edições brasileiras

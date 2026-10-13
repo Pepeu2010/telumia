@@ -1,4 +1,4 @@
-# Threat model — Nuvio Enhanced
+# Threat model — Telumia
 
 Fase 0: análise estática, não auditoria de segurança completa. Fonte de verdade:
 commits em upstream-lock.json. Reavaliar antes de cada nova fronteira de IO.
@@ -88,6 +88,24 @@ Não foram alterados os valores operacionais dos requests, DTOs ou endpoints.
 A comparação de AuthManager com o upstream é idêntica ao retirar apenas as
 linhas Log.e/Log.w. O verificador protege os dois blobs revisados de auth com
 hash exato, mantendo a comparação do restante do diretório e de sync/APIs/DTOs.
+
+### Transporte da timeline TV — revisão de 10/10/2026
+
+Ao preparar extração de frames, a leitura de `PlayerPlaybackNetworking` confirmou
+duas políticas herdadas do transporte principal: qualquer `SSLException` pode
+acionar um cliente trust-all, sem restrição efetiva a servidor local; e o
+interceptor de autenticação pode recolocar `Authorization` após redirect para
+outro host/porta. São riscos concretos de TLS e exposição de credencial, ainda
+pendentes no player principal. A compatibilidade com proxy/WebDAV precisa migrar
+para confiança explicitamente configurada por origem, com testes reais de TLS e
+redirecionamento; não se deve declarar esse transporte seguro pelo build.
+
+A nova extração possui um caminho do mesmo helper, com certificados do sistema,
+sem fallback trust-all/cookies compartilhados, headers restritos à autoridade
+original, rejeição de downgrade HTTPS e erros genéricos. Os testes locais de
+redirect/segmentos e os gates reais Media3 estão descritos em
+[TV_TIMELINE_FRAMES.md](TV_TIMELINE_FRAMES.md). A aprovação desses gates não
+resolve a política legada nem substitui a auditoria completa.
 Passaram **36 testes direcionados**; os cinco APKs foram compilados. O primeiro
 teste do relatório serializado encontrou um corpo com código puro: o parser
 aceitava um literal fora do schema esperado. A correção passou a excluir corpos

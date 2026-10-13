@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+$')][string]$Tag = 'v0.2.0-alpha.1',
+    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+(?:-alpha\.[0-9]+)?$')][string]$Tag = 'v1.0.0',
     [ValidatePattern('^[a-z0-9-]+\.json$')][string]$OutputName = 'telumia-release-verification.json'
 )
 $ErrorActionPreference = 'Stop'
@@ -16,8 +16,15 @@ $records = foreach ($definition in $definitions) {
     $raw = gh api "repos/$($definition.repository)/releases/tags/$Tag"
     if ($LASTEXITCODE -ne 0) { throw "Release unavailable: $($definition.repository)" }
     $release = $raw | ConvertFrom-Json
-    if ($release.draft -or -not $release.prerelease -or $release.assets.Count -ne $definition.count) {
+    $expectedPrerelease = $Tag.Contains('-')
+    if ($release.draft -or $release.prerelease -ne $expectedPrerelease -or $release.assets.Count -ne $definition.count) {
         throw "Unexpected release state or asset count: $($definition.repository)"
+    }
+    if (-not $expectedPrerelease) {
+        $latest = gh api "repos/$($definition.repository)/releases/latest" | ConvertFrom-Json
+        if ($LASTEXITCODE -ne 0 -or $latest.id -ne $release.id -or $latest.tag_name -ne $Tag) {
+            throw "Regular release is not the current Latest: $($definition.repository)"
+        }
     }
     $assets = foreach ($asset in $release.assets) {
         $local = Join-Path $directory $asset.name
@@ -43,8 +50,8 @@ $records = foreach ($definition in $definitions) {
         default { $null }
     }
     if ($expectedCommit -and $tagCommit -ne $expectedCommit) { throw 'Published client tag differs from the packaged source commit.' }
-    [ordered]@{repository=$definition.repository;url=$release.html_url;tag=$Tag;tagObject=$ref.object.sha;tagCommit=$tagCommit;sourceCommitVerified=[bool]$expectedCommit;prerelease=$release.prerelease;assets=@($assets)}
+    [ordered]@{repository=$definition.repository;url=$release.html_url;tag=$Tag;tagObject=$ref.object.sha;tagCommit=$tagCommit;sourceCommitVerified=[bool]$expectedCommit;prerelease=$release.prerelease;latestRegularReleaseVerified=(-not $expectedPrerelease);assets=@($assets)}
 }
 [ordered]@{verifiedAtUtc=[DateTime]::UtcNow.ToString('o');scope='Published release assets compared with local SHA-256; not runtime or device QA';releases=@($records)} |
     ConvertTo-Json -Depth 9 | Set-Content (Join-Path $workspace "docs/$OutputName") -Encoding utf8
-Write-Output 'Three published prereleases and 22 remote asset digests verified.'
+Write-Output "Three published releases ($Tag) and 22 remote asset digests verified."

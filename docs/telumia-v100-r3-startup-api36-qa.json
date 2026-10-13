@@ -1,0 +1,16 @@
+{
+  "startedAtUtc": "2026-10-10T19:39:12.9890460Z",
+  "sourceCommit": "9b71c7e33772ecf6d99f5567d70631233d77a193",
+  "buildLabel": "telumia-v100-tv-r3",
+  "emulator": "NuvioEnhanced_ATV_01a10441",
+  "androidApi": "36",
+  "apkSha256": "a195995858db5dcb81505b68720415bdeb8ec0d0a7cc838a6105564909f6c5c7",
+  "status": "passed",
+  "scope": "Owned test AVD, real MainActivity startup and 30-second process/resumed/crash checks. No login, account sync, playback, full navigation or physical-device performance proof. Screenshot and raw device logs remain private.",
+  "processAliveAfterSeconds": 30,
+  "mainActivityResumed": true,
+  "appCrashRecorded": false,
+  "appAnrRecorded": false,
+  "privateCaptureSha256": "a474e0debdcf13661bb30055df18c10119eaa836279c3d279c8c34b03c88a965",
+  "finishedAtUtc": "2026-10-10T19:39:55.4777739Z"
+}

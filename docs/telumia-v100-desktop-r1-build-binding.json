@@ -1,0 +1,26 @@
+{
+  "exportedAtUtc": "2026-10-10T20:35:09.9384825Z",
+  "label": "telumia-v100-desktop-r1",
+  "target": "desktop",
+  "sourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
+  "buildStatus": "passed",
+  "sourceChangesBefore": [],
+  "sourceChangesAfter": [],
+  "junitSummary": {
+    "tests": 279,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "files": 64,
+    "attempt": "telumia-v100-desktop-r1"
+  },
+  "scope": "Clean-source build and preserved package hashes. Development packages are not a new published release; installation/playback/device claims require separate evidence.",
+  "packages": [
+    {
+      "file": "Telumia-Windows-x64-1.0.0.msi",
+      "bytes": 215647000,
+      "sha256": "9f8e3cc98b716421da0784afa0fa3d9bb2f5b8cfadb59f44481c72f2d4aff306",
+      "path": "artifacts/telumia-v100-desktop-r1/desktop/package/Telumia-Windows-x64-1.0.0.msi"
+    }
+  ]
+}
