@@ -1,6 +1,6 @@
 # Miniaturas e filmstrip no seek da TV
 
-Estado: **implementado no código local, em validação**. Não integra os APKs publicados da release 1.0.0. O incremento amplia `PlayerViewModel`, `PlayerScreen`, `PlayerProgressBar` e `PlayerTimelineFrames` existentes, mantendo Media3 e as ações de seek atuais.
+Estado: **implementado em `main`, com QA de componentes nativos nas configurações descritas abaixo**. A prova de todas as rotas do player e a investigação do timeout intermitente permanecem abertas. Não integra os APKs publicados da release 1.0.0. O incremento amplia `PlayerViewModel`, `PlayerScreen`, `PlayerProgressBar` e `PlayerTimelineFrames` existentes, mantendo Media3 e as ações de seek atuais.
 
 ## Comportamento
 
@@ -46,8 +46,12 @@ O build r5 terminou em 13/10/2026, com **222 testes selecionados, zero falhas/er
 
 Os quatro casos visuais passaram nas configurações [API 24/1080p](telumia-tv-timeline-surface-r5-api24-1080-qa.json), [API 36/1080p](telumia-tv-timeline-surface-r5-api36-1080-qa.json) e [API 36/720p](telumia-tv-timeline-surface-r5-api36-720-qa.json). As seis capturas foram inspecionadas e preservadas em `docs/evidence/telumia-tv-timeline-ui-r5/`: frame real vermelho/azul, timestamps, filmstrip e geometria visíveis nos modos Completo e Reduzido. O caso de D-pad usa o player principal real pausado e confere seek interior, limite final e retorno de foco. A API 24 usa o locale padrão do emulador, sem declarar tradução pt-BR validada nessa configuração.
 
-Na [API 36/4K](telumia-tv-timeline-surface-r5-api36-2160-qa.json), três casos passaram e um expirou ao decodificar a fixture, antes de montar os estados de loading/erro. Não há aprovação do conjunto 4K. Não se aumentou o timeout para mascarar a falha.
+Na [tentativa r5 API 36/4K](telumia-tv-timeline-surface-r5-api36-2160-qa.json), três casos passaram e um expirou ao decodificar a fixture, antes de montar os estados de loading/erro. Essa tentativa não aprovou o conjunto 4K. Não se aumentou o timeout para mascarar a falha.
 
 A hipótese de pendência ao repetir a posição de um decoder já Ready foi testada no commit `b41763e63f955e0305e632bd01cf248ef64431bc`. O teste observa o ExoPlayer secundário real, solicita novamente 500/4500 ms e verifica timestamp, pixels e pausa; **os dez casos nativos passaram na API 36**. [Build](telumia-tv-frame-repeat-red-r1-build-binding.json), [QA](telumia-tv-frame-repeat-red-r1-api36-qa.json). Essa execução não reproduziu a hipótese, portanto não motivou alteração do extractor. O nome histórico da label `red` identifica a tentativa de reprodução, não uma falha observada.
 
-O commit local `4a90855db1473f8ae3a85fe30e1e9125cc70075c` acrescenta somente diagnóstico à instrumentação: se a extração expirar, registra posição solicitada, estado, buffer, duração e contadores do decoder da fixture, sem URLs/headers. Seu build também passou nos 222 testes selecionados. O novo gate 4K está em andamento. A integração visual permanece fora da release 1.0.0; investigação e prova de player completo continuam abertas.
+O commit `4a90855db1473f8ae3a85fe30e1e9125cc70075c` acrescenta somente diagnóstico à instrumentação: se a extração expirar, registra posição solicitada, estado, buffer, duração e contadores do decoder da fixture, sem URLs/headers. Seu build também passou nos 222 testes selecionados. [Binding](telumia-tv-frame-diagnostics-r1-build-binding.json).
+
+A [nova execução API 36/4K](telumia-tv-frame-diagnostics-r1-surface-api36-2160-qa.json) passou nos quatro casos e gerou duas capturas inspecionadas, preservadas em `docs/evidence/telumia-tv-frame-diagnostics-r1/api36-2160/`. O APK universal de produção manteve o SHA-256 `b0e41fda2306bddcff2d3dce4fc26dc4a0d1f985adf1a82ca650977508b4e693` do r5; o diff entre os commits limita-se à instrumentação. Assim, as quatro configurações tiveram execução aprovada dos componentes com o mesmo APK de aplicação. **A repetição não demonstrou uma correção para o timeout anterior**, que permanece preservado para investigação.
+
+O código foi publicado em `main` no commit `6b8376661b23d5ecf9ed9a6b565ef69fffdc53a6`, que acrescenta somente README sobre o código compilado em `4a90855d`. A integração visual permanece fora da release 1.0.0; investigação, todas as rotas do player, conta oficial e hardware continuam abertas.

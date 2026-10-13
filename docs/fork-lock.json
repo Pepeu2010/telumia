@@ -1,5 +1,5 @@
 {
-  "recordedAtUtc": "2026-10-13T19:10:59.0751593Z",
+  "recordedAtUtc": "2026-10-13T19:31:33.1219089Z",
   "repositories": [
     {
       "repository": "Pepeu2010/telumia-desktop",
@@ -16,10 +16,10 @@
       "repository": "Pepeu2010/telumia-tv",
       "url": "https://github.com/Pepeu2010/telumia-tv.git",
       "branch": "main",
-      "commit": "219d89c31be13f15e29c7adbaa901c7d67cde45a",
+      "commit": "6b8376661b23d5ecf9ed9a6b565ef69fffdc53a6",
       "checkout": "repos/tv",
-      "milestone": "Depois da release 1.0.0: cancelamento enfileirado e de corpo HTTP ativo, isolamento de chamadas e recuperacao passaram em 215 testes selecionados e sete casos nativos por API 24/36. Main mescla somente o README sobre esse codigo. UI de thumbnails/filmstrip esta no codigo local 4a90855db, em validacao; nao esta nos pacotes publicados 1.0.0.",
-      "packageSourceCommit": "55cd5f33f27a1a63878614dfda8c182bc5a44915",
+      "milestone": "Development source includes actual remote-seek thumbnails and filmstrip. 222 selected tests passed; 9 frame cases on API24 and 10 on API36; component QA passed API24/36 1080p and API36 720p/4K with the same app APK. Earlier intermittent extraction timeout remains recorded and unexplained. Full player routes, official account, HDR and physical performance remain open. Published 1.0.0 APKs do not contain this UI increment.",
+      "packageSourceCommit": "4a90855db1473f8ae3a85fe30e1e9125cc70075c",
       "publishedRelease": "v1.0.0",
       "publishedSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb"
     }

@@ -1,0 +1,56 @@
+{
+  "exportedAtUtc": "2026-10-13T19:07:45.5792775Z",
+  "label": "telumia-tv-frame-diagnostics-r1",
+  "target": "tv",
+  "sourceCommit": "4a90855db1473f8ae3a85fe30e1e9125cc70075c",
+  "buildStatus": "passed",
+  "sourceChangesBefore": [],
+  "sourceChangesAfter": [],
+  "junitSummary": {
+    "tests": 222,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "files": 43,
+    "attempt": "telumia-tv-frame-diagnostics-r1"
+  },
+  "scope": "Clean-source build and preserved package hashes. Development packages are not a new published release; installation/playback/device claims require separate evidence.",
+  "packages": [
+    {
+      "file": "app-full-arm64-v8a-debug.apk",
+      "bytes": 99285535,
+      "sha256": "be97ca30994be4c472897ae6aca2b6afc19cdd31a210b896f573b9c368205724",
+      "path": "artifacts/telumia-tv-frame-diagnostics-r1/tv/package/app-full-arm64-v8a-debug.apk"
+    },
+    {
+      "file": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 97183949,
+      "sha256": "1fab8ff4bf097d3a48a97b305350f86cd243dda14c9af4bc75f68a7fadb6b32b",
+      "path": "artifacts/telumia-tv-frame-diagnostics-r1/tv/package/app-full-armeabi-v7a-debug.apk"
+    },
+    {
+      "file": "app-full-universal-debug.apk",
+      "bytes": 186256777,
+      "sha256": "b0e41fda2306bddcff2d3dce4fc26dc4a0d1f985adf1a82ca650977508b4e693",
+      "path": "artifacts/telumia-tv-frame-diagnostics-r1/tv/package/app-full-universal-debug.apk"
+    },
+    {
+      "file": "app-full-x86_64-debug.apk",
+      "bytes": 101706050,
+      "sha256": "7fdf4707098840f21e258439cd56fddba791ab5fdf2eae1732c44b64732f79a2",
+      "path": "artifacts/telumia-tv-frame-diagnostics-r1/tv/package/app-full-x86_64-debug.apk"
+    },
+    {
+      "file": "app-full-x86-debug.apk",
+      "bytes": 100866185,
+      "sha256": "5b031659e26f2489cc01fcb8b3683466f7b1207704c3c5c40381ad5a7a13e327",
+      "path": "artifacts/telumia-tv-frame-diagnostics-r1/tv/package/app-full-x86-debug.apk"
+    },
+    {
+      "file": "app-full-debug-androidTest.apk",
+      "bytes": 2261110,
+      "sha256": "782e6ff695f17ff8ee358741d143d7c8f9383fa4ce1cd756dd80ed2afe8d4ef1",
+      "path": "artifacts/telumia-tv-frame-diagnostics-r1/tv/package/app-full-debug-androidTest.apk"
+    }
+  ]
+}
