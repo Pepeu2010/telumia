@@ -31,4 +31,14 @@ As novas regressões cobrem escolha independente da ordem, qualidade versus equi
 
 ## Escopo ainda necessário
 
-Faltam a implementação equivalente no Desktop, DeviceCapabilities centralizado, adequação de codec/decoder/HDR/áudio/legendas, preferência de idioma, bitrate com origem/unidade confiáveis, medições reais de latência/disponibilidade/estabilidade, pre-flight limitado e failover com posição e tentativas finitas. Também falta QA visual/nativa dos novos modos e reprodução pelo caminho real com seleção automática. O score declarativo é uma camada inicial do recurso completo, não prova esses requisitos.
+Faltam os gates da implementação equivalente no Desktop, DeviceCapabilities centralizado, adequação de codec/decoder/HDR/áudio/legendas, preferência de idioma, bitrate com origem/unidade confiáveis, medições reais de latência/disponibilidade/estabilidade, pre-flight limitado e failover com posição e tentativas finitas. Também falta QA visual/nativa dos novos modos e reprodução pelo caminho real com seleção automática. O score declarativo é uma camada inicial do recurso completo, não prova esses requisitos.
+
+## Implementação Desktop preparada para o próximo gate
+
+Fonte Desktop local: commit `50b152b2`, sem publicação de novos instaladores.
+
+O seletor Desktop existente recebeu os três modos e pontuações correspondentes, respeitando sua própria elegibilidade de debrid/P2P e a preferência de grupo de episódios. Utiliza resolução estruturada e tamanho declarados; esse model não possui o `qualityValue` adicional da TV. Empates conservam a ordem e palavras de qualidade no nome não viram evidência. Os cards exibem contribuições localizadas; o picker de reprodução oferece os modos e passa a rolar suas opções para evitar cortar o diálogo em janelas menores.
+
+O storage Desktop/JVM preserva o override local versionado durante recebimento de configurações remotas e exporta somente o modo legado. Os actuals Android/iOS do mesmo código KMP receberam a separação correspondente para não exportar uma preferência desconhecida pelo cliente original; isso não constitui build iOS/Android KMP aprovado. Não se cria um cliente móvel novo.
+
+As regressões Desktop acrescentadas cobrem escolhas por modo, dados ausentes, ordem/filtros e sync em armazenamento isolado de teste. **Build Windows/MSI e esses testes ainda não executados**: os builds pesados são seriados após o Android. Não se altera a release 1.0.0 nem se declara paridade validada por ter código equivalente.
