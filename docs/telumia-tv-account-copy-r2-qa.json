@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "sourceCommit": "bfcacac4f821172170bfe176ac22301dd67ed2eb",
+  "buildBinding": "telumia-tv-account-copy-r2-build-binding.json",
+  "appSha256": "8c803c4e3f9710fc1a4acf0745b258c39b805c36e3edf4c77c007a1694a483d0",
+  "resourceInspector": "Android SDK aapt2 36.0.0",
+  "resource": "string/account_sync_behavior_note",
+  "locales": [
+    "default English",
+    "pt-BR"
+  ],
+  "assertions": [
+    "Compiled APK contains both corrected strings",
+    "Existing account surfaces reference the new resource",
+    "222 selected tests passed, zero failures/errors/skips",
+    "Five app APKs and instrumentation APK preserved with hashes"
+  ],
+  "scope": "Compiled-resource and selected-test verification; no claim of native visual or authenticated synchronization QA of this new APK, no change to published v1.0.0 assets",
+  "priorFailedAttempt": "telumia-tv-account-copy-r1-failure.json"
+}

@@ -258,3 +258,11 @@ Este incremento não modifica a configuração do backend oficial.
 A meta completa e as demais fases de `ROADMAP.md` permanecem abertas. Login remoto,
 playback real, todas as telas, desempenho físico, bookmarks PC e os demais recursos
 não são declarados concluídos por estes testes.
+
+## Nota da conta na Android TV
+
+A QA manual do fluxo real de player encontrou na tela Conta uma mensagem herdada mandando reiniciar para receber alterações de outro dispositivo. O serviço existente já agenda consultas ao retornar à Activity e a cada dois minutos enquanto ativa, apenas com conta conectada; biblioteca/progresso respeitam a integração de acompanhamento selecionada. A nota foi substituída por uma explicação desse comportamento em pt-BR e inglês, com fallback inglês para traduções ainda ausentes. Não promete sincronização instantânea nem suporte remoto aos recursos exclusivos do Telumia.
+
+A primeira tentativa de build dessa correção falhou na compilação Kotlin por falta de memória nativa da JVM. O relatório registrou 211 MiB de RAM física livre e 48 MiB disponíveis no limite de memória virtual do Windows. Os logs brutos foram preservados em artifacts privados; somente o [diagnóstico sanitizado](telumia-tv-account-copy-r1-failure.json) é publicado. O emulador próprio de QA, já concluída, foi encerrado antes de repetir o mesmo build. A mudança de texto não altera o backend ou os pacotes publicados da 1.0.0.
+
+A repetição `telumia-tv-account-copy-r2`, com a mesma fonte `bfcacac4f821172170bfe176ac22301dd67ed2eb` e os mesmos parâmetros, passou em **222 testes selecionados, zero falhas/erros/skips**, e gerou cinco APKs mais o de instrumentação em árvore limpa. O `aapt2` confirmou as duas mensagens no APK compilado. [Binding](telumia-tv-account-copy-r2-build-binding.json), [verificação](telumia-tv-account-copy-r2-qa.json). Não se declara nova QA visual nativa ou sync autenticado desse APK a partir da inspeção de recursos.

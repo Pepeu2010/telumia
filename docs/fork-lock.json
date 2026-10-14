@@ -1,5 +1,5 @@
 {
-  "recordedAtUtc": "2026-10-14T00:23:29.3426147Z",
+  "recordedAtUtc": "2026-10-14T00:43:19.1610891Z",
   "repositories": [
     {
       "repository": "Pepeu2010/telumia-desktop",
@@ -16,10 +16,10 @@
       "repository": "Pepeu2010/telumia-tv",
       "url": "https://github.com/Pepeu2010/telumia-tv.git",
       "branch": "main",
-      "commit": "11a0c96cf063a131a7410c730d210878de6c5ff8",
+      "commit": "153682fb1bf9bac279860f83afcb7ddd8805b5d3",
       "checkout": "repos/tv",
-      "milestone": "Development source includes actual D-pad seek thumbnails and filmstrip; 222 selected tests passed. Component QA passed API24/36 and 720p/1080p/4K. Manual real MainActivity addon/source/player/seek/back flow passed for one original AVC SDR guest source on fresh API36/1080p. Cold fixture instrumentation ANR and earlier intermittent extraction timeout remain recorded, not fixed. Official account, other routes, HDR and physical performance remain open. Published v1.0.0 APKs remain unchanged and exclude this UI increment.",
-      "packageSourceCommit": "11a0c96cf063a131a7410c730d210878de6c5ff8",
+      "milestone": "Development source includes actual D-pad seek thumbnails and filmstrip; 222 selected tests passed. Component QA passed API24/36 and 720p/1080p/4K. Manual real MainActivity addon/source/player/seek/back flow passed for one original AVC SDR guest source on fresh API36/1080p. Cold fixture instrumentation ANR and earlier intermittent extraction timeout remain recorded, not fixed. Official account, other routes, HDR and physical performance remain open. Published v1.0.0 APKs remain unchanged and exclude this UI increment. Later account-note correction bfcacac4 passed 222 selected tests and full APK build; corrected English/pt-BR resources verified in APK. This newer APK has no separate native visual/account gate; see ACCOUNT_SYNC_MOTION.md.",
+      "packageSourceCommit": "bfcacac4f821172170bfe176ac22301dd67ed2eb",
       "publishedRelease": "v1.0.0",
       "publishedSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb"
     }
