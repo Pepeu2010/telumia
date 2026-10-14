@@ -35,6 +35,7 @@ Confira os checksums SHA-256 incluídos na release. Os APKs atuais são **Androi
 - **Composição do player PC:** título e episódio no topo, dock de reprodução centralizado, rótulo visível, thumb e PiP compacto. O incremento passou em verificações do renderer, incluindo loading, erro, recuperação e movimento reduzido. O redesign integral do player continua em andamento. [Captura de QA e limites](docs/ALPHA_022.md).
 - **Capítulos do arquivo:** o PC lê capítulos nomeados pelo libmpv e os mostra nos marcadores da timeline existente. O incremento anterior passou em 279 testes; seleção/seek de capítulos pela interface e o caminho TV continuam em desenvolvimento. [Evidências](docs/EMBEDDED_CHAPTERS.md).
 - **Extração de frames na TV:** base Media3 com decoder separado, timestamps reais, cache RAM limitado e headers restritos à origem da prévia. A integração com o seek por controle remoto continua pendente. [Estado e evidências](docs/TV_TIMELINE_FRAMES.md).
+- **Seek visual na TV em desenvolvimento:** o código posterior à 1.0.0 integra thumbnail e filmstrip ao D-pad. Além da QA de componentes em 720p/1080p/4K, o fluxo real de instalação de addon, seleção de fonte, reprodução Media3 e seek passou em uma AVD nova API 36/1080p, com vídeo original e modo convidado. Essa melhoria ainda não integra os APKs publicados da 1.0.0. [Capturas e limites](docs/TV_TIMELINE_SEEK.md).
 - **Mesma conta:** atualização de perfis, configurações suportadas, addons, plugins, biblioteca, progresso, coleções e Home ao retornar ao app e periodicamente em atividade. Coleções e addons nos dois clientes possuem mesclagem durável de alterações pendentes. A comprovação ponta a ponta com a conta nos clientes oficial e Telumia continua pendente. [Evidências e limites](docs/ACCOUNT_SYNC_MOTION.md).
 
 ### Novelas e edições brasileiras
@@ -45,7 +46,9 @@ As edições têm durações e divisões diferentes. É necessário configurar u
 
 ## O que continua em desenvolvimento
 
-O objetivo é transformar toda a experiência dos clientes existentes, conforme a [meta integral](docs/GOAL_OBJECTIVE_2026-10-05.md). Ainda não estão concluídos o redesign completo de todas as telas, previews de vídeo embutidos no Windows, thumbnails/filmstrip na TV, Scene Info, Source Intelligence, Live TV/EPG, Phone Remote, downloads avançados, Smart Collections e os demais critérios do plano. Os componentes preparatórios de TV/EPG não aparecem como funcionalidades prontas.
+O objetivo é transformar toda a experiência dos clientes existentes, conforme a [meta integral](docs/GOAL_OBJECTIVE_2026-10-05.md). Ainda não estão concluídos o redesign completo de todas as telas, previews de vídeo embutidos no Windows, validação de todas as rotas das thumbnails/filmstrip na TV, Scene Info, Source Intelligence, Live TV/EPG, Phone Remote, downloads avançados, Smart Collections e os demais critérios do plano. Os componentes preparatórios de TV/EPG não aparecem como funcionalidades prontas.
+
+Os builds nativos de Linux x64 (DEB), macOS Intel e Apple Silicon (DMG) passaram, com 38 testes aprovados e um caso exclusivo de Windows ignorado por plataforma. Os pacotes baixados tiveram seus hashes conferidos. Ainda falta validar execução autenticada e reprodução nessas plataformas; esses pacotes de CI não foram adicionados à release 1.0.0. [Resultados de portabilidade](docs/DESKTOP_PORTABILITY.md).
 
 Os incrementos de previews já têm exclusividade, cancelamento, timeout e preload conservador; vídeo remoto e desempenho físico ainda precisam de validação. [Previews](docs/PREVIEWS.md). Recursos locais exclusivos, como arquivos de avatar e momentos salvos, não são anunciados como sincronizados com formatos que o cliente oficial não suporta.
 
