@@ -55,3 +55,15 @@ O commit `4a90855db1473f8ae3a85fe30e1e9125cc70075c` acrescenta somente diagnóst
 A [nova execução API 36/4K](telumia-tv-frame-diagnostics-r1-surface-api36-2160-qa.json) passou nos quatro casos e gerou duas capturas inspecionadas, preservadas em `docs/evidence/telumia-tv-frame-diagnostics-r1/api36-2160/`. O APK universal de produção manteve o SHA-256 `b0e41fda2306bddcff2d3dce4fc26dc4a0d1f985adf1a82ca650977508b4e693` do r5; o diff entre os commits limita-se à instrumentação. Assim, as quatro configurações tiveram execução aprovada dos componentes com o mesmo APK de aplicação. **A repetição não demonstrou uma correção para o timeout anterior**, que permanece preservado para investigação.
 
 O código foi publicado em `main` no commit `6b8376661b23d5ecf9ed9a6b565ef69fffdc53a6`, que acrescenta somente README sobre o código compilado em `4a90855d`. A integração visual permanece fora da release 1.0.0; investigação, todas as rotas do player, conta oficial e hardware continuam abertas.
+
+## Fluxo real pelo aplicativo
+
+O build `telumia-tv-main-player-flow-r1`, fonte `11a0c96cf063a131a7410c730d210878de6c5ff8`, passou nos 222 testes selecionados e preservou os seis APKs. O APK universal conserva o hash do r5: o incremento acrescenta somente uma fixture de instrumentação para exportar vídeo original. [Binding](telumia-tv-main-player-flow-r1-build-binding.json).
+
+Em uma AVD nova API 36/1080p, sem contas ou dados copiados, a QA manual percorreu onboarding convidado, Home, configurações e instalação de um addon temporário pelo campo de URL existente. O provider local serviu exclusivamente um vídeo AVC SDR original de 60 segundos. A rota existente de stream da MainActivity buscou a fonte; a seleção abriu o PlayerScreen e PlayerViewModel reais com Media3. Não foi criada uma rota alternativa de player.
+
+Com o vídeo pausado, D-pad Up focou a timeline. Segurar Right por sete segundos mostrou thumbnail real e filmstrip de cinco frames; a captura mostra o player principal vermelho e a prévia azul antes do key-up. Soltar confirmou 21 segundos, fechou o overlay e manteve o foco na timeline. Back retornou à fonte original com foco restaurado. [Registro manual e hashes das capturas](telumia-tv-main-player-flow-r1-qa.json).
+
+![Player principal pausado e prévia independente](evidence/telumia-tv-main-player-flow-r1/primary-preview-independent.png)
+
+A primeira instrumentação da fixture terminou com um ANR de início de processo durante verificação DEX pelo ART, antes de executar o teste. A segunda passou em um caso/3,828 segundos; os logs anteriores foram preservados. O início da MainActivity levou 15,923 segundos e o seguinte 12,049 segundos nesse ambiente debug frio. Não se declara correção do ANR, início rápido ou resolução do timeout de extração anterior. A aprovação manual cobre esta única rota convidada AVC SDR em 1080p; conta oficial, demais rotas, HDR e hardware continuam pendentes. As capturas publicadas contêm somente vídeo original e UI de QA; QR de login e logs brutos permanecem privados.

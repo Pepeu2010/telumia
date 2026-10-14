@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "runId": 38449103384,
+  "sourceCommit": "068ba7b95ee065e403c57787d0a08e311070eed4",
+  "startedAtUtc": "2026-10-13T19:08:42.6377417Z",
+  "cases": [
+    {
+      "platform": "linux-x64",
+      "status": "passed",
+      "startedAtUtc": "2026-10-13T19:08:42.7800222Z",
+      "junitSummary": {
+        "tests": 39,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1,
+        "files": 9
+      },
+      "packages": [
+        {
+          "path": "composeApp/build/compose/binaries/main-release/deb/telumia_1.0.0-1_amd64.deb",
+          "bytes": 155889600,
+          "sha256": "d5408ffb18c1d4044fbf2b1cd97131b750960546439658bcccb743a53277321c"
+        }
+      ],
+      "finishedAtUtc": "2026-10-13T19:22:47.8893567Z"
+    },
+    {
+      "platform": "macos-arm64",
+      "status": "passed",
+      "startedAtUtc": "2026-10-13T19:22:47.9062932Z",
+      "junitSummary": {
+        "tests": 39,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1,
+        "files": 9
+      },
+      "packages": [
+        {
+          "path": "composeApp/build/compose/binaries/main-release/dmg/Telumia-macOS-arm64-1.0.0.dmg",
+          "bytes": 251295955,
+          "sha256": "6b9b9fa53d648c08ee23aa7222149069fbde20129f7d8dde5810a18434860a18"
+        }
+      ],
+      "finishedAtUtc": "2026-10-13T19:45:38.4437523Z"
+    },
+    {
+      "platform": "macos-x64",
+      "status": "passed",
+      "startedAtUtc": "2026-10-13T19:45:38.4498216Z",
+      "junitSummary": {
+        "tests": 39,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1,
+        "files": 9
+      },
+      "packages": [
+        {
+          "path": "composeApp/build/compose/binaries/main-release/dmg/Telumia-macOS-x86_64-1.0.0.dmg",
+          "bytes": 256274474,
+          "sha256": "cbd24de287333b9354a716b292d2cda00274ee91acc15bd1bdced6858fd27ce6"
+        }
+      ],
+      "finishedAtUtc": "2026-10-13T19:59:08.6526114Z"
+    }
+  ],
+  "scope": "Native compilation and selected tests; downloaded package hashes. No authenticated runtime, signed macOS distribution, RPM/AppImage build or physical-device proof.",
+  "finishedAtUtc": "2026-10-13T19:59:08.6561186Z"
+}

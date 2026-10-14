@@ -1,0 +1,52 @@
+{
+  "recordedAtUtc": "2026-10-14T00:13:58.9003332Z",
+  "status": "manual-route-passed-with-separate-startup-failure",
+  "sourceCommit": "11a0c96cf063a131a7410c730d210878de6c5ff8",
+  "buildBinding": "telumia-tv-main-player-flow-r1-build-binding.json",
+  "appSha256": "b0e41fda2306bddcff2d3dce4fc26dc4a0d1f985adf1a82ca650977508b4e693",
+  "environment": {
+    "api": 36,
+    "resolution": "1920x1080",
+    "density": 320,
+    "avd": "fresh-owned",
+    "account": "guest",
+    "locale": "pt-BR",
+    "media": "Generated original 60-second AVC SDR, 9577 bytes; temporary loopback Stremio provider",
+    "mode": "Advanced"
+  },
+  "cases": [
+    "Guest onboarding and actual Home/settings navigation",
+    "Addon installation through existing URL field, IME Enter; successful manifest fetch",
+    "Existing MainActivity stream launch extras and actual source selection",
+    "Actual PlayerScreen/PlayerViewModel/Media3 playback; paused with media key",
+    "Timeline focused with D-pad Up; 7000 ms held Right produced genuine thumbnail and five-frame filmstrip",
+    "Primary paused red frame with blue preview proves independent decoding before key-up",
+    "Key-up commits seek to 21 seconds; overlay closes; timeline focus retained",
+    "Back returns to stream selection with original source focused"
+  ],
+  "fixtureExport": {
+    "firstAttempt": "Process crashed; preserved ART DEX-verification process-start ANR before fixture execution",
+    "secondAttempt": "Passed one export test in 3.828 seconds",
+    "coldMainStartupMs": 15923,
+    "subsequentMainStartupMs": 12049,
+    "startupFailureResolved": false
+  },
+  "captures": [
+    {
+      "path": "docs/evidence/telumia-tv-main-player-flow-r1/after-commit.png",
+      "bytes": 40650,
+      "sha256": "f2e30f8af635c2cb83cda35259846e2f794da3056c022a625d4b9af1b40f1302"
+    },
+    {
+      "path": "docs/evidence/telumia-tv-main-player-flow-r1/primary-preview-independent.png",
+      "bytes": 46205,
+      "sha256": "a8a43e688c604e39c491531a53ac7a7df148cfa53c81d95fedc8c7b785210d7d"
+    },
+    {
+      "path": "docs/evidence/telumia-tv-main-player-flow-r1/seek-held.png",
+      "bytes": 47657,
+      "sha256": "6c731048c6503f56094baa73ff3c8803e75e96c2b4623093af044bcf3ee47dd8"
+    }
+  ],
+  "scope": "Manual real-route QA for one guest AVC SDR source on API36/1080p; not automated coverage of all routes, official-account sync, HDR, third-party sources, physical performance or published v1.0.0 APKs. Cold instrumentation ANR and prior frame timeout remain unresolved."
+}
