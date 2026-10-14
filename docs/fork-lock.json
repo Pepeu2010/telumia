@@ -1,5 +1,5 @@
 {
-  "recordedAtUtc": "2026-10-13T19:31:33.1219089Z",
+  "recordedAtUtc": "2026-10-14T00:23:29.3426147Z",
   "repositories": [
     {
       "repository": "Pepeu2010/telumia-desktop",
@@ -7,7 +7,7 @@
       "branch": "main",
       "commit": "bdfc648c52a60f3d958e34b7c8aed606f3fca383",
       "checkout": "repos/desktop",
-      "milestone": "1.0.0 publicada: 279 testes selecionados/MSI, JNI Windows e oito execucoes de renderer/1092 verificacoes passaram. Canal de atualizacao regular; 22 assets remotos verificados; release regular Latest nos tres repositorios. Conta oficial, WebView2 completo, hardware/HDR/Linux/macOS e meta integral seguem abertos. Main inclui README e infraestrutura de CI e correção de input opcional posteriores; o commit de fonte publicado e os pacotes permanecem fixos. Commits posteriores de CI e registros de submodulos; builds Linux/macOS em andamento, sem aprovacao de portabilidade. Ver DESKTOP_PORTABILITY.md. Native CI 068ba7b9 passed Linux DEB and unsigned macOS DMG builds; package verification ongoing. See DESKTOP_PORTABILITY.md.",
+      "milestone": "Published v1.0.0 Windows source/packages remain fixed. Native CI 068ba7b9 passed Linux DEB and unsigned macOS Intel/arm64 DMG builds; all three downloaded package hashes verified, each with 38 selected tests passed and one Windows-only case skipped. Authenticated runtime, signed macOS distribution, RPM/AppImage and full scope remain open. See DESKTOP_PORTABILITY.md.",
       "packageSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60",
       "publishedRelease": "v1.0.0",
       "publishedSourceCommit": "470c38d5cc02e597c94ea562f5d645f49f8fad60"
@@ -16,10 +16,10 @@
       "repository": "Pepeu2010/telumia-tv",
       "url": "https://github.com/Pepeu2010/telumia-tv.git",
       "branch": "main",
-      "commit": "6b8376661b23d5ecf9ed9a6b565ef69fffdc53a6",
+      "commit": "11a0c96cf063a131a7410c730d210878de6c5ff8",
       "checkout": "repos/tv",
-      "milestone": "Development source includes actual remote-seek thumbnails and filmstrip. 222 selected tests passed; 9 frame cases on API24 and 10 on API36; component QA passed API24/36 1080p and API36 720p/4K with the same app APK. Earlier intermittent extraction timeout remains recorded and unexplained. Full player routes, official account, HDR and physical performance remain open. Published 1.0.0 APKs do not contain this UI increment.",
-      "packageSourceCommit": "4a90855db1473f8ae3a85fe30e1e9125cc70075c",
+      "milestone": "Development source includes actual D-pad seek thumbnails and filmstrip; 222 selected tests passed. Component QA passed API24/36 and 720p/1080p/4K. Manual real MainActivity addon/source/player/seek/back flow passed for one original AVC SDR guest source on fresh API36/1080p. Cold fixture instrumentation ANR and earlier intermittent extraction timeout remain recorded, not fixed. Official account, other routes, HDR and physical performance remain open. Published v1.0.0 APKs remain unchanged and exclude this UI increment.",
+      "packageSourceCommit": "11a0c96cf063a131a7410c730d210878de6c5ff8",
       "publishedRelease": "v1.0.0",
       "publishedSourceCommit": "6b58f39aa4af718d8208205115b45fa04f1359cb"
     }

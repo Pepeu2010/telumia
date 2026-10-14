@@ -1,0 +1,14 @@
+{
+  "status": "failed",
+  "sourceCommit": "bfcacac4f821172170bfe176ac22301dd67ed2eb",
+  "label": "telumia-tv-account-copy-r1",
+  "failure": "JVM native allocation failure during Kotlin compilation; native malloc requested 1513776 bytes",
+  "hostAtFailure": {
+    "physicalFreeMiB": 211,
+    "pageFileAvailableMiB": 48,
+    "processCommitMiB": 4498
+  },
+  "diagnostic": "Owned JVM hs_err and replay files preserved in ignored artifacts; no sanitized report contains environment variables",
+  "mitigation": "Ended verified owned QA AVD after real-route test completion; same-source and same-parameters retry r2, no timeout/heap increase",
+  "scope": "Failed build; no package approval or change to published v1.0.0 assets"
+}
