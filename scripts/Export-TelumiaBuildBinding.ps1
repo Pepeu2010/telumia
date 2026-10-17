@@ -24,6 +24,7 @@ $files = @(if ($Target -eq 'desktop') {
     @(Get-Item (Join-Path $checkout 'app/build/outputs/apk/androidTest/full/debug/app-full-debug-androidTest.apk'))
 })
 if (($Target -eq 'desktop' -and $files.Count -ne 1) -or ($Target -eq 'tv' -and $files.Count -ne 6)) { throw 'The expected MSI or five app APKs plus test APK are required.' }
+& (Join-Path $PSScriptRoot 'Test-TelumiaStorageBudget.ps1') -AdditionalBytes ([long](($files | Measure-Object Length -Sum).Sum))
 New-Item -ItemType Directory -Path $destination | Out-Null
 $records = foreach ($file in $files) {
     $saved = Join-Path $destination $file.Name

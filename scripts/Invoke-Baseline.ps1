@@ -11,6 +11,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path $PSScriptRoot -Parent
+& (Join-Path $PSScriptRoot 'Test-TelumiaStorageBudget.ps1')
 $checkout = Join-Path $workspace "repos/$Target"
 $outputDir = Join-Path $workspace "artifacts/$Label/$Target"
 New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
