@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "target": "android-tv",
-  "commit": "d918c01dc21aff78fe1527ef7dff86cea6bc2f51",
+  "commit": "25f1b08e42728152316b91b3076889649e68d156",
   "branch": "codex/enhanced-foundation",
   "workflow": "PR Full Debug Build",
-  "runId": 39329340039,
-  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39329340039",
+  "runId": 39331215450,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39331215450",
   "result": "success",
   "durationSeconds": 593,
   "tasks": [
@@ -15,11 +15,11 @@
   "unitTestEvidence": "Gradle testFullDebugUnitTest task completed in successful workflow; selected filters had no failures.",
   "apk": {
     "variant": "fullDebug",
-    "artifactId": 12224321873,
+    "artifactId": 12225061098,
     "name": "app-full-universal-debug.apk",
-    "bytes": 178463740,
+    "bytes": 178464404,
     "retentionDays": 7,
-    "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39329340039/artifacts/12224321873"
+    "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39331215450/artifacts/12225061098"
   },
   "limitations": [
     "Debug APK only; not a release and not installed on a physical TV Box.",
