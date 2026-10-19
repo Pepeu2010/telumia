@@ -1,6 +1,6 @@
 # Source Intelligence
 
-Estado: **primeiro incremento de seleção declarativa implementado localmente na TV; build/testes em execução, QA nativa pendente**. Não é a entrega completa de Source Intelligence e não altera os binários da release 1.0.0.
+Estado: **primeiro incremento de seleção declarativa implementado na TV; build anterior terminou com falha em 1 dos 47 testes selecionados, a causa foi corrigida e o rerun remoto selecionado passou; QA nativa pendente**. Não é a entrega completa de Source Intelligence e não altera os binários da release 1.0.0.
 
 Fonte: `repos/tv`, commit `f655a5802`, ampliando `StreamAutoPlaySelector`, `StreamAutoPlayPolicy`, `PlayerSettingsDataStore`, as configurações de reprodução e a lista de fontes existentes. Não cria outro player, repositório ou resolver.
 
@@ -23,9 +23,9 @@ Os cards exibem a pontuação e suas contribuições quando um modo novo está a
 
 Os modos novos usam `telumia_source_mode_v1` no DataStore existente de cada perfil. Não substituem silenciosamente `stream_auto_play_mode` compartilhado com o cliente original. Selecionar Manual/Primeira fonte/Regex remove o override local e atualiza a preferência legada. O filtro de configurações remotas exclui a chave nova em envio e recepção; não anuncia que o cliente oficial conhece esses modos.
 
-## Verificação em andamento
+## Resultados de verificação
 
-O build `telumia-tv-source-ranking-r1` foi iniciado em árvore limpa do commit acima, com worker único, heap de 4 GiB e compilador Kotlin no processo. Inclui APKs de aplicação e instrumentação e testes de seleção, timeout/watchdog, contrato de sync e DataStore real de preferências em diretórios temporários. Lançar o processo não constitui aprovação.
+O build `telumia-tv-source-ranking-r1` terminou com saída 1: **47 testes, uma falha, zero erros e zero ignorados**. O snapshot `artifacts/telumia-tv-source-ranking-r1/tv/junit-snapshot/TEST-com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest.xml` identificou a falha: `Resources.getSystem()` retorna nulo no ambiente JVM do teste, e a resolução do idioma de legendas não tinha fallback. `PlayerSettingsDataStore.resolveDeviceSubtitleLanguage` agora usa `Locale.getDefault()` quando a configuração Android não existe. O rerun local `artifacts/tv-low-resource-r1/tv` não teve heap suficiente e terminou durante `compileFullDebugKotlin`. Depois, o run remoto `39329340039` executou `PlayerSourceSelectionStoreTest` junto dos testes da política de desempenho, dos testes do updater e da montagem `fullDebug`; **o workflow concluiu com sucesso**, validando o fallback do locale e os testes selecionados. QA nativa dos novos modos continua pendente.
 
 As novas regressões cobrem escolha independente da ordem, qualidade versus equilíbrio, preferência por arquivos pequenos conhecidos, exclusão de páginas externas/debrid indisponível, empate com dados desconhecidos, filtros de addon, limites numéricos, isolamento da chave em sync e persistência/recriação/troca de perfil sem alterar o modo compartilhado. Os resultados serão vinculados ao commit/APKs após término; nenhuma dessas verificações é anunciada como aprovada antes disso.
 

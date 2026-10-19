@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "d918c01dc21aff78fe1527ef7dff86cea6bc2f51",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39329340039,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39329340039",
+  "result": "success",
+  "durationSeconds": 593,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest",
+    ":app:assembleFullDebug"
+  ],
+  "unitTestEvidence": "Gradle testFullDebugUnitTest task completed in successful workflow; selected filters had no failures.",
+  "apk": {
+    "variant": "fullDebug",
+    "artifactId": 12224321873,
+    "name": "app-full-universal-debug.apk",
+    "bytes": 178463740,
+    "retentionDays": 7,
+    "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39329340039/artifacts/12224321873"
+  },
+  "limitations": [
+    "Debug APK only; not a release and not installed on a physical TV Box.",
+    "No Android device was connected through ADB during this run.",
+    "The local 1 GiB heap build attempt stopped during Kotlin compilation because of garbage-collection thrashing; the successful build ran on GitHub Actions."
+  ],
+  "nonFatalRunnerWarnings": [
+    "Post-checkout git cleanup exited 128 after build and artifact upload; the job and workflow conclusion remained successful."
+  ]
+}
