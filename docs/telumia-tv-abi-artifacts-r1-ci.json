@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "8e5ae3aa55aa71f2167a9f7ceb5a96c303b8a726",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39341729947,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39341729947",
+  "result": "success",
+  "durationSeconds": 397,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "unitTestEvidence": "Selected unit tests passed. TvPerformanceProfileTest covers the 0/1/2 item prefetch tiers used by the Modern Home.",
+  "instrumentationEvidence": "Android instrumentation test sources compiled successfully; instrumented tests were not run.",
+  "artifacts": [
+    {
+      "id": 12229158065,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178478836,
+      "expiresAt": "2026-10-26T23:34:26Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39341729947/artifacts/12229158065"
+    },
+    {
+      "id": 12229173030,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91507598,
+      "expiresAt": "2026-10-26T23:34:29Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39341729947/artifacts/12229173030"
+    },
+    {
+      "id": 12229517466,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89406008,
+      "expiresAt": "2026-10-26T23:34:31Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39341729947/artifacts/12229517466"
+    }
+  ],
+  "limitations": [
+    "All three packages are debug builds, not a production release.",
+    "ABI-specific packages reduce download and installed package size; runtime performance improvement was not measured.",
+    "No Android device was connected through ADB; the APKs have not been installed on the user's TV Box.",
+    "Instrumented tests were compiled but not executed."
+  ]
+}
