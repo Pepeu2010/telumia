@@ -56,6 +56,12 @@ A [nova execução API 36/4K](telumia-tv-frame-diagnostics-r1-surface-api36-2160
 
 O código foi publicado em `main` no commit `6b8376661b23d5ecf9ed9a6b565ef69fffdc53a6`, que acrescenta somente README sobre o código compilado em `4a90855d`. A integração visual permanece fora da release 1.0.0; investigação, todas as rotas do player, conta oficial e hardware continuam abertas.
 
+## Perfil de seek adaptado à memória
+
+No commit `1ede6b307f977df11860ccf4d96ace98297c40e8`, a integração de timeline existente passou a respeitar `TvPerformanceProfile`: baixa RAM mantém o frame central e não faz as quatro decodificações vizinhas do filmstrip; perfil equilibrado habilita o filmstrip após 1,2 s; alta capacidade após 650 ms. O cache RAM de frames fica limitado a 1/2/4 MiB, respectivamente, e continua subordinado aos budgets ativos de thumbnails/filmstrip.
+
+`TvPerformanceProfileTest` verifica os três limites e atrasos. No run `39338632273`, passaram os testes selecionados, `compileFullDebugAndroidTestKotlin` e `assembleFullDebug`; a suíte nativa foi compilada, mas não executada. [Registro e APK temporário](telumia-tv-low-resource-r2-ci.json). Esta mudança adapta carga especulativa por tier; não prova desempenho físico, heap total, FPS ou latência de seek na TV Box do usuário. A release publicada 1.0.0 permanece inalterada.
+
 ## Fluxo real pelo aplicativo
 
 O build `telumia-tv-main-player-flow-r1`, fonte `11a0c96cf063a131a7410c730d210878de6c5ff8`, passou nos 222 testes selecionados e preservou os seis APKs. O APK universal conserva o hash do r5: o incremento acrescenta somente uma fixture de instrumentação para exportar vídeo original. [Binding](telumia-tv-main-player-flow-r1-build-binding.json).
