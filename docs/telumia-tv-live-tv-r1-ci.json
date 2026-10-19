@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "289d81f5aa7a647c1af81cda08e7ba1fef21a5a9",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39343144126,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39343144126",
+  "result": "success",
+  "durationSeconds": 372,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "unitTestEvidence": "The selected unit-test task completed successfully, including M3uPlaylistParserTest and XmlTvParserTest.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12230175419,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178500052,
+      "expiresAt": "2026-10-26T23:47:50Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39343144126/artifacts/12230175419"
+    },
+    {
+      "id": 12229822808,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91528814,
+      "expiresAt": "2026-10-26T23:47:52Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39343144126/artifacts/12229822808"
+    },
+    {
+      "id": 12229583571,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89427228,
+      "expiresAt": "2026-10-26T23:47:54Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39343144126/artifacts/12229583571"
+    }
+  ],
+  "supersededAttempt": {
+    "runId": 39342834370,
+    "result": "failure",
+    "reason": "The Android SDK's javax.xml.XMLConstants does not expose ACCESS_EXTERNAL_DTD/ACCESS_EXTERNAL_SCHEMA; fixed in commit 289d81f5."
+  },
+  "limitations": [
+    "The parsers are not yet connected to persisted source configuration, network fetching, guide refresh, or channel playback.",
+    "The UI intentionally remains unexposed until real source and playback flows are implemented.",
+    "Debug APK only; not a production release or installed on physical TV hardware.",
+    "Instrumented tests compiled but were not executed."
+  ]
+}
