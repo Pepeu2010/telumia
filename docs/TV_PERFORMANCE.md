@@ -7,7 +7,7 @@ O perfil de recursos da TV adapta automaticamente o trabalho de imagens conforme
 | Recurso de imagem e início da Home | Baixa RAM | Equilibrado | Alta capacidade |
 | --- | ---: | ---: | ---: |
 | Cache de bitmaps | 8% | 16% | 25% |
-| Downloads de imagem simultâneos | 8 (4 por host) | 16 (8 por host) | 32 (16 por host) |
+| Downloads de imagem simultâneos | 4 (2 por host) | 16 (8 por host) | 32 (16 por host) |
 | Decodificações simultâneas | 1 | 2 | 4 |
 | Linhas/imagens carregadas antes de serem exibidas | 0 | 1 | 2 |
 | Itens compostos antecipadamente em listas internas da Home | 0 | 1 | 2 |
@@ -16,6 +16,8 @@ O perfil de recursos da TV adapta automaticamente o trabalho de imagens conforme
 | Espera de foco estável antes de trailer | 1,5 s | 1,2 s | 1,2 s |
 
 Isso reduz picos de CPU, heap e tráfego quando uma TV Box percorre a Home. As Homes Moderna e Clássica agora leem o limite de pré-carga de catálogo do perfil automático, evitando buscar a próxima linha antes de exibi-la em baixa RAM. Os trailers só iniciam depois de foco estável: 1,5 s em baixa RAM e 1,2 s nos demais perfis, evitando rede e uso do decoder durante navegação rápida. O cache em disco, os provedores, os formatos de vídeo e a resolução pedida pelos cards continuam seguindo as configurações existentes. No perfil de baixa RAM, a preferência padrão de movimento `FULL` é aplicada como `REDUCED`, e a intensidade padrão `STANDARD` como `SUBTLE`; escolhas explícitas `REDUCED`, `OFF` e `CINEMATIC` são preservadas. O perfil também troca o blur animado da barra lateral por sua superfície gradiente leve. A preferência salva não é alterada: o ajuste só vale enquanto o perfil automático do dispositivo estiver ativo.
+
+O commit `abea30964` reduz o limite de requisições de imagem simultâneas em aparelhos identificados como baixa RAM: de 8 para 4 no total e de 4 para 2 por host. A política global do Coil/OkHttp consome esses valores ao criar o loader; decodificações permanecem limitadas a uma e a pré-carga permanece desativada nesse tier. A mudança diminui a quantidade máxima de respostas de imagem concorrentes enquanto o foco percorre a Home. É uma redução de concorrência configurada, não uma medição de FPS ou heap.
 
 ## Seek e filmstrip do player
 
@@ -38,3 +40,5 @@ Na Home Moderna, o commit `f330f0165ec91cf8f00f5e0a15fa54ac2b51967c` conecta a c
 ## APK por arquitetura
 
 O workflow também publica APKs específicos ARM64 e ARMv7, além do universal. No run `39341729947`, o universal ficou com 178.478.836 bytes; ARM64, 91.507.598 bytes; ARMv7, 89.406.008 bytes. A variante ARM64 reduz o pacote baixado em 48,7% em relação ao universal e evita instalar as bibliotecas das outras arquiteturas. Isso diminui a transferência e o espaço de instalação, mas não demonstra aceleração durante a execução. Os três artefatos do mesmo commit expiram em 26/10/2026; [registro e links](telumia-tv-abi-artifacts-r1-ci.json).
+
+O run [39350246174](https://github.com/Pepeu2010/telumia-tv/actions/runs/39350246174) validou a política atualizada com testes selecionados, compilação instrumentada e três builds `fullDebug` em 7 min 59 s. Os APKs universal, ARM64 e ARMv7 foram publicados por sete dias, até 27/10/2026; [registro completo](telumia-tv-low-resource-r5-ci.json). Não havia aparelho ADB conectado, então ainda falta comparar FPS, heap, duração de carregamento e dropped frames na TV Box real.
