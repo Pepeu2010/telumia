@@ -35,12 +35,14 @@ Faltam DeviceCapabilities centralizado, adequação de codec/decoder/HDR/áudio/
 
 ## Implementação Desktop e gate de testes
 
-Fonte Desktop: implementação no commit `50b152b2`; validação da branch `codex/enhanced-foundation`, commit `e481e542cdc620c4808b9eadd2f7d0b93ee03469`. Não houve publicação de instaladores.
+Fonte Desktop: implementação no commit `50b152b2`; validação da branch `codex/enhanced-foundation`, commit `c9cad5b0c0891763042640a20c9b1c43a23b60fc`. Não houve publicação de instaladores.
 
 O seletor Desktop existente recebeu os três modos e pontuações correspondentes, respeitando sua própria elegibilidade de debrid/P2P e a preferência de grupo de episódios. Utiliza resolução estruturada e tamanho declarados; esse model não possui o `qualityValue` adicional da TV. Empates conservam a ordem e palavras de qualidade no nome não viram evidência. Os cards exibem contribuições localizadas; o picker de reprodução oferece os modos e passa a rolar suas opções para evitar cortar o diálogo em janelas menores.
 
 O storage Desktop/JVM preserva o override local versionado durante recebimento de configurações remotas e exporta somente o modo legado. Os actuals Android/iOS do mesmo código KMP receberam a separação correspondente para não exportar uma preferência desconhecida pelo cliente original; isso não constitui build iOS/Android KMP aprovado. Não se cria um cliente móvel novo.
 
-As regressões Desktop cobrem escolhas por modo, dados ausentes, ordem/filtros e sync em armazenamento isolado de teste. No commit `e481e542cdc620c4808b9eadd2f7d0b93ee03469`, o run Windows `39487966669` executou `:composeApp:desktopTest` e verificou os relatórios XML de `StreamAutoPlaySelectorTest` e `PlayerSourceSelectionStorageTest`: ambas as classes executaram testes, sem falhas ou erros. O mesmo comando compilou as fontes Desktop e de teste.
+As regressões Desktop cobrem escolhas por modo, dados ausentes, ordem/filtros e sync em armazenamento isolado de teste. O run Windows `39487966669` executou `:composeApp:desktopTest` e verificou os relatórios XML de `StreamAutoPlaySelectorTest` e `PlayerSourceSelectionStorageTest`: ambas as classes executaram testes, sem falhas ou erros. O mesmo comando compilou as fontes Desktop e de teste.
+
+O gate de portabilidade `39489143656`, no commit `c9cad5b0c0891763042640a20c9b1c43a23b60fc`, passou em macOS x64 e ARM64: testes compartilhados e `packageReleaseDmg` concluíram, e os DMGs com manifests/checksums foram guardados nos artefatos de CI por 14 dias. No Linux, os testes compartilhados chegaram ao empacotamento, mas `packageReleaseDeb` falhou porque `verify-linux-deb.sh` não encontrou `./opt/telumia/bin/Telumia`. O DEB e os relatórios foram preservados no artefato Linux para diagnóstico; o pacote Linux não está aprovado.
 
 O MSI ainda não foi produzido neste incremento. O workflow `build-only` parou antes da compilação por falta de `LOCAL_PROPERTIES_BASE64`, `SENTRY_AUTH_TOKEN` e `SENTRY_DESKTOP_DSN` no ambiente de release; a validação de testes usa um modo separado que não requer esses valores. Localmente, a reserva de armazenamento também bloqueou builds: C tinha 34,9 GiB livres ante os 40 GiB exigidos pela política. Nenhuma release 1.0.0 foi alterada. A seleção automática real, experiência no player e QA visual/nativa ainda precisam de gates próprios.
