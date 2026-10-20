@@ -68,3 +68,13 @@ Os canais podem ser favoritados em Agora, Guia ou Canais, com ação acessível 
 O run [39354781031](https://github.com/Pepeu2010/telumia-tv/actions/runs/39354781031) passou nos testes JVM selecionados, compilou a instrumentação e concluiu `assembleFullDebug` em 7 min 42 s no commit `b5459a542`. Os APKs de depuração ficam disponíveis até 27/10/2026: [universal — 178.624.128 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39354781031/artifacts/12234902678), [ARM64 — 91.652.886 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39354781031/artifacts/12235495298) e [ARMv7 — 89.551.300 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39354781031/artifacts/12234484783). Testes instrumentados foram compilados, mas não executados; não houve QA em TV Box física.
 
 O registro estruturado do build está em [telumia-tv-live-tv-r8-ci.json](telumia-tv-live-tv-r8-ci.json).
+
+## Atualização periódica do guia
+
+O commit `47e432345` adiciona trabalho periódico do WorkManager para fontes Live TV habilitadas no perfil ativo. O agendamento usa intervalo de 12 horas com janela flexível de 2 horas e exige rede conectada e armazenamento disponível. Ao desativar ou remover todas as fontes habilitadas, o trabalho periódico é cancelado; mudanças de perfil reconciliam o agendamento e a leitura do cache acompanha somente o perfil ativo.
+
+Cada fonte é importada sequencialmente. Falha parcial preserva o guia em cache daquela fonte; a política de repetição exponencial é ativada apenas se todas as fontes habilitadas falharem. A atualização manual continua disponível. Testes selecionados cobrem filtragem de fontes desativadas, retenção de cache em falha parcial, execução sem fontes e sincronização do agendador com o perfil/fontes.
+
+O run [39358003957](https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957) passou nos testes JVM selecionados, compilou os testes instrumentados e concluiu `assembleFullDebug` em 10 min 59 s no commit `fe20a3380`. APKs de depuração ficam disponíveis até 27/10/2026: [universal — 179.151.718 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235314872), [ARM64 — 92.180.480 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235983212) e [ARMv7 — 90.078.890 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235514524). O build usa assinatura de debug do CI. Testes instrumentados foram compilados, mas não executados em aparelho; não houve QA físico em TV Box.
+
+O registro estruturado está em [telumia-tv-live-tv-r9-ci.json](telumia-tv-live-tv-r9-ci.json). Fuso horário selecionável e mini-player continuam pendentes; a Fase 6 permanece aberta.
