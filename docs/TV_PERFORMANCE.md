@@ -1,5 +1,11 @@
 # Desempenho em TV Box
 
+## Capacidades de tela e decoder
+
+O incremento `v1.0.1-alpha.2` centraliza em `DeviceCapabilities` a leitura sob demanda dos modos de resolução/refresh rate, tipos HDR e perfis Dolby Vision anunciados pelos decoders. O inventário de display é consultado novamente quando usado, pois a tela/EDID pode mudar durante a sessão; quando o Android não informa capacidades HDR, o valor continua desconhecido em vez de ser tratado como SDR. `DisplayCapabilities` e a política Dolby consomem essa camada compartilhada, sem mudança nas decisões de playback.
+
+O run [39503569320](https://github.com/Pepeu2010/telumia-tv/actions/runs/39503569320) passou 99 testes unitários selecionados, compilou os testes instrumentados e gerou APK universal, ARM64 e ARMv7, publicados na [pré-release `v1.0.1-alpha.2`](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.2). Isso valida os contratos unitários e a compilação; não substitui a execução instrumentada nem a medição na TV Box física.
+
 ## Leitura centralizada das capacidades de memória
 
 O incremento de 20/10/2026 centraliza RAM física, classe de memória do Android, flag de baixa RAM e heap máximo em uma captura imutável por processo. `TvPerformanceProfile`, o cache de mídia e o orçamento nativo do player consomem a mesma captura. A classificação distingue `LOW_RAM`, `BALANCED`, `HIGH_CAPACITY` e `UNKNOWN`; quando a leitura é desconhecida, o perfil usa o comportamento conservador de baixa RAM.

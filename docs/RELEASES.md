@@ -1,5 +1,11 @@
 # Releases da Telumia
 
+## v1.0.1-alpha.2 — capacidades de tela e decoder centralizadas
+
+A [pré-release Android TV](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.2) foi publicada em 20/10/2026, sem alterar a release estável `v1.0.0`. Contém APK universal, ARM64, ARMv7 e `SHA256SUMS.txt`. Os APKs vieram do run [39503569320](https://github.com/Pepeu2010/telumia-tv/actions/runs/39503569320), commit `96fd0492b17ad79b7fa9103d3f12d313658c147e`; os três hashes do manifesto coincidem com os digests SHA-256 dos assets publicados.
+
+O incremento reúne em `DeviceCapabilities` a consulta dos modos da tela, HDR e perfis de decoder Dolby Vision. A política de escolha Dolby foi preservada. O CI passou 99 testes unitários selecionados, compilou os testes instrumentados e montou os três APKs. Os testes instrumentados não foram executados em dispositivo, e não houve validação física de desempenho em TV Box. Os APKs são builds Full Debug assinados por uma chave temporária de CI; pode ser preciso desinstalar uma versão anterior para instalar esta pré-release.
+
 ## v1.0.1-alpha.1 — recursos adaptados à memória
 
 A [pré-release Android TV](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.1) foi publicada em 20/10/2026, sem alterar a release estável `v1.0.0`. Contém APK universal, ARM64, ARMv7 e `SHA256SUMS.txt`. Os três APKs vieram do run [39498212243](https://github.com/Pepeu2010/telumia-tv/actions/runs/39498212243), commit `f01f882b36a9fa854112f118229fd8be3dab79dd`; os digests dos assets publicados conferem com os artefatos CI.
