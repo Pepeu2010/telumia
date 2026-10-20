@@ -1,6 +1,10 @@
 # Releases da Telumia
 
-Toda release combinada deve listar os APKs Android TV e o instalador Windows PC na mesma página de Releases, com cada versão da plataforma identificada no nome do asset e nos checksums. O MSI Desktop `1.0.0` foi anexado também à release estável `v1.0.0` do repositório Android TV; as alphas `v1.0.1-alpha.1` e `v1.0.1-alpha.2` já listavam APKs e MSI juntos. Os fluxos automatizados e o publicador legado exigem um MSI Desktop publicado ou fornecido e validam sua presença antes de criar a release; sem o pacote PC, a publicação é bloqueada.
+Toda release combinada deve listar os APKs Android TV e o instalador Windows PC na mesma página de Releases, com cada versão da plataforma identificada no nome do asset e nos checksums. O MSI Desktop `1.0.0` foi anexado também à release estável `v1.0.0` e às pré-releases `v1.0.1-alpha.1`, `.2` e `.3`. Os fluxos automatizados e o publicador legado exigem um MSI Desktop publicado ou fornecido e validam sua presença antes de criar a release; sem o pacote PC, a publicação é bloqueada.
+
+## v1.0.1-alpha.3 — seleção com inventário de decoder Android
+
+A [pré-release Telumia](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.3) foi publicada em 20/10/2026, sem alterar `v1.0.0`. Inclui APK universal, ARM64, ARMv7, MSI Windows x64 Desktop **1.0.0** e `SHA256SUMS.txt`; as versões Android TV e PC estão identificadas separadamente. Os testes focados passaram, os testes instrumentados foram compilados e os três APKs Full Debug foram montados no workflow [39509908598](https://github.com/Pepeu2010/telumia-tv/actions/runs/39509908598). O publicador [39511555672](https://github.com/Pepeu2010/telumia-tv/actions/runs/39511555672) validou os artefatos e o MSI antes de publicar; os hashes exibidos no GitHub correspondem aos três APKs do CI. A mudança pontua compatibilidade declarada de codec/resolução e mantém fontes desconhecidas ou não suportadas como opções de fallback. Os APKs são de desenvolvimento, assinados pela chave temporária de CI; pode ser necessário remover a versão anterior para instalar. A instrumentação não foi executada em dispositivo e não houve QA física em TV Box.
 
 ## v1.0.1-alpha.2 — capacidades de tela e decoder centralizadas
 

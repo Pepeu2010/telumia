@@ -1,6 +1,6 @@
 # Source Intelligence
 
-Estado: **seleção declarativa inicial implementada na TV e no Desktop; os testes dirigidos de ambos os clientes passaram no CI, mas QA nativa dos modos continua pendente**. Não é a entrega completa de Source Intelligence e não altera os binários da release 1.0.0.
+Estado: **seleção declarativa inicial implementada na TV e no Desktop. O incremento de inventário de decoder Android e ranking por codec foi publicado na pré-release `v1.0.1-alpha.3`; o CI passou e os assets foram conferidos na página pública. QA nativa dos modos continua pendente.**
 
 Fonte: `repos/tv`, commit `f655a5802`, ampliando `StreamAutoPlaySelector`, `StreamAutoPlayPolicy`, `PlayerSettingsDataStore`, as configurações de reprodução e a lista de fontes existentes. Não cria outro player, repositório ou resolver.
 
@@ -19,19 +19,27 @@ Primeira fonte e Regex continuam disponíveis como opções avançadas existente
 
 Os cards exibem a pontuação e suas contribuições quando um modo novo está ativo. A própria UI identifica que codec, HDR e rede não foram verificados. O picker existente oferece os modos com descrições pt-BR/inglês, preservando navegação/foco atuais; a geometria e a interação ainda precisam de QA no APK deste incremento.
 
+## Incremento TV de decoder anunciado
+
+No commit `ef14013a6` (com correções intermediárias já integradas à branch), `DeviceCapabilities.videoCodecCapabilities()` passou a enumerar e armazenar em cache decoders de vídeo anunciados por `MediaCodecList`. Cada registro mantém MIME, dimensões máximas quando reportadas e o estado de aceleração por hardware; falhas de consulta permanecem desconhecidas, e uma lista vazia reportada pelo Android é distinta de uma falha. A consulta ocorre em IO enquanto os addons carregam.
+
+O seletor mapeia aliases estruturados de AVC/H.264, HEVC/H.265, AV1, VP8/VP9, MPEG-2 e Dolby Vision para MIME Android. Para os modos pontuados, um formato declarado sem decoder compatível com as dimensões anunciadas recebe penalidade de -600, mas segue elegível como fallback. Decoder apenas por software recebe -160 nos modos Equilibrado e Economia de dados; Melhor qualidade preserva a preferência por resolução. Codec sem declaração reconhecida e inventário desconhecido ficam neutros. `FIRST_STREAM`, Regex e a seleção Manual continuam com a política anterior.
+
+O auto-play da reprodução atual e do próximo episódio consome o mesmo snapshot; os cards exibem a contribuição de compatibilidade e distinguem suportado, somente software, não anunciado e desconhecido em português e inglês. Esses dados são anúncios do provider e do framework Android: não provam que o bitstream real esteja íntegro, que o player selecionará aquele decoder, nem que HDR, áudio, legendas ou rede serão compatíveis. A lógica ainda não executa pre-flight real nem failover.
+
 ## Persistência e conta
 
 Os modos novos usam `telumia_source_mode_v1` no DataStore existente de cada perfil. Não substituem silenciosamente `stream_auto_play_mode` compartilhado com o cliente original. Selecionar Manual/Primeira fonte/Regex remove o override local e atualiza a preferência legada. O filtro de configurações remotas exclui a chave nova em envio e recepção; não anuncia que o cliente oficial conhece esses modos.
 
 ## Resultados de verificação
 
-O build `telumia-tv-source-ranking-r1` terminou com saída 1: **47 testes, uma falha, zero erros e zero ignorados**. O snapshot `artifacts/telumia-tv-source-ranking-r1/tv/junit-snapshot/TEST-com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest.xml` identificou a falha: `Resources.getSystem()` retorna nulo no ambiente JVM do teste, e a resolução do idioma de legendas não tinha fallback. `PlayerSettingsDataStore.resolveDeviceSubtitleLanguage` agora usa `Locale.getDefault()` quando a configuração Android não existe. O rerun local `artifacts/tv-low-resource-r1/tv` não teve heap suficiente e terminou durante `compileFullDebugKotlin`. Depois, o run remoto `39329340039` executou `PlayerSourceSelectionStoreTest` junto dos testes da política de desempenho, dos testes do updater e da montagem `fullDebug`; **o workflow concluiu com sucesso**, validando o fallback do locale e os testes selecionados. QA nativa dos novos modos continua pendente.
+O build inicial `telumia-tv-source-ranking-r1` encontrou e levou à correção de um fallback de locale em teste JVM; o CI remoto `39329340039` confirmou a correção. Para este incremento, o workflow [39509908598](https://github.com/Pepeu2010/telumia-tv/actions/runs/39509908598) concluiu com sucesso os testes focados, a compilação dos testes instrumentados e os três APKs Full Debug. O release publisher [39511555672](https://github.com/Pepeu2010/telumia-tv/actions/runs/39511555672) validou a origem dos artefatos, o MSI Desktop 1.0.0 e publicou `v1.0.1-alpha.3` com APK universal, ARM64, ARMv7, MSI e `SHA256SUMS.txt`. QA nativa dos novos modos continua pendente.
 
 As regressões de TV cobrem escolha independente da ordem, qualidade versus equilíbrio, preferência por arquivos pequenos conhecidos, exclusão de páginas externas/debrid indisponível, empate com dados desconhecidos, filtros de addon, limites numéricos, isolamento da chave em sync e persistência/recriação/troca de perfil sem alterar o modo compartilhado. Seu run aprovado está registrado acima; QA nativa continua separada.
 
 ## Escopo ainda necessário
 
-Faltam DeviceCapabilities centralizado, adequação de codec/decoder/HDR/áudio/legendas, preferência de idioma, bitrate com origem/unidade confiáveis, medições reais de latência/disponibilidade/estabilidade, pre-flight limitado e failover com posição e tentativas finitas. Também faltam QA visual/nativa dos novos modos e demonstração pelo caminho real de reprodução com seleção automática. O score declarativo é uma camada inicial do recurso completo, não prova esses requisitos.
+Faltam integração Desktop equivalente, HDR/áudio/legendas, preferência de idioma, bitrate com origem/unidade confiáveis, medições reais de latência/disponibilidade/estabilidade, pre-flight limitado e failover com posição e tentativas finitas. Também faltam QA visual/nativa dos novos modos e demonstração manual de playback em aparelhos reais. O score declarativo é uma camada inicial do recurso completo, não prova esses requisitos.
 
 ## Implementação Desktop e gate de testes
 
