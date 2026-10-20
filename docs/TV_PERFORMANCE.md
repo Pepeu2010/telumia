@@ -1,5 +1,11 @@
 # Desempenho em TV Box
 
+## Leitura centralizada das capacidades de memória
+
+O incremento de 20/10/2026 centraliza RAM física, classe de memória do Android, flag de baixa RAM e heap máximo em uma captura imutável por processo. `TvPerformanceProfile`, o cache de mídia e o orçamento nativo do player consomem a mesma captura. A classificação distingue `LOW_RAM`, `BALANCED`, `HIGH_CAPACITY` e `UNKNOWN`; quando a leitura é desconhecida, o perfil usa o comportamento conservador de baixa RAM.
+
+Os testes de `DeviceCapabilities`, `TvPerformanceProfile`, `MediaCachePolicy` e `NuvioExoPlayerPerformanceHelper` passaram no run [39498212243](https://github.com/Pepeu2010/telumia-tv/actions/runs/39498212243), que também compilou os testes instrumentados e gerou os APKs da [pré-release 1.0.1-alpha.1](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.1). Isso confirma a política e a compilação; não mede FPS, heap observado, seek ou dropped frames na TV Box física. Consulte também o [histórico de releases](RELEASES.md).
+
 ## Incremento de baixo consumo
 
 O perfil de recursos da TV adapta automaticamente o trabalho de imagens conforme a memória total do aparelho, o limite de heap informado pelo Android e a flag `isLowRamDevice`. O perfil de baixa RAM entra em aparelhos com até 2 GiB ou marcados pelo sistema como limitados.

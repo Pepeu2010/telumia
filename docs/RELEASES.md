@@ -1,5 +1,11 @@
 # Releases da Telumia
 
+## v1.0.1-alpha.1 — recursos adaptados à memória
+
+A [pré-release Android TV](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.1) foi publicada em 20/10/2026, sem alterar a release estável `v1.0.0`. Contém APK universal, ARM64, ARMv7 e `SHA256SUMS.txt`. Os três APKs vieram do run [39498212243](https://github.com/Pepeu2010/telumia-tv/actions/runs/39498212243), commit `f01f882b36a9fa854112f118229fd8be3dab79dd`; os digests dos assets publicados conferem com os artefatos CI.
+
+Os testes focados passaram, os testes instrumentados foram compilados e não executados em aparelho. Os APKs são de depuração, assinados pela chave temporária do CI; a chave pode não corresponder a uma instalação anterior. Não houve QA física da TV Box. Esta pré-release não é `Latest` e não encerra a meta.
+
 ## v1.0.0 — release regular
 
 A [Telumia 1.0.0](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.0) foi publicada sem sufixo alpha, como release regular e “Latest” nos três repositórios. Inclui MSI Windows x64, APK TV universal/quatro ABIs, fontes, manifesto e SHA256SUMS. **22 assets remotos verificados por tamanho, estado e digest SHA-256.** [Verificação](telumia-v100-publication-r1-verification.json), [registro da publicação](telumia-v100-publication-results.json), [entrega e limites](VERSION_100.md).
