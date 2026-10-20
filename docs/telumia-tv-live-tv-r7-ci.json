@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "dc1c22093d2443137e5f9f4a13f91223b2e60784",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39353005423,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39353005423",
+  "result": "success",
+  "durationSeconds": 482,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.ui.screens.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "implementation": [
+    "Three-hour lazy EPG guide window with clipped, non-overlapping entries and gap spacing.",
+    "Guide and Now modes are shown only when matching XMLTV programs exist.",
+    "Playback actions are exposed only when a channel has a stream URL.",
+    "The 30-second Now-mode ticker is suspended while the Guide is visible.",
+    "JVM tests cover clipping, gaps, overlapping entries, and invalid/expired windows.",
+    "Instrumentation test covers XMLTV-only rows without playback actions."
+  ],
+  "unitTestEvidence": "Selected unit tests passed, including GuideTimelineTest and the existing Live TV and low-memory tests.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12234026767,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178599020,
+      "expiresAt": "2026-10-27T01:29:45Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39353005423/artifacts/12234026767"
+    },
+    {
+      "id": 12233942711,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91627782,
+      "expiresAt": "2026-10-27T01:29:48Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39353005423/artifacts/12233942711"
+    },
+    {
+      "id": 12234081619,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89526192,
+      "expiresAt": "2026-10-27T01:29:50Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39353005423/artifacts/12234081619"
+    }
+  ],
+  "limitations": [
+    "Debug APKs signed with the CI debug key; not a production release.",
+    "Instrumented tests compiled but were not executed on hardware.",
+    "No Android TV Box was connected through ADB for visual or physical performance QA."
+  ]
+}
