@@ -1,6 +1,6 @@
 # Source Intelligence
 
-Estado: **primeiro incremento de seleção declarativa implementado na TV; build anterior terminou com falha em 1 dos 47 testes selecionados, a causa foi corrigida e o rerun remoto selecionado passou; QA nativa pendente**. Não é a entrega completa de Source Intelligence e não altera os binários da release 1.0.0.
+Estado: **seleção declarativa inicial implementada na TV e no Desktop; os testes dirigidos de ambos os clientes passaram no CI, mas QA nativa dos modos continua pendente**. Não é a entrega completa de Source Intelligence e não altera os binários da release 1.0.0.
 
 Fonte: `repos/tv`, commit `f655a5802`, ampliando `StreamAutoPlaySelector`, `StreamAutoPlayPolicy`, `PlayerSettingsDataStore`, as configurações de reprodução e a lista de fontes existentes. Não cria outro player, repositório ou resolver.
 
@@ -27,18 +27,20 @@ Os modos novos usam `telumia_source_mode_v1` no DataStore existente de cada perf
 
 O build `telumia-tv-source-ranking-r1` terminou com saída 1: **47 testes, uma falha, zero erros e zero ignorados**. O snapshot `artifacts/telumia-tv-source-ranking-r1/tv/junit-snapshot/TEST-com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest.xml` identificou a falha: `Resources.getSystem()` retorna nulo no ambiente JVM do teste, e a resolução do idioma de legendas não tinha fallback. `PlayerSettingsDataStore.resolveDeviceSubtitleLanguage` agora usa `Locale.getDefault()` quando a configuração Android não existe. O rerun local `artifacts/tv-low-resource-r1/tv` não teve heap suficiente e terminou durante `compileFullDebugKotlin`. Depois, o run remoto `39329340039` executou `PlayerSourceSelectionStoreTest` junto dos testes da política de desempenho, dos testes do updater e da montagem `fullDebug`; **o workflow concluiu com sucesso**, validando o fallback do locale e os testes selecionados. QA nativa dos novos modos continua pendente.
 
-As novas regressões cobrem escolha independente da ordem, qualidade versus equilíbrio, preferência por arquivos pequenos conhecidos, exclusão de páginas externas/debrid indisponível, empate com dados desconhecidos, filtros de addon, limites numéricos, isolamento da chave em sync e persistência/recriação/troca de perfil sem alterar o modo compartilhado. Os resultados serão vinculados ao commit/APKs após término; nenhuma dessas verificações é anunciada como aprovada antes disso.
+As regressões de TV cobrem escolha independente da ordem, qualidade versus equilíbrio, preferência por arquivos pequenos conhecidos, exclusão de páginas externas/debrid indisponível, empate com dados desconhecidos, filtros de addon, limites numéricos, isolamento da chave em sync e persistência/recriação/troca de perfil sem alterar o modo compartilhado. Seu run aprovado está registrado acima; QA nativa continua separada.
 
 ## Escopo ainda necessário
 
-Faltam os gates da implementação equivalente no Desktop, DeviceCapabilities centralizado, adequação de codec/decoder/HDR/áudio/legendas, preferência de idioma, bitrate com origem/unidade confiáveis, medições reais de latência/disponibilidade/estabilidade, pre-flight limitado e failover com posição e tentativas finitas. Também falta QA visual/nativa dos novos modos e reprodução pelo caminho real com seleção automática. O score declarativo é uma camada inicial do recurso completo, não prova esses requisitos.
+Faltam DeviceCapabilities centralizado, adequação de codec/decoder/HDR/áudio/legendas, preferência de idioma, bitrate com origem/unidade confiáveis, medições reais de latência/disponibilidade/estabilidade, pre-flight limitado e failover com posição e tentativas finitas. Também faltam QA visual/nativa dos novos modos e demonstração pelo caminho real de reprodução com seleção automática. O score declarativo é uma camada inicial do recurso completo, não prova esses requisitos.
 
-## Implementação Desktop preparada para o próximo gate
+## Implementação Desktop e gate de testes
 
-Fonte Desktop local: commit `50b152b2`, sem publicação de novos instaladores.
+Fonte Desktop: implementação no commit `50b152b2`; validação da branch `codex/enhanced-foundation`, commit `e481e542cdc620c4808b9eadd2f7d0b93ee03469`. Não houve publicação de instaladores.
 
 O seletor Desktop existente recebeu os três modos e pontuações correspondentes, respeitando sua própria elegibilidade de debrid/P2P e a preferência de grupo de episódios. Utiliza resolução estruturada e tamanho declarados; esse model não possui o `qualityValue` adicional da TV. Empates conservam a ordem e palavras de qualidade no nome não viram evidência. Os cards exibem contribuições localizadas; o picker de reprodução oferece os modos e passa a rolar suas opções para evitar cortar o diálogo em janelas menores.
 
 O storage Desktop/JVM preserva o override local versionado durante recebimento de configurações remotas e exporta somente o modo legado. Os actuals Android/iOS do mesmo código KMP receberam a separação correspondente para não exportar uma preferência desconhecida pelo cliente original; isso não constitui build iOS/Android KMP aprovado. Não se cria um cliente móvel novo.
 
-As regressões Desktop acrescentadas cobrem escolhas por modo, dados ausentes, ordem/filtros e sync em armazenamento isolado de teste. **Build Windows/MSI e esses testes ainda não executados**: os builds pesados são seriados após o Android. Não se altera a release 1.0.0 nem se declara paridade validada por ter código equivalente.
+As regressões Desktop cobrem escolhas por modo, dados ausentes, ordem/filtros e sync em armazenamento isolado de teste. No commit `e481e542cdc620c4808b9eadd2f7d0b93ee03469`, o run Windows `39487966669` executou `:composeApp:desktopTest` e verificou os relatórios XML de `StreamAutoPlaySelectorTest` e `PlayerSourceSelectionStorageTest`: ambas as classes executaram testes, sem falhas ou erros. O mesmo comando compilou as fontes Desktop e de teste.
+
+O MSI ainda não foi produzido neste incremento. O workflow `build-only` parou antes da compilação por falta de `LOCAL_PROPERTIES_BASE64`, `SENTRY_AUTH_TOKEN` e `SENTRY_DESKTOP_DSN` no ambiente de release; a validação de testes usa um modo separado que não requer esses valores. Localmente, a reserva de armazenamento também bloqueou builds: C tinha 34,9 GiB livres ante os 40 GiB exigidos pela política. Nenhuma release 1.0.0 foi alterada. A seleção automática real, experiência no player e QA visual/nativa ainda precisam de gates próprios.
