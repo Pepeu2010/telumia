@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "e04c6b8d82a1bddf20cff126f78499532b54dfc6",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39344159603,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39344159603",
+  "result": "success",
+  "durationSeconds": 483,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "unitTestEvidence": "Selected unit tests completed successfully, including LiveTvSourceImporterTest for playlist import, redirect refusal, and oversized bodies.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12230786299,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178513208,
+      "expiresAt": "2026-10-26T23:59:47Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39344159603/artifacts/12230786299"
+    },
+    {
+      "id": 12230771274,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91541966,
+      "expiresAt": "2026-10-26T23:59:49Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39344159603/artifacts/12230771274"
+    },
+    {
+      "id": 12229884144,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89440380,
+      "expiresAt": "2026-10-26T23:59:50Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39344159603/artifacts/12229884144"
+    }
+  ],
+  "limitations": [
+    "Debug APK only; not a production release or installed on physical TV hardware.",
+    "Instrumented tests compiled but were not executed.",
+    "Live TV UI, channel/EPG persistence, scheduled refresh, guide matching, favorites/recents, and Media3 channel playback remain incomplete."
+  ]
+}

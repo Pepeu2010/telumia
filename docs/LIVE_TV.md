@@ -18,3 +18,13 @@ O CI publicou APKs do commit `289d81f5` por sete dias: [ARM64](https://github.co
 ## Ainda não entregue
 
 Este incremento ainda não importa arquivos/URLs pela interface, persiste a configuração, baixa playlists/EPG, resolve redirecionamentos/credenciais, agenda atualizações, aplica timezone por região, liga `tvg-id` a um guia atualizado, integra `Media3` para reproduzir o canal, nem implementa Agora/Guia/Canais/Favoritos/Recentes com foco D-pad. Nenhum canal ou conteúdo vem embutido. A Fase 6 permanece aberta até esses fluxos reais e seus estados de erro/offline/passagem de foco serem implementados e testados.
+
+## Incremento seguinte: configuração e importação segura
+
+O commit `e04c6b8d8` acrescenta `LiveTvSourceStore`, isolado pelo perfil ativo, para cadastrar/remover/ativar até 20 fontes M3U e XMLTV. O DataStore guarda apenas metadados/URLs (até 64 KiB); canais e programação não são serializados nele. URLs precisam ser HTTP(S), sem credenciais embutidas ou fragmentos.
+
+`LiveTvSourceImporter` baixa apenas as URLs configuradas pelo usuário com TLS padrão, sem redirects, conexão de 10 s, leitura de 20 s e chamada total de 30 s. Os corpos ficam limitados a 8 MiB para M3U e 16 MiB para XMLTV; então os parsers já existentes aplicam limites adicionais de caracteres, campos e registros. O import combina canais e guia sem inventar endereço de reprodução para entradas que só existem no XMLTV. O cliente está pronto para a camada de fluxo/UI consumir; essa camada ainda não foi exposta.
+
+Testes de integração local cobrem playlist válida, redirect recusado e resposta acima do limite. O run [39344159603](https://github.com/Pepeu2010/telumia-tv/actions/runs/39344159603) passou em 8 min 3 s, incluindo os testes unitários selecionados (com `LiveTvSourceImporterTest`), compilação do source set instrumentado e `assembleFullDebug`. Foram publicados por sete dias: [universal — 178.513.208 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39344159603/artifacts/12230786299), [ARM64 — 91.541.966 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39344159603/artifacts/12230771274) e [ARMv7 — 89.440.380 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39344159603/artifacts/12229884144). O código está no commit `e04c6b8d8` do fork. APKs são builds de debug; testes instrumentados foram compilados, mas não executados em aparelho.
+
+A persistência do catálogo/EPG, atualização agendada, correspondência e janela temporal do guia, interface D-pad, favoritos/recents e reprodução Media3 continuam pendentes; a Fase 6 segue aberta. Não houve QA em TV Box física.
