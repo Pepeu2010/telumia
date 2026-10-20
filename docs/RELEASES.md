@@ -1,6 +1,6 @@
 # Releases da Telumia
 
-Toda release combinada deve listar os APKs Android TV e o instalador Windows PC na mesma página de Releases, com cada versão da plataforma identificada no nome do asset e nos checksums. Os fluxos automatizados e o publicador legado agora exigem um MSI Desktop publicado ou fornecido e validam sua presença antes de criar a release; sem o pacote PC, a publicação é bloqueada.
+Toda release combinada deve listar os APKs Android TV e o instalador Windows PC na mesma página de Releases, com cada versão da plataforma identificada no nome do asset e nos checksums. O MSI Desktop `1.0.0` foi anexado também à release estável `v1.0.0` do repositório Android TV; as alphas `v1.0.1-alpha.1` e `v1.0.1-alpha.2` já listavam APKs e MSI juntos. Os fluxos automatizados e o publicador legado exigem um MSI Desktop publicado ou fornecido e validam sua presença antes de criar a release; sem o pacote PC, a publicação é bloqueada.
 
 ## v1.0.1-alpha.2 — capacidades de tela e decoder centralizadas
 
