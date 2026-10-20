@@ -77,4 +77,12 @@ Cada fonte é importada sequencialmente. Falha parcial preserva o guia em cache 
 
 O run [39358003957](https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957) passou nos testes JVM selecionados, compilou os testes instrumentados e concluiu `assembleFullDebug` em 10 min 59 s no commit `fe20a3380`. APKs de depuração ficam disponíveis até 27/10/2026: [universal — 179.151.718 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235314872), [ARM64 — 92.180.480 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235983212) e [ARMv7 — 90.078.890 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235514524). O build usa assinatura de debug do CI. Testes instrumentados foram compilados, mas não executados em aparelho; não houve QA físico em TV Box.
 
-O registro estruturado está em [telumia-tv-live-tv-r9-ci.json](telumia-tv-live-tv-r9-ci.json). Fuso horário selecionável e mini-player continuam pendentes; a Fase 6 permanece aberta.
+O registro estruturado está em [telumia-tv-live-tv-r9-ci.json](telumia-tv-live-tv-r9-ci.json).
+
+## Fuso horário do guia por perfil
+
+Os commits `b369ea40e` e `e8d8308cf` adicionam um seletor acessível por D-pad para usar o fuso do aparelho ou Brasília, Manaus, Rio Branco, Fernando de Noronha e UTC. A escolha fica no mesmo estado DataStore já isolado por perfil para favoritos e canais recentes. A grade, Agora/A seguir e o horário da última atualização das fontes formatam os mesmos instantes no fuso selecionado; não mudam horários de eventos, ordenação nem reprodução. Identificadores inválidos voltam ao fuso do aparelho.
+
+O run [39359528952](https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952) passou nos testes JVM selecionados, compilou os testes instrumentados e concluiu `assembleFullDebug` em 7 min 50 s no commit `e8d8308cf`. APKs de depuração ficam disponíveis até 27/10/2026: [universal — 179.161.338 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12237345254), [ARM64 — 92.190.096 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12236239064) e [ARMv7 — 90.088.510 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12236931962). O build usa assinatura de debug do CI. Testes instrumentados foram compilados, mas não executados em aparelho; não houve QA físico em TV Box.
+
+O registro estruturado está em [telumia-tv-live-tv-r10-ci.json](telumia-tv-live-tv-r10-ci.json). O mini-player continua pendente; a Fase 6 permanece aberta.
