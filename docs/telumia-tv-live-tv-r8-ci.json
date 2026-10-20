@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "b5459a5428cebf6893a70af2068da665efeb9a38",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39354781031,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39354781031",
+  "result": "success",
+  "durationSeconds": 462,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.ui.screens.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.data.local.LiveTvChannelStateStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "implementation": [
+    "Live TV exposes Now, Guide when matching EPG data exists, Channels, Favorites, and Recent modes.",
+    "Favorites and recents persist IDs only, isolated by active profile; stream URLs and EPG payloads are not duplicated.",
+    "Favorites are capped at 2,000; recents are most-recent-first and capped at 30.",
+    "Starting playback records the channel; removing a source removes that source's saved IDs.",
+    "Profile changes clear the screen state before loading the new profile's sources and channel state."
+  ],
+  "unitTestEvidence": "Selected JVM tests passed, including LiveTvChannelStateStoreTest and LiveTvViewModelTest for persistence, profile isolation, order/bounds, source cleanup, favorite changes, and recent playback.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12234902678,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178624128,
+      "expiresAt": "2026-10-27T01:48:34Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39354781031/artifacts/12234902678"
+    },
+    {
+      "id": 12235495298,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91652886,
+      "expiresAt": "2026-10-27T01:48:35Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39354781031/artifacts/12235495298"
+    },
+    {
+      "id": 12234484783,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89551300,
+      "expiresAt": "2026-10-27T01:48:37Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39354781031/artifacts/12234484783"
+    }
+  ],
+  "limitations": [
+    "Debug APKs signed with the CI debug key; not a production release.",
+    "Instrumented tests compiled but were not executed on hardware.",
+    "No Android TV Box was connected through ADB for physical QA."
+  ]
+}
