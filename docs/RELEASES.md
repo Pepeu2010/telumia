@@ -1,6 +1,6 @@
 # Releases da Telumia
 
-Toda pré-release combinada deve listar os APKs Android TV e o instalador Windows PC na mesma página de Releases, com cada versão da plataforma identificada no nome do asset e nos checksums. O workflow de publicação agora exige selecionar uma versão Desktop publicada e valida o MSI antes de anexá-lo.
+Toda release combinada deve listar os APKs Android TV e o instalador Windows PC na mesma página de Releases, com cada versão da plataforma identificada no nome do asset e nos checksums. Os fluxos automatizados e o publicador legado agora exigem um MSI Desktop publicado ou fornecido e validam sua presença antes de criar a release; sem o pacote PC, a publicação é bloqueada.
 
 ## v1.0.1-alpha.2 — capacidades de tela e decoder centralizadas
 
