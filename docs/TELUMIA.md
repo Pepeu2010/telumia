@@ -17,7 +17,7 @@ Namespaces internos e contratos de conta/sync/addons permanecem compatíveis. Cr
 
 ## Brasil e Iludida
 
-Novos perfis usam `pt-BR` como idioma inicial dos metadados TMDB. Preferências explícitas existentes continuam válidas. A busca dos addons existentes consulta também aliases curados de Iludida: Sadakatsiz, The Unfaithful e A Woman Scorned. Resultados da mesma identidade/tipo são deduplicados dentro da origem. O título brasileiro é aplicado apenas à identidade verificada da série, evitando confusão com filmes ou obras de nome parecido.
+Novos perfis usam `pt-BR` como idioma inicial dos metadados TMDB. Preferências explícitas existentes continuam válidas. A busca dos addons existentes consulta também aliases curados de Iludida: Sadakatsiz, The Unfaithful e A Woman Scorned. Na TV, as consultas de aliases podem ocorrer em paralelo com limite global de duas por aparelho, reduzindo espera sem sobrecarregar a TV Box; a busca principal e a deduplicação continuam preservadas. Resultados da mesma identidade/tipo são deduplicados dentro da origem. O título brasileiro é aplicado apenas à identidade verificada da série, evitando confusão com filmes ou obras de nome parecido.
 
 As duas edições não possuem correspondência simples de capítulo. A [distribuidora](https://madd.tv/contents/detail/46) informa 149 capítulos de 45 minutos para a edição internacional; a [Apple TV Brasil](https://tv.apple.com/br/episode/episodio-78/umc.cmc.5yz3xsab8n2o014qobqqf3c00?showId=umc.cmc.g05tq9qgc2t19ewne06jiog2) identifica o capítulo 78 da primeira temporada. A identidade IMDb é [tt12879200](https://www.imdb.com/title/tt12879200/).
 

@@ -103,6 +103,9 @@ testar → compilar → corrigir regressões → QA → documentar → commit.
 PRs serão feitos no fork quando houver remoto próprio; não enviar redesign ao
 upstream. Branches locais seguem `codex/`. O usuário autorizou criar e publicar
 os repositórios GitHub em 2026-10-04; releases instaláveis terão gates próprios.
+Toda release instalável da Telumia deve apresentar no mesmo release os pacotes
+Android APK e Windows PC MSI. O workflow de publicação valida que ambos estão
+presentes e enviados; se faltar qualquer um, a release não passa pela verificação.
 
 A Fase 2 fornece `TimedMetadata` genérica com media/episode identity, intervalo
 ou instante, tipo, origem e dados do item; providers Scene Info entram depois.
