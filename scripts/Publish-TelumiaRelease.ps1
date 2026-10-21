@@ -12,6 +12,11 @@ if (Test-Path -LiteralPath $output) { throw 'Publication evidence already exists
 New-Item -ItemType Directory -Path $output | Out-Null
 $manifest = Get-Content -LiteralPath (Join-Path $directory 'release-manifest.json') -Raw | ConvertFrom-Json
 if ($manifest.tag -ne $Tag) { throw 'Prepared manifest tag mismatch.' }
+$manifestAssetNames = @($manifest.assets | ForEach-Object name)
+if ('Telumia-Windows-x64.msi' -notin $manifestAssetNames -or
+    @($manifestAssetNames | Where-Object { $_ -like '*.apk' }).Count -lt 1) {
+    throw 'The main Telumia release requires the Windows PC MSI and at least one Android TV APK.'
+}
 $prerelease = $Tag.Contains('-')
 if ($null -ne $manifest.prerelease -and $manifest.prerelease -ne $prerelease) { throw 'Prepared release channel mismatch.' }
 $record = [ordered]@{status='preflight';tag=$Tag;prerelease=$prerelease;startedAtUtc=[DateTime]::UtcNow.ToString('o');releases=@()}

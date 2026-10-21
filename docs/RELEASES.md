@@ -1,6 +1,6 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, com cada versão de plataforma identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.1-alpha.4`, além da estável `v1.0.0`; onde faltava, o MSI Desktop `1.0.0` foi anexado e os checksums regenerados. Os fluxos de release validam a presença dos APKs e do pacote PC; sem ambos, a publicação é bloqueada. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.1-alpha.4`, além da estável `v1.0.0`; onde faltava, o MSI Desktop `1.0.0` foi anexado e os checksums regenerados. A preparação, publicação e verificação do repositório principal agora falham se não houver pelo menos um APK e `Telumia-Windows-x64.msi`. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
 
 ## v1.0.1-alpha.4 — ranking compatível com HDR da tela
 
@@ -29,6 +29,8 @@ Os testes focados passaram, os testes instrumentados foram compilados e não exe
 ## v1.0.0 — release regular
 
 A [Telumia 1.0.0](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.0) foi publicada sem sufixo alpha, como release regular e “Latest” nos três repositórios. Inclui MSI Windows x64, APK TV universal/quatro ABIs, fontes, manifesto e SHA256SUMS. **22 assets remotos verificados por tamanho, estado e digest SHA-256.** [Verificação](telumia-v100-publication-r1-verification.json), [registro da publicação](telumia-v100-publication-results.json), [entrega e limites](VERSION_100.md).
+
+Em 21/10/2026, a release do repositório principal foi conferida novamente: os cinco APKs Android TV e `Telumia-Windows-x64.msi` aparecem na mesma página; os dez assets centrais conferem com os hashes locais. [Verificação](telumia-v100-main-apk-pc-r3-verification.json).
 
 Distribui Desktop `470c38d5cc02e597c94ea562f5d645f49f8fad60` e TV `6b58f39aa4af718d8208205115b45fa04f1359cb`; a tag central aponta para `ded35541178aa2bc36b43fcc33db7d382ee3a889`. Passaram 279 testes selecionados Windows e 214 TV, sem falhas/erros/skips. O renderer passou oito execuções/1.092 verificações; dez casos nativos de frames e startup real de 30 segundos passaram nas APIs 24 e 36. As fontes incluem 142 objetos Git LFS reais no Desktop, sem ponteiros pendentes.
 

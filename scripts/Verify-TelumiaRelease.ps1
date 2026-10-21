@@ -1,24 +1,48 @@
 [CmdletBinding()]
 param(
     [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+(?:-alpha\.[0-9]+)?$')][string]$Tag = 'v1.0.0',
-    [ValidatePattern('^[a-z0-9-]+\.json$')][string]$OutputName = 'telumia-release-verification.json'
+    [ValidatePattern('^[a-z0-9-]+\.json$')][string]$OutputName = 'telumia-release-verification.json',
+    [ValidateSet('all','main')][string]$Scope = 'all'
 )
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path $PSScriptRoot -Parent
 $directory = Join-Path $workspace "artifacts/releases/$Tag"
 $manifest = Get-Content -LiteralPath (Join-Path $directory 'release-manifest.json') -Raw | ConvertFrom-Json
+$version = $Tag.Substring(1)
+$rootAssets = @($manifest.assets | ForEach-Object name) + @('release-manifest.json','SHA256SUMS.txt')
+$tvApks = @($manifest.assets | Where-Object { $_.name -like 'Telumia-TV-*.apk' } | ForEach-Object name)
 $definitions = @(
-    @{repository='Pepeu2010/telumia';count=10},
-    @{repository='Pepeu2010/telumia-desktop';count=4},
-    @{repository='Pepeu2010/telumia-tv';count=8}
+    @{repository='Pepeu2010/telumia';requiredNames=$rootAssets;allowAdditionalApks=$false},
+    @{repository='Pepeu2010/telumia-desktop';requiredNames=@('Telumia-Windows-x64.msi','Telumia-desktop-source.zip','release-manifest.json','SHA256SUMS.txt');allowAdditionalApks=$false},
+    @{repository='Pepeu2010/telumia-tv';requiredNames=$tvApks+@("Telumia-Windows-x64-$version.msi",'Telumia-tv-source.zip');allowAdditionalApks=$true}
 )
+if ($Scope -eq 'main') { $definitions = @($definitions | Where-Object repository -eq 'Pepeu2010/telumia') }
 $records = foreach ($definition in $definitions) {
     $raw = gh api "repos/$($definition.repository)/releases/tags/$Tag"
     if ($LASTEXITCODE -ne 0) { throw "Release unavailable: $($definition.repository)" }
     $release = $raw | ConvertFrom-Json
     $expectedPrerelease = $Tag.Contains('-')
-    if ($release.draft -or $release.prerelease -ne $expectedPrerelease -or $release.assets.Count -ne $definition.count) {
+    if ($release.draft -or $release.prerelease -ne $expectedPrerelease) {
         throw "Unexpected release state or asset count: $($definition.repository)"
+    }
+    if (@($release.assets | Where-Object state -ne 'uploaded').Count) {
+        throw "Release has an unfinished asset upload: $($definition.repository)"
+    }
+    $remoteNames = @($release.assets | ForEach-Object name)
+    foreach ($requiredName in $definition.requiredNames) {
+        if ($requiredName -notin $remoteNames) { throw "Required release asset missing: $($definition.repository)/$requiredName" }
+    }
+    $extraNames = @($remoteNames | Where-Object { $_ -notin $definition.requiredNames })
+    $allowedAdditionalNames = @('release-manifest.json','SHA256SUMS.txt')
+    if ($extraNames.Count -and (-not $definition.allowAdditionalApks -or @($extraNames | Where-Object { $_ -notlike 'Telumia-TV-*.apk' -and $_ -notin $allowedAdditionalNames }).Count)) {
+        throw "Unexpected additional release asset: $($definition.repository)"
+    }
+    if ($definition.repository -eq 'Pepeu2010/telumia') {
+        $assetNames = @($release.assets | ForEach-Object name)
+        if ('Telumia-Windows-x64.msi' -notin $assetNames -or
+            @($assetNames | Where-Object { $_ -like '*.apk' }).Count -lt 1) {
+            throw 'The main Telumia release must contain both the Windows PC MSI and Android TV APKs.'
+        }
     }
     if (-not $expectedPrerelease) {
         $latest = gh api "repos/$($definition.repository)/releases/latest" | ConvertFrom-Json
@@ -26,8 +50,11 @@ $records = foreach ($definition in $definitions) {
             throw "Regular release is not the current Latest: $($definition.repository)"
         }
     }
-    $assets = foreach ($asset in $release.assets) {
-        $local = Join-Path $directory $asset.name
+    $assets = foreach ($assetName in $definition.requiredNames) {
+        $asset = $release.assets | Where-Object name -eq $assetName | Select-Object -First 1
+        if ($asset.state -ne 'uploaded') { throw "Release asset upload incomplete: $($definition.repository)/$assetName" }
+        $localName = if ($assetName -eq "Telumia-Windows-x64-$version.msi") { 'Telumia-Windows-x64.msi' } else { $assetName }
+        $local = Join-Path $directory $localName
         if (-not (Test-Path -LiteralPath $local)) { throw "Unexpected remote asset: $($asset.name)" }
         $file = Get-Item -LiteralPath $local
         $hash = (Get-FileHash -LiteralPath $local -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -50,8 +77,8 @@ $records = foreach ($definition in $definitions) {
         default { $null }
     }
     if ($expectedCommit -and $tagCommit -ne $expectedCommit) { throw 'Published client tag differs from the packaged source commit.' }
-    [ordered]@{repository=$definition.repository;url=$release.html_url;tag=$Tag;tagObject=$ref.object.sha;tagCommit=$tagCommit;sourceCommitVerified=[bool]$expectedCommit;prerelease=$release.prerelease;latestRegularReleaseVerified=(-not $expectedPrerelease);assets=@($assets)}
+    [ordered]@{repository=$definition.repository;url=$release.html_url;tag=$Tag;tagObject=$ref.object.sha;tagCommit=$tagCommit;sourceCommitVerified=[bool]$expectedCommit;prerelease=$release.prerelease;latestRegularReleaseVerified=(-not $expectedPrerelease);additionalUploadedAssets=$extraNames;assets=@($assets)}
 }
-[ordered]@{verifiedAtUtc=[DateTime]::UtcNow.ToString('o');scope='Published release assets compared with local SHA-256; not runtime or device QA';releases=@($records)} |
+[ordered]@{verifiedAtUtc=[DateTime]::UtcNow.ToString('o');scope='Required release packages compared with local SHA-256; additional uploaded TV APKs and TV metadata are listed but not compared with the central artifact set; not runtime or device QA';releases=@($records)} |
     ConvertTo-Json -Depth 9 | Set-Content (Join-Path $workspace "docs/$OutputName") -Encoding utf8
-Write-Output "Three published releases ($Tag) and 22 remote asset digests verified."
+Write-Output "Verified $($definitions.Count) published release(s) ($Tag), including APK + PC packages in the main repository, against required assets and local SHA-256 digests."
