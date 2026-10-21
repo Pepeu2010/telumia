@@ -2,21 +2,23 @@
 param(
     [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+(?:-alpha\.[0-9]+)?$')][string]$Tag = 'v1.0.0',
     [ValidatePattern('^[a-z0-9-]+\.json$')][string]$OutputName = 'telumia-release-verification.json',
-    [ValidateSet('all','main')][string]$Scope = 'all'
+    [ValidateSet('all','main','tv-main')][string]$Scope = 'all'
 )
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path $PSScriptRoot -Parent
 $directory = Join-Path $workspace "artifacts/releases/$Tag"
 $manifest = Get-Content -LiteralPath (Join-Path $directory 'release-manifest.json') -Raw | ConvertFrom-Json
 $version = $Tag.Substring(1)
+$windowsVersion = if ($manifest.distributions.windows.displayVersion) { $manifest.distributions.windows.displayVersion } else { $version }
 $rootAssets = @($manifest.assets | ForEach-Object name) + @('release-manifest.json','SHA256SUMS.txt')
 $tvApks = @($manifest.assets | Where-Object { $_.name -like 'Telumia-TV-*.apk' } | ForEach-Object name)
 $definitions = @(
     @{repository='Pepeu2010/telumia';requiredNames=$rootAssets;allowAdditionalApks=$false},
     @{repository='Pepeu2010/telumia-desktop';requiredNames=@('Telumia-Windows-x64.msi','Telumia-desktop-source.zip','release-manifest.json','SHA256SUMS.txt');allowAdditionalApks=$false},
-    @{repository='Pepeu2010/telumia-tv';requiredNames=$tvApks+@("Telumia-Windows-x64-$version.msi",'Telumia-tv-source.zip');allowAdditionalApks=$true}
+    @{repository='Pepeu2010/telumia-tv';requiredNames=$tvApks+@("Telumia-Windows-x64-$windowsVersion.msi");allowAdditionalApks=$true}
 )
 if ($Scope -eq 'main') { $definitions = @($definitions | Where-Object repository -eq 'Pepeu2010/telumia') }
+if ($Scope -eq 'tv-main') { $definitions = @($definitions | Where-Object repository -in @('Pepeu2010/telumia','Pepeu2010/telumia-tv')) }
 $records = foreach ($definition in $definitions) {
     $raw = gh api "repos/$($definition.repository)/releases/tags/$Tag"
     if ($LASTEXITCODE -ne 0) { throw "Release unavailable: $($definition.repository)" }
@@ -39,7 +41,7 @@ $records = foreach ($definition in $definitions) {
     }
     if ($definition.repository -eq 'Pepeu2010/telumia') {
         $assetNames = @($release.assets | ForEach-Object name)
-        if ('Telumia-Windows-x64.msi' -notin $assetNames -or
+        if (@($assetNames | Where-Object { $_ -match '^Telumia-Windows-x64(?:-[0-9]+\.[0-9]+\.[0-9]+)?\.msi$' }).Count -ne 1 -or
             @($assetNames | Where-Object { $_ -like '*.apk' }).Count -lt 1) {
             throw 'The main Telumia release must contain both the Windows PC MSI and Android TV APKs.'
         }
@@ -53,7 +55,7 @@ $records = foreach ($definition in $definitions) {
     $assets = foreach ($assetName in $definition.requiredNames) {
         $asset = $release.assets | Where-Object name -eq $assetName | Select-Object -First 1
         if ($asset.state -ne 'uploaded') { throw "Release asset upload incomplete: $($definition.repository)/$assetName" }
-        $localName = if ($assetName -eq "Telumia-Windows-x64-$version.msi") { 'Telumia-Windows-x64.msi' } else { $assetName }
+        $localName = $assetName
         $local = Join-Path $directory $localName
         if (-not (Test-Path -LiteralPath $local)) { throw "Unexpected remote asset: $($asset.name)" }
         $file = Get-Item -LiteralPath $local
