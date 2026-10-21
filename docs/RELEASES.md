@@ -1,6 +1,14 @@
 # Releases da Telumia
 
-Toda release combinada deve listar os APKs Android TV e o instalador Windows PC na mesma página de Releases, com cada versão da plataforma identificada no nome do asset e nos checksums. O MSI Desktop `1.0.0` foi anexado também à release estável `v1.0.0` e às pré-releases `v1.0.1-alpha.1`, `.2` e `.3`. Os fluxos automatizados e o publicador legado exigem um MSI Desktop publicado ou fornecido e validam sua presença antes de criar a release; sem o pacote PC, a publicação é bloqueada.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, com cada versão de plataforma identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.1-alpha.4`, além da estável `v1.0.0`; onde faltava, o MSI Desktop `1.0.0` foi anexado e os checksums regenerados. Os fluxos de release validam a presença dos APKs e do pacote PC; sem ambos, a publicação é bloqueada. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
+
+## v1.0.1-alpha.4 — ranking compatível com HDR da tela
+
+A [pré-release Telumia](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.4) está publicada com APK universal, ARM64, ARMv7, MSI Windows x64 Telumia Desktop **1.0.0** e `SHA256SUMS.txt`. A versão de PC está indicada separadamente da versão Android TV e o manifesto cobre todos os quatro pacotes. O workflow [39521569001](https://github.com/Pepeu2010/telumia-tv/actions/runs/39521569001) passou os testes focados, compilou a instrumentação Android e montou os três APKs. Os hashes remotos dos APKs coincidem com os artefatos do CI; o MSI coincide com a release Desktop `v1.0.0`.
+
+A publicação pelo workflow [39522891457](https://github.com/Pepeu2010/telumia-tv/actions/runs/39522891457) validou os artefatos e o MSI, mas recebeu HTTP 403 ao criar uma nova release com `GITHUB_TOKEN`. A mesma release foi criada e publicada pela sessão GitHub autenticada, conferindo tamanhos e digests dos cinco assets. Os APKs são Full Debug assinados pela chave temporária do CI; pode ser preciso desinstalar uma versão anterior. HDR foi classificado pelo formato explicitamente anunciado e pelas capacidades atuais da tela/decoder; não houve reprodução/QA física em TV Box.
+
+As três releases antigas `v0.2.0-alpha.1`, `v0.2.1-alpha.1` e `v0.2.2-alpha.1` também foram completadas com o MSI Desktop 1.0.0 e checksums atualizados pelos workflows [39522956180](https://github.com/Pepeu2010/telumia-tv/actions/runs/39522956180), [39522267169](https://github.com/Pepeu2010/telumia-tv/actions/runs/39522267169) e [39522354193](https://github.com/Pepeu2010/telumia-tv/actions/runs/39522354193). O commit `3f6ee5e` corrige a leitura dos manifests CRLF antigos.
 
 ## v1.0.1-alpha.3 — seleção com inventário de decoder Android
 

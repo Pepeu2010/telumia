@@ -1,6 +1,6 @@
 # Source Intelligence
 
-Estado: **seleção declarativa inicial implementada na TV e no Desktop. O incremento de inventário de decoder Android e ranking por codec foi publicado na pré-release `v1.0.1-alpha.3`; o CI passou e os assets foram conferidos na página pública. QA nativa dos modos continua pendente.**
+Estado: **seleção declarativa inicial implementada na TV e no Desktop. `v1.0.1-alpha.4` acrescenta ranking pela compatibilidade HDR anunciada pela tela e pelo decoder Android; CI e release APK + MSI verificados. Bitstream real e QA física continuam pendentes.**
 
 Fonte: `repos/tv`, commit `f655a5802`, ampliando `StreamAutoPlaySelector`, `StreamAutoPlayPolicy`, `PlayerSettingsDataStore`, as configurações de reprodução e a lista de fontes existentes. Não cria outro player, repositório ou resolver.
 
@@ -27,13 +27,19 @@ O seletor mapeia aliases estruturados de AVC/H.264, HEVC/H.265, AV1, VP8/VP9, MP
 
 O auto-play da reprodução atual e do próximo episódio consome o mesmo snapshot; os cards exibem a contribuição de compatibilidade e distinguem suportado, somente software, não anunciado e desconhecido em português e inglês. Esses dados são anúncios do provider e do framework Android: não provam que o bitstream real esteja íntegro, que o player selecionará aquele decoder, nem que HDR, áudio, legendas ou rede serão compatíveis. A lógica ainda não executa pre-flight real nem failover.
 
+## Incremento TV de compatibilidade HDR anunciada
+
+No commit `b867f3713`, a TV consulta sob demanda os formatos HDR anunciados pela tela ativa (HDR10, HDR10+, HLG e Dolby Vision, respeitando a disponibilidade por versão Android). Ausência de informação continua distinta de uma lista conhecida sem suporte HDR. O seletor reconhece somente declarações estruturadas do parser para HDR10, HDR10+, HLG ou Dolby Vision; a palavra genérica `HDR` não vira evidência de formato. A pontuação requer suporte exato ao formato declarado, sem presumir que HDR10 cubra HDR10+.
+
+Uma fonte que declara um formato HDR não anunciado pela tela recebe penalidade de -400 e continua disponível como fallback; metadado ausente ou inventário desconhecido permanece neutro. Dolby Vision também exige decoder anunciado pelo Android. A mesma lógica passa pelo ranking de fontes, auto seleção e próximo episódio. Isso não mede o bitstream, não prova que o playback use o decoder reportado e não inclui pre-flight nem failover. `v1.0.1-alpha.4` foi gerada pelo CI `39521569001`; os assets públicos incluem APK universal/ARM64/ARMv7 e MSI Desktop 1.0.0 com SHA-256 conferidos. Não houve QA em dispositivo HDR.
+
 ## Persistência e conta
 
 Os modos novos usam `telumia_source_mode_v1` no DataStore existente de cada perfil. Não substituem silenciosamente `stream_auto_play_mode` compartilhado com o cliente original. Selecionar Manual/Primeira fonte/Regex remove o override local e atualiza a preferência legada. O filtro de configurações remotas exclui a chave nova em envio e recepção; não anuncia que o cliente oficial conhece esses modos.
 
 ## Resultados de verificação
 
-O build inicial `telumia-tv-source-ranking-r1` encontrou e levou à correção de um fallback de locale em teste JVM; o CI remoto `39329340039` confirmou a correção. Para este incremento, o workflow [39509908598](https://github.com/Pepeu2010/telumia-tv/actions/runs/39509908598) concluiu com sucesso os testes focados, a compilação dos testes instrumentados e os três APKs Full Debug. O release publisher [39511555672](https://github.com/Pepeu2010/telumia-tv/actions/runs/39511555672) validou a origem dos artefatos, o MSI Desktop 1.0.0 e publicou `v1.0.1-alpha.3` com APK universal, ARM64, ARMv7, MSI e `SHA256SUMS.txt`. QA nativa dos novos modos continua pendente.
+O build inicial `telumia-tv-source-ranking-r1` encontrou e levou à correção de um fallback de locale em teste JVM; o CI remoto `39329340039` confirmou a correção. Para alpha.3, o workflow [39509908598](https://github.com/Pepeu2010/telumia-tv/actions/runs/39509908598) passou os testes focados, compilou instrumentação e gerou os APKs; o publisher [39511555672](https://github.com/Pepeu2010/telumia-tv/actions/runs/39511555672) publicou APKs e MSI Desktop 1.0.0. Para HDR, [39521569001](https://github.com/Pepeu2010/telumia-tv/actions/runs/39521569001) passou testes, compilou instrumentação e gerou APKs; a [pré-release v1.0.1-alpha.4](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.4) publica APK universal/ARM64/ARMv7, MSI 1.0.0 e SHA256SUMS. O fluxo [39522891457](https://github.com/Pepeu2010/telumia-tv/actions/runs/39522891457) recebeu HTTP 403 ao criar a release, que foi publicada depois pela sessão GitHub autenticada após validar os hashes dos quatro binários. QA nativa dos modos continua pendente.
 
 As regressões de TV cobrem escolha independente da ordem, qualidade versus equilíbrio, preferência por arquivos pequenos conhecidos, exclusão de páginas externas/debrid indisponível, empate com dados desconhecidos, filtros de addon, limites numéricos, isolamento da chave em sync e persistência/recriação/troca de perfil sem alterar o modo compartilhado. Seu run aprovado está registrado acima; QA nativa continua separada.
 
