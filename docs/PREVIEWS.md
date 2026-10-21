@@ -12,7 +12,13 @@ Cinco testes verificam ownership, timeout, falhas e propagação de cancelamento
 
 ![Popup real durante resolução controlada](evidence/telumia-hover-lifecycle/desktop-static-pending-preview.png)
 
-**Limite Windows:** a política herdada ainda define trailers externos, e a implementação Windows de `HeroTrailerPlayerSurface` permanece vazia. O teste de cancelamento injeta explicitamente a capacidade de resolver trailers; não habilita a reprodução Windows no produto. Habilitar essa política sem implementar e validar a superfície nativa produziria uma funcionalidade falsa. A reprodução embutida Windows continua pendente, usando o motor existente como fundação.
+**Limite da entrega inicial:** a política herdada já resolvia trailers no Windows, mas o stub de `HeroTrailerPlayerSurface` não os reproduzia. O teste de cancelamento daquela rodada injetava a capacidade de resolver trailers; não habilitava a superfície nativa. A continuação Windows abaixo substitui o stub pelo player libmpv existente; vídeo real e revisão visual ainda são gates separados.
+
+### Continuação Windows — superfície inline com libmpv
+
+`HeroTrailerPlayerSurface` no Windows agora monta o host AWT existente e usa `NativePlayerController`/libmpv. O bridge omite WebView2 e os controles completos nesse modo; a reprodução só começa depois de carregar a duração, aplica mute antes do play e descarta a superfície se o carregamento exceder 12 segundos. A política herdada de previews silenciosos é preservada. Se o usuário habilitar som mas o resolver entregar vídeo e áudio separados, o card retorna à arte em vez de tocar um preview sem a faixa de áudio correta. A proporção `Fit`/`Fill` é temporária e não muda a preferência global do player.
+
+No Windows, `buildWindowsPlayerBridge`, `compileKotlinDesktop`, `desktopJar` e a classe de ciclo de vida `NativePlayerControllerTeardownTest` passaram; **24 testes, zero falhas/erros/skips**, incluindo a verificação de que a sessão inline não solicita WebView de controles. Ainda faltam um MSI produzido para esta revisão, captura com vídeo real no Windows, confirmação de primeiro frame, URLs reais de trailer e validação visual nas superfícies Home e detalhes. Esta implementação não foi incluída na release pública atual.
 
 Tentativas anteriores com erro de compilação do teste, timeout e condição de capacidade estão preservadas em `artifacts/`; não são usadas como gate aprovado. O teste final aguarda a recomposição e simula a transferência real do ponteiro para o popup.
 
