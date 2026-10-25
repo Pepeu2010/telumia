@@ -353,3 +353,37 @@ O QA usa um perfil local no emulador, sem conta/sync/playback, medição de FPS,
 TV Box física, todos os temas ou a condição de rodapé com múltiplos perfis.
 Não é prova de motion global, redesign completo ou de todas as rotas do app.
 Este incremento permanece fora da alpha.2 e 1-A continua aberto.
+
+## Continuação 1-A: indicador de carregamento sem loop em movimento reduzido
+
+O helper existente do indicador Desktop criava uma transição infinita sempre
+que a tela estava ativa, ignorando a política de movimento já disponível. Agora
+ele só mantém a animação quando a tela está ativa e a política permite efeitos
+espaciais. Em Reduzido/Desligado, o arco existente continua visível e estático;
+voltar para Completo retoma a animação. Não foi introduzido outro spinner,
+preferência ou estado de movimento.
+
+O teste novo usa o runtime Compose e BroadcastFrameClock: confirmou avanço em
+Completo, ausência de avanço e de awaiters em Reduzido/Desligado, e retomada em
+Completo. O teste direcionado passou. A suíte Desktop alterada contou 1.620
+testes, 38 falhas herdadas, zero erros e 5 ignorados; a base limpa contou 1.619,
+as mesmas 38 falhas e os mesmos 5 ignorados. Os IDs das falhas são idênticos.
+O alvo de testes completo ainda retorna erro por essas falhas preexistentes.
+
+O MSI Windows foi gerado pelo empacotador existente: 210.886.760 bytes, SHA-256
+04AFEB1A48F38D9B7CA92EEDE6CEFA72A318074FF29A808FDB93932278BBBDC3. Ele cresceu
+4.096 bytes em relação ao MSI de base (210.882.664 bytes). A instalação e a
+substituição de uma versão anterior não foram exercitadas neste incremento.
+
+O cliente TV não teve alteração de código. A suíte executou 2.052 testes; as
+13 falhas atuais são subconjunto das 20 registradas no baseline, sem falhas
+novas, com 1 ignorado. assembleFullDebug gerou os cinco APKs debug: universal
+179.958.681 bytes, arm64 92.987.439, armeabi-v7a 90.885.853, x86_64 95.407.958
+e x86 94.568.093. São artefatos internos de verificação e não foram publicados.
+
+Esta medição comprova que o indicador não agenda frames contínuos quando os
+efeitos espaciais estão desligados; não mede FPS, consumo total, playback ou
+ausência de freezes no app inteiro. 1-A continua aberto e este incremento ainda
+não integra release pública. O código Desktop está no commit
+73fa1ac2dc44bcfefb95034dd260906b1429830d; o [PR #1](https://github.com/Pepeu2010/telumia-desktop/pull/1)
+está aberto sobre a branch de trabalho imediatamente anterior, sem merge.

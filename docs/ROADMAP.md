@@ -7,7 +7,7 @@ para trocar stack, login/backend, remover recursos ou publicar como oficial.
 
 ## Estado desta execução
 
-Estado mais recente: a release combinada `v1.0.2-alpha.3` foi publicada em 25/10/2026 com cinco APKs TV/TV Box e o MSI Windows Desktop `1.0.0`; os 10 assets foram verificados na [página de releases](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.2-alpha.3). O Phone Remote R1 da Fase 8 foi integrado ao cliente Android TV: servidor LAN opt-in, QR/código temporário, aprovação explícita na TV e comandos ao player/navegação. Três classes focadas passaram localmente e o workflow [40233135869](https://github.com/Pepeu2010/telumia/actions/runs/40233135869) passou os testes Live TV/Phone Remote, build, conferência do MSI e publicação. O AVD Android TV API 30/1080p também confirmou upgrade WebSocket, pedido na TV, aprovação por D-pad, estado `paired`, comando autenticado `back` e revogação ao desligar; navegador móvel, aparelhos separados e QA físico continuam pendentes ([registro sanitizado](PHONE_REMOTE_RUNTIME_QA_API30.json)). A release de PC é identificada separadamente e usa o último MSI estável Desktop disponível; a automação não recompila o Desktop quando só o cliente TV muda. [Detalhes e limitações do Phone Remote](PHONE_REMOTE.md), [Live TV](LIVE_TV.md), [timed metadata](TIMED_METADATA.md), [releases](RELEASES.md).
+Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10/2026 com cinco APKs TV/TV Box, o MSI Windows Desktop `1.0.2-alpha.1` (ProductVersion `2.0.1`), fontes, manifestos e checksums; os nove hashes foram conferidos contra os assets da [página de releases](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.2-alpha.4), e o workflow [40242583495](https://github.com/Pepeu2010/telumia/actions/runs/40242583495) passou. O Phone Remote R1 da Fase 8 foi integrado ao cliente Android TV: servidor LAN opt-in, QR/código temporário, aprovação explícita na TV e comandos ao player/navegação. O AVD Android TV API 30/1080p confirmou upgrade WebSocket, pedido na TV, aprovação por D-pad, estado `paired`, comando autenticado `back` e revogação ao desligar; navegador móvel, aparelhos separados e QA físico continuam pendentes ([registro sanitizado](PHONE_REMOTE_RUNTIME_QA_API30.json)). A release de PC é identificada separadamente; o workflow não recompila o Desktop quando só o cliente TV muda. [Detalhes e limitações do Phone Remote](PHONE_REMOTE.md), [Live TV](LIVE_TV.md), [timed metadata](TIMED_METADATA.md), [releases](RELEASES.md).
 
 - Histórico da `v1.0.2-alpha.1`: foram preparados localmente um MSI Windows x64 e cinco APKs Android TV para Scene Info R1; essa versão não foi publicada no repositório principal. A sequência de versões combinadas foi retomada na `v1.0.2-alpha.2`, publicada em 25/10/2026. A preparação alpha.1 passou 24 testes Desktop e 5 TV; [detalhes](RELEASES.md).
 
@@ -52,6 +52,15 @@ Estado mais recente: a release combinada `v1.0.2-alpha.3` foi publicada em 25/10
   retorno às categorias/Home e persistência do estilo passaram no APK instalado
   em Android TV API 36. Demais superfícies e QA global continuam pendentes;
   1-A permanece aberto, fora da alpha.2.
+- Continuação 1-A Desktop: o indicador de carregamento agora respeita a política
+  existente e não mantém transição infinita em Reduzido/Desligado. Teste com
+  BroadcastFrameClock confirmou pausa sem awaiters e retomada em Completo. A suíte
+  completa teve as mesmas 38 falhas da base (1.620 testes após incluir o teste
+  novo); MSI cresceu 4 KiB. Sem código TV alterado: 2.052 testes, 13 falhas todas
+  herdadas do conjunto de 20 do baseline, cinco APKs debug compilados. Não é QA
+  de performance física nem release pública; 1-A permanece aberto. O código está
+  no commit Desktop 73fa1ac2 e no [PR #1](https://github.com/Pepeu2010/telumia-desktop/pull/1).
+  [Detalhes e limites](NATIVE_FOUNDATION.md).
 
 - Home: incremento nativo validado com 44 testes Desktop, 72 TV e 27 testes de componentes no emulador. [Entrega parcial](TELUMIA_HOME.md).
 - 2-A: timeline temporal, providers limitados e adapter dos skips integrados aos players; 93 testes Desktop, 83 TV e nove testes nativos TV aprovados. Capítulos embutidos foram ligados à timeline Desktop/libmpv e TV/Media3 em incrementos posteriores. A entrega inicial de Scene Info R1 veio depois, sobre essa base; bookmarks têm incrementos próprios. [Fundação e Scene Info R1](TIMED_METADATA.md), [capítulos](EMBEDDED_CHAPTERS.md).
