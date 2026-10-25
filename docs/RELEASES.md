@@ -2,6 +2,14 @@
 
 Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.1`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
 
+## v1.0.2-alpha.1 — pacote preparado
+
+Os dez assets foram gerados e verificados localmente para uma pré-release combinada de Scene Info R1. **Ainda não publicada:** não há release nem tag `v1.0.2-alpha.1` no GitHub. A conexão GitHub desta sessão permite atualizar arquivos e branches, mas não oferece criação de releases ou upload de binários; o GitHub CLI e uma credencial local de publicação também não estão disponíveis. O conjunto pronto para upload está em `artifacts/releases/v1.0.2-alpha.1/`.
+
+O pacote contém MSI Windows x64 do Desktop 1.0.2-alpha.1 (ProductVersion técnico 2.0.1) e cinco APKs Android TV Full Debug (universal, ARM64, ARM32, x86_64 e x86; versionCode 10006), mais dois arquivos de fonte, manifesto e checksums. O MSI não tem assinatura Authenticode; os APKs usam certificado de desenvolvimento e podem exigir desinstalação se a chave instalada for diferente.
+
+Fontes compiladas: Desktop `3e7894659e7489772b06520e89776f3dc040ffe2`; TV `f3809b4027f91262732e722842b7c0bec2111c36`. Passaram 24 testes direcionados Desktop e 5 testes direcionados TV; `packageReleaseMsi`, `assembleFullDebug` e a compilação dos testes instrumentados Android passaram. Instrumentação TV, instalação, reprodução com mídia real e TV Box física não foram testadas nesta rodada. [Resultados](telumia-v102-alpha1-results.json), [inspeção dos pacotes](telumia-v102-alpha1-package-inspection.json), [notas preparadas](v1.0.2-alpha.1-release-notes.md).
+
 ## v1.0.1 — estável
 
 As releases regulares [Telumia 1.0.1 no repositório principal](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.1) e [Telumia TV 1.0.1](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1) estão publicadas como Latest, sem marca de pré-release. Ambas incluem APK universal, ARM64, ARM32, x86_64 e x86, além do MSI Windows. O Android usa `versionName` 1.0.1 e `versionCode` 10005. O MSI é o pacote estável Desktop 1.0.0 já publicado em [Telumia Desktop v1.0.0](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.0); esta entrega não altera o cliente PC. O verificador agora permite que a versão PC tenha numeração própria, distinta da tag agregada.
@@ -181,3 +189,4 @@ consultam seus forks específicos; esta entrega está na aba Releases central.
 
 A publicação usa um rascunho até todos os assets terem tamanho/hash conferidos.
 Só depois o rascunho é publicado como pré-release.
+

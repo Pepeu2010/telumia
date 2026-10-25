@@ -9,6 +9,8 @@ para trocar stack, login/backend, remover recursos ou publicar como oficial.
 
 Estado mais recente: a release regular `v1.0.1` está publicada como “Latest”; a TV tem APKs para cinco ABIs e o MSI anexado é o Desktop `1.0.0`. A pré-release anterior `v1.0.1-alpha.4` considera HDR da tela no ranking de fontes. Depois da estável, o incremento R1 da Fase 6 implementa mini-player e troca rápida de canais na TV no commit GitHub `09272944db0b039d4eac2ae102af9775fa0a937a`, branch `codex/live-tv-mini-player`; o commit `2e31287521565d3e746767b9a5e7200f003e2773` corrige contraste da interface e casos-limite do cache EPG. Passaram 9 testes de política/rota, 4 unitários de cache, 1 instrumentado de substituição atômica no Android e 6 testes instrumentados visuais/D-pad em AVD Android TV API 30 1080p; `assembleFullDebug` passou. A QA do componente já foi feita, mas a integração ponta a ponta com fonte/stream autorizado, revisão do PR draft e validação em TV Box física continuam pendentes. As releases públicas de `v0.2.0-alpha.1` até `v1.0.1` têm APK e pacote PC na mesma página; esta entrega TV-only não cria uma release combinada. Builds `1.0.0` anteriores passaram 279 testes selecionados PC, 214 TV, 1.092 verificações do renderer, dez casos nativos de frames e startup real em APIs 24/36. Conta oficial autenticada, build PC correspondente e medição física continuam pendentes; a meta integral segue aberta. [Entrega e limites](VERSION_100.md), [publicação](RELEASES.md), [Live TV](LIVE_TV.md), [capítulos](EMBEDDED_CHAPTERS.md), [seek TV](TV_TIMELINE_SEEK.md), [desempenho TV](TV_PERFORMANCE.md).
 
+- Pacotes Telumia 1.0.2-alpha.1 preparados localmente: MSI Windows x64 e cinco APKs Android TV, todos identificados por versão e SHA-256. 24 testes Desktop e 5 TV passaram; os pacotes passaram inspeção estática. A publicação GitHub continua pendente porque esta sessão não dispõe da API de upload de releases nem de autenticação local do GitHub CLI. Nenhuma release pública ou tag foi criada. Scene Info R1 vem dos commits Desktop `3e7894659e7489772b06520e89776f3dc040ffe2` e TV `f3809b4027f91262732e722842b7c0bec2111c36`; detalhes e limites em [RELEASES.md](RELEASES.md).
+
 - Checkouts oficiais dos seis projetos concluídos e commits registrados.
 - Auditoria estática e matriz de lacunas/contratos produzidas.
 - Builds baseline Desktop e TV executados em fontes sem alterações. MSI e APKs
@@ -132,3 +134,4 @@ Funções secundárias do documento original — busca Ctrl+K, histórico visual
 Escolha para mim, Guest/Kids, webcam/animated avatars, Cinema/Living Room/Ambient
 Mode — recebem incrementos próprios, preservando seu comportamento/capability.
 Nunca anunciá-las como prontas antes de implementação/QA.
+
