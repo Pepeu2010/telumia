@@ -62,3 +62,22 @@ completa observada anteriormente, 2.051 testes terminaram com 13 falhas e um
 teste ignorado em módulos alheios ao Phone Remote; não foi estabelecido que essas
 falhas sejam preexistentes. O interceptor de rota do Ktor também emite um aviso
 de depreciação durante a compilação.
+
+## QA runtime em Android TV AVD
+
+Em 25/10/2026, o fluxo foi exercitado no AVD `AOSP_TV_on_x86`, API 30, em
+1920×1080. Um cliente WebSocket de protocolo executado pelo shell do próprio
+emulador (não um celular nem um navegador real) abriu a conexão com o Host e o
+Origin esperados. A TV exibiu o pedido `Telumia QA`; a aprovação feita pelo
+D-pad mudou o estado da interface para sessão ativa e o cliente recebeu
+`pairing_pending` seguido de `paired`. Depois, o cliente enviou `back` na sessão
+autenticada e a navegação da TV voltou ao painel de Integrações. O Phone Remote
+foi desligado ao final e a tela confirmou o estado inativo, revogando a sessão.
+
+O registro sanitizado está em
+[`PHONE_REMOTE_RUNTIME_QA_API30.json`](PHONE_REMOTE_RUNTIME_QA_API30.json).
+Código temporário, token e quadros binários foram removidos após a execução.
+Esta verificação comprova integração runtime TV/servidor/socket/pareamento/D-pad
+dentro do AVD; não comprova o JavaScript da página em navegador de celular, a
+conexão entre aparelhos distintos pela rede local, nem comportamento em TV Box
+ou celular físicos.

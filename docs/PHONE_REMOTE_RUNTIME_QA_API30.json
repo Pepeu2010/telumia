@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-25",
+  "device": "AOSP_TV_on_x86",
+  "apiLevel": 30,
+  "resolution": "1920x1080",
+  "client": "Protocol WebSocket client executed inside the emulator guest; no physical phone or browser",
+  "observations": {
+    "upgradeStatus": 101,
+    "serverEvents": [
+      "pairing_pending",
+      "paired"
+    ],
+    "tvShowedPendingRequest": true,
+    "approvalInput": "D-pad",
+    "authenticatedCommand": "back",
+    "postCommandScreen": "Integrations",
+    "remoteDisabledAfterRun": true,
+    "ephemeralCodeTokenAndFramesRemoved": true
+  },
+  "notCovered": [
+    "Phone browser JavaScript UI",
+    "Communication between separate physical devices over LAN",
+    "Physical Android TV or TV Box behavior"
+  ]
+}
