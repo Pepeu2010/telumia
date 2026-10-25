@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-25T15:23:15.233Z" hostname="DESKTOP-02CKMVK" time="0.015">
+  <properties/>
+  <testcase name="accumulatesFramesEmittedAcrossPlaybackMetadataCallbacks" classname="com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest" time="0.008"/>
+  <testcase name="extractsNamedChaptersWithSourceProvenanceAndTimes" classname="com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest" time="0.006"/>
+  <testcase name="resetsEventsWhenPlaybackIdentityChanges" classname="com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest" time="0.0"/>
+  <testcase name="ignoresInvalidTimesAndFramesOutsideKnownDuration" classname="com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

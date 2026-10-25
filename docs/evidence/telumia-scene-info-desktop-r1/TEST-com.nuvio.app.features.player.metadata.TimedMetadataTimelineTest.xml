@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TimedMetadataTimelineTest[desktop]" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-25T14:52:17.624Z" hostname="DESKTOP-02CKMVK" time="0.069">
+  <properties/>
+  <testcase name="overlappingIntervalsAndAdjacentBoundariesRemainCorrectDuringForwardAndBackwardSeek[desktop]" classname="com.nuvio.app.features.player.metadata.TimedMetadataTimelineTest" time="0.0"/>
+  <testcase name="existingSkipDataIsAdaptedWithoutInventingConfidenceAndClampedToMediaDuration[desktop]" classname="com.nuvio.app.features.player.metadata.TimedMetadataTimelineTest" time="0.003"/>
+  <testcase name="providerFailuresAreIsolatedAndPayloadsCannotImpersonateTrustedProviders[desktop]" classname="com.nuvio.app.features.player.metadata.TimedMetadataTimelineTest" time="0.064"/>
+  <testcase name="sceneClaimsRequireKnownEditionTrustedSourceAndExplicitConfidence[desktop]" classname="com.nuvio.app.features.player.metadata.TimedMetadataTimelineTest" time="0.0"/>
+  <testcase name="lifecycleCancellationIsNeverConvertedIntoAProviderFailure[desktop]" classname="com.nuvio.app.features.player.metadata.TimedMetadataTimelineTest" time="0.001"/>
+  <testcase name="malformedUnboundedAndDuplicateInputCannotBreakTheIndexOrExceedCapacity[desktop]" classname="com.nuvio.app.features.player.metadata.TimedMetadataTimelineTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

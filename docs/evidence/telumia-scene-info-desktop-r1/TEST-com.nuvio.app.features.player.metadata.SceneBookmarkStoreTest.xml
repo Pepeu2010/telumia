@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="SceneBookmarkStoreTest[desktop]" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-10-25T14:52:14.036Z" hostname="DESKTOP-02CKMVK" time="3.576">
+  <properties/>
+  <testcase name="projectsRealTimestampIntoExistingTimelineAndOmitsOutOfDurationPoints[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.016"/>
+  <testcase name="renamesAndRemovesOnlyTheSelectedId[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.048"/>
+  <testcase name="failedAtomicPublicationPreservesPreviousDataAndCleansTemporaryFile[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.024"/>
+  <testcase name="momentsFromOtherCutsStayAccessibleWithoutBeingProjectedAsCurrentCut[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.042"/>
+  <testcase name="capacityRefusesNewDataWithoutEvictingDurableMoments[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="3.345"/>
+  <testcase name="invalidPositionsAndLabelsCannotReplaceExistingData[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.013"/>
+  <testcase name="separatesAccountsProfileGenerationsEpisodesAndCuts[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.017"/>
+  <testcase name="persistsExactMomentsAcrossRecreationWithoutStoringSourceTokens[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.028"/>
+  <testcase name="idsCannotBecomePathsAndOccupiedOwnerDirectoryIsRefused[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.02"/>
+  <testcase name="futureAndMalformedDocumentsAreNeverOverwritten[desktop]" classname="com.nuvio.app.features.player.metadata.SceneBookmarkStoreTest" time="0.022"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
