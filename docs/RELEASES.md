@@ -1,6 +1,14 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.2-alpha.3`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.2-alpha.4`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+
+## v1.0.2-alpha.4 — assinatura persistente e pacotes combinados
+
+A [pré-release combinada](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.2-alpha.4) foi publicada pelo workflow [40242583495](https://github.com/Pepeu2010/telumia/actions/runs/40242583495). A página contém cinco APKs Full Debug para Android TV/TV Box (universal, ARM64, ARM32, x86_64 e x86), o MSI Windows x64, fontes das duas plataformas, manifesto e SHA256SUMS. Os 9 arquivos cobertos por SHA256SUMS conferem com os digests dos assets publicados no GitHub; o APK ARM64 baixado da release também confere com o SHA listado.
+
+Fonte Android TV: commit `e1e7d992c4ee1d9ccf9904e0ef54b0e8f23efd2f`, `versionName` `1.0.2-alpha.4` e `versionCode` `10009`. Os APKs Full são assinados com a chave persistente do CI, cujo certificado tem SHA-256 `a8e12bfa1adfe087baa573b27a77e07902b73ea707b3a9b82635206c725ecdd9`; ela mantém compatibilidade entre releases futuras. **Quem ainda usa o APK Android 1.0.0 precisa fazer uma migração única removendo a instalação antiga antes de instalar este APK**, porque os certificados são diferentes e a chave privada da assinatura antiga não foi recuperada. Remover o app pode apagar dados locais; confirme a sincronização ou faça backup antes. Para detalhes, veja a auditoria de compatibilidade abaixo.
+
+O pacote PC é `Telumia-Windows-x64-1.0.2-alpha.1.msi`, `ProductVersion` `2.0.1`, da [release Desktop v1.0.2-alpha.1](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.2-alpha.1). Ele avança sobre o `ProductVersion` `2.0.0` do MSI 1.0.0 e mantém o mesmo `upgradeUuid`; portanto, foi preparado para atualizar a instalação existente pelo Windows Installer. A substituição sobre uma instalação 1.0.0 não foi exercitada numa máquina Windows nesta entrega.
 
 ## v1.0.2-alpha.3 — Phone Remote R1
 
