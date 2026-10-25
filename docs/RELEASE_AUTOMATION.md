@@ -1,22 +1,27 @@
 # Automação das releases de plataformas
 
 O workflow `.github/workflows/platform-release.yml` gera uma release combinada
-no repositório principal `Pepeu2010/telumia`. Ele acompanha diariamente a versão
-do cliente Android TV no branch `codex/live-tv-mini-player`; ao encontrar uma
-versão ainda não publicada, executa os testes focados de Live TV e Phone Remote,
-compila os cinco APKs Full Debug e combina o instalador Windows x64 da release
-estável mais recente do repositório Desktop, junto aos arquivos-fonte
-correspondentes das duas plataformas. Também pode ser executado manualmente
-com outro branch/commit, versão Desktop ou modo `build-only`.
+no repositório principal `Pepeu2010/telumia`. A cada seis horas, ele consulta o
+branch `codex/live-tv-mini-player` do cliente Android TV e a release publicada
+mais recente do repositório Desktop, incluindo pré-releases. Compara os commits e a tag Desktop com o último
+manifesto combinado publicado. Quando encontra uma mudança, executa os testes
+focados de Live TV e Phone Remote, compila os cinco APKs Full Debug, inclui o MSI
+Windows x64 correspondente e arquiva os fontes das duas plataformas. Sem
+mudanças, encerra sem duplicar ou substituir arquivos. Também pode ser executado
+manualmente com outro branch/commit, versão Desktop ou modo `build-only`.
 
-Cada publicação usa `versionName`/`versionCode` Android e registra à parte a
-versão do MSI. O fluxo não substitui uma release existente. Uma atualização
-publicável exige incrementar `versionName` e `versionCode` no cliente TV. O
-workflow é agendado diariamente às 06:30 UTC e permite execução manual pela
-interface Actions. Uma nova versão TV é selecionada no próximo ciclo diário,
-desde que a versão Android tenha sido incrementada; o job também pode ser
-iniciado manualmente para publicar sem aguardar o ciclo. Um push na `main` que
-altere o próprio arquivo do workflow também inicia uma execução.
+Cada publicação recebe um `versionName` Android maior que o da release
+combinada anterior. Se o cliente TV já tiver avançado sua versão, ela é
+preservada; se não, a automação incrementa o contador de pré-lançamento (ou abre
+a próxima `alpha` após uma versão estável). O `versionCode` também é maior que o último
+publicado, permitindo instalar a atualização sobre o mesmo pacote. Esses dois
+valores são aplicados apenas ao checkout temporário de CI; o arquivo de fonte
+continua representando o commit upstream sem alterações e o manifesto registra
+a versão exata incluída nos APKs. A versão/tag do MSI é registrada à parte. A
+release combinada fica marcada como pré-release se qualquer uma das plataformas
+estiver em pré-lançamento.
+Releases existentes permanecem intactas. Um push na `main` que altere o próprio
+arquivo do workflow também inicia uma execução.
 
 Antes de criar a release, o workflow valida os nove grupos de testes Live TV e
 os três grupos de Phone Remote,
@@ -34,6 +39,6 @@ configurações de Actions. Se a configuração impedir esse acesso, o build ain
 fica disponível como artefato do run, mas a publicação não ocorre.
 
 Os APKs são builds Full Debug assinados com chave de desenvolvimento; não são
-pacotes de loja. A versão Windows vem da última release estável Desktop, salvo
+pacotes de loja. A versão Windows vem da última release Desktop publicada, salvo
 quando uma versão é indicada na execução manual. A validação e os limites da
 release publicada ficam documentados em `docs/RELEASES.md`.
