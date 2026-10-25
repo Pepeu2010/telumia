@@ -112,6 +112,9 @@ os repositórios GitHub em 2026-10-04; releases instaláveis terão gates própr
 Toda release instalável da Telumia deve apresentar no mesmo release os pacotes
 Android APK e Windows PC MSI. O workflow de publicação valida que ambos estão
 presentes e enviados; se faltar qualquer um, a release não passa pela verificação.
+Cada milestone também deve revisar desempenho nos dois clientes, PC e APK,
+comparando os caminhos afetados com a referência anterior e corrigindo regressões
+antes de concluir a fase. Fluidez não fica acumulada para uma otimização final.
 
 A Fase 2 fornece `TimedMetadata` genérica com media/episode identity, intervalo
 ou instante, tipo, origem e dados do item; providers Scene Info entram depois.
@@ -129,8 +132,21 @@ somente storybook/previews/testes internos até haver implementação real na Fa
 Baseline limpo não é aceitação de produto. Usar fixtures de protocolo locais,
 fontes autorizadas e medições separadas. Visual QA: Desktop 1366x768, 1080p,
 1440p e 4K; TV 720p, 1080p e 4K, texto grande/overscan/foco.
-Meta de navegação 60 FPS e focus p95 abaixo de 100 ms; medir aparelho/contexto.
-Emulador não demonstra performance de TV Box, HDR nem hardware decoder.
+Meta de navegação 60 FPS e foco p95 abaixo de 100 ms; medir aparelho/contexto.
+Para cada milestone, registrar antes/depois nos dois clientes com métricas
+pertinentes ao caminho alterado: tempo de início/carregamento, resposta e
+cadência da interface, jank, CPU, memória, crash/ANR e tamanho dos pacotes; no
+player, acrescentar latência de seek e frames perdidos. Crash, ANR ou freeze
+reproduzível introduzido pelo incremento precisa ser corrigido antes de concluir
+a fase. Comparar o mesmo cenário e condições. PC e APK mantêm baselines separados.
+Para Android, incluir a referência
+de TV Box com 2 GiB / 1080p sempre que houver dispositivo disponível; no Windows,
+registrar o hardware usado. Build, testes unitários ou emulador não demonstram
+fluidez numa TV Box/PC físico. Quando não houver hardware disponível, documentar
+a lacuna e limitar a conclusão à evidência obtida, sem chamar desempenho físico
+de comprovado. Evitar trabalho sem limite, decodificações/preloads concorrentes
+desnecessários e tarefas antigas que continuam após navegação; adaptar cache,
+previews, imagens e motion às capacidades do aparelho.
 
 Funções secundárias do documento original — busca Ctrl+K, histórico visual,
 Escolha para mim, Guest/Kids, webcam/animated avatars, Cinema/Living Room/Ambient

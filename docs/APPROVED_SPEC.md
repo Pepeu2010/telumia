@@ -92,6 +92,28 @@ real sources and physical devices require explicit evidence, never invented
 results. Preserve copyright, licenses, notices and corresponding source for
 distributed modifications.
 
+## Desempenho contínuo — requisito vigente em 2026-10-25
+
+Cada fase e atualização deve manter os clientes Windows PC e Android TV leves,
+responsivos e estáveis. Tratar desempenho como gate de cada milestone, não como
+uma etapa final: comparar antes/depois nos fluxos afetados, limitar trabalho e
+concorrência especulativos, cancelar tarefas obsoletas e adaptar previews,
+cache, imagens e animações às capacidades detectadas. A referência de TV Box
+continua sendo 2 GiB / 1080p; no PC, registrar o hardware e as condições da
+medição em vez de presumir uma máquina de referência.
+
+Em cada milestone, compilar os dois clientes e revisar regressões nas métricas
+pertinentes: inicialização e resposta da interface, frame pacing/jank, CPU e
+memória; no player, também frames perdidos e latência de seek; nos pacotes,
+tamanho de APK/MSI. Manter como metas de navegação 60 FPS e foco p95 abaixo de
+100 ms onde aplicável. Testes unitários, build ou emulador sozinhos não provam
+fluidez em hardware físico. Se o dispositivo real não estiver disponível,
+registrar essa limitação e não declarar a otimização comprovada. Corrigir
+regressões mensuráveis antes de fechar a fase ou documentá-las como bloqueio
+concreto, com evidência e próximo passo. Crash, ANR ou freeze reproduzível
+introduzido pela fase impede sua conclusão até correção; problemas herdados devem
+continuar identificados e não podem ser mascarados como resultado desta fase.
+
 ## Atualização de prioridade — 2026-10-05
 
 O objetivo integral foi reforçado pelo usuário: interface sofisticada nos filmes e experiência contextual semelhante ao conceito do Prime Video, superior ao cliente de origem em funcionalidades. A marca definitiva é Telumia. Os critérios existentes continuam válidos: informação contextual confiável, sem scraping IMDb nem alegações de atores presentes em cena inferidas a partir do elenco geral. A entrega continua incremental com compilação, testes e evidências; releases parciais não encerram a meta integral.
