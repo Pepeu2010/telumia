@@ -50,34 +50,20 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Check out the Android TV source
-        uses: actions/checkout@v6
-        with:
-          repository: Pepeu2010/telumia-tv
-          ref: ${{ github.event.inputs.tv_ref || 'codex/live-tv-mini-player' }}
-          path: repos/tv
-          lfs: true
-          persist-credentials: false
-
-      - name: Add temporary metadata for the upstream submodule gitlink
-        working-directory: repos/tv
+      - name: Fetch the Android TV source without initializing submodules
         shell: bash
         run: |
           set -euo pipefail
-          if [[ ! -f .gitmodules ]]; then
-            git config --file .gitmodules submodule.libmpv-android.path libmpv-android
-            git config --file .gitmodules submodule.libmpv-android.url https://github.com/jarnedemeulemeester/libmpv-android.git
-            printf '%s\n' '.gitmodules' >> .git/info/exclude
+          git init repos/tv
+          git -C repos/tv remote add origin https://github.com/Pepeu2010/telumia-tv.git
+          if [[ "${TV_REF}" =~ ^[a-f0-9]{40}$ ]]; then
+            git -C repos/tv fetch --depth=1 --no-tags origin "${TV_REF}"
+          else
+            git -C repos/tv fetch --depth=1 --no-tags origin "refs/heads/${TV_REF}"
           fi
-          if ! git config --file .gitmodules --get submodule.libmpv-android.url >/dev/null; then
-            echo 'The selected TV source has an incomplete libmpv-android submodule declaration.' >&2
-            exit 1
-          fi
-          git submodule foreach --recursive true
-          if [[ -n "$(git status --porcelain)" ]]; then
-            echo 'Temporary submodule metadata unexpectedly dirtied the source checkout.' >&2
-            exit 1
-          fi
+          git -C repos/tv checkout --detach FETCH_HEAD
+          git -C repos/tv lfs install --local
+          git -C repos/tv lfs pull origin
 
       - name: Validate versions and avoid replacing a release
         id: release
