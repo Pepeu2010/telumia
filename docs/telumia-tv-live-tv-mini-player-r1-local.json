@@ -1,6 +1,6 @@
 {
   "milestone": "Fase 6 Live TV — mini-player R1",
-  "status": "implemented_locally_not_published",
+  "status": "branch_published_release_not_published",
   "base": {
     "repository": "Pepeu2010/telumia-tv",
     "branch": "codex/enhanced-foundation",
@@ -11,6 +11,12 @@
     "repository_branch": "codex/live-tv-mini-player",
     "local_commit": "fca368158",
     "github_commit": "09272944db0b039d4eac2ae102af9775fa0a937a",
+    "pull_request": {
+      "url": "https://github.com/Pepeu2010/telumia-tv/pull/1",
+      "number": 1,
+      "state": "open_draft",
+      "base": "codex/enhanced-foundation"
+    },
     "features": [
       "The existing player surface shrinks while the quick channel selector is open.",
       "The selector reuses LiveTvViewModel state for channels, favorites, guide, and timezone.",
@@ -64,5 +70,5 @@
       "sha256": "fe0400cfe7eec0cfc8a4909fb2e25c262cb44d3b42d3b889c0ee060239e9fa18"
     }
   ],
-  "release_note": "This post-v1.0.1 increment is not published. It is a Full Debug build signed with the development key."
+  "release_note": "This post-v1.0.1 increment is under review and has no release yet. Artifacts are Full Debug builds signed with the development key."
 }
