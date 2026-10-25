@@ -18,8 +18,11 @@ Antes de criar a release, o workflow valida os nove grupos de testes Live TV,
 os cinco APKs/assinaturas, tamanho e digest SHA-256 dos arquivos Desktop,
 arquivos-fonte TV/Desktop e os dez assets enviados. Os arquivos-fonte passam
 pela verificação dos objetos Git LFS. Só publica o rascunho depois de conferir
-os digests no GitHub. O workflow também guarda os pacotes no run por 30 dias
-para recuperação se o upload da release falhar.
+os digests no GitHub. Se uma execução parar depois de enviar todos os arquivos,
+a próxima execução retoma o mesmo rascunho, confere o manifesto, os checksums e
+os digests publicados, e então conclui a publicação sem gerar uma tag duplicada.
+O workflow também guarda os pacotes no run por 30 dias para recuperação se o
+upload da release falhar.
 
 O repo principal precisa permitir `contents: write` para o `GITHUB_TOKEN` nas
 configurações de Actions. Se a configuração impedir esse acesso, o build ainda
