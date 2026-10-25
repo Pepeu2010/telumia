@@ -6,7 +6,7 @@ on:
       tv_ref:
         description: Branch ou commit do cliente Android TV
         required: false
-        default: codex/live-tv-mini-player
+        default: codex/telumia-brand-theme
         type: string
       desktop_version:
         description: Versão Desktop publicada; vazio seleciona a release publicada mais recente
@@ -40,7 +40,7 @@ jobs:
     name: Android TV APKs + Windows PC MSI
     runs-on: ubuntu-latest
     env:
-      TV_REF: ${{ github.event.inputs.tv_ref || 'codex/live-tv-mini-player' }}
+      TV_REF: ${{ github.event.inputs.tv_ref || 'codex/telumia-brand-theme' }}
       DESKTOP_VERSION_INPUT: ${{ github.event.inputs.desktop_version || '' }}
       RELEASE_MODE: ${{ github.event.inputs.mode || 'publish' }}
 
@@ -279,6 +279,32 @@ jobs:
         if: steps.release.outputs.action == 'build'
         uses: gradle/actions/setup-gradle@v6
 
+      - name: Configure persistent signing for published TV APKs
+        if: steps.release.outputs.action == 'build'
+        shell: bash
+        env:
+          TELUMIA_ANDROID_KEYSTORE_BASE64: ${{ secrets.TELUMIA_ANDROID_KEYSTORE_BASE64 }}
+          NUVIO_RELEASE_STORE_PASSWORD: ${{ secrets.TELUMIA_ANDROID_KEYSTORE_PASSWORD }}
+          NUVIO_RELEASE_KEY_ALIAS: telumia
+          NUVIO_RELEASE_KEY_PASSWORD: ${{ secrets.TELUMIA_ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${TELUMIA_ANDROID_KEYSTORE_BASE64}" || -z "${NUVIO_RELEASE_STORE_PASSWORD}" || \
+                -z "${NUVIO_RELEASE_KEY_PASSWORD}" ]]; then
+            echo 'Persistent Android signing is not configured. Set the TELUMIA_ANDROID_KEYSTORE_* and TELUMIA_ANDROID_KEY_* repository secrets before publishing.' >&2
+            exit 1
+          fi
+          keystore_file="${RUNNER_TEMP}/telumia-android-release.jks"
+          printf '%s' "${TELUMIA_ANDROID_KEYSTORE_BASE64}" | base64 --decode > "${keystore_file}"
+          chmod 600 "${keystore_file}"
+          {
+            printf 'NUVIO_RELEASE_STORE_FILE=%s\n' "${keystore_file}"
+            printf 'NUVIO_RELEASE_KEY_ALIAS=%s\n' "${NUVIO_RELEASE_KEY_ALIAS}"
+            printf 'NUVIO_RELEASE_STORE_PASSWORD=%s\n' "${NUVIO_RELEASE_STORE_PASSWORD}"
+            printf 'NUVIO_RELEASE_KEY_PASSWORD=%s\n' "${NUVIO_RELEASE_KEY_PASSWORD}"
+            printf 'TELUMIA_SIGN_FULL_DEBUG_WITH_RELEASE_KEY=true\n'
+          } >> "${GITHUB_ENV}"
+
       - name: Set the generated Android version in the fetched source
         if: steps.release.outputs.action == 'build'
         shell: bash
@@ -331,6 +357,7 @@ jobs:
             --tests '*PhoneRemoteLanAddressTest' \
             --tests '*PhoneRemotePairingAuthorityTest' \
             --tests '*PhoneRemoteServerTest' \
+            --tests '*ForkIdentityTest' \
             :app:assembleFullDebug \
             --no-daemon \
             --stacktrace
@@ -523,7 +550,7 @@ jobs:
               },
               "distributions": {
                   "android": {
-                      "distribution": "development debug only",
+                      "distribution": "Full sideload APKs signed with persistent CI release key",
                       "versionCode": os.environ["ANDROID_VERSION_CODE"],
                       "versionName": os.environ["ANDROID_VERSION"],
                       "versioningStrategy": "generated from the latest published Android release when either platform source changes",
@@ -553,7 +580,7 @@ jobs:
 
           Esta release reúne os pacotes Android TV e Windows PC na página principal da Telumia.
 
-          **Android TV/TV Box ${ANDROID_VERSION}** (código ${ANDROID_VERSION_CODE}): APK universal e variantes ARM64, ARM32, x86_64 e x86. A versão de instalação é incrementada automaticamente quando a automação identifica uma nova fonte de TV ou Windows; o código-fonte exato permanece no arquivo da fonte. Fonte TV: [${ANDROID_SOURCE_SHA}](https://github.com/Pepeu2010/telumia-tv/commit/${ANDROID_SOURCE_SHA}). Os APKs são Full Debug e usam assinatura de desenvolvimento; uma chave diferente pode exigir a desinstalação da versão anterior. Telumia-tv-source.zip contém o código-fonte TV desse commit.
+          **Android TV/TV Box ${ANDROID_VERSION}** (código ${ANDROID_VERSION_CODE}): APK universal e variantes ARM64, ARM32, x86_64 e x86. A versão de instalação é incrementada automaticamente quando a automação identifica uma nova fonte de TV ou Windows; o código-fonte exato permanece no arquivo da fonte. Fonte TV: [${ANDROID_SOURCE_SHA}](https://github.com/Pepeu2010/telumia-tv/commit/${ANDROID_SOURCE_SHA}). Os APKs Full usam uma chave persistente de assinatura do CI para permitir atualizações entre releases futuras. A instalação v1.0.0 assinada com outro certificado exige uma migração inicial; preserve os dados locais antes de remover o APK antigo. Telumia-tv-source.zip contém o código-fonte TV desse commit.
 
           **Windows PC ${DESKTOP_VERSION}** (ProductVersion ${DESKTOP_INSTALLER_VERSION}): MSI x64 copiado da [release Desktop ${DESKTOP_TAG}](${DESKTOP_RELEASE_URL}). A versão de PC é identificada separadamente da versão Android. Telumia-desktop-source.zip corresponde à mesma release Desktop.
 
