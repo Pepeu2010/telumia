@@ -1,6 +1,6 @@
 # Source Intelligence
 
-Estado: **primeiro incremento de seleção declarativa implementado localmente na TV; build/testes em execução, QA nativa pendente**. Não é a entrega completa de Source Intelligence e não altera os binários da release 1.0.0.
+Estado: **seleção declarativa inicial implementada na TV e no Desktop. `v1.0.1-alpha.4` acrescenta ranking pela compatibilidade HDR anunciada pela tela e pelo decoder Android; CI e release APK + MSI verificados. Bitstream real e QA física continuam pendentes.**
 
 Fonte: `repos/tv`, commit `f655a5802`, ampliando `StreamAutoPlaySelector`, `StreamAutoPlayPolicy`, `PlayerSettingsDataStore`, as configurações de reprodução e a lista de fontes existentes. Não cria outro player, repositório ou resolver.
 
@@ -19,26 +19,44 @@ Primeira fonte e Regex continuam disponíveis como opções avançadas existente
 
 Os cards exibem a pontuação e suas contribuições quando um modo novo está ativo. A própria UI identifica que codec, HDR e rede não foram verificados. O picker existente oferece os modos com descrições pt-BR/inglês, preservando navegação/foco atuais; a geometria e a interação ainda precisam de QA no APK deste incremento.
 
+## Incremento TV de decoder anunciado
+
+No commit `ef14013a6` (com correções intermediárias já integradas à branch), `DeviceCapabilities.videoCodecCapabilities()` passou a enumerar e armazenar em cache decoders de vídeo anunciados por `MediaCodecList`. Cada registro mantém MIME, dimensões máximas quando reportadas e o estado de aceleração por hardware; falhas de consulta permanecem desconhecidas, e uma lista vazia reportada pelo Android é distinta de uma falha. A consulta ocorre em IO enquanto os addons carregam.
+
+O seletor mapeia aliases estruturados de AVC/H.264, HEVC/H.265, AV1, VP8/VP9, MPEG-2 e Dolby Vision para MIME Android. Para os modos pontuados, um formato declarado sem decoder compatível com as dimensões anunciadas recebe penalidade de -600, mas segue elegível como fallback. Decoder apenas por software recebe -160 nos modos Equilibrado e Economia de dados; Melhor qualidade preserva a preferência por resolução. Codec sem declaração reconhecida e inventário desconhecido ficam neutros. `FIRST_STREAM`, Regex e a seleção Manual continuam com a política anterior.
+
+O auto-play da reprodução atual e do próximo episódio consome o mesmo snapshot; os cards exibem a contribuição de compatibilidade e distinguem suportado, somente software, não anunciado e desconhecido em português e inglês. Esses dados são anúncios do provider e do framework Android: não provam que o bitstream real esteja íntegro, que o player selecionará aquele decoder, nem que HDR, áudio, legendas ou rede serão compatíveis. A lógica ainda não executa pre-flight real nem failover.
+
+## Incremento TV de compatibilidade HDR anunciada
+
+No commit `b867f3713`, a TV consulta sob demanda os formatos HDR anunciados pela tela ativa (HDR10, HDR10+, HLG e Dolby Vision, respeitando a disponibilidade por versão Android). Ausência de informação continua distinta de uma lista conhecida sem suporte HDR. O seletor reconhece somente declarações estruturadas do parser para HDR10, HDR10+, HLG ou Dolby Vision; a palavra genérica `HDR` não vira evidência de formato. A pontuação requer suporte exato ao formato declarado, sem presumir que HDR10 cubra HDR10+.
+
+Uma fonte que declara um formato HDR não anunciado pela tela recebe penalidade de -400 e continua disponível como fallback; metadado ausente ou inventário desconhecido permanece neutro. Dolby Vision também exige decoder anunciado pelo Android. A mesma lógica passa pelo ranking de fontes, auto seleção e próximo episódio. Isso não mede o bitstream, não prova que o playback use o decoder reportado e não inclui pre-flight nem failover. `v1.0.1-alpha.4` foi gerada pelo CI `39521569001`; os assets públicos incluem APK universal/ARM64/ARMv7 e MSI Desktop 1.0.0 com SHA-256 conferidos. Não houve QA em dispositivo HDR.
+
 ## Persistência e conta
 
 Os modos novos usam `telumia_source_mode_v1` no DataStore existente de cada perfil. Não substituem silenciosamente `stream_auto_play_mode` compartilhado com o cliente original. Selecionar Manual/Primeira fonte/Regex remove o override local e atualiza a preferência legada. O filtro de configurações remotas exclui a chave nova em envio e recepção; não anuncia que o cliente oficial conhece esses modos.
 
-## Verificação em andamento
+## Resultados de verificação
 
-O build `telumia-tv-source-ranking-r1` foi iniciado em árvore limpa do commit acima, com worker único, heap de 4 GiB e compilador Kotlin no processo. Inclui APKs de aplicação e instrumentação e testes de seleção, timeout/watchdog, contrato de sync e DataStore real de preferências em diretórios temporários. Lançar o processo não constitui aprovação.
+O build inicial `telumia-tv-source-ranking-r1` encontrou e levou à correção de um fallback de locale em teste JVM; o CI remoto `39329340039` confirmou a correção. Para alpha.3, o workflow [39509908598](https://github.com/Pepeu2010/telumia-tv/actions/runs/39509908598) passou os testes focados, compilou instrumentação e gerou os APKs; o publisher [39511555672](https://github.com/Pepeu2010/telumia-tv/actions/runs/39511555672) publicou APKs e MSI Desktop 1.0.0. Para HDR, [39521569001](https://github.com/Pepeu2010/telumia-tv/actions/runs/39521569001) passou testes, compilou instrumentação e gerou APKs; a [pré-release v1.0.1-alpha.4](https://github.com/Pepeu2010/telumia-tv/releases/tag/v1.0.1-alpha.4) publica APK universal/ARM64/ARMv7, MSI 1.0.0 e SHA256SUMS. O fluxo [39522891457](https://github.com/Pepeu2010/telumia-tv/actions/runs/39522891457) recebeu HTTP 403 ao criar a release, que foi publicada depois pela sessão GitHub autenticada após validar os hashes dos quatro binários. QA nativa dos modos continua pendente.
 
-As novas regressões cobrem escolha independente da ordem, qualidade versus equilíbrio, preferência por arquivos pequenos conhecidos, exclusão de páginas externas/debrid indisponível, empate com dados desconhecidos, filtros de addon, limites numéricos, isolamento da chave em sync e persistência/recriação/troca de perfil sem alterar o modo compartilhado. Os resultados serão vinculados ao commit/APKs após término; nenhuma dessas verificações é anunciada como aprovada antes disso.
+As regressões de TV cobrem escolha independente da ordem, qualidade versus equilíbrio, preferência por arquivos pequenos conhecidos, exclusão de páginas externas/debrid indisponível, empate com dados desconhecidos, filtros de addon, limites numéricos, isolamento da chave em sync e persistência/recriação/troca de perfil sem alterar o modo compartilhado. Seu run aprovado está registrado acima; QA nativa continua separada.
 
 ## Escopo ainda necessário
 
-Faltam os gates da implementação equivalente no Desktop, DeviceCapabilities centralizado, adequação de codec/decoder/HDR/áudio/legendas, preferência de idioma, bitrate com origem/unidade confiáveis, medições reais de latência/disponibilidade/estabilidade, pre-flight limitado e failover com posição e tentativas finitas. Também falta QA visual/nativa dos novos modos e reprodução pelo caminho real com seleção automática. O score declarativo é uma camada inicial do recurso completo, não prova esses requisitos.
+Faltam integração Desktop equivalente, HDR/áudio/legendas, preferência de idioma, bitrate com origem/unidade confiáveis, medições reais de latência/disponibilidade/estabilidade, pre-flight limitado e failover com posição e tentativas finitas. Também faltam QA visual/nativa dos novos modos e demonstração manual de playback em aparelhos reais. O score declarativo é uma camada inicial do recurso completo, não prova esses requisitos.
 
-## Implementação Desktop preparada para o próximo gate
+## Implementação Desktop e gate de testes
 
-Fonte Desktop local: commit `50b152b2`, sem publicação de novos instaladores.
+Fonte Desktop: implementação no commit `50b152b2`; validação da branch `codex/enhanced-foundation`, commit `c9cad5b0c0891763042640a20c9b1c43a23b60fc`. Não houve publicação de instaladores.
 
 O seletor Desktop existente recebeu os três modos e pontuações correspondentes, respeitando sua própria elegibilidade de debrid/P2P e a preferência de grupo de episódios. Utiliza resolução estruturada e tamanho declarados; esse model não possui o `qualityValue` adicional da TV. Empates conservam a ordem e palavras de qualidade no nome não viram evidência. Os cards exibem contribuições localizadas; o picker de reprodução oferece os modos e passa a rolar suas opções para evitar cortar o diálogo em janelas menores.
 
 O storage Desktop/JVM preserva o override local versionado durante recebimento de configurações remotas e exporta somente o modo legado. Os actuals Android/iOS do mesmo código KMP receberam a separação correspondente para não exportar uma preferência desconhecida pelo cliente original; isso não constitui build iOS/Android KMP aprovado. Não se cria um cliente móvel novo.
 
-As regressões Desktop acrescentadas cobrem escolhas por modo, dados ausentes, ordem/filtros e sync em armazenamento isolado de teste. **Build Windows/MSI e esses testes ainda não executados**: os builds pesados são seriados após o Android. Não se altera a release 1.0.0 nem se declara paridade validada por ter código equivalente.
+As regressões Desktop cobrem escolhas por modo, dados ausentes, ordem/filtros e sync em armazenamento isolado de teste. O run Windows `39487966669` executou `:composeApp:desktopTest` e verificou os relatórios XML de `StreamAutoPlaySelectorTest` e `PlayerSourceSelectionStorageTest`: ambas as classes executaram testes, sem falhas ou erros. O mesmo comando compilou as fontes Desktop e de teste.
+
+O gate de portabilidade `39491977354`, no commit `9f8df1baf7476279425b031efdb7a812dfab30da`, passou em Linux x64, macOS x64 e ARM64: testes compartilhados, verificação do pacote nativo e produção de DEB/DMGs concluíram nos três runners. Manifests e checksums por pacote foram preservados nos artefatos de CI por 14 dias. A tentativa anterior `39489143656` teve uma falha transitória ao validar o launcher do DEB; a execução completa posterior confirmou Linux sem alterar o critério de validação.
+
+O MSI ainda não foi produzido neste incremento. O workflow `build-only` parou antes da compilação por falta de `LOCAL_PROPERTIES_BASE64`, `SENTRY_AUTH_TOKEN` e `SENTRY_DESKTOP_DSN` no ambiente de release; a validação de testes usa um modo separado que não requer esses valores. Localmente, a reserva de armazenamento também bloqueou builds: C tinha 34,9 GiB livres ante os 40 GiB exigidos pela política. Nenhuma release 1.0.0 foi alterada. A seleção automática real, experiência no player e QA visual/nativa ainda precisam de gates próprios.

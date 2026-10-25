@@ -83,6 +83,10 @@ foreach ($target in @('desktop','tv')) {
 $assets = @(Get-ChildItem -LiteralPath $output -File | Where-Object Extension -in @('.msi','.apk','.zip') | ForEach-Object {
     [ordered]@{name=$_.Name;bytes=$_.Length;sha256=(Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()}
 })
+if (@($assets | Where-Object name -eq 'Telumia-Windows-x64.msi').Count -ne 1 -or
+    @($assets | Where-Object { $_.name -like '*.apk' }).Count -lt 1) {
+    throw 'The main Telumia release must include both the Windows PC MSI and at least one Android TV APK.'
+}
 if ($assets.Count -ne 8) { throw 'Expected MSI, five APKs and two source archives.' }
 $manifest = [ordered]@{tag=$Tag;product='Telumia';prerelease=$Tag.Contains('-');preparedAtUtc=[DateTime]::UtcNow.ToString('o');
     sourceCommits=@{desktop=$pc.sourceCommit;tv=$tv.sourceCommit};

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "fe20a3380e141f317e1d59006db74cdd139c6db3",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39358003957,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957",
+  "result": "success",
+  "durationSeconds": 659,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.ui.screens.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.data.local.LiveTvChannelStateStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "implementation": [
+    "WorkManager schedules a 12-hour Live TV guide refresh with a 2-hour flex window when the active profile has enabled sources.",
+    "Periodic work requires a connected network and storage that is not low; failed source imports are retried exponentially only when all enabled sources fail.",
+    "Imports are sequential, profile-scoped, and preserve cached guides when an individual source fails; manual refresh remains available.",
+    "The worker obtains the existing refresh job through a Hilt entry point without adding a WorkManager-specific Hilt dependency."
+  ],
+  "unitTestEvidence": "Selected JVM tests passed, including LiveTvGuideRefreshJobTest for enabled-source filtering, partial failure retention, and the empty-source case, plus LiveTvViewModelTest scheduler reconciliation.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12235314872,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 179151718,
+      "expiresAt": "2026-10-27T02:26:58Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235314872"
+    },
+    {
+      "id": 12235983212,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 92180480,
+      "expiresAt": "2026-10-27T02:27:00Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235983212"
+    },
+    {
+      "id": 12235514524,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 90078890,
+      "expiresAt": "2026-10-27T02:27:02Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39358003957/artifacts/12235514524"
+    }
+  ],
+  "limitations": [
+    "Debug APKs signed with the CI debug key; not a production release.",
+    "Instrumented tests compiled but were not executed on hardware.",
+    "No Android TV Box was connected through ADB for physical QA."
+  ]
+}

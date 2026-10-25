@@ -1,0 +1,59 @@
+{
+  "milestone": "Fase 7 — Scene Info R1: capítulos embutidos confiáveis",
+  "date": "2026-10-25",
+  "status": "initial_provider_integrated_and_tv_commit_published; phase_7_remains_open",
+  "desktop": {
+    "repository": "Pepeu2010/telumia-desktop",
+    "branch": "codex/enhanced-foundation",
+    "commit": "4df39a52b1c6d612e3adc6530361045c40f3dd27",
+    "parent": "83eae71f6aa17fc04d075e940ea7a6614118e36c",
+    "verification": {
+      "metadata_tests": 43,
+      "junit_reports": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "compileKotlinDesktop": "BUILD_SUCCESSFUL",
+      "desktopJar": "BUILD_SUCCESSFUL",
+      "windows_msi": "not_built; Visual Studio Build Tools and WebView2 NuGet SDK unavailable"
+    },
+    "evidence": "evidence/telumia-scene-info-desktop-r1"
+  },
+  "tv": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/live-tv-mini-player",
+    "local_commit": "7cbbbcb343b39f3af26263bc43c4eda72f77b36f",
+    "github_commit": "d116375d5a76141b9bb9e748486db411f3ec2d0d",
+    "parent": "2e31287521565d3e746767b9a5e7200f003e2773",
+    "tree": "05cce3a5786edf8653d8c5d4d6590b67322a2380",
+    "verification": {
+      "unit_tests": 21,
+      "unit_reports": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "instrumented_tests": 1,
+      "instrumented_failures": 0,
+      "instrumented_device": "Telumia_TV_API30 (Android 11/API 30, 1920x1080)",
+      "assembleFullDebug": "BUILD_SUCCESSFUL",
+      "compileFullDebugAndroidTestKotlin": "BUILD_SUCCESSFUL",
+      "universal_debug_apk_sha256": "BB7944C478502AAC50A429F2C8C5139BD49EC24BF7C110F554D4C24D3C2FF72F",
+      "screenshot_sha256": "04495B8BCA57F40F3433137605D168A9C12E18898AEC5AD7804F91133C2BA303"
+    },
+    "evidence": "evidence/telumia-scene-info-tv-r1"
+  },
+  "scope": {
+    "available_fact": "Current-file embedded chapter with edition scope, trusted provenance, and bounded timeline interval",
+    "not_available_without_trusted_temporal_provider": [
+      "actors present in the current scene",
+      "music cues",
+      "time-specific trivia"
+    ],
+    "remaining_gates": [
+      "authorized real-media end-to-end playback and source-switch validation",
+      "physical TV Box QA",
+      "trusted and licensed providers for additional temporal facts when available",
+      "Windows MSI build with native toolchain and WebView2 SDK"
+    ]
+  }
+}

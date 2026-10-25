@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.nuvio.tv.core.livetv.LiveTvGuideCacheTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-25T14:19:49.901Z" hostname="DESKTOP-02CKMVK" time="0.213">
+  <properties/>
+  <testcase name="evictsOlderSourceCacheToStayWithinTheEpgShare" classname="com.nuvio.tv.core.livetv.LiveTvGuideCacheTest" time="0.153"/>
+  <testcase name="updatingSourceReplacesItsCacheEntryAtomically" classname="com.nuvio.tv.core.livetv.LiveTvGuideCacheTest" time="0.029"/>
+  <testcase name="compressedGuideRoundTripsAndCanBeReadWhenWritesAreDisabled" classname="com.nuvio.tv.core.livetv.LiveTvGuideCacheTest" time="0.015"/>
+  <testcase name="refusesPayloadLargerThanTheEpgShareAndIgnoresUnknownSourceIds" classname="com.nuvio.tv.core.livetv.LiveTvGuideCacheTest" time="0.015"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

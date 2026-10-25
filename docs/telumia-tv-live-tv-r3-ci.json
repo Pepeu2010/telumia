@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "756592baef8abc74aeebc449cf27f96f04d6656b",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39345894765,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39345894765",
+  "result": "success",
+  "durationSeconds": 468,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.ui.screens.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "unitTestEvidence": "Selected unit tests passed, including LiveTvSourceImporterTest and LiveTvViewModelTest.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; tests were not executed on device.",
+  "artifacts": [
+    {
+      "id": 12230959671,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178561844,
+      "expiresAt": "2026-10-27T00:17:58Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39345894765/artifacts/12230959671"
+    },
+    {
+      "id": 12230999431,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91590606,
+      "expiresAt": "2026-10-27T00:18:00Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39345894765/artifacts/12230999431"
+    },
+    {
+      "id": 12231044091,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89489016,
+      "expiresAt": "2026-10-27T00:18:02Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39345894765/artifacts/12231044091"
+    }
+  ],
+  "supersededRuns": [
+    {
+      "runId": 39345583664,
+      "result": "cancelled",
+      "reason": "Superseded while the Live TV screen and player-return behavior were being finalized."
+    },
+    {
+      "runId": 39345773782,
+      "result": "cancelled",
+      "reason": "Superseded to include the final guide indexing optimization in the built commit."
+    }
+  ],
+  "limitations": [
+    "Debug APKs only; not production-signed or installed on physical TV hardware.",
+    "Instrumentation tests compiled but were not executed.",
+    "Guide persistence between sessions, scheduled refresh, timeline grid, favorites, recents, mini-player, and explicit timezone controls remain incomplete."
+  ]
+}

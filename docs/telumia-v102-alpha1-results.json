@@ -1,0 +1,57 @@
+{
+  "exportedAtUtc": "2026-10-25T16:58:00.0564295Z",
+  "tag": "v1.0.2-alpha.1",
+  "scope": "Focused metadata regression tests and clean-source package builds; Desktop MSI package identity/bridge inspected; TV instrumented tests compiled but not run and no physical-device QA",
+  "results": [
+    {
+      "target": "desktop",
+      "currentSourceCommit": "3e7894659e7489772b06520e89776f3dc040ffe2",
+      "targetedTestResults": {
+        "tests": 24,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "attempts": [
+        {
+          "startedAtUtc": "2026-10-25T16:53:58.4586448Z",
+          "finishedAtUtc": "2026-10-25T16:56:05.5845991Z",
+          "status": "passed",
+          "sourceCommit": "3e7894659e7489772b06520e89776f3dc040ffe2",
+          "sourceChangesBefore": [],
+          "sourceChangesAfter": [],
+          "tasks": [
+            ":composeApp:desktopTest",
+            ":composeApp:packageReleaseMsi"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "tv",
+      "currentSourceCommit": "f3809b4027f91262732e722842b7c0bec2111c36",
+      "targetedTestResults": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "attempts": [
+        {
+          "startedAtUtc": "2026-10-25T16:29:15.8568753Z",
+          "finishedAtUtc": "2026-10-25T16:39:07.5832966Z",
+          "status": "passed",
+          "sourceCommit": "f3809b4027f91262732e722842b7c0bec2111c36",
+          "sourceChangesBefore": [],
+          "sourceChangesAfter": [],
+          "tasks": [
+            ":app:testFullDebugUnitTest",
+            ":app:compileFullDebugAndroidTestKotlin",
+            ":app:assembleFullDebug"
+          ]
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,4 +1,4 @@
-# Capítulos embutidos na timeline Desktop
+# Capítulos embutidos na timeline Desktop e TV
 
 O incremento `e4ec9bfa7660339e8c533fb1b237ba0c7e5bb9e7` amplia a abstração temporal e o player existentes. O bridge libmpv lê `chapter-list` do arquivo aberto; o controller recebe um snapshot UTF-8, e o adapter projeta capítulos nomeados nos mesmos marcadores da timeline utilizados pelos skips. Não há outro player, pesquisa externa, título inferido da sinopse ou painel fictício.
 
@@ -10,7 +10,15 @@ O incremento `e4ec9bfa7660339e8c533fb1b237ba0c7e5bb9e7` amplia a abstração tem
 - O controller verifica o source capturado antes/depois da consulta, além de handle e estado de release. A troca de source invalida o snapshot anterior. A prova de uma sequência completa de trocas de episódio/fonte na UI real continua como gate próprio.
 - A origem é `embedded-mpv`. Não há confiança fabricada nem fallback para elenco global: os títulos de capítulos não viram afirmações de ator/música/Scene Info. A UI mantém escape por `textContent` e descrição acessível no seek.
 
-Os wrappers equivalentes Linux/macOS estão no código e nos inputs de build. Os builds nativos dessas plataformas estão em execução no [gate de portabilidade](DESKTOP_PORTABILITY.md), ainda sem aprovação de runtime. O caminho Media3 TV, seleção de capítulos com seek pela interface, Scene Info e o restante de 2-B/2-C continuam pendentes.
+Os wrappers equivalentes Linux/macOS estão no código e nos inputs de build. Os builds nativos dessas plataformas estão em execução no [gate de portabilidade](DESKTOP_PORTABILITY.md), ainda sem aprovação de runtime. Scene Info e o restante de 2-B/2-C continuam pendentes.
+
+## Android TV / Media3
+
+O incremento TV `00734dde0502f3fcb93d864ed345e9f2e0fa6095` integra capítulos ID3 do `Metadata` recebido pelo listener do player à abstração `TimedMetadataTimeline` existente. Os títulos vêm do frame `TIT2`; identificadores servem de fallback quando o arquivo não fornece título. O adapter ignora posições negativas, intervalos de duração zero/inválidos e capítulos além de uma duração conhecida, limita e mescla callbacks por identidade do conteúdo, preserva proveniência `media3-id3` e limpa os dados ao preparar outra reprodução.
+
+Os capítulos passam a aparecer como marcadores nas timelines principal e de seek. O botão de capítulos e o seletor com navegação D-pad só aparecem quando a reprodução VOD realmente contém eventos; escolher um item busca sua posição no player existente. Live TV não exibe o controle. Esses títulos permanecem capítulos e não são promovidos a afirmações de cena ou Scene Info.
+
+**Validação:** quatro testes dedicados cobrem leitura de títulos `TIT2`, acumulação entre callbacks, limites/intervalos inválidos e troca de identidade. O workflow executou também os testes selecionados já existentes e compilou `:app:assembleFullDebug` com sucesso. [Registro do CI e APK](telumia-tv-embedded-chapters-r1-ci.json). A interface ainda aguarda QA com controle remoto e TV Box física; isso não foi demonstrado pelo build automatizado.
 
 ## Evidência
 
@@ -22,4 +30,4 @@ Os [seis casos JNI](telumia-embedded-chapters-native-cases.json) usam o libmpv e
 
 ## Distribuição
 
-Os capítulos Desktop estão incluídos na release regular **1.0.0**, cujo MSI publicado está ligado ao commit `470c38d5cc02e597c94ea562f5d645f49f8fad60`. A build de desenvolvimento citada acima permanece como evidência histórica do incremento anterior; não substitui os arquivos imutáveis das releases. [Gates da 1.0.0](VERSION_100.md), [publicação e hashes remotos](RELEASES.md). A meta integral permanece em execução.
+Os capítulos Desktop estão incluídos na release regular **1.0.0**, cujo MSI publicado está ligado ao commit `470c38d5cc02e597c94ea562f5d645f49f8fad60`. O APK TV deste incremento é um artefato `fullDebug` temporário do CI, não uma release assinada de produção; ele expira após sete dias. A meta integral permanece em execução.

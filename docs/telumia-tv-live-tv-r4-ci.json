@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "49a7cc8fc971213ab5fd7271c7309f95aa356051",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39348949175,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39348949175",
+  "result": "success",
+  "durationSeconds": 459,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.ui.screens.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "unitTestEvidence": "Selected unit tests passed, including LiveTvGuideCacheTest and LiveTvViewModelTest coverage for compressed persistence, offline reads, quotas, LRU eviction, replacement, and preserving cached guides after network failure.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12232397369,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178582084,
+      "expiresAt": "2026-10-27T00:47:12Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39348949175/artifacts/12232397369"
+    },
+    {
+      "id": 12232417414,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91610842,
+      "expiresAt": "2026-10-27T00:47:14Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39348949175/artifacts/12232417414"
+    },
+    {
+      "id": 12232262961,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89509256,
+      "expiresAt": "2026-10-27T00:47:16Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39348949175/artifacts/12232262961"
+    }
+  ],
+  "limitations": [
+    "Debug APK only; not a production release or installed on physical TV hardware.",
+    "Instrumented tests compiled but were not executed.",
+    "Scheduled refresh, temporal guide grid, explicit timezone setting, favorites/recents, mini-player, and physical TV Box QA remain incomplete."
+  ]
+}

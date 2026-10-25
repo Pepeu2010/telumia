@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "94a7d8afd7f82c5a08f5cc16f3b9a990e00f6570",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39351383602,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39351383602",
+  "result": "success",
+  "durationSeconds": 488,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.ui.screens.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "unitTestEvidence": "Selected unit tests passed, including TvPerformanceProfileTest for automatic REDUCED behavior on low-RAM devices. The new LoadingIndicator/PlaceholderShimmer Compose behavior was compiled in fullDebug; the instrumentation source set was compiled but not executed.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12232913541,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178582720,
+      "expiresAt": "2026-10-27T01:12:41Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39351383602/artifacts/12232913541"
+    },
+    {
+      "id": 12232764312,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91611478,
+      "expiresAt": "2026-10-27T01:12:43Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39351383602/artifacts/12232764312"
+    },
+    {
+      "id": 12232669614,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89509892,
+      "expiresAt": "2026-10-27T01:12:44Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39351383602/artifacts/12232669614"
+    }
+  ],
+  "limitations": [
+    "Debug APK only; not installed on physical TV hardware or a production release.",
+    "Instrumented tests compiled but were not executed.",
+    "No Android device was connected through ADB; physical FPS, heap, animation-frame, and dropped-frame comparisons remain unmeasured."
+  ]
+}

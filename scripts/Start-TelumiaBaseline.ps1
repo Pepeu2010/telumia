@@ -9,6 +9,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path $PSScriptRoot -Parent
+& (Join-Path $PSScriptRoot 'Test-TelumiaStorageBudget.ps1')
 $output = Join-Path $workspace "artifacts/$Label/$Target"
 if (Test-Path -LiteralPath $output) { throw 'Choose a new build label; launch evidence cannot be replaced.' }
 if ($IsolateDesktopData -and $Target -ne 'desktop') { throw 'Desktop isolation cannot be used for TV.' }

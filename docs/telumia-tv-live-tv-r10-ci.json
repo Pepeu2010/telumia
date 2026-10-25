@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "e8d8308cf7f8d37d20f2650404ec63586d03eb17",
+  "changeCommits": [
+    "b369ea40e6eb7687b30c3d29b5d74ad3e6fdb1ca",
+    "e8d8308cf7f8d37d20f2650404ec63586d03eb17"
+  ],
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39359528952,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952",
+  "result": "success",
+  "durationSeconds": 470,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.ui.screens.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.data.local.LiveTvChannelStateStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "implementation": [
+    "Live guide time can follow the device or use Brasília, Manaus, Rio Branco, Fernando de Noronha, or UTC.",
+    "The selected time zone is persisted in the existing profile-scoped Live TV channel state and restored after reopening the screen.",
+    "Guide grid, Now/Next labels, and source update timestamps use the selected time zone while event instants and playback timing remain unchanged.",
+    "Unsupported stored time-zone identifiers fall back to device time; invalid selections are rejected."
+  ],
+  "unitTestEvidence": "Selected JVM tests passed, including LiveTvChannelStateStoreTest for persistent profile-isolated time-zone selection and LiveTvViewModelTest for publishing a saved selection to UI state.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12237345254,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 179161338,
+      "expiresAt": "2026-10-27T02:40:52Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12237345254"
+    },
+    {
+      "id": 12236239064,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 92190096,
+      "expiresAt": "2026-10-27T02:40:54Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12236239064"
+    },
+    {
+      "id": 12236931962,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 90088510,
+      "expiresAt": "2026-10-27T02:40:55Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12236931962"
+    }
+  ],
+  "limitations": [
+    "Debug APKs signed with the CI debug key; not a production release.",
+    "Instrumented tests compiled but were not executed on hardware.",
+    "No Android TV Box was connected through ADB for physical QA."
+  ]
+}

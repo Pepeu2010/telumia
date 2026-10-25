@@ -1,0 +1,52 @@
+{
+  "recordedAtUtc": "2026-10-25T17:43:23Z",
+  "phase": 6,
+  "milestone": "TV Live TV import resilience R2",
+  "sourceRepository": "Pepeu2010/telumia-tv",
+  "sourceBranch": "codex/live-tv-mini-player",
+  "sourceCommit": "25e741af4f00055b3b567df4cbfc0e82904315a2",
+  "parentCommit": "f3809b4027f91262732e722842b7c0bec2111c36",
+  "tests": {
+    "focusedLiveTvUnit": {
+      "tests": 32,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "command": ":app:testFullDebugUnitTest filtered to LiveTvGuideCacheTest, LiveTvGuideRefreshJobTest, LiveTvSourceImporterTest, M3uPlaylistParserTest, XmlTvParserTest, LiveTvChannelStateStoreTest, GuideTimelineTest, LiveTvQuickChannelPolicyTest and LiveTvViewModelTest"
+    },
+    "connectedAndroidTv": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "device": "Telumia_TV_API30 AVD, Android TV x86, API 30, 1920x1080",
+      "classes": [
+        "LiveTvVisualComponentsTest",
+        "LiveTvGuideCacheAtomicReplaceTest"
+      ]
+    },
+    "fullUnitSuite": {
+      "tests": 2038,
+      "failures": 13,
+      "errors": 0,
+      "skipped": 1,
+      "recordedBaselineFailures": 20,
+      "currentFailuresMatchingBaseline": 13,
+      "newFailures": 0,
+      "baselineFile": "tv-baseline-failures.json"
+    }
+  },
+  "fixture": {
+    "playlist": "MockWebServer M3U with tvg-id br.news and a channel stream URL",
+    "guide": "MockWebServer XMLTV with a pt-BR programme and UTC timestamps",
+    "channelStreamRequested": false,
+    "media3PlaybackValidated": false
+  },
+  "limitations": [
+    "No authorized external M3U/XMLTV source was provided for end-to-end playback validation.",
+    "No physical TV Box validation was performed.",
+    "Phase 6 remains open.",
+    "The v1.0.2-alpha.1 release package predates this commit."
+  ]
+}
+

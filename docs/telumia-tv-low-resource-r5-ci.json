@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "target": "android-tv",
+  "commit": "abea30964a7d5cad718a4c133a72588af8458fd2",
+  "branch": "codex/enhanced-foundation",
+  "workflow": "PR Full Debug Build",
+  "runId": 39350246174,
+  "runUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39350246174",
+  "result": "success",
+  "durationSeconds": 479,
+  "tasks": [
+    ":app:testFullDebugUnitTest --tests com.nuvio.tv.updater.* --tests com.nuvio.tv.core.runtime.TvPerformanceProfileTest --tests com.nuvio.tv.core.livetv.* --tests com.nuvio.tv.ui.screens.livetv.* --tests com.nuvio.tv.data.local.PlayerSourceSelectionStoreTest --tests com.nuvio.tv.ui.screens.player.EmbeddedChapterMetadataTest",
+    ":app:compileFullDebugAndroidTestKotlin",
+    ":app:assembleFullDebug",
+    "Upload universal, ARM64, and ARMv7 APK artifacts"
+  ],
+  "unitTestEvidence": "Selected unit tests passed, including TvPerformanceProfileTest asserting low-RAM image requests are capped at 4 total and 2 per host while decodes remain capped at 1.",
+  "instrumentationEvidence": "The Android instrumentation source set compiled; instrumented tests were not executed.",
+  "artifacts": [
+    {
+      "id": 12232897824,
+      "name": "app-full-universal-debug.apk",
+      "bytes": 178582084,
+      "expiresAt": "2026-10-27T01:00:41Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39350246174/artifacts/12232897824"
+    },
+    {
+      "id": 12233610087,
+      "name": "app-full-arm64-v8a-debug.apk",
+      "bytes": 91610846,
+      "expiresAt": "2026-10-27T01:00:45Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39350246174/artifacts/12233610087"
+    },
+    {
+      "id": 12232534931,
+      "name": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 89509260,
+      "expiresAt": "2026-10-27T01:00:48Z",
+      "downloadUrl": "https://github.com/Pepeu2010/telumia-tv/actions/runs/39350246174/artifacts/12232534931"
+    }
+  ],
+  "limitations": [
+    "Debug APK only; not installed on physical TV hardware or a production release.",
+    "Instrumented tests compiled but were not executed.",
+    "No Android device was connected through ADB; physical FPS, heap, network concurrency, and dropped-frame comparison remain unmeasured."
+  ]
+}

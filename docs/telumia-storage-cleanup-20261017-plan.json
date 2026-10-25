@@ -1,0 +1,686 @@
+{
+  "status": "awaiting-explicit-authorization-after-automatic-review-rejection",
+  "filesDeleted": 0,
+  "packageFiles": 168,
+  "packageBytes": 18999628537.0,
+  "packages": [
+    {
+      "path": "telumia-account-sync-sidebar-desktop\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215442200
+    },
+    {
+      "path": "telumia-account-sync-sidebar-tv\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98558004
+    },
+    {
+      "path": "telumia-account-sync-sidebar-tv\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96456418
+    },
+    {
+      "path": "telumia-account-sync-sidebar-tv\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1458918
+    },
+    {
+      "path": "telumia-account-sync-sidebar-tv\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185529246
+    },
+    {
+      "path": "telumia-account-sync-sidebar-tv\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100978523
+    },
+    {
+      "path": "telumia-account-sync-sidebar-tv\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100138658
+    },
+    {
+      "path": "telumia-addon-reconciliation-desktop\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215495448
+    },
+    {
+      "path": "telumia-addon-reconciliation-tv-r4\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98558004
+    },
+    {
+      "path": "telumia-addon-reconciliation-tv-r4\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96456418
+    },
+    {
+      "path": "telumia-addon-reconciliation-tv-r4\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1458918
+    },
+    {
+      "path": "telumia-addon-reconciliation-tv-r4\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185529246
+    },
+    {
+      "path": "telumia-addon-reconciliation-tv-r4\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100978523
+    },
+    {
+      "path": "telumia-addon-reconciliation-tv-r4\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100138658
+    },
+    {
+      "path": "telumia-cache-occupancy-bound-desktop\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215216920
+    },
+    {
+      "path": "telumia-collection-reconciliation-desktop\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215479064
+    },
+    {
+      "path": "telumia-collection-reconciliation-tv-r2\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98558004
+    },
+    {
+      "path": "telumia-collection-reconciliation-tv-r2\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96456418
+    },
+    {
+      "path": "telumia-collection-reconciliation-tv-r2\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1458918
+    },
+    {
+      "path": "telumia-collection-reconciliation-tv-r2\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185529246
+    },
+    {
+      "path": "telumia-collection-reconciliation-tv-r2\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100978523
+    },
+    {
+      "path": "telumia-collection-reconciliation-tv-r2\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100138658
+    },
+    {
+      "path": "telumia-desktop-portability-r6\\macos-arm64\\composeApp\\build\\compose\\binaries\\main-release\\dmg\\Telumia-macOS-arm64-1.0.0.dmg",
+      "bytes": 251223038
+    },
+    {
+      "path": "telumia-embedded-chapters-r1\\desktop\\package\\Telumia-Windows-x64-0.2.2-alpha.1.msi",
+      "bytes": 215647000
+    },
+    {
+      "path": "telumia-hover-lifecycle-desktop-bound\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215401240
+    },
+    {
+      "path": "telumia-hover-lifecycle-tv-fixed\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98549196
+    },
+    {
+      "path": "telumia-hover-lifecycle-tv-fixed\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96447610
+    },
+    {
+      "path": "telumia-hover-lifecycle-tv-fixed\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1352461
+    },
+    {
+      "path": "telumia-hover-lifecycle-tv-fixed\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185520438
+    },
+    {
+      "path": "telumia-hover-lifecycle-tv-fixed\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100969715
+    },
+    {
+      "path": "telumia-hover-lifecycle-tv-fixed\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100129850
+    },
+    {
+      "path": "telumia-native-fonts-desktop-bound\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215388952
+    },
+    {
+      "path": "telumia-native-fonts-tv\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98549196
+    },
+    {
+      "path": "telumia-native-fonts-tv\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96447610
+    },
+    {
+      "path": "telumia-native-fonts-tv\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1352461
+    },
+    {
+      "path": "telumia-native-fonts-tv\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185520438
+    },
+    {
+      "path": "telumia-native-fonts-tv\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100969715
+    },
+    {
+      "path": "telumia-native-fonts-tv\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100129850
+    },
+    {
+      "path": "telumia-player-dock-r1\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215626520
+    },
+    {
+      "path": "telumia-player-motion-desktop-r2\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215495448
+    },
+    {
+      "path": "telumia-preview-owner-tv\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98549196
+    },
+    {
+      "path": "telumia-preview-owner-tv\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96447610
+    },
+    {
+      "path": "telumia-preview-owner-tv\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1403785
+    },
+    {
+      "path": "telumia-preview-owner-tv\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185520438
+    },
+    {
+      "path": "telumia-preview-owner-tv\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100969715
+    },
+    {
+      "path": "telumia-preview-owner-tv\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100129850
+    },
+    {
+      "path": "telumia-primary-http-native-r1\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215626520
+    },
+    {
+      "path": "telumia-scene-bookmarks-desktop-controls-r3\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215585560
+    },
+    {
+      "path": "telumia-scene-bookmarks-desktop-controls-r4\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215585560
+    },
+    {
+      "path": "telumia-scene-bookmarks-desktop-storage\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215429912
+    },
+    {
+      "path": "telumia-scene-bookmarks-desktop-storage-isolated\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215429912
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-contrast\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98558004
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-contrast\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96456418
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-contrast\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1457526
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-contrast\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185529246
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-contrast\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100978523
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-contrast\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100138658
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-editions\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98558004
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-editions\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96456418
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-editions\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1457007
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-editions\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185529246
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-editions\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100978523
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-editions\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100138658
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98558004
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96456418
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1456912
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185529246
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100978523
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100138658
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime-window\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98558004
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime-window\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96456418
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime-window\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1458859
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime-window\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185529246
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime-window\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100978523
+    },
+    {
+      "path": "telumia-scene-bookmarks-tv-ime-window\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100138658
+    },
+    {
+      "path": "telumia-source-archive-validation\\Desktop-source-0a3b34-final.zip",
+      "bytes": 247791664
+    },
+    {
+      "path": "telumia-source-archive-validation\\Desktop-source-f277-final.zip",
+      "bytes": 247785071
+    },
+    {
+      "path": "telumia-source-archive-validation\\Desktop-source-f277-verified.zip",
+      "bytes": 247785071
+    },
+    {
+      "path": "telumia-source-archive-validation\\Desktop-source-f277.zip.part",
+      "bytes": 247785071
+    },
+    {
+      "path": "telumia-source-archive-validation\\TV-source-bb3faa-final.zip",
+      "bytes": 82063927
+    },
+    {
+      "path": "telumia-timeline-filmstrip-r2\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215626520
+    },
+    {
+      "path": "telumia-timeline-native-frames-r2\\desktop\\package\\Telumia-Windows-x64-0.2.1-alpha.1.msi",
+      "bytes": 215622424
+    },
+    {
+      "path": "telumia-tv-frame-diagnostics-r1\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 99285535
+    },
+    {
+      "path": "telumia-tv-frame-diagnostics-r1\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 97183949
+    },
+    {
+      "path": "telumia-tv-frame-diagnostics-r1\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-tv-frame-diagnostics-r1\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 186256777
+    },
+    {
+      "path": "telumia-tv-frame-diagnostics-r1\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 101706050
+    },
+    {
+      "path": "telumia-tv-frame-diagnostics-r1\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100866185
+    },
+    {
+      "path": "telumia-tv-frame-repeat-red-r1\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 99285535
+    },
+    {
+      "path": "telumia-tv-frame-repeat-red-r1\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 97183949
+    },
+    {
+      "path": "telumia-tv-frame-repeat-red-r1\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-tv-frame-repeat-red-r1\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 186256777
+    },
+    {
+      "path": "telumia-tv-frame-repeat-red-r1\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 101706050
+    },
+    {
+      "path": "telumia-tv-frame-repeat-red-r1\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100866185
+    },
+    {
+      "path": "telumia-tv-main-player-flow-r1\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 99285535
+    },
+    {
+      "path": "telumia-tv-main-player-flow-r1\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 97183949
+    },
+    {
+      "path": "telumia-tv-main-player-flow-r1\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-tv-main-player-flow-r1\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 186256777
+    },
+    {
+      "path": "telumia-tv-main-player-flow-r1\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 101706050
+    },
+    {
+      "path": "telumia-tv-main-player-flow-r1\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100866185
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r1\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 91582275
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r1\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 89480689
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r1\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r1\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 178553517
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r1\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 94002790
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r1\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 93162925
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r2\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 94913753
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r2\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 92812167
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r2\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r2\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 181884995
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r2\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 97334268
+    },
+    {
+      "path": "telumia-tv-preview-lifecycle-r2\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 96494403
+    },
+    {
+      "path": "telumia-tv-startup-graph-r1\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 98558004
+    },
+    {
+      "path": "telumia-tv-startup-graph-r1\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 96456418
+    },
+    {
+      "path": "telumia-tv-startup-graph-r1\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1458918
+    },
+    {
+      "path": "telumia-tv-startup-graph-r1\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 185529246
+    },
+    {
+      "path": "telumia-tv-startup-graph-r1\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 100978523
+    },
+    {
+      "path": "telumia-tv-startup-graph-r1\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100138658
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r3\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 99285535
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r3\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 97183949
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r3\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r3\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 186256777
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r3\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 101706050
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r3\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100866185
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r4\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 99285535
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r4\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 97183949
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r4\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r4\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 186256777
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r4\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 101706050
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r4\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100866185
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r5\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 99285535
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r5\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 97183949
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r5\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r5\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 186256777
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r5\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 101706050
+    },
+    {
+      "path": "telumia-tv-timeline-ui-r5\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 100866185
+    },
+    {
+      "path": "telumia-v022-desktop-r1\\desktop\\package\\Telumia-Windows-x64-0.2.2-alpha.1.msi",
+      "bytes": 215626520
+    },
+    {
+      "path": "telumia-v022-tv-r1\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 91421323
+    },
+    {
+      "path": "telumia-v022-tv-r1\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 89319737
+    },
+    {
+      "path": "telumia-v022-tv-r1\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 1510245
+    },
+    {
+      "path": "telumia-v022-tv-r1\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 178392565
+    },
+    {
+      "path": "telumia-v022-tv-r1\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 93841838
+    },
+    {
+      "path": "telumia-v022-tv-r1\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 93001973
+    },
+    {
+      "path": "telumia-v100-desktop-r1\\desktop\\package\\Telumia-Windows-x64-1.0.0.msi",
+      "bytes": 215647000
+    },
+    {
+      "path": "telumia-v100-tv-r1\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 91459094
+    },
+    {
+      "path": "telumia-v100-tv-r1\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 89357508
+    },
+    {
+      "path": "telumia-v100-tv-r1\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-v100-tv-r1\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 178430336
+    },
+    {
+      "path": "telumia-v100-tv-r1\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 93879609
+    },
+    {
+      "path": "telumia-v100-tv-r1\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 93039744
+    },
+    {
+      "path": "telumia-v100-tv-r2\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 91459094
+    },
+    {
+      "path": "telumia-v100-tv-r2\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 89357508
+    },
+    {
+      "path": "telumia-v100-tv-r2\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-v100-tv-r2\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 178430336
+    },
+    {
+      "path": "telumia-v100-tv-r2\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 93879609
+    },
+    {
+      "path": "telumia-v100-tv-r2\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 93039744
+    },
+    {
+      "path": "telumia-v100-tv-r3\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 91459094
+    },
+    {
+      "path": "telumia-v100-tv-r3\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 89357508
+    },
+    {
+      "path": "telumia-v100-tv-r3\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-v100-tv-r3\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 178430336
+    },
+    {
+      "path": "telumia-v100-tv-r3\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 93879609
+    },
+    {
+      "path": "telumia-v100-tv-r3\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 93039744
+    },
+    {
+      "path": "telumia-v100-tv-r4\\tv\\package\\app-full-arm64-v8a-debug.apk",
+      "bytes": 91581324
+    },
+    {
+      "path": "telumia-v100-tv-r4\\tv\\package\\app-full-armeabi-v7a-debug.apk",
+      "bytes": 89479738
+    },
+    {
+      "path": "telumia-v100-tv-r4\\tv\\package\\app-full-debug-androidTest.apk",
+      "bytes": 2261110
+    },
+    {
+      "path": "telumia-v100-tv-r4\\tv\\package\\app-full-universal-debug.apk",
+      "bytes": 178552566
+    },
+    {
+      "path": "telumia-v100-tv-r4\\tv\\package\\app-full-x86_64-debug.apk",
+      "bytes": 94001839
+    },
+    {
+      "path": "telumia-v100-tv-r4\\tv\\package\\app-full-x86-debug.apk",
+      "bytes": 93161974
+    }
+  ],
+  "inactiveOwnedAvdDirectories": [
+    "android-avd/NuvioEnhanced_ATV_01a10441.avd",
+    "android-avd/NuvioEnhanced_QA_01a10441.avd",
+    "android-avd/Telumia_API24_01a10441.avd"
+  ],
+  "scope": "Relative to artifacts; preserve source, all release folders, latest successful TV snapshot, latest native portability packages, current owned API36 AVD, reports and screenshots."
+}

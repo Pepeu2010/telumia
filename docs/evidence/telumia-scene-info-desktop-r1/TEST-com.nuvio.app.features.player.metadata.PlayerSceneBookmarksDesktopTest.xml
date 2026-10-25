@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="PlayerSceneBookmarksDesktopTest[desktop]" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-25T14:52:13.879Z" hostname="DESKTOP-02CKMVK" time="0.151">
+  <properties/>
+  <testcase name="ownerChangeBeforeQueuedIoDoesNotWriteOrPublishThePreviousProfile[desktop]" classname="com.nuvio.app.features.player.metadata.PlayerSceneBookmarksDesktopTest" time="0.032"/>
+  <testcase name="savesTheRealSnapshotThenRenamesSeeksAndRemovesTheSameDurableMoment[desktop]" classname="com.nuvio.app.features.player.metadata.PlayerSceneBookmarksDesktopTest" time="0.046"/>
+  <testcase name="realPlayerScopeRequiresAnOwnerSourceAndIdentifiedEpisode[desktop]" classname="com.nuvio.app.features.player.metadata.PlayerSceneBookmarksDesktopTest" time="0.0"/>
+  <testcase name="changedSourceRequiresExplicitConfirmationAndNeverProjectsOldMarkersOntoTheNewCut[desktop]" classname="com.nuvio.app.features.player.metadata.PlayerSceneBookmarksDesktopTest" time="0.022"/>
+  <testcase name="refusesUnavailableLoadingAndOutOfRangePlaybackInsteadOfInventingATimestamp[desktop]" classname="com.nuvio.app.features.player.metadata.PlayerSceneBookmarksDesktopTest" time="0.005"/>
+  <testcase name="failedPublicationPreservesPreviousFileAndOffersARetryWithoutClaimingTheNewName[desktop]" classname="com.nuvio.app.features.player.metadata.PlayerSceneBookmarksDesktopTest" time="0.044"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

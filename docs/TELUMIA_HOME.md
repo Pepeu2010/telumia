@@ -30,3 +30,7 @@ As capturas usam metadata de teste para reproduzir geometria e interação. Não
 A Home completa ainda requer trailers embutidos Windows, integração de previews com capacidades do aparelho, seções reorganizáveis, Continue Assistindo enriquecido e as demais integrações previstas. O incremento posterior de [ciclo de vida dos previews](PREVIEWS.md) acrescenta exclusividade/cancelamento no PC e no pool Media3, com gates próprios. Os testes não cobrem a Home completa com conteúdo real. A instrumentação não substitui medição em hardware físico de 2 GB. A aparência de todas as outras superfícies ainda precisa ser reconstruída conforme a [meta integral](GOAL_OBJECTIVE_2026-10-05.md).
 
 O incremento está no código dos clientes. Os downloads públicos da `0.2.0-alpha.1` permanecem fixos nos commits registrados no manifesto daquela release; não incluem esta entrega.
+
+## Continuação de desempenho da Home para TV Box
+
+No commit TV `f330f0165ec91cf8f00f5e0a15fa54ac2b51967c`, o perfil de memória passou a definir o trabalho antecipado das linhas da Home Moderna. Baixa RAM desativa prefetch de composição e imagens; equilibrado mantém um item; alta capacidade prepara dois. Com isso o perfil da Home Moderna segue a política já aplicada à Home Clássica, sem alterar o carregamento dos cards visíveis nem a navegação. O CI passou nos testes de perfil, compilou AndroidTest e montou `fullDebug`; o APK universal e os limites da prova estão no [registro r4](telumia-tv-low-resource-r4-ci.json). Ainda não foi comparado em TV Box física.
