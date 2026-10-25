@@ -3,18 +3,23 @@
 O workflow `.github/workflows/platform-release.yml` gera uma release combinada
 no repositório principal `Pepeu2010/telumia`. Ele acompanha diariamente a versão
 do cliente Android TV no branch `codex/live-tv-mini-player`; ao encontrar uma
-versão ainda não publicada, executa os testes focados de Live TV, compila os
-cinco APKs Full Debug e combina o instalador Windows x64 da release estável
-mais recente do repositório Desktop, junto aos arquivos-fonte correspondentes
-das duas plataformas.
+versão ainda não publicada, executa os testes focados de Live TV e Phone Remote,
+compila os cinco APKs Full Debug e combina o instalador Windows x64 da release
+estável mais recente do repositório Desktop, junto aos arquivos-fonte
+correspondentes das duas plataformas. Também pode ser executado manualmente
+com outro branch/commit, versão Desktop ou modo `build-only`.
 
 Cada publicação usa `versionName`/`versionCode` Android e registra à parte a
 versão do MSI. O fluxo não substitui uma release existente. Uma atualização
-publicável exige incrementar `versionName` e `versionCode` no cliente TV. A
-execução manual permite escolher outro branch/commit TV, uma versão Desktop
-específica e o modo `build-only` para conferir os pacotes sem publicar.
+publicável exige incrementar `versionName` e `versionCode` no cliente TV. O
+workflow é agendado diariamente às 06:30 UTC e permite execução manual pela
+interface Actions. Uma nova versão TV é selecionada no próximo ciclo diário,
+desde que a versão Android tenha sido incrementada; o job também pode ser
+iniciado manualmente para publicar sem aguardar o ciclo. Um push na `main` que
+altere o próprio arquivo do workflow também inicia uma execução.
 
-Antes de criar a release, o workflow valida os nove grupos de testes Live TV,
+Antes de criar a release, o workflow valida os nove grupos de testes Live TV e
+os três grupos de Phone Remote,
 os cinco APKs/assinaturas, tamanho e digest SHA-256 dos arquivos Desktop,
 arquivos-fonte TV/Desktop e os dez assets enviados. Os arquivos-fonte passam
 pela verificação dos objetos Git LFS. Só publica o rascunho depois de conferir
