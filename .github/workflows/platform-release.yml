@@ -115,6 +115,47 @@ jobs:
             exit 1
           fi
 
+          release_list="${RUNNER_TEMP}/telumia-releases.json"
+          curl --fail --silent --show-error --location \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
+            --output "${release_list}"
+          matching_count="$(jq --arg tag "${tag}" '[.[] | select(.tag_name == $tag)] | length' "${release_list}")"
+          if (( matching_count > 1 )); then
+            echo "Multiple drafts or releases use ${tag}; inspect them before continuing." >&2
+            exit 1
+          fi
+          if (( matching_count == 1 )); then
+            draft="$(jq -c --arg tag "${tag}" '[.[] | select(.tag_name == $tag)][0]' "${release_list}")"
+            if [[ "$(jq -r '.draft' <<<"${draft}")" != 'true' ]]; then
+              echo "GitHub lists ${tag}, but the tag lookup returned 404; refusing to create a duplicate release." >&2
+              exit 1
+            fi
+            apk_count="$(jq '[.assets[] | select(.name | endswith(".apk"))] | length' <<<"${draft}")"
+            msi_count="$(jq '[.assets[] | select(.name | endswith(".msi"))] | length' <<<"${draft}")"
+            zip_count="$(jq '[.assets[] | select(.name | endswith(".zip"))] | length' <<<"${draft}")"
+            manifest_count="$(jq '[.assets[] | select(.name == "release-manifest.json")] | length' <<<"${draft}")"
+            sums_count="$(jq '[.assets[] | select(.name == "SHA256SUMS.txt")] | length' <<<"${draft}")"
+            if (( apk_count != 5 || msi_count != 1 || zip_count != 2 || manifest_count != 1 || sums_count != 1 )); then
+              echo "The draft ${tag} is incomplete; preserve it for inspection instead of replacing it." >&2
+              exit 1
+            fi
+            {
+              echo "version=${version}"
+              echo "version_code=${version_code}"
+              echo "tag=${tag}"
+              echo "tv_sha=${tv_sha}"
+              if [[ "${RELEASE_MODE}" == 'publish' ]]; then
+                echo "action=resume_draft"
+                echo "draft_id=$(jq -r '.id' <<<"${draft}")"
+              else
+                echo 'action=build'
+              fi
+            } >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
           {
             echo "version=${version}"
             echo "version_code=${version_code}"
@@ -424,7 +465,15 @@ jobs:
           gh "${arguments[@]}"
 
           release_json="${RUNNER_TEMP}/telumia-draft-release.json"
-          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" > "${release_json}"
+          release_list="${RUNNER_TEMP}/telumia-created-releases.json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases?per_page=100" > "${release_list}"
+          matching_count="$(jq --arg tag "${RELEASE_TAG}" '[.[] | select(.tag_name == $tag and .draft == true)] | length' "${release_list}")"
+          if [[ "${matching_count}" != '1' ]]; then
+            echo "Could not find exactly one draft release for ${RELEASE_TAG} after upload." >&2
+            exit 1
+          fi
+          jq -c --arg tag "${RELEASE_TAG}" '[.[] | select(.tag_name == $tag and .draft == true)][0]' \
+            "${release_list}" > "${release_json}"
           expected_prerelease=false
           if [[ "${RELEASE_VERSION}" == *-* ]]; then
             expected_prerelease=true
@@ -464,8 +513,130 @@ jobs:
               -F draft=false -F prerelease=false -f make_latest=true --silent
           fi
 
-          gh api "repos/${GITHUB_REPOSITORY}/releases/${release_id}" \
-            --jq 'select(.draft == false) | "Published " + .html_url'
+          final_release="$(gh api "repos/${GITHUB_REPOSITORY}/releases/${release_id}")"
+          if [[ "$(jq -r '.draft' <<<"${final_release}")" != 'false' || \
+                "$(jq -r '.tag_name' <<<"${final_release}")" != "${RELEASE_TAG}" ]]; then
+            echo 'The release was not published against its intended tag.' >&2
+            exit 1
+          fi
+          jq -r '"Published " + .html_url' <<<"${final_release}"
+
+      - name: Verify and publish an uploaded release draft
+        if: steps.release.outputs.action == 'resume_draft'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_ID: ${{ steps.release.outputs.draft_id }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+          ANDROID_VERSION_CODE: ${{ steps.release.outputs.version_code }}
+          ANDROID_SOURCE_SHA: ${{ steps.release.outputs.tv_sha }}
+          DESKTOP_VERSION_INPUT: ${{ github.event.inputs.desktop_version || '' }}
+        run: |
+          set -euo pipefail
+          release_json="${RUNNER_TEMP}/telumia-existing-draft.json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}" > "${release_json}"
+          expected_prerelease=false
+          if [[ "${RELEASE_VERSION}" == *-* ]]; then
+            expected_prerelease=true
+          fi
+          if [[ "$(jq -r '.draft' "${release_json}")" != 'true' || \
+                "$(jq -r '.tag_name' "${release_json}")" != "${RELEASE_TAG}" || \
+                "$(jq -r '.prerelease' "${release_json}")" != "${expected_prerelease}" ]]; then
+            echo 'The existing release draft has the wrong tag or publication state.' >&2
+            exit 1
+          fi
+
+          apk_count="$(jq '[.assets[] | select(.name | endswith(".apk"))] | length' "${release_json}")"
+          msi_count="$(jq '[.assets[] | select(.name | endswith(".msi"))] | length' "${release_json}")"
+          zip_count="$(jq '[.assets[] | select(.name | endswith(".zip"))] | length' "${release_json}")"
+          manifest_asset="$(jq -c '[.assets[] | select(.name == "release-manifest.json")] | if length == 1 then .[0] else empty end' "${release_json}")"
+          sums_asset="$(jq -c '[.assets[] | select(.name == "SHA256SUMS.txt")] | if length == 1 then .[0] else empty end' "${release_json}")"
+          if (( apk_count != 5 || msi_count != 1 || zip_count != 2 )) || [[ -z "${manifest_asset}" || -z "${sums_asset}" ]]; then
+            echo 'The uploaded release draft does not contain the required ten assets.' >&2
+            exit 1
+          fi
+
+          manifest_path="${RUNNER_TEMP}/telumia-existing-release-manifest.json"
+          sums_path="${RUNNER_TEMP}/telumia-existing-SHA256SUMS.txt"
+          curl --fail --silent --show-error --location --retry 5 --retry-all-errors \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header 'Accept: application/octet-stream' \
+            "$(jq -r '.url' <<<"${manifest_asset}")" --output "${manifest_path}"
+          curl --fail --silent --show-error --location --retry 5 --retry-all-errors \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header 'Accept: application/octet-stream' \
+            "$(jq -r '.url' <<<"${sums_asset}")" --output "${sums_path}"
+
+          python3 - "${release_json}" "${manifest_path}" "${sums_path}" \
+            "${RELEASE_TAG}" "${RELEASE_VERSION}" "${ANDROID_SOURCE_SHA}" "${DESKTOP_VERSION_INPUT}" <<'PY'
+          import hashlib
+          import json
+          import sys
+          from pathlib import Path
+
+          release_path, manifest_path, sums_path, tag, version, tv_sha, desktop_input = sys.argv[1:]
+          release = json.loads(Path(release_path).read_text(encoding="utf-8"))
+          manifest_bytes = Path(manifest_path).read_bytes()
+          sums_bytes = Path(sums_path).read_bytes()
+          manifest_asset = next(asset for asset in release["assets"] if asset["name"] == "release-manifest.json")
+          sums_asset = next(asset for asset in release["assets"] if asset["name"] == "SHA256SUMS.txt")
+          for asset, content in ((manifest_asset, manifest_bytes), (sums_asset, sums_bytes)):
+              if asset.get("state") != "uploaded" or asset.get("digest") != "sha256:" + hashlib.sha256(content).hexdigest() or asset["size"] != len(content):
+                  raise SystemExit(f"Downloaded {asset['name']} differs from GitHub's uploaded asset metadata.")
+
+          manifest = json.loads(manifest_bytes)
+          if manifest.get("tag") != tag or manifest.get("distributions", {}).get("android", {}).get("versionName") != version:
+              raise SystemExit("The release manifest does not match the selected Android tag and version.")
+          if manifest.get("sourceCommits", {}).get("tv") != tv_sha:
+              raise SystemExit("The release manifest points to a different Android TV source commit.")
+          desktop_tag = manifest.get("distributions", {}).get("windows", {}).get("sourceReleaseTag", "")
+          if desktop_input and desktop_tag != "v" + desktop_input.removeprefix("v"):
+              raise SystemExit("The existing draft does not match the requested Desktop release.")
+
+          remote_assets = {asset["name"]: asset for asset in release["assets"]}
+          if len(remote_assets) != 10:
+              raise SystemExit("The release draft contains duplicate or unexpected assets.")
+          package_records = manifest.get("assets", [])
+          if len(package_records) != 8:
+              raise SystemExit("The release manifest must list five APKs, one MSI and two source archives.")
+          for record in package_records:
+              asset = remote_assets.get(record["name"])
+              if asset is None or asset.get("state") != "uploaded" or asset.get("size") != record["bytes"] or asset.get("digest") != "sha256:" + record["sha256"]:
+                  raise SystemExit(f"Uploaded asset does not match its release manifest: {record['name']}")
+          if sum(name.endswith(".apk") for name in remote_assets) != 5 or sum(name.endswith(".msi") for name in remote_assets) != 1 or sum(name.endswith(".zip") for name in remote_assets) != 2:
+              raise SystemExit("The release draft does not contain the expected APK, MSI and source archive set.")
+
+          sums = {}
+          for line in sums_bytes.decode("utf-8").splitlines():
+              digest, filename = line.split(None, 1)
+              filename = filename.lstrip("*").removeprefix("./")
+              if filename in sums:
+                  raise SystemExit(f"Duplicate checksum entry: {filename}")
+              sums[filename] = digest
+          expected_sums = set(remote_assets) - {"SHA256SUMS.txt"}
+          if set(sums) != expected_sums:
+              raise SystemExit("SHA256SUMS.txt does not list every release asset except itself.")
+          for name, digest in sums.items():
+              if remote_assets[name].get("digest") != "sha256:" + digest:
+                  raise SystemExit(f"Checksum file disagrees with the GitHub asset digest: {name}")
+          PY
+
+          if [[ "${expected_prerelease}" == 'true' ]]; then
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}" \
+              -F draft=false -F prerelease=true --silent
+          else
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}" \
+              -F draft=false -F prerelease=false -f make_latest=true --silent
+          fi
+
+          final_release="$(gh api "repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}")"
+          if [[ "$(jq -r '.draft' <<<"${final_release}")" != 'false' || \
+                "$(jq -r '.tag_name' <<<"${final_release}")" != "${RELEASE_TAG}" ]]; then
+            echo 'The existing draft did not publish against its intended tag.' >&2
+            exit 1
+          fi
+          jq -r '"Published " + .html_url' <<<"${final_release}"
 
       - name: Summarize build-only result
         if: steps.release.outputs.action == 'build' && env.RELEASE_MODE == 'build-only'
