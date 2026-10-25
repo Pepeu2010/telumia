@@ -1,6 +1,12 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.2-alpha.2`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.2-alpha.3`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
+
+## v1.0.2-alpha.3 — Phone Remote R1
+
+A [pré-release combinada](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.2-alpha.3) foi publicada em 25/10/2026 no repositório principal. Ela contém cinco APKs Android TV/TV Box Full Debug (universal, ARM64, ARM32, x86_64 e x86), o MSI Windows x64 Desktop 1.0.0, fontes das duas plataformas, manifesto e SHA256SUMS. Os dez assets foram conferidos por estado, tamanho e digest SHA-256. O workflow [40233135869](https://github.com/Pepeu2010/telumia/actions/runs/40233135869) passou os testes Live TV e Phone Remote, compilou os APKs, verificou o MSI e publicou a release.
+
+Fonte TV: commit `571b4ab475cd0d3caf5f1d111030c2bb75a4c806`, versionCode `10008`. Os APKs locais foram compilados em `assembleFullDebug` e verificados com `apksigner`; os APKs publicados foram recompilados no runner do GitHub Actions. O Windows MSI é a última release estável Desktop `v1.0.0` (ProductVersion 2.0.0), mantida separada da versão Android. O Phone Remote R1 funciona por opt-in na LAN; não houve QA em TV Box ou celular físicos. [Escopo e limites](PHONE_REMOTE.md).
 
 ## v1.0.2-alpha.2 — Live TV R2
 

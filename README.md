@@ -6,23 +6,26 @@
 
 Telumia é um media center open source para PC e Android TV, com marca própria e uma experiência cinematográfica em evolução. Usa os clientes nativos e o ecossistema do Nuvio como base técnica, preservando contas, biblioteca, progresso, addons Stremio e os motores de reprodução.
 
-O projeto acrescenta busca voltada ao Brasil, editores de avatar, cache configurável, navegação por teclado/controle, movimento adaptável e melhorias de Home, detalhes, timeline e sincronização. O redesign integral e os demais recursos do [plano aprovado](docs/ROADMAP.md) continuam em implementação.
+O projeto acrescenta busca voltada ao Brasil, editores de avatar, cache configurável, navegação por teclado/controle, movimento adaptável, controle remoto local de celular e melhorias de Home, detalhes, timeline e sincronização. O redesign integral e os demais recursos do [plano aprovado](docs/ROADMAP.md) continuam em implementação.
 
 ## Baixar e instalar
 
-Na [release 1.0.1](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.1), escolha:
+Na [pré-release combinada 1.0.2-alpha.3](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.2-alpha.3), escolha:
 
 | Aparelho | Arquivo |
 |---|---|
-| PC Windows de 64 bits | [Instalador MSI Desktop 1.0.0](https://github.com/Pepeu2010/telumia/releases/download/v1.0.1/Telumia-Windows-x64-1.0.0.msi) |
-| Android TV, sem precisar identificar a arquitetura | [APK universal 1.0.1](https://github.com/Pepeu2010/telumia/releases/download/v1.0.1/Telumia-TV-universal-debug.apk) |
-| Android TV, quando a arquitetura for conhecida | APK `arm64-v8a`, `armeabi-v7a`, `x86` ou `x86_64` |
+| PC Windows de 64 bits | [Instalador MSI Desktop 1.0.0](https://github.com/Pepeu2010/telumia/releases/download/v1.0.2-alpha.3/Telumia-Windows-x64-1.0.0.msi) |
+| Android TV/TV Box, sem identificar a arquitetura | [APK universal 1.0.2-alpha.3](https://github.com/Pepeu2010/telumia/releases/download/v1.0.2-alpha.3/Telumia-TV-1.0.2-alpha.3-universal-debug.apk) |
+| Android TV/TV Box ARM 64 bits | [APK arm64-v8a](https://github.com/Pepeu2010/telumia/releases/download/v1.0.2-alpha.3/Telumia-TV-1.0.2-alpha.3-arm64-v8a-debug.apk) |
+| Android TV/TV Box ARM 32 bits | [APK armeabi-v7a](https://github.com/Pepeu2010/telumia/releases/download/v1.0.2-alpha.3/Telumia-TV-1.0.2-alpha.3-armeabi-v7a-debug.apk) |
+| Android TV/TV Box x86 | [APK x86](https://github.com/Pepeu2010/telumia/releases/download/v1.0.2-alpha.3/Telumia-TV-1.0.2-alpha.3-x86-debug.apk) |
+| Android TV/TV Box x86 64 bits | [APK x86_64](https://github.com/Pepeu2010/telumia/releases/download/v1.0.2-alpha.3/Telumia-TV-1.0.2-alpha.3-x86_64-debug.apk) |
 
-Confira os checksums SHA-256 incluídos na release. Os APKs atuais são **Android TV Full Debug**, assinados para desenvolvimento. Ainda não há interface específica para celulares nem pacotes Linux/macOS publicados.
+Confira os checksums SHA-256 incluídos na release. Os APKs são **Android TV Full Debug**, assinados para desenvolvimento; uma chave diferente pode exigir desinstalar a versão anterior. O MSI de PC é a versão Desktop estável 1.0.0 e aparece identificado separadamente da versão Android.
 
 As versões de desenvolvimento mais recentes, com pacotes de Android TV/TV Box e Windows PC na mesma página, ficam em [Releases](https://github.com/Pepeu2010/telumia/releases).
 
-**Versão 1.0.1 publicada como release estável e “Latest” no repo principal.** A página contém cinco APKs Android TV e o MSI Windows x64; o app TV é 1.0.1 e o MSI Desktop é 1.0.0. Os arquivos e hashes foram conferidos. Os APKs são builds Full Debug de desenvolvimento. O redesign e os marcos posteriores continuam em implementação; a release não encerra a meta integral. [Entrega 1.0.0 e limites](docs/VERSION_100.md) · [Automação de APKs e MSI](docs/RELEASE_AUTOMATION.md).
+**Versão Android TV mais recente: 1.0.2-alpha.3.** Inclui Phone Remote local com pareamento por QR/código e aprovação explícita na TV. A release principal traz os cinco APKs, o MSI Desktop 1.0.0, fontes e hashes conferidos. É uma pré-release de desenvolvimento, não uma versão estável; validação em TV Box/celular físicos continua pendente. [Detalhes do Phone Remote](docs/PHONE_REMOTE.md) · [Histórico das releases](docs/RELEASES.md) · [Automação de APKs e MSI](docs/RELEASE_AUTOMATION.md).
 
 ## Melhorias já implementadas
 
@@ -48,7 +51,7 @@ As edições têm durações e divisões diferentes. É necessário configurar u
 
 ## O que continua em desenvolvimento
 
-O objetivo é transformar toda a experiência dos clientes existentes, conforme a [meta integral](docs/GOAL_OBJECTIVE_2026-10-05.md). Ainda não estão concluídos o redesign completo de todas as telas, previews de vídeo embutidos no Windows, validação de todas as rotas das thumbnails/filmstrip na TV, Scene Info, Source Intelligence, Live TV/EPG, Phone Remote, downloads avançados, Smart Collections e os demais critérios do plano. Os componentes preparatórios de TV/EPG não aparecem como funcionalidades prontas.
+O objetivo é transformar toda a experiência dos clientes existentes, conforme a [meta integral](docs/GOAL_OBJECTIVE_2026-10-05.md). Ainda não estão concluídos o redesign completo de todas as telas, previews de vídeo embutidos no Windows, validação de todas as rotas das thumbnails/filmstrip na TV, Scene Info, Source Intelligence, Live TV/EPG, QA física do Phone Remote, downloads avançados, Smart Collections e os demais critérios do plano. Os componentes preparatórios de TV/EPG não aparecem como funcionalidades prontas.
 
 Os builds nativos de Linux x64 (DEB), macOS Intel e Apple Silicon (DMG) passaram, com 38 testes aprovados e um caso exclusivo de Windows ignorado por plataforma. Os pacotes baixados tiveram seus hashes conferidos. Ainda falta validar execução autenticada e reprodução nessas plataformas; esses pacotes de CI não foram adicionados à release 1.0.0. [Resultados de portabilidade](docs/DESKTOP_PORTABILITY.md).
 

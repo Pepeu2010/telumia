@@ -53,6 +53,9 @@ A release combinada do repositório principal também inclui o MSI Windows x64 d
 última release estável Desktop disponível. Esse fluxo copia e verifica o MSI;
 não compila uma nova versão Desktop quando só o cliente Android TV muda. O
 manifesto identifica separadamente a versão Android e a versão do instalador PC.
+A versão `1.0.2-alpha.3` está publicada com os cinco APKs e o MSI Desktop `1.0.0`
+na [página principal de releases](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.2-alpha.3);
+o workflow de build e publicação [terminou com sucesso](https://github.com/Pepeu2010/telumia/actions/runs/40233135869).
 
 Não foi feita validação em TV Box ou celular físicos nesta entrega. Na execução
 completa observada anteriormente, 2.051 testes terminaram com 13 falhas e um
