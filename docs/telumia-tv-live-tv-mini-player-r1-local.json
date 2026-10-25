@@ -1,0 +1,68 @@
+{
+  "milestone": "Fase 6 Live TV — mini-player R1",
+  "status": "implemented_locally_not_published",
+  "base": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/enhanced-foundation",
+    "tag": "v1.0.1",
+    "commit": "776924e9abfda3120b1b5ec74e96de17c86b9ca4"
+  },
+  "implementation": {
+    "repository_branch": "codex/live-tv-mini-player",
+    "local_commit": "fca368158",
+    "github_commit": "09272944db0b039d4eac2ae102af9775fa0a937a",
+    "features": [
+      "The existing player surface shrinks while the quick channel selector is open.",
+      "The selector reuses LiveTvViewModel state for channels, favorites, guide, and timezone.",
+      "Only channels with a nonblank stream URL are selectable.",
+      "D-pad Up/Down and channel up/down keys open the selector; Back closes it.",
+      "Choosing another channel records it as recent and replaces the active player route."
+    ]
+  },
+  "verification": {
+    "unit_tests": {
+      "command": ":app:testFullDebugUnitTest --tests com.nuvio.tv.ui.screens.livetv.LiveTvQuickChannelPolicyTest --tests com.nuvio.tv.ui.screens.player.PlaybackProfileRouteTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0
+    },
+    "apk_build": {
+      "command": ":app:assembleFullDebug",
+      "status": "BUILD_SUCCESSFUL",
+      "android_test_compilation": ":app:compileFullDebugAndroidTestKotlin — BUILD_SUCCESSFUL"
+    },
+    "device_qa": {
+      "adb_devices": [],
+      "emulator_installed": false,
+      "status": "not_run_no_device_available"
+    }
+  },
+  "artifacts": [
+    {
+      "file": "app-full-arm64-v8a-debug.apk",
+      "bytes": 100075241,
+      "sha256": "9970ceb8f8ad56cde79b3128725052242017f7b3a71501d55166c89c4db60bee"
+    },
+    {
+      "file": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 97973651,
+      "sha256": "397f0b870bc70a06108b5765e10be7ccfa86561123408af8cca75a044f721e8c"
+    },
+    {
+      "file": "app-full-universal-debug.apk",
+      "bytes": 187046479,
+      "sha256": "e2ee0c1722c77158071a34b002d6a177e2d713e20b7a7c0f2d895f3df27f028c"
+    },
+    {
+      "file": "app-full-x86_64-debug.apk",
+      "bytes": 102495756,
+      "sha256": "dac48c9d6918b51ee5342d1ebd2add7e3192ed59e6d26e7262f8e56529ae91e2"
+    },
+    {
+      "file": "app-full-x86-debug.apk",
+      "bytes": 101655891,
+      "sha256": "fe0400cfe7eec0cfc8a4909fb2e25c262cb44d3b42d3b889c0ee060239e9fa18"
+    }
+  ],
+  "release_note": "This post-v1.0.1 increment is not published. It is a Full Debug build signed with the development key."
+}

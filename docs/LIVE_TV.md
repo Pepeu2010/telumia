@@ -85,4 +85,14 @@ Os commits `b369ea40e` e `e8d8308cf` adicionam um seletor acessível por D-pad p
 
 O run [39359528952](https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952) passou nos testes JVM selecionados, compilou os testes instrumentados e concluiu `assembleFullDebug` em 7 min 50 s no commit `e8d8308cf`. APKs de depuração ficam disponíveis até 27/10/2026: [universal — 179.161.338 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12237345254), [ARM64 — 92.190.096 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12236239064) e [ARMv7 — 90.088.510 bytes](https://github.com/Pepeu2010/telumia-tv/actions/runs/39359528952/artifacts/12236931962). O build usa assinatura de debug do CI. Testes instrumentados foram compilados, mas não executados em aparelho; não houve QA físico em TV Box.
 
-O registro estruturado está em [telumia-tv-live-tv-r10-ci.json](telumia-tv-live-tv-r10-ci.json). O mini-player continua pendente; a Fase 6 permanece aberta.
+O registro estruturado está em [telumia-tv-live-tv-r10-ci.json](telumia-tv-live-tv-r10-ci.json).
+
+## Mini-player e troca rápida — R1 após v1.0.1
+
+O incremento está no commit TV `09272944db0b039d4eac2ae102af9775fa0a937a` da branch remota `codex/live-tv-mini-player`, derivada do marco `v1.0.1`. O checkout local preserva o commit equivalente `fca368158`.
+
+O player aberto pela rota Live TV agora aceita ↑/↓ durante reprodução com os controles ocultos e as teclas dedicadas Channel Up/Down. O seletor ocupa a lateral esquerda; a superfície de vídeo do mesmo `PlayerScreen` e do mesmo controlador é reduzida no canto superior direito e continua reproduzindo enquanto a lista recebe foco. Voltar ou Fechar restaura a tela cheia. O seletor compartilha o `LiveTvViewModel` que permanece na pilha de navegação, por isso mostra favoritos, Agora/A seguir e o fuso já escolhido sem carregar outra fonte.
+
+Entram na lista somente canais que têm URL de stream não vazia. Selecionar outro canal registra o recente, encerra o controlador atual e troca a rota do player; o novo canal mantém o seletor aberto enquanto carrega. Selecionar o canal atual apenas fecha o seletor. Itens EPG sem URL continuam sem ação de reprodução, e nenhuma fonte/conteúdo é distribuído pelo app.
+
+No checkout TV derivado do marco estável `v1.0.1`, passaram 9 testes JVM focados (`LiveTvQuickChannelPolicyTest` e `PlaybackProfileRouteTest`), `:app:assembleFullDebug` gerou os cinco APKs Full Debug e `:app:compileFullDebugAndroidTestKotlin` compilou os testes instrumentados. O registro local com tamanhos e SHA-256 está em [telumia-tv-live-tv-mini-player-r1-local.json](telumia-tv-live-tv-mini-player-r1-local.json). Não havia AVD/emulador nem aparelho conectado via ADB; navegação D-pad, composição visual e troca com stream real ainda precisam de QA em dispositivo. R1 é código posterior à estável, está em revisão de PR e ainda não foi publicado como release. A Fase 6 continua aberta até essa validação.
