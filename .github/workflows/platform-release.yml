@@ -362,6 +362,11 @@ jobs:
             --no-daemon \
             --stacktrace
 
+      - name: Restore the pinned TV source before archiving
+        if: steps.release.outputs.action == 'build'
+        shell: bash
+        run: git -C repos/tv restore --worktree -- app/build.gradle.kts
+
       - name: Download and verify the Windows Desktop MSI
         if: steps.release.outputs.action == 'build'
         shell: bash
