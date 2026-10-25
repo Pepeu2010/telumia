@@ -10,17 +10,17 @@ O projeto acrescenta busca voltada ao Brasil, editores de avatar, cache configur
 
 ## Baixar e instalar
 
-Na [release 1.0.0](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.0), escolha:
+Na [release 1.0.1](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.1), escolha:
 
 | Aparelho | Arquivo |
 |---|---|
-| PC Windows de 64 bits | [Instalador MSI](https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-Windows-x64.msi) |
-| Android TV, sem precisar identificar a arquitetura | [APK universal](https://github.com/Pepeu2010/telumia/releases/download/v1.0.0/Telumia-TV-universal-debug.apk) |
+| PC Windows de 64 bits | [Instalador MSI Desktop 1.0.0](https://github.com/Pepeu2010/telumia/releases/download/v1.0.1/Telumia-Windows-x64-1.0.0.msi) |
+| Android TV, sem precisar identificar a arquitetura | [APK universal 1.0.1](https://github.com/Pepeu2010/telumia/releases/download/v1.0.1/Telumia-TV-universal-debug.apk) |
 | Android TV, quando a arquitetura for conhecida | APK `arm64-v8a`, `armeabi-v7a`, `x86` ou `x86_64` |
 
 Confira os checksums SHA-256 incluídos na release. Os APKs atuais são **Android TV Full Debug**, assinados para desenvolvimento. Ainda não há interface específica para celulares nem pacotes Linux/macOS publicados.
 
-**Versão 1.0.0 publicada, sem sufixo alpha:** release regular e “Latest” nos três repositórios, com 22 arquivos conferidos por tamanho e SHA-256. Reúne os avanços de perfis, navegação/motion, momentos salvos e reconciliação durável de coleções/addons. No PC, inclui o player reorganizado, miniaturas, filmstrip e capítulos reais do arquivo. A TV inclui a fundação de extração de frames; sua integração visual com D-pad continua em desenvolvimento. [Entrega e limites](docs/VERSION_100.md). As alphas anteriores foram preservadas. A numeração 1.0.0 não encerra a meta integral.
+**Versão 1.0.1 publicada como release estável e “Latest” no repo principal.** A página contém cinco APKs Android TV e o MSI Windows x64; o app TV é 1.0.1 e o MSI Desktop é 1.0.0. Os arquivos e hashes foram conferidos. Os APKs são builds Full Debug de desenvolvimento. O redesign e os marcos posteriores continuam em implementação; a release não encerra a meta integral. [Entrega 1.0.0 e limites](docs/VERSION_100.md) · [Automação de APKs e MSI](docs/RELEASE_AUTOMATION.md).
 
 ## Melhorias já implementadas
 

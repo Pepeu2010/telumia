@@ -1,0 +1,466 @@
+name: Publicar pacotes Telumia para Android TV e Windows
+
+on:
+  workflow_dispatch:
+    inputs:
+      tv_ref:
+        description: Branch ou commit do cliente Android TV
+        required: false
+        default: codex/live-tv-mini-player
+        type: string
+      desktop_version:
+        description: Versão Desktop publicada; vazio seleciona a release estável mais recente
+        required: false
+        type: string
+      mode:
+        description: Compilar e guardar como artefato, ou publicar no repositório principal
+        required: true
+        default: publish
+        type: choice
+        options:
+          - publish
+          - build-only
+  schedule:
+    - cron: "30 6 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/platform-release.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telumia-platform-release
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    name: Android TV APKs + Windows PC MSI
+    runs-on: ubuntu-latest
+    env:
+      TV_REF: ${{ github.event.inputs.tv_ref || 'codex/live-tv-mini-player' }}
+      DESKTOP_VERSION_INPUT: ${{ github.event.inputs.desktop_version || '' }}
+      RELEASE_MODE: ${{ github.event.inputs.mode || 'publish' }}
+
+    steps:
+      - name: Check out the main Telumia repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Check out the Android TV source
+        uses: actions/checkout@v6
+        with:
+          repository: Pepeu2010/telumia-tv
+          ref: ${{ github.event.inputs.tv_ref || 'codex/live-tv-mini-player' }}
+          path: repos/tv
+          lfs: true
+          persist-credentials: false
+
+      - name: Validate versions and avoid replacing a release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_REF}" != 'refs/heads/main' ]]; then
+            echo 'Run this workflow from the main branch so the release tag points to the main Telumia repository.' >&2
+            exit 1
+          fi
+          version="$(sed -nE 's/^[[:space:]]*versionName[[:space:]]*=[[:space:]]*"([^"]+)".*$/\1/p' repos/tv/app/build.gradle.kts | head -n 1)"
+          version_code="$(sed -nE 's/^[[:space:]]*versionCode[[:space:]]*=[[:space:]]*([0-9]+).*$/\1/p' repos/tv/app/build.gradle.kts | head -n 1)"
+          if [[ ! "${version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta)\.[0-9]+)?$ || ! "${version_code}" =~ ^[0-9]+$ ]]; then
+            echo "Could not read a valid Android versionName and versionCode from the selected source." >&2
+            exit 1
+          fi
+
+          tag="v${version}"
+          tv_sha="$(git -C repos/tv rev-parse HEAD)"
+          release_json="${RUNNER_TEMP}/telumia-existing-release.json"
+          status="$(curl --silent --show-error --output "${release_json}" --write-out '%{http_code}' \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${tag}")"
+
+          if [[ "${status}" == '200' ]]; then
+            if [[ "$(jq -r '.draft' "${release_json}")" != 'false' ]]; then
+              echo "A draft already exists for ${tag}; inspect it before retrying." >&2
+              exit 1
+            fi
+            apk_count="$(jq '[.assets[] | select(.name | endswith(".apk"))] | length' "${release_json}")"
+            msi_count="$(jq '[.assets[] | select(.name | endswith(".msi"))] | length' "${release_json}")"
+            zip_count="$(jq '[.assets[] | select(.name | endswith(".zip"))] | length' "${release_json}")"
+            manifest_count="$(jq '[.assets[] | select(.name == "release-manifest.json")] | length' "${release_json}")"
+            sums_count="$(jq '[.assets[] | select(.name == "SHA256SUMS.txt")] | length' "${release_json}")"
+            if (( apk_count != 5 || msi_count != 1 || zip_count != 2 || manifest_count != 1 || sums_count != 1 )); then
+              echo "The published ${tag} release is missing TV APKs or its PC MSI; published releases are left untouched." >&2
+              exit 1
+            fi
+            echo "Release ${tag} already exists with ${apk_count} APKs and one MSI; leaving its assets immutable."
+            echo "action=skip" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+          if [[ "${status}" != '404' ]]; then
+            echo "Could not inspect the main repository release (HTTP ${status})." >&2
+            cat "${release_json}" >&2
+            exit 1
+          fi
+
+          {
+            echo "version=${version}"
+            echo "version_code=${version_code}"
+            echo "tag=${tag}"
+            echo "tv_sha=${tv_sha}"
+            echo "action=build"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Explain that this version is already published
+        if: steps.release.outputs.action == 'skip'
+        run: echo "This Android version already has its combined APK + MSI release in ${GITHUB_REPOSITORY}."
+
+      - name: Set up Java
+        if: steps.release.outputs.action == 'build'
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        if: steps.release.outputs.action == 'build'
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Run Live TV unit tests and build all Android TV APKs
+        if: steps.release.outputs.action == 'build'
+        working-directory: repos/tv
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./gradlew \
+            :app:testFullDebugUnitTest \
+            --tests '*LiveTvGuideCacheTest' \
+            --tests '*LiveTvGuideRefreshJobTest' \
+            --tests '*LiveTvSourceImporterTest' \
+            --tests '*M3uPlaylistParserTest' \
+            --tests '*XmlTvParserTest' \
+            --tests '*LiveTvChannelStateStoreTest' \
+            --tests '*GuideTimelineTest' \
+            --tests '*LiveTvQuickChannelPolicyTest' \
+            --tests '*LiveTvViewModelTest' \
+            :app:assembleFullDebug \
+            --no-daemon \
+            --stacktrace
+
+      - name: Download and verify the Windows Desktop MSI
+        if: steps.release.outputs.action == 'build'
+        shell: bash
+        run: |
+          set -euo pipefail
+          desktop_api='https://api.github.com/repos/Pepeu2010/telumia-desktop/releases'
+          requested="${DESKTOP_VERSION_INPUT#v}"
+          if [[ -n "${requested}" ]]; then
+            if [[ ! "${requested}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta)\.[0-9]+)?$ ]]; then
+              echo "Invalid Desktop version: ${DESKTOP_VERSION_INPUT}" >&2
+              exit 1
+            fi
+            desktop_tag="v${requested}"
+            curl --fail --silent --show-error --location "${desktop_api}/tags/${desktop_tag}" \
+              --output "${RUNNER_TEMP}/telumia-desktop-release.json"
+          else
+            curl --fail --silent --show-error --location "${desktop_api}/latest" \
+              --output "${RUNNER_TEMP}/telumia-desktop-release.json"
+            desktop_tag="$(jq -r '.tag_name' "${RUNNER_TEMP}/telumia-desktop-release.json")"
+          fi
+
+          desktop_release="${RUNNER_TEMP}/telumia-desktop-release.json"
+          if [[ "$(jq -r '.draft' "${desktop_release}")" != 'false' ]]; then
+            echo "Desktop ${desktop_tag} is a draft and cannot be packaged." >&2
+            exit 1
+          fi
+          asset="$(jq -c '[.assets[] | select(.name == "Telumia-Windows-x64.msi")] | if length == 1 then .[0] else empty end' "${desktop_release}")"
+          if [[ -z "${asset}" ]]; then
+            echo "Desktop ${desktop_tag} does not contain exactly one Telumia-Windows-x64.msi asset." >&2
+            exit 1
+          fi
+
+          source_asset="$(jq -c '[.assets[] | select(.name == "Telumia-desktop-source.zip")] | if length == 1 then .[0] else empty end' "${desktop_release}")"
+          source_manifest_asset="$(jq -c '[.assets[] | select(.name == "release-manifest.json")] | if length == 1 then .[0] else empty end' "${desktop_release}")"
+          if [[ -z "${source_asset}" || -z "${source_manifest_asset}" ]]; then
+            echo "Desktop ${desktop_tag} must provide its source archive and release manifest." >&2
+            exit 1
+          fi
+
+          msi_url="$(jq -r '.browser_download_url' <<<"${asset}")"
+          msi_size="$(jq -r '.size' <<<"${asset}")"
+          msi_digest="$(jq -r '.digest // empty' <<<"${asset}")"
+          source_url="$(jq -r '.browser_download_url' <<<"${source_asset}")"
+          source_size="$(jq -r '.size' <<<"${source_asset}")"
+          source_digest="$(jq -r '.digest // empty' <<<"${source_asset}")"
+          manifest_url="$(jq -r '.browser_download_url' <<<"${source_manifest_asset}")"
+          manifest_size="$(jq -r '.size' <<<"${source_manifest_asset}")"
+          manifest_digest="$(jq -r '.digest // empty' <<<"${source_manifest_asset}")"
+          if [[ ! "${msi_digest}" =~ ^sha256:[0-9a-f]{64}$ || \
+                ! "${source_digest}" =~ ^sha256:[0-9a-f]{64}$ || \
+                ! "${manifest_digest}" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+            echo "GitHub did not provide SHA-256 digests for the Desktop release files." >&2
+            exit 1
+          fi
+          android_version="$(sed -nE 's/^[[:space:]]*versionName[[:space:]]*=[[:space:]]*"([^"]+)".*$/\1/p' repos/tv/app/build.gradle.kts | head -n 1)"
+          release_dir="artifacts/releases/v${android_version}"
+          mkdir -p "${release_dir}"
+          msi_version="${desktop_tag#v}"
+          msi_name="Telumia-Windows-x64-${msi_version}.msi"
+          manifest_path="${RUNNER_TEMP}/telumia-desktop-release-manifest.json"
+          curl --fail --silent --show-error --location --retry 5 --retry-all-errors "${msi_url}" \
+            --output "${release_dir}/${msi_name}"
+          curl --fail --silent --show-error --location --retry 5 --retry-all-errors "${source_url}" \
+            --output "${release_dir}/Telumia-desktop-source.zip"
+          curl --fail --silent --show-error --location --retry 5 --retry-all-errors "${manifest_url}" \
+            --output "${manifest_path}"
+
+          verify_asset() {
+            local file="$1" expected_size="$2" expected_digest="$3" actual_size actual_digest
+            actual_size="$(stat --format='%s' "${file}")"
+            actual_digest="sha256:$(sha256sum "${file}" | awk '{print $1}')"
+            if [[ "${actual_size}" != "${expected_size}" || "${actual_digest}" != "${expected_digest}" ]]; then
+              echo "Downloaded file does not match its published size or SHA-256: ${file}" >&2
+              exit 1
+            fi
+          }
+          verify_asset "${release_dir}/${msi_name}" "${msi_size}" "${msi_digest}"
+          verify_asset "${release_dir}/Telumia-desktop-source.zip" "${source_size}" "${source_digest}"
+          verify_asset "${manifest_path}" "${manifest_size}" "${manifest_digest}"
+
+          desktop_source_sha="$(jq -r '.sourceCommits.desktop // empty' "${manifest_path}")"
+          desktop_installer_version="$(jq -r '.distributions.windows.installerVersion // empty' "${manifest_path}")"
+          desktop_inspection_count="$(jq '[.sourceArchiveInspections[] | select(.target == "desktop" and .file == "Telumia-desktop-source.zip")] | length' "${manifest_path}")"
+          desktop_inspection_sha="$(jq -r '[.sourceArchiveInspections[] | select(.target == "desktop" and .file == "Telumia-desktop-source.zip")][0].sha256 // empty' "${manifest_path}")"
+          desktop_manifest_sha="$(jq -r '[.assets[] | select(.name == "Telumia-Windows-x64.msi")][0].sha256 // empty' "${manifest_path}")"
+          desktop_manifest_msi_size="$(jq -r '[.assets[] | select(.name == "Telumia-Windows-x64.msi")][0].bytes // empty' "${manifest_path}")"
+          if [[ ! "${desktop_source_sha}" =~ ^[a-f0-9]{40}$ || -z "${desktop_installer_version}" || \
+                "${desktop_inspection_count}" != '1' || "${desktop_inspection_sha}" != "${source_digest#sha256:}" || \
+                "${desktop_manifest_sha}" != "${msi_digest#sha256:}" || "${desktop_manifest_msi_size}" != "${msi_size}" ]]; then
+            echo 'Desktop release manifest disagrees with the verified MSI, source archive or installer metadata.' >&2
+            exit 1
+          fi
+
+          {
+            echo "desktop_version=${msi_version}"
+            echo "desktop_installer_version=${desktop_installer_version}"
+            echo "desktop_source_sha=${desktop_source_sha}"
+            echo "desktop_tag=${desktop_tag}"
+            echo "desktop_release_url=$(jq -r '.html_url' "${desktop_release}")"
+          } >> "${GITHUB_OUTPUT}"
+        id: desktop
+
+      - name: Verify APKs and prepare checksums and release notes
+        if: steps.release.outputs.action == 'build'
+        shell: bash
+        env:
+          ANDROID_VERSION: ${{ steps.release.outputs.version }}
+          ANDROID_VERSION_CODE: ${{ steps.release.outputs.version_code }}
+          ANDROID_SOURCE_SHA: ${{ steps.release.outputs.tv_sha }}
+          DESKTOP_VERSION: ${{ steps.desktop.outputs.desktop_version }}
+          DESKTOP_INSTALLER_VERSION: ${{ steps.desktop.outputs.desktop_installer_version }}
+          DESKTOP_SOURCE_SHA: ${{ steps.desktop.outputs.desktop_source_sha }}
+          DESKTOP_TAG: ${{ steps.desktop.outputs.desktop_tag }}
+          DESKTOP_RELEASE_URL: ${{ steps.desktop.outputs.desktop_release_url }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          DESKTOP_RELEASE_MANIFEST_PATH: ${{ runner.temp }}/telumia-desktop-release-manifest.json
+        run: |
+          set -euo pipefail
+          apk_dir='repos/tv/app/build/outputs/apk/full/debug'
+          output_dir="artifacts/releases/${RELEASE_TAG}"
+          mkdir -p "${output_dir}"
+          sdk_root="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
+          if [[ -z "${sdk_root}" ]]; then
+            echo 'Android SDK path was not configured by the runner.' >&2
+            exit 1
+          fi
+          apksigner="$(find "${sdk_root}/build-tools" -maxdepth 2 -type f -name apksigner -print | sort -V | tail -n 1)"
+          if [[ -z "${apksigner}" ]]; then
+            echo 'Android build-tools apksigner was not found.' >&2
+            exit 1
+          fi
+
+          abis=(universal arm64-v8a armeabi-v7a x86_64 x86)
+          for abi in "${abis[@]}"; do
+            source="${apk_dir}/app-full-${abi}-debug.apk"
+            destination="${output_dir}/Telumia-TV-${ANDROID_VERSION}-${abi}-debug.apk"
+            if [[ ! -s "${source}" ]]; then
+              echo "Missing APK for ${abi}: ${source}" >&2
+              exit 1
+            fi
+            "${apksigner}" verify --verbose "${source}"
+            cp "${source}" "${destination}"
+          done
+
+          pwsh -NoProfile -File scripts/Export-TelumiaSourceArchive.ps1 \
+            -Target tv \
+            -Commit "${ANDROID_SOURCE_SHA}" \
+            -OutputPath "${output_dir}/Telumia-tv-source.zip"
+
+          apk_count="$(find "${output_dir}" -maxdepth 1 -type f -name '*.apk' | wc -l)"
+          msi_count="$(find "${output_dir}" -maxdepth 1 -type f -name '*.msi' | wc -l)"
+          zip_count="$(find "${output_dir}" -maxdepth 1 -type f -name '*.zip' | wc -l)"
+          if [[ "${apk_count}" -ne 5 || "${msi_count}" -ne 1 || "${zip_count}" -ne 2 ]]; then
+            echo "Release must contain five APKs, one MSI and two source archives; found ${apk_count}, ${msi_count} and ${zip_count}." >&2
+            exit 1
+          fi
+
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          directory = Path("artifacts/releases") / os.environ["RELEASE_TAG"]
+          assets = []
+          for path in sorted(directory.iterdir()):
+              if path.suffix.lower() not in {".apk", ".msi", ".zip"}:
+                  continue
+              digest = hashlib.sha256(path.read_bytes()).hexdigest()
+              assets.append({"name": path.name, "bytes": path.stat().st_size, "sha256": digest})
+
+          desktop_manifest = json.loads(Path(os.environ["DESKTOP_RELEASE_MANIFEST_PATH"]).read_text(encoding="utf-8"))
+          desktop_source_inspection = next(
+              item for item in desktop_manifest["sourceArchiveInspections"] if item["target"] == "desktop"
+          )
+          tv_source_inspection = json.loads(
+              (directory / "Telumia-tv-source.zip.inspection.json").read_text(encoding="utf-8-sig")
+          )
+          manifest = {
+              "preparedAtUtc": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
+              "tag": os.environ["RELEASE_TAG"],
+              "product": "Telumia",
+              "prerelease": "-" in os.environ["ANDROID_VERSION"],
+              "sourceCommits": {
+                  "desktop": os.environ["DESKTOP_SOURCE_SHA"],
+                  "tv": os.environ["ANDROID_SOURCE_SHA"],
+              },
+              "distributions": {
+                  "android": {
+                      "distribution": "development debug only",
+                      "versionCode": os.environ["ANDROID_VERSION_CODE"],
+                      "versionName": os.environ["ANDROID_VERSION"],
+                  },
+                  "windows": {
+                      "installerVersion": os.environ["DESKTOP_INSTALLER_VERSION"],
+                      "displayVersion": os.environ["ANDROID_VERSION"],
+                      "sourceReleaseTag": os.environ["DESKTOP_TAG"],
+                      "sourceReleaseUrl": os.environ["DESKTOP_RELEASE_URL"],
+                  },
+              },
+              "scope": "Live TV import resilience R2; development APKs and published stable Desktop MSI.",
+              "validationLabel": "platform-release-workflow",
+              "runtimeGates": None,
+              "assets": assets,
+              "sourceArchiveInspections": [desktop_source_inspection, tv_source_inspection],
+          }
+          (directory / "release-manifest.json").write_text(
+              json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          (cd "${output_dir}" && sha256sum ./*.apk ./*.msi ./*.zip ./release-manifest.json > SHA256SUMS.txt)
+          cat > release-notes.md <<EOF
+          ## Telumia ${ANDROID_VERSION} — Android TV/TV Box e Windows PC
+
+          Esta release reúne os pacotes Android TV e Windows PC na página principal da Telumia.
+
+          **Android TV/TV Box ${ANDROID_VERSION}** (código ${ANDROID_VERSION_CODE}): APK universal e variantes ARM64, ARM32, x86_64 e x86. Fonte TV: [${ANDROID_SOURCE_SHA}](https://github.com/Pepeu2010/telumia-tv/commit/${ANDROID_SOURCE_SHA}). Os APKs são Full Debug e usam assinatura de desenvolvimento; uma chave diferente pode exigir a desinstalação da versão anterior. Telumia-tv-source.zip contém o código-fonte TV desse commit.
+
+          **Windows PC ${DESKTOP_VERSION}** (ProductVersion ${DESKTOP_INSTALLER_VERSION}): MSI x64 copiado da [release Desktop ${DESKTOP_TAG}](${DESKTOP_RELEASE_URL}). A versão de PC é identificada separadamente da versão Android. Telumia-desktop-source.zip corresponde à mesma release Desktop.
+
+          SHA256SUMS.txt cobre os cinco APKs, o MSI, os dois arquivos de fonte e o manifesto desta release.
+          EOF
+
+      - name: Preserve the built packages in the workflow run
+        if: steps.release.outputs.action == 'build'
+        uses: actions/upload-artifact@v7
+        with:
+          name: telumia-${{ steps.release.outputs.version }}-android-tv-windows-pc
+          path: |
+            artifacts/releases/${{ steps.release.outputs.tag }}/*.apk
+            artifacts/releases/${{ steps.release.outputs.tag }}/*.msi
+            artifacts/releases/${{ steps.release.outputs.tag }}/*.zip
+            artifacts/releases/${{ steps.release.outputs.tag }}/release-manifest.json
+            artifacts/releases/${{ steps.release.outputs.tag }}/SHA256SUMS.txt
+            release-notes.md
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create a draft release in the main Telumia repository
+        if: steps.release.outputs.action == 'build' && env.RELEASE_MODE == 'publish'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+          DESKTOP_VERSION: ${{ steps.desktop.outputs.desktop_version }}
+        run: |
+          set -euo pipefail
+          release_dir="artifacts/releases/${RELEASE_TAG}"
+          arguments=(release create "${RELEASE_TAG}" "${release_dir}"/*.apk "${release_dir}"/*.msi \
+            "${release_dir}"/*.zip "${release_dir}/release-manifest.json" "${release_dir}/SHA256SUMS.txt" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --target "${GITHUB_SHA}" \
+            --title "Telumia ${RELEASE_VERSION} — Android TV + Windows PC" \
+            --notes-file release-notes.md \
+            --draft \
+            --latest=false)
+          if [[ "${RELEASE_VERSION}" == *-* ]]; then
+            arguments+=(--prerelease)
+          fi
+          gh "${arguments[@]}"
+
+          release_json="${RUNNER_TEMP}/telumia-draft-release.json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" > "${release_json}"
+          expected_prerelease=false
+          if [[ "${RELEASE_VERSION}" == *-* ]]; then
+            expected_prerelease=true
+          fi
+          if [[ "$(jq -r '.draft' "${release_json}")" != 'true' || \
+                "$(jq -r '.prerelease' "${release_json}")" != "${expected_prerelease}" ]]; then
+            echo 'The uploaded release has the wrong draft or prerelease state.' >&2
+            exit 1
+          fi
+
+          expected_names="$(find "${release_dir}" -maxdepth 1 -type f \( -name '*.apk' -o -name '*.msi' -o -name '*.zip' -o -name 'release-manifest.json' -o -name 'SHA256SUMS.txt' \) -printf '%f\n' | sort)"
+          actual_names="$(jq -r '.assets[].name' "${release_json}" | sort)"
+          if [[ "${expected_names}" != "${actual_names}" ]]; then
+            echo 'The draft release asset list differs from the validated package set.' >&2
+            diff -u <(printf '%s\n' "${expected_names}") <(printf '%s\n' "${actual_names}") >&2 || true
+            exit 1
+          fi
+          while IFS= read -r name; do
+            file="${release_dir}/${name}"
+            expected_size="$(stat --format='%s' "${file}")"
+            expected_digest="sha256:$(sha256sum "${file}" | awk '{print $1}')"
+            remote="$(jq -c --arg name "${name}" '.assets[] | select(.name == $name)' "${release_json}")"
+            if [[ "$(jq -r '.state' <<<"${remote}")" != 'uploaded' || \
+                  "$(jq -r '.size' <<<"${remote}")" != "${expected_size}" || \
+                  "$(jq -r '.digest' <<<"${remote}")" != "${expected_digest}" ]]; then
+              echo "The GitHub upload failed verification for ${name}." >&2
+              exit 1
+            fi
+          done <<< "${expected_names}"
+
+          release_id="$(jq -r '.id' "${release_json}")"
+          if [[ "${RELEASE_VERSION}" == *-* ]]; then
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/releases/${release_id}" \
+              -F draft=false -F prerelease=true --silent
+          else
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/releases/${release_id}" \
+              -F draft=false -F prerelease=false -f make_latest=true --silent
+          fi
+
+          gh api "repos/${GITHUB_REPOSITORY}/releases/${release_id}" \
+            --jq 'select(.draft == false) | "Published " + .html_url'
+
+      - name: Summarize build-only result
+        if: steps.release.outputs.action == 'build' && env.RELEASE_MODE == 'build-only'
+        run: echo 'Packages were built, verified, and saved as a 30-day workflow artifact; no release was published.'
