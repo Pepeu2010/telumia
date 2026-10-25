@@ -1,0 +1,71 @@
+{
+  "milestone": "Fase 6 Live TV R1 — validação local API 30",
+  "date": "2026-10-25",
+  "repository": "Pepeu2010/telumia-tv",
+  "branch": "codex/live-tv-mini-player",
+  "commit": "2e31287521565d3e746767b9a5e7200f003e2773",
+  "parent_commit": "09272944db0b039d4eac2ae102af9775fa0a937a",
+  "pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/1",
+  "device": {
+    "avd": "Telumia_TV_API30",
+    "model": "AOSP TV on x86",
+    "api_level": 30,
+    "abi": "x86",
+    "resolution": "1920x1080"
+  },
+  "changes": [
+    "EPG cache tests now inject the JVM atomic replace operation so replacement is verified on Windows without changing Android production behavior.",
+    "EPG cache quota overflow closes the gzip stream cleanly, returns false, and removes the temporary file.",
+    "An Android instrumentation test verifies File.renameTo replaces the existing cached guide on API 30.",
+    "Quick channel selector heading uses the explicit theme foreground; Agora/A seguir labels inherit focused button content color for contrast.",
+    "Component tests use actual D-pad focus and activation for quick channel selection and favorites."
+  ],
+  "verification": {
+    "guide_cache_unit": {
+      "command": ":app:testFullDebugUnitTest --tests com.nuvio.tv.core.livetv.LiveTvGuideCacheTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "result": "BUILD_SUCCESSFUL"
+    },
+    "guide_cache_android_instrumentation": {
+      "command": ":app:connectedFullDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.nuvio.tv.core.livetv.LiveTvGuideCacheAtomicReplaceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "result": "BUILD_SUCCESSFUL"
+    },
+    "visual_components_android_instrumentation": {
+      "command": ":app:connectedFullDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.nuvio.tv.ui.components.LiveTvVisualComponentsTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "result": "BUILD_SUCCESSFUL",
+      "cases": [
+        "quickChannelOverlayShowsCurrentProgramAndSwitchesWithDpad",
+        "favoriteActionHasLocalizedAccessibleLabelAndInvokesItsCallback",
+        "dpadMovesFromChannelToProgramAndActivatesItsSuppliedKey",
+        "xmlTvOnlyChannelAndProgramsDoNotExposePlaybackActions",
+        "emptyGuideHasNoFakeProgramsOrPlaybackActions"
+      ]
+    },
+    "apk_build": {
+      "command": ":app:assembleFullDebug",
+      "result": "BUILD_SUCCESSFUL",
+      "artifact": "app-full-universal-debug.apk",
+      "sha256": "2fb880fe9daa913f7f8de9bdfb1cb15746695d8ba91437fc723e76b9a8dfd2a7",
+      "signing": "debug development key"
+    }
+  },
+  "evidence": {
+    "directory": "evidence/telumia-tv-live-tv-r1-api30-qa",
+    "screenshot": "quick-channel-overlay-api30.png",
+    "visual_junit_report": "visual-components-tests.xml",
+    "cache_unit_junit_report": "guide-cache-unit-tests.xml"
+  },
+  "limits": [
+    "The AVD validates component-level rendering and D-pad behavior; it does not prove source-to-player integration with a configured, authorized stream.",
+    "No physical TV Box performance, frame rate, decoder, or storage measurements were made.",
+    "The pull request remains draft; no release was created."
+  ]
+}

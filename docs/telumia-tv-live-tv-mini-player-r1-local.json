@@ -1,6 +1,6 @@
 {
   "milestone": "Fase 6 Live TV — mini-player R1",
-  "status": "branch_published_release_not_published",
+  "status": "branch_published_api30_component_qa_passed_release_not_published",
   "base": {
     "repository": "Pepeu2010/telumia-tv",
     "branch": "codex/enhanced-foundation",
@@ -11,6 +11,7 @@
     "repository_branch": "codex/live-tv-mini-player",
     "local_commit": "fca368158",
     "github_commit": "09272944db0b039d4eac2ae102af9775fa0a937a",
+    "qa_fix_commit": "2e31287521565d3e746767b9a5e7200f003e2773",
     "pull_request": {
       "url": "https://github.com/Pepeu2010/telumia-tv/pull/1",
       "number": 1,
@@ -38,10 +39,28 @@
       "android_test_compilation": ":app:compileFullDebugAndroidTestKotlin — BUILD_SUCCESSFUL"
     },
     "device_qa": {
-      "adb_devices": [],
-      "emulator_installed": false,
-      "status": "not_run_no_device_available"
+      "device": "Telumia_TV_API30 (AOSP TV on x86, Android API 30, 1920x1080)",
+      "guide_cache_unit_tests": { "tests": 4, "failures": 0, "errors": 0 },
+      "guide_cache_android_instrumentation": { "tests": 1, "failures": 0, "errors": 0 },
+      "visual_components_android_instrumentation": { "tests": 6, "failures": 0, "errors": 0 },
+      "status": "api30_component_dpad_visual_qa_passed"
     }
+  },
+  "follow_up_qa": {
+    "date": "2026-10-25",
+    "commands": [
+      ":app:testFullDebugUnitTest --tests com.nuvio.tv.core.livetv.LiveTvGuideCacheTest",
+      ":app:connectedFullDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.nuvio.tv.core.livetv.LiveTvGuideCacheAtomicReplaceTest",
+      ":app:connectedFullDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.nuvio.tv.ui.components.LiveTvVisualComponentsTest",
+      ":app:assembleFullDebug"
+    ],
+    "apk_universal_debug_sha256": "2fb880fe9daa913f7f8de9bdfb1cb15746695d8ba91437fc723e76b9a8dfd2a7",
+    "evidence_directory": "evidence/telumia-tv-live-tv-r1-api30-qa",
+    "limits": [
+      "Component-level D-pad and visual QA only; no authorized M3U/XMLTV source and stream were configured for end-to-end channel switching during playback.",
+      "Android TV emulator results do not prove performance or hardware decoding on a physical TV Box.",
+      "The PR remains draft and this debug APK was not published as a release."
+    ]
   },
   "artifacts": [
     {

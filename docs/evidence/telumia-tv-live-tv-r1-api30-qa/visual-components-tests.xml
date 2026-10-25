@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.nuvio.tv.ui.components.LiveTvVisualComponentsTest" tests="6" failures="0" errors="0" skipped="0" time="8.359" timestamp="2026-10-25T14:25:49" hostname="localhost">
+  <properties>
+    <property name="device" value="Telumia_TV_API30(AVD) - 11" />
+    <property name="flavor" value="full" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="dpadMovesFromChannelToProgramAndActivatesItsSuppliedKey" classname="com.nuvio.tv.ui.components.LiveTvVisualComponentsTest" time="2.48" />
+  <testcase name="unknownProgressHasNoInventedPercentageAndUpdatesAccessibly" classname="com.nuvio.tv.ui.components.LiveTvVisualComponentsTest" time="0.669" />
+  <testcase name="quickChannelOverlayShowsCurrentProgramAndSwitchesWithDpad" classname="com.nuvio.tv.ui.components.LiveTvVisualComponentsTest" time="1.531" />
+  <testcase name="favoriteActionHasLocalizedAccessibleLabelAndInvokesItsCallback" classname="com.nuvio.tv.ui.components.LiveTvVisualComponentsTest" time="0.949" />
+  <testcase name="xmlTvOnlyChannelAndProgramsDoNotExposePlaybackActions" classname="com.nuvio.tv.ui.components.LiveTvVisualComponentsTest" time="0.826" />
+  <testcase name="emptyGuideHasNoFakeProgramsOrPlaybackActions" classname="com.nuvio.tv.ui.components.LiveTvVisualComponentsTest" time="0.45" />
+</testsuite>
