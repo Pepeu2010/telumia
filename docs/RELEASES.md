@@ -1,6 +1,12 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.1`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.2-alpha.2`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma. O alpha.4 precisou ser publicado pela sessão GitHub autenticada porque o token do workflow recebeu HTTP 403 ao criar a release.
+
+## v1.0.2-alpha.2 — Live TV R2
+
+A [pré-release combinada](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.2-alpha.2) foi publicada em 25/10/2026 no repositório principal. Reúne cinco APKs Android TV/TV Box Full Debug (universal, ARM64, ARM32, x86_64 e x86), o MSI Windows x64 Desktop 1.0.0, fontes de ambas as plataformas, manifesto e SHA256SUMS. Os dez assets foram conferidos no GitHub por estado, tamanho e digest SHA-256. Na [primeira execução](https://github.com/Pepeu2010/telumia/actions/runs/40221791258), os nove grupos de testes Live TV e o build passaram; a [execução de recuperação](https://github.com/Pepeu2010/telumia/actions/runs/40223189310) validou os assets do rascunho, publicou a tag e terminou com sucesso.
+
+Fonte TV: commit `9e7d448a480094ac396298046a93c550eef0e1dc`, versionCode `10007`. O MSI é o pacote da release Desktop `v1.0.0` (versão do instalador 2.0.0), identificado separadamente da versão Android. Os APKs são assinados com chave de desenvolvimento. Não houve teste instrumentado nesta rodada nem validação em TV Box física. Os APKs também foram preservados localmente em `artifacts/builds/v1.0.2-alpha.2/`.
 
 ## v1.0.2-alpha.1 — pacote preparado
 

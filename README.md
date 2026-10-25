@@ -20,6 +20,8 @@ Na [release 1.0.1](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.1), es
 
 Confira os checksums SHA-256 incluídos na release. Os APKs atuais são **Android TV Full Debug**, assinados para desenvolvimento. Ainda não há interface específica para celulares nem pacotes Linux/macOS publicados.
 
+As versões de desenvolvimento mais recentes, com pacotes de Android TV/TV Box e Windows PC na mesma página, ficam em [Releases](https://github.com/Pepeu2010/telumia/releases).
+
 **Versão 1.0.1 publicada como release estável e “Latest” no repo principal.** A página contém cinco APKs Android TV e o MSI Windows x64; o app TV é 1.0.1 e o MSI Desktop é 1.0.0. Os arquivos e hashes foram conferidos. Os APKs são builds Full Debug de desenvolvimento. O redesign e os marcos posteriores continuam em implementação; a release não encerra a meta integral. [Entrega 1.0.0 e limites](docs/VERSION_100.md) · [Automação de APKs e MSI](docs/RELEASE_AUTOMATION.md).
 
 ## Melhorias já implementadas
