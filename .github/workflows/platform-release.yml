@@ -59,6 +59,26 @@ jobs:
           lfs: true
           persist-credentials: false
 
+      - name: Add temporary metadata for the upstream submodule gitlink
+        working-directory: repos/tv
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -f .gitmodules ]]; then
+            git config --file .gitmodules submodule.libmpv-android.path libmpv-android
+            git config --file .gitmodules submodule.libmpv-android.url https://github.com/jarnedemeulemeester/libmpv-android.git
+            printf '%s\n' '.gitmodules' >> .git/info/exclude
+          fi
+          if ! git config --file .gitmodules --get submodule.libmpv-android.url >/dev/null; then
+            echo 'The selected TV source has an incomplete libmpv-android submodule declaration.' >&2
+            exit 1
+          fi
+          git submodule foreach --recursive true
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo 'Temporary submodule metadata unexpectedly dirtied the source checkout.' >&2
+            exit 1
+          fi
+
       - name: Validate versions and avoid replacing a release
         id: release
         env:
