@@ -196,6 +196,9 @@ jobs:
             --tests '*GuideTimelineTest' \
             --tests '*LiveTvQuickChannelPolicyTest' \
             --tests '*LiveTvViewModelTest' \
+            --tests '*PhoneRemoteLanAddressTest' \
+            --tests '*PhoneRemotePairingAuthorityTest' \
+            --tests '*PhoneRemoteServerTest' \
             :app:assembleFullDebug \
             --no-daemon \
             --stacktrace
@@ -400,7 +403,7 @@ jobs:
                       "sourceReleaseUrl": os.environ["DESKTOP_RELEASE_URL"],
                   },
               },
-              "scope": "Live TV import resilience R2; development APKs and published stable Desktop MSI.",
+              "scope": "Android TV debug APKs built from the selected TV source commit; Windows x64 MSI copied from the selected Desktop release.",
               "validationLabel": "platform-release-workflow",
               "runtimeGates": None,
               "assets": assets,
