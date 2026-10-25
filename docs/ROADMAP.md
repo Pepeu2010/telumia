@@ -11,6 +11,8 @@ Estado mais recente: a release regular `v1.0.1` está publicada como “Latest�
 
 - Pacotes Telumia 1.0.2-alpha.1 preparados localmente: MSI Windows x64 e cinco APKs Android TV, todos identificados por versão e SHA-256. 24 testes Desktop e 5 TV passaram; os pacotes passaram inspeção estática. A publicação GitHub continua pendente porque esta sessão não dispõe da API de upload de releases nem de autenticação local do GitHub CLI. Nenhuma release pública ou tag foi criada. Scene Info R1 vem dos commits Desktop `3e7894659e7489772b06520e89776f3dc040ffe2` e TV `f3809b4027f91262732e722842b7c0bec2111c36`; detalhes e limites em [RELEASES.md](RELEASES.md).
 
+- Fase 6 TV R2: se o WorkManager falha, a importação manual ainda carrega canais e guia e a tela informa que a atualização periódica está indisponível. Fixture HTTP local valida a junção M3U/XMLTV. Commit `25e741af4f00055b3b567df4cbfc0e82904315a2`; 32 testes JVM Live TV e 7 instrumentados API 30 passaram. A suíte completa teve 13 falhas, todas presentes no baseline registrado, e 1 teste ignorado. Playback com stream autorizado e QA de TV Box continuam abertos; [detalhes](LIVE_TV.md).
+
 - Checkouts oficiais dos seis projetos concluídos e commits registrados.
 - Auditoria estática e matriz de lacunas/contratos produzidas.
 - Builds baseline Desktop e TV executados em fontes sem alterações. MSI e APKs
@@ -134,4 +136,5 @@ Funções secundárias do documento original — busca Ctrl+K, histórico visual
 Escolha para mim, Guest/Kids, webcam/animated avatars, Cinema/Living Room/Ambient
 Mode — recebem incrementos próprios, preservando seu comportamento/capability.
 Nunca anunciá-las como prontas antes de implementação/QA.
+
 

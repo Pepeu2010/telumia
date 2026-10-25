@@ -100,3 +100,14 @@ No checkout TV derivado do marco estável `v1.0.1`, passaram 9 testes JVM focado
 Validação no AVD `Telumia_TV_API30` (Android TV, x86, API 30, 1920×1080): `LiveTvGuideCacheTest` passou 4/4; `LiveTvGuideCacheAtomicReplaceTest` passou 1/1 com a implementação Android; `LiveTvVisualComponentsTest` passou 6/6, incluindo navegação/seleção por D-pad, Agora/A seguir, favoritos, guia sem ações falsas para XMLTV sem stream e ausência de conteúdo inventado. A captura revisada do seletor e os relatórios JUnit estão em [evidence/telumia-tv-live-tv-r1-api30-qa](evidence/telumia-tv-live-tv-r1-api30-qa); o APK universal Full Debug recompilado tem SHA-256 `2fb880fe9daa913f7f8de9bdfb1cb15746695d8ba91437fc723e76b9a8dfd2a7`. `:app:assembleFullDebug` concluiu com sucesso. O registro local com tamanhos e SHA-256 está em [telumia-tv-live-tv-mini-player-r1-local.json](telumia-tv-live-tv-mini-player-r1-local.json).
 
 Este QA valida os componentes reais do seletor no emulador; não demonstra troca durante reprodução de uma fonte legítima configurada nem desempenho/decodificação em TV Box física. R1 continua em PR draft, sem release, e a Fase 6 permanece aberta até provar a integração ponta a ponta com M3U/XMLTV e stream autorizado, revisar o PR e validar em hardware representativo.
+
+## Importação resiliente e fixture M3U/XMLTV — R2 local
+
+O commit TV `25e741af4f00055b3b567df4cbfc0e82904315a2` preserva a importação manual quando o WorkManager não consegue agendar a atualização periódica. A tela mantém os canais importados e mostra um aviso localizado em inglês/pt-BR com a opção de atualização manual. O aviso também aparece se o agendamento/cancelamento falhar ao trocar o perfil ou ativar/desativar fontes.
+
+O teste de integração local atende uma lista M3U e um XMLTV pelo MockWebServer e confirma o vínculo `tvg-id`/canal, os horários UTC e o programa em português. A URL de stream do fixture é `cdn.example` e não é solicitada nem reproduzida; isso verifica o importador e o estado do catálogo, não a decodificação Media3.
+
+Validação em 25/10/2026: 32 testes JVM dos componentes Live TV passaram; 7 testes instrumentados passaram no AVD `Telumia_TV_API30` (API 30, x86, 1920×1080), cobrindo D-pad, favoritos, estados sem ações de reprodução e substituição atômica do cache. A suíte unitária completa executou 2.038 testes, com 13 falhas e 1 ignorado. As 13 falhas correspondem exatamente aos casos já registrados em [tv-baseline-failures.json](tv-baseline-failures.json); não apareceu falha nova nesta execução. [Registro estruturado R2](telumia-tv-live-tv-r2-results.json).
+
+R2 não fecha a Fase 6: reprodução ponta a ponta a partir de uma fonte/stream autorizado, validação em TV Box física e revisão do PR continuam pendentes. O pacote `v1.0.2-alpha.1` foi gerado a partir do commit anterior `f3809b4027f91262732e722842b7c0bec2111c36` e não inclui este R2.
+
