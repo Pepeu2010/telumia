@@ -64,6 +64,15 @@ Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10
   de performance nem release; 1-A permanece aberto. Código no commit Desktop
   2bc945ce e no [PR #1](https://github.com/Pepeu2010/telumia-desktop/pull/1).
   [Detalhes e limites](NATIVE_FOUNDATION.md).
+- Continuação 1-A: escala `MotionDurationScale` dos recomposers cobre animações
+  Compose temporizadas ainda não mapeadas: Reduzido usa 0,5× da escala do
+  sistema, Completo preserva a escala, Desligado usa zero. Testes direcionados
+  passaram em ambos. Desktop: 1.622 testes/38 falhas, mesmos IDs da base, e MSI
+  gerado. TV: 2.053 testes/14 falhas/1 ignorado; 13 IDs do baseline e a falha
+  temporal restante reproduz na revisão base limpa; cinco APKs debug gerados.
+  Artefatos não publicados nem instalados. Hardware FPS/RAM/freeze continua
+  pendente. Commits Desktop `63b4aa04` e TV `438e5f2f`; PRs Desktop #1 e TV #2.
+  [Detalhes, tamanhos, hashes e limites](NATIVE_FOUNDATION.md).
 
 - Home: incremento nativo validado com 44 testes Desktop, 72 TV e 27 testes de componentes no emulador. [Entrega parcial](TELUMIA_HOME.md).
 - 2-A: timeline temporal, providers limitados e adapter dos skips integrados aos players; 93 testes Desktop, 83 TV e nove testes nativos TV aprovados. Capítulos embutidos foram ligados à timeline Desktop/libmpv e TV/Media3 em incrementos posteriores. A entrega inicial de Scene Info R1 veio depois, sobre essa base; bookmarks têm incrementos próprios. [Fundação e Scene Info R1](TIMED_METADATA.md), [capítulos](EMBEDDED_CHAPTERS.md).

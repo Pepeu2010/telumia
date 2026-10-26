@@ -421,3 +421,38 @@ APKs debug. Não foram instalados estes novos MSI/APKs nem medidos FPS, RAM ou
 decodificação em hardware. A mudança está no commit Desktop
 2bc945ce6d44547bf27ad3d4bd7b18575dd3da9e, no mesmo PR incremental; 1-A continua
 aberto e não há release pública deste incremento.
+
+## Continuação 1-A: fallback global para movimento reduzido
+
+O `MotionDurationScale` fornecido aos recomposers agora também alcança
+animações Compose temporizadas que ainda não foram mapeadas aos tokens locais.
+Completo preserva a escala efetiva do sistema; Reduzido usa metade dessa escala
+(0,5×); Desligado continua em zero. A preferência do sistema é mantida e valores
+inválidos continuam com o fallback seguro já existente. Os loops espaciais
+permanecem sob os controles específicos já adicionados aos componentes.
+
+`MotionDurationScaleTest` passou em Desktop e TV: 1× em Completo, 0,5× em
+Reduzido, 0,4× quando a escala do sistema é 0,8× e 0× em Desligado. A suíte
+Desktop contou 1.622 testes, 38 falhas, nenhum erro e 5 ignorados; os 38 IDs
+falhos são idênticos aos do baseline de 1.619 testes. A suíte TV contou 2.053
+testes, 14 falhas e 1 ignorado. Treze falhas coincidem com o baseline limpo; a
+14ª (`ContinueWatchingAiringRulesTest.watchableEpisodes...`) foi reproduzida
+isoladamente também na revisão TV limpa `e1e7d99`, antes da alteração.
+
+O MSI Windows foi empacotado com 210.886.760 bytes, SHA-256
+`1E2B1A19DC09C367EB30A2A341A41F3D6C78F4F7A876792CBDBC23F13A536F86`. O
+`assembleFullDebug` da TV gerou cinco APKs: universal 179.953.961 bytes
+(`A17267330D027502EA8DEA0C94A99073CFD89E0E34310BC657003337A195CB3E`),
+arm64-v8a 92.982.719 (`2EE2DBC55F3F576D9EF2B64B37E8A89B36B769DF2AA0584599EDF2BDE09B760B`),
+armeabi-v7a 90.881.133 (`3CE3CFB28380E378532CFA6E1AD2B0C4331E4BC86ABF561945532C4B9E36C21C`),
+x86_64 95.403.234 (`BE14C5679ECFA1E16144221255B1AC78657BE5E9D85CECC44578CD63D80D9A51`)
+e x86 94.563.369 bytes (`4F022EF7DCD48E78FE25C5CD64F26659BB77DFD73A2F2B68E54E7766FA545689`).
+São pacotes debug de verificação, não assets publicados; o MSI também ficou
+local e não foi instalado ou usado para substituir uma versão anterior.
+
+As alterações estão nos commits Desktop `63b4aa04` e TV `438e5f2f`, com PRs
+[Desktop #1](https://github.com/Pepeu2010/telumia-desktop/pull/1) e
+[TV #2](https://github.com/Pepeu2010/telumia-tv/pull/2), ambos abertos sobre a
+fundação de marca Telumia. Build e testes não medem FPS, memória em execução,
+ANR/freeze nem decodificação num PC ou numa TV Box física; esses gates seguem
+obrigatórios para as mudanças que tocarem tais caminhos. 1-A continua aberto.
