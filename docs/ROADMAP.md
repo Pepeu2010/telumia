@@ -52,14 +52,17 @@ Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10
   retorno às categorias/Home e persistência do estilo passaram no APK instalado
   em Android TV API 36. Demais superfícies e QA global continuam pendentes;
   1-A permanece aberto, fora da alpha.2.
-- Continuação 1-A Desktop: o indicador de carregamento agora respeita a política
-  existente e não mantém transição infinita em Reduzido/Desligado. Teste com
-  BroadcastFrameClock confirmou pausa sem awaiters e retomada em Completo. A suíte
-  completa teve as mesmas 38 falhas da base (1.620 testes após incluir o teste
-  novo); MSI cresceu 4 KiB. Sem código TV alterado: 2.052 testes, 13 falhas todas
-  herdadas do conjunto de 20 do baseline, cinco APKs debug compilados. Não é QA
-  de performance física nem release pública; 1-A permanece aberto. O código está
-  no commit Desktop 73fa1ac2 e no [PR #1](https://github.com/Pepeu2010/telumia-desktop/pull/1).
+- Continuação 1-A Desktop: um helper comum pausa loops visuais em telas inativas
+  e modos Reduzido/Desligado. O indicador, o fluxo colorido de downloads e o
+  pulso do overlay de abertura usam esse caminho; fades/progresso do overlay
+  respeitam a duração por perfil. Os dois testes de movimento passaram com
+  BroadcastFrameClock. Na suíte completa, uma primeira execução teve uma falha
+  extra de seek nativo; o caso passou isoladamente e a repetição final teve
+  1.621 testes, as mesmas 38 falhas da base e 5 ignorados. MSI gerado, +4 KiB
+  versus base. Sem alterações TV: gate mais recente teve 2.052 testes, 13 falhas
+  todas herdadas do conjunto de 20 e cinco APKs debug compilados. Não é QA físico
+  de performance nem release; 1-A permanece aberto. Código no commit Desktop
+  2bc945ce e no [PR #1](https://github.com/Pepeu2010/telumia-desktop/pull/1).
   [Detalhes e limites](NATIVE_FOUNDATION.md).
 
 - Home: incremento nativo validado com 44 testes Desktop, 72 TV e 27 testes de componentes no emulador. [Entrega parcial](TELUMIA_HOME.md).

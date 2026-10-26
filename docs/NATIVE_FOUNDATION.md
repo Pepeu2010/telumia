@@ -387,3 +387,37 @@ ausência de freezes no app inteiro. 1-A continua aberto e este incremento ainda
 não integra release pública. O código Desktop está no commit
 73fa1ac2dc44bcfefb95034dd260906b1429830d; o [PR #1](https://github.com/Pepeu2010/telumia-desktop/pull/1)
 está aberto sobre a branch de trabalho imediatamente anterior, sem merge.
+
+## Continuação 1-A: loops e overlays Desktop sob a política de movimento
+
+Os loops de animação Desktop agora passam pelo helper comum
+rememberUiMotionLoopFloat. Ele não cria uma transição infinita quando a tela
+está inativa ou quando o modo é Reduzido/Desligado; nesse estado devolve um
+valor estático. Em Completo, duração e intensidade continuam usando a
+preferência existente. O indicador de carregamento, o gradiente de downloads e
+o pulso de título/logo do overlay usam o helper. O ícone de downloads continua
+reconhecível por uma cor de destaque estática durante Reduzido/Desligado.
+
+O overlay de abertura também aplica os tempos da política ao fade da tela,
+entrada/saída, progresso e troca de mensagem. Pulso é usado apenas para o
+conteúdo que está visível e sem progresso ativo. Em modo Off, as transições
+pontuais têm duração zero; em Reduzido respeitam o teto já definido de 120 ms.
+
+UiMotionLoopTest e LoadingIndicatorMotionTest passaram. O teste do helper
+verifica a animação em Completo, liberação dos awaiters quando a tela fica
+inativa, estado estático em Reduzido/Desligado e retomada ao reativar/completar.
+A falha RED anterior sob Reduzido foi reproduzida antes de adicionar a condição.
+A suíte completa teve uma primeira execução com 39 falhas; a falha adicional
+de seek nativo passou isoladamente. A segunda execução contou 1.621 testes,
+38 falhas, zero erros e 5 ignorados: mesmos IDs do baseline de 1.619 testes,
+38 falhas e 5 ignorados.
+
+O MSI foi gerado: 210.886.760 bytes, SHA-256
+61D41D966B156AD15212518913414587C8E8CD9810F22F99407C5AA842962ACE, 4.096
+bytes acima do pacote base. O código TV continua inalterado na revisão
+e1e7d992c4ee1d9ccf9904e0ef54b0e8f23efd2f; seu gate mais recente executou 2.052
+testes, com 13 falhas entre as 20 do baseline e um ignorado, e gerou os cinco
+APKs debug. Não foram instalados estes novos MSI/APKs nem medidos FPS, RAM ou
+decodificação em hardware. A mudança está no commit Desktop
+2bc945ce6d44547bf27ad3d4bd7b18575dd3da9e, no mesmo PR incremental; 1-A continua
+aberto e não há release pública deste incremento.
