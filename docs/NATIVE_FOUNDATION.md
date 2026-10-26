@@ -456,3 +456,24 @@ As alterações estão nos commits Desktop `63b4aa04` e TV `438e5f2f`, com PRs
 fundação de marca Telumia. Build e testes não medem FPS, memória em execução,
 ANR/freeze nem decodificação num PC ou numa TV Box física; esses gates seguem
 obrigatórios para as mudanças que tocarem tais caminhos. 1-A continua aberto.
+
+### Smoke de runtime TV e comparação local
+
+O APK universal foi instalado por cima do pacote debug já presente num AVD
+Android TV x86, API 30, 1080p. Package name, versão `1.0.2-alpha.3` e certificado
+SHA-256 `da24b46124823f776e120a84a91923123da1fd3f21d94e1eb06f4d1a76471805`
+coincidiram; a instalação preservou os dados. Foi salvo o APK anterior,
+comparado no mesmo AVD e o APK com a alteração foi reinstalado ao final. A Home
+abriu e D-pad percorreu a navegação até Aparência; o processo permaneceu vivo e
+os logs do PID não continham FATAL, ANR ou encerramento.
+
+Depois de 12 segundos, uma amostra de PSS foi 208.405 KiB no código atual,
+209.431 KiB no APK anterior e 212.661 KiB após reinstalar o atual. Essa variação
+entre três amostras não mostra ganho ou regressão confiável de memória. O tempo
+medido por `am start -W` ficou em 9,2 s na primeira abertura atual; a execução
+com o APK anterior expirou o comando em 10,5 s, embora a Activity estivesse
+visível e o processo vivo; a segunda abertura atual expirou em 10,4 s nas mesmas
+condições. Esse cenário frio expôs uma inicialização lenta nos dois lados, sem
+ANR; precisa ser perfilada por fase numa máquina de referência e não pode ser
+atribuída a este patch. O AVD x86 não substitui TV Box ARM de 2 GiB, e esta rodada
+não mediu FPS/jank sob carga sustentada.

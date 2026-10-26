@@ -70,8 +70,11 @@ Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10
   passaram em ambos. Desktop: 1.622 testes/38 falhas, mesmos IDs da base, e MSI
   gerado. TV: 2.053 testes/14 falhas/1 ignorado; 13 IDs do baseline e a falha
   temporal restante reproduz na revisão base limpa; cinco APKs debug gerados.
-  Artefatos não publicados nem instalados. Hardware FPS/RAM/freeze continua
-  pendente. Commits Desktop `63b4aa04` e TV `438e5f2f`; PRs Desktop #1 e TV #2.
+  APK atual instalado e restaurado no AVD Android TV API 30/x86; navegação D-pad
+  e processo passaram sem FATAL/ANR. Amostras PSS 208–213 MiB sem diferença
+  conclusiva; abertura fria 9,2–10,5 s também lenta no baseline, precisa profiler.
+  Artefatos não publicados. FPS sustentado, TV Box física e freezes continuam
+  pendentes. Commits Desktop `63b4aa04` e TV `438e5f2f`; PRs Desktop #1 e TV #2.
   [Detalhes, tamanhos, hashes e limites](NATIVE_FOUNDATION.md).
 
 - Home: incremento nativo validado com 44 testes Desktop, 72 TV e 27 testes de componentes no emulador. [Entrega parcial](TELUMIA_HOME.md).
