@@ -181,3 +181,15 @@ A regressão primeiro falhou com os 17 bytes ignorados; após a correção passa
 TV: commit `e42eb3283e1e856b159dd9cdfe7df5bef412e085`, branch `codex/1d-tv-count-cw-enrichment-cache`, [PR draft #13](https://github.com/Pepeu2010/telumia-tv/pull/13) sobre [#12](https://github.com/Pepeu2010/telumia-tv/pull/12). Builds e hashes: [registro](telumia-cache-continue-watching-occupancy-tv-r1-build.json).
 
 Incremento parcial da Fase 1-D: a allowlist legado agora cobre MDBList e snapshots Continue assistindo, não todo o armazenamento legado. Permanecem a auditoria das demais pastas de cache, consumidores reais para eventual quota `SCENE_INFO`, fluxos offline e QA em PC/TV Box físicos.
+
+## Ocupação dos caches de reprodução VOD e torrent na TV — 27 de outubro
+
+A estimativa Auto da TV agora inclui os diretórios de reprodução `cacheDir/nuvio_vod_cache` e `cacheDir/nuvio-engine/payload`, além de diretórios VOD antigos com o prefixo gerado pelo próprio player. Os nomes ativos são constantes compartilhadas pelos produtores e pelo scanner. A descoberta dos diretórios antigos é limitada a 10 ms, 16.384 entradas e 128 raízes; ao atingir um limite, o snapshot marca `complete=false`. O scanner mantém a allowlist, limites de profundidade/entradas/tempo, não lê conteúdo e rejeita links.
+
+Esta alteração só torna a ocupação conhecida para o cálculo Auto. Os limites próprios existentes do cache VOD e do motor torrent continuam valendo; este incremento não os reduz à quota global nem modifica as preferências de playback. `nuvio-engine/state`, bookmarks, downloads e arquivos de perfil continuam fora da soma. Portanto, essa contabilização não declara que a quota central controle toda gravação de playback.
+
+Passaram 12 testes unitários de `OwnedMediaCacheOccupancyTest` e 7 testes instrumentados da classe `MediaCacheSettingsTvTest` num AVD Android TV API 33, 1920×1080, incluindo a verificação dos 79 bytes sintéticos de VOD/torrent e a preservação de bookmarks/downloads fora da medição. Foram compilados cinco APKs Full Debug e o APK de instrumentação. O ID é `io.github.pepeu2010.telumia.tv.debug`, versão `1.0.2-alpha.3`, código `10008`; são pacotes locais de validação, não atualizam instalação de produção e não foram publicados. O registro contém comandos e hashes: [cache VOD/torrent](telumia-cache-playback-occupancy-tv-r1-build.json).
+
+TV: commit `69123dfd4535cbd3c74e4a71d00aa8d12944020d`, branch `codex/1d-tv-stream-cache-occupancy`, baseada no snapshot da Fase 1-D `e42eb3283e1e856b159dd9cdfe7df5bef412e085`.
+
+Incremento parcial: a Fase 1-D continua aberta para outros consumidores/caminhos legados, vinculação da quota central às gravações de playback, fluxos offline e QA físico de TV Box/PC.

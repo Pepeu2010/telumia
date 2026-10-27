@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-27",
+  "objective": "Move the Windows hover preview's native player from an unsupported Compose Popup interop path into a root overlay hosted by the main Compose window.",
+  "repository": "https://github.com/Pepeu2010/telumia-desktop",
+  "branch": "codex/3-desktop-hover-preview-portal",
+  "commit": "b6b64fbc4382544f5e11a054ab9d01d9c34e23d7",
+  "baseCommit": "ed13fa8722dab1728442a8778478d68cce872ae2",
+  "verification": {
+    "testCommand": ":composeApp:desktopTest --tests com.nuvio.app.features.home.components.HomePosterHoverLifecycleTest",
+    "tests": {
+      "class": "HomePosterHoverLifecycleTest",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "integrationClaim": "A real ComposePanel/JFrame received the hover interaction through MutableInteractionSource, resolved a local AVI, delivered media-ready from the libmpv surface, and released preview ownership after hover exit.",
+    "buildCommands": [
+      ":composeApp:desktopJar",
+      ":composeApp:packageMsi"
+    ],
+    "buildsSucceeded": true,
+    "msi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210940008,
+      "sha256": "5B1CBED9D2E73A899B028ED4B6E94C0C4237F2CF877F72FFA8B8228239194442",
+      "published": false
+    }
+  },
+  "limitations": {
+    "osPointerInputReachedCard": false,
+    "screenCaptureUsable": false,
+    "screenCaptureResult": "Black frame from Robot; not visual evidence.",
+    "frameVisibilityVerified": false,
+    "windowsHoverTrailerEnabled": false,
+    "nextGate": "Run with an interactive Windows desktop, verify actual mouse hover and inspect the video frame inside the card before enabling the feature."
+  }
+}

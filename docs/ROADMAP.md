@@ -281,6 +281,17 @@ Nunca anunciá-las como prontas antes de implementação/QA.
 
 ### Fase 3 — gate de interop de trailer no hover Windows (27 de outubro de 2026)
 
-- O teste de integração real com `HomePosterHoverPreview` e suporte forçado ao surface libmpv falha em `SwingPanel`: `LocalInteropContainer not provided` em `InteropContainer.skiko.kt:38`, dentro do Compose Popup. O teste confirmou um limite de composição; não é indisponibilidade do trailer/resolver.
-- `AppFeaturePolicy.hoverTrailerPlaybackSupported` permanece falso no Windows, sem expor configuração que não funciona. A superfície nativa separada segue válida em uma janela Compose normal, mas isso não cobre o popup.
-- A próxima implementação da Fase 3 requer um host overlay na janela principal ou uma janela nativa com ownership e posicionamento próprios, seguido do mesmo teste real e revisão visual do frame. Evidência em [PREVIEWS.md](PREVIEWS.md#gate-de-interop-do-hover-preview-windows--27-de-outubro) e [registro do gate](telumia-preview-windows-popup-interop-gate-r1.json).
+- O caminho de `SwingPanel` dentro do Compose Popup reproduziu `LocalInteropContainer not provided` em `InteropContainer.skiko.kt:38`. Foi implementado um portal `SubcomposeLayout` na janela principal do Windows, com o posicionador e o componente de preview existentes.
+- Três testes Desktop passaram. Um `ComposePanel`/`JFrame` real acionou o fluxo de hover, abriu um AVI local no libmpv, recebeu `media-ready` e liberou o ownership ao sair. `desktopJar` e MSI Windows x64 compilaram. O MSI ficou local e não foi publicado.
+- A automação deste runner não conseguiu mover o cursor OS e a captura de tela ficou preta. O teste prova composição/lifecycle e callback do player, mas não prova interação real de mouse nem visibilidade do frame. `AppFeaturePolicy.hoverTrailerPlaybackSupported` e o controle continuam desativados no Windows até QA visual num desktop interativo; esse gate segue aberto. A continuação está em [PREVIEWS.md](PREVIEWS.md#gate-de-interop-do-hover-preview-windows--27-de-outubro).
+
+### Fase 1-D — ocupação dos caches de reprodução VOD/torrent na TV (27 de outubro de 2026)
+
+- O Auto passa a medir `nuvio_vod_cache`, pastas antigas com o prefixo VOD do próprio player e `nuvio-engine/payload`. Os limites próprios desses consumidores não mudaram; esta etapa contabiliza bytes, sem os subordinar à quota global nem apagar conteúdo. Bookmarks, downloads e estado do motor permanecem fora.
+- Passaram 12 testes unitários de ocupação e 7 testes instrumentados de configurações/cache no AVD Android TV API 33/1080p. Cinco APKs Full Debug e o APK de instrumentação foram compilados, ID `.debug`, somente validação. Detalhes e hashes em [MEDIA_CACHE.md](MEDIA_CACHE.md#ocupação-dos-caches-de-reprodução-vod-e-torrent-na-tv--27-de-outubro) e [registro](telumia-cache-playback-occupancy-tv-r1-build.json).
+- TV: commit `69123dfd4535cbd3c74e4a71d00aa8d12944020d`, branch `codex/1d-tv-stream-cache-occupancy`, sobre `e42eb3283e1e856b159dd9cdfe7df5bef412e085`. A Fase 1-D segue aberta para outros caches, quotas centralizadas de playback, fluxos offline e QA físico.
+
+### Fase 3 — continuação do portal de hover no Windows (27 de outubro de 2026)
+
+- O portal na janela Compose principal passou os três testes de lifecycle/composição e o AVI local chegou ao callback `media-ready` no `ComposePanel` real. `desktopJar` e MSI Windows x64 compilaram; MSI local de validação, não publicado. O registro dos hashes e comandos está em [PREVIEWS.md](PREVIEWS.md#gate-de-interop-do-hover-preview-windows--27-de-outubro) e [JSON do build](telumia-hover-preview-windows-overlay-r1-build.json).
+- Nenhuma captura visual válida nem entrada OS real foi obtida neste runner; o controle de trailer continua desativado no Windows. A Fase 3 mantém esse gate aberto.
