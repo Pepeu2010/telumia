@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-27",
+  "objective": "Apply one configurable disk quota and file-count cap to the current Desktop profile-background cache and its legacy directory, retaining readable offline files while migrating them safely.",
+  "implementation": {
+    "sharedBudget": "The hashed media-cache-v1/images/member-backgrounds directory and cacheDir/member_profile_backgrounds now share the current IMAGES allocation and a 64-file cap.",
+    "entryLimitBytes": 8388608,
+    "eviction": "Owned regular cache files across both directories are evicted by least-recently-used modification time when the byte or file cap is exceeded.",
+    "migration": "A valid legacy PNG is copied to the hashed cache, size-verified, and only then deleted from its legacy path.",
+    "readOnlyBehavior": "If storage policy disables writes, a valid legacy file remains available by its existing file URI.",
+    "safety": "Only recognized hashed files and sanitized legacy PNG names are managed; links, unrelated names, and files outside the allowlisted roots are not accepted.",
+    "cleanupTiming": "The combined trim is applied when a profile background is read or saved; no startup-wide sweep is introduced.",
+    "scopeLimits": [
+      "This is Desktop-only; no Android APK was changed or built.",
+      "No physical PC interaction or sustained performance measurement was performed.",
+      "The MSI is a local validation artifact and was not published."
+    ]
+  },
+  "repository": {
+    "platform": "Windows Desktop",
+    "repository": "https://github.com/Pepeu2010/telumia-desktop",
+    "branch": "codex/1d-desktop-bound-legacy-profile-background-cache",
+    "baseBranch": "codex/1d-desktop-async-cache-occupancy",
+    "baseCommit": "7e03e5abd60cbf65b9d03e2ae5749a08bf7e1edc",
+    "commit": "01e0ef3c6437ee35ca9183954cbc579624e425cb",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/10",
+    "pullRequestState": "draft"
+  },
+  "verification": {
+    "unitTestCommand": ":composeApp:desktopTest --tests com.nuvio.app.core.storage.BoundedProfileBackgroundCacheTest --tests com.nuvio.app.core.storage.BoundedFileCacheTest",
+    "unitTests": {
+      "BoundedProfileBackgroundCacheTest": { "passed": 4, "failed": 0, "errors": 0, "skipped": 0 },
+      "BoundedFileCacheTest": { "passed": 5, "failed": 0, "errors": 0, "skipped": 0 },
+      "total": 9
+    },
+    "buildCommands": [":composeApp:desktopJar", ":composeApp:packageMsi"],
+    "buildSucceeded": true,
+    "msi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210964584,
+      "sha256": "082F472B23730C63A1B5614C299D36F60B4E3C5898B1F5B8BBEF3A229E079E02",
+      "releasePublished": false
+    },
+    "interactiveWindowsQa": false,
+    "releasePublished": false
+  }
+}

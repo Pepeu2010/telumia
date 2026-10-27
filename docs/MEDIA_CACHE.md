@@ -221,3 +221,13 @@ Na TV passaram 27 testes JVM direcionados (interceptor HTTP 4, política 11, ocu
 Os APKs `.debug` e MSI são apenas artefatos locais de validação; nenhum foi publicado nem atualiza a instalação de produção. Não houve teste em TV Box/PC físico nem medição sustentada de memória, latência ou fluidez. O registro dos comandos, branches e hashes está em [JSON do build](telumia-cache-http-addon-tv-desktop-r1-build.json). TV: commit `1333565afcc95a1b6137de2279ec7514b30ed5d5`, [PR draft #15](https://github.com/Pepeu2010/telumia-tv/pull/15) sobre #14. Desktop sem alteração de fonte: commit `7e03e5abd60cbf65b9d03e2ae5749a08bf7e1edc`, [PR draft #9](https://github.com/Pepeu2010/telumia-desktop/pull/9). Ambos ligados à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12).
 
 Incremento parcial; a Fase 1-D ainda mantém pendentes os fluxos offline completos, QA de desempenho em hardware físico e os consumidores de cache restantes.
+
+## Limite conjunto do cache legado de fundos de perfil no Desktop — 27 de outubro de 2026
+
+O cache atual com chaves hash (`media-cache-v1/images/member-backgrounds`) e o diretório anterior `member_profile_backgrounds` agora compartilham a alocação configurável da categoria `IMAGES`, o limite de 64 arquivos e o máximo anterior de 8 MiB por imagem. A remoção por LRU considera arquivos próprios válidos nos dois diretórios. Entradas legadas são migradas por demanda: a cópia hash é validada antes da exclusão do arquivo antigo. Se gravações estiverem desativadas, a imagem antiga permanece legível pela URI existente. A limpeza começa quando uma imagem de perfil é lida ou salva; não foi adicionado um sweep no startup.
+
+Passaram 9 testes direcionados sem falhas, erros ou skips: 4 de cota compartilhada, migração, leitura somente leitura e tamanho máximo; mais 5 do `BoundedFileCache`. `desktopJar` e `packageMsi` passaram. MSI Windows x64 local: 210.964.584 bytes; SHA-256 `082F472B23730C63A1B5614C299D36F60B4E3C5898B1F5B8BBEF3A229E079E02`. O artefato não foi publicado. Não foram alterados ou gerados APKs, e não houve QA em PC físico nem medição sustentada de desempenho.
+
+Desktop: commit `01e0ef3c` (branch `codex/1d-desktop-bound-legacy-profile-background-cache`), [PR draft #10](https://github.com/Pepeu2010/telumia-desktop/pull/10) sobre [PR #9](https://github.com/Pepeu2010/telumia-desktop/pull/9), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos, limites e hash completo estão no [registro do build](telumia-cache-legacy-profile-background-desktop-r1-build.json).
+
+Incremento parcial da Fase 1-D: seguem pendentes os fluxos offline completos, QA físico e a auditoria dos demais consumidores/diretórios que ainda não aplicam a quota compartilhada.
