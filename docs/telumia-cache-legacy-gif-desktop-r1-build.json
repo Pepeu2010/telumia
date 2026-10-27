@@ -27,7 +27,8 @@
     "baseCommit": "01e0ef3c6437ee35ca9183954cbc579624e425cb",
     "commits": [
       "375aeb28bb1691a7879fc48b2db442fb9f750cbe",
-      "74cad5cc2901a45d45b8392627c43e3fa8d0881b"
+      "74cad5cc2901a45d45b8392627c43e3fa8d0881b",
+      "c09cd93672f2952446052361f58dbf8e8c917fc4"
     ],
     "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/11",
     "pullRequestState": "draft"
@@ -35,16 +36,16 @@
   "verification": {
     "unitTestCommand": ":composeApp:desktopTest --tests com.nuvio.app.core.storage.BoundedLegacyFileCacheTest --tests com.nuvio.app.core.storage.BoundedFileCacheTest",
     "unitTests": {
-      "BoundedLegacyFileCacheTest": { "passed": 6, "failed": 0, "errors": 0, "skipped": 0 },
+      "BoundedLegacyFileCacheTest": { "passed": 7, "failed": 0, "errors": 0, "skipped": 0 },
       "BoundedFileCacheTest": { "passed": 5, "failed": 0, "errors": 0, "skipped": 0 },
-      "total": 11
+      "total": 12
     },
     "buildCommands": [":composeApp:desktopJar", ":composeApp:packageMsi"],
     "buildSucceeded": true,
     "msi": {
       "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
-      "bytes": 210968680,
-      "sha256": "4ECDAE62F8AA0254F0A4360F00AAC97F4EC586D84FA557544F721849CED385F3",
+      "bytes": 210964584,
+      "sha256": "7AA3680BC5878DFD003D07CE3727902A32EBCAF2E06046514EF212C329BABBCB",
       "releasePublished": false
     },
     "interactiveWindowsQa": false,
