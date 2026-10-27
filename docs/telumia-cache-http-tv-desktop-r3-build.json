@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D: quotas de cache HTTP na TV e no Desktop",
+  "recordedDate": "2026-10-27",
+  "approvalIssue": "https://github.com/Pepeu2010/telumia/issues/12",
+  "source": {
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-http-cache-policy",
+      "commit": "064a638a2e8219df0c94fc0aaaf42e1774ef505f",
+      "baseBranch": "codex/1d-tv-mdblist-cache-quota",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/6"
+    },
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-addon-cache-policy",
+      "commit": "29ff6916ca168481cae0d8670003704d6518bfd2",
+      "baseBranch": "codex/1a-loading-motion-budget",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/2"
+    }
+  },
+  "environment": {
+    "host": "Windows x64",
+    "java": "Temurin 17.0.20.1, project-local",
+    "androidCompileSdk": 36,
+    "desktopGradle": "9.4.1",
+    "tvGradle": "8.13"
+  },
+  "tests": {
+    "tv": {
+      "command": ":app:testFullDebugUnitTest --tests HttpCacheWritePolicyInterceptorTest --tests MediaCachePolicyTest --tests OwnedMediaCacheOccupancyTest",
+      "result": "BUILD SUCCESSFUL",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "desktop": {
+      "command": ":composeApp:desktopTest --tests AddonHttpCacheTest --tests MediaCachePolicyTest",
+      "result": "BUILD SUCCESSFUL",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "builds": {
+    "tv": {
+      "command": ":app:assembleFullDebug",
+      "result": "BUILD SUCCESSFUL",
+      "artifactsDirectory": "repos/.worktrees/tv-http-cache-policy/app/build/outputs/apk/full/debug",
+      "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionCode": 10008,
+      "versionName": "1.0.2-alpha.3",
+      "installableUpgradeFromProduction": false,
+      "artifacts": [
+        {
+          "file": "app-full-arm64-v8a-debug.apk",
+          "bytes": 92988531,
+          "sha256": "EAC15677DC8A53544BCF02340170E97A17BD64A80C9335E9E839A45198A193AB"
+        },
+        {
+          "file": "app-full-armeabi-v7a-debug.apk",
+          "bytes": 90886941,
+          "sha256": "96056CD9159EB689225551CA332376A139E4155490ACD07C26F50FFDB0E59BC7"
+        },
+        {
+          "file": "app-full-universal-debug.apk",
+          "bytes": 179959769,
+          "sha256": "10F1EA0673AAE91DF61C6B5CD2EC67FE19FE9E7C8D05BAE0A892E6B361226FCA"
+        },
+        {
+          "file": "app-full-x86_64-debug.apk",
+          "bytes": 95409046,
+          "sha256": "7C260CA71FEE8F43A2597404C9ADEFF0559CA75C8EC1C96638DEE8846ADCCF6D"
+        },
+        {
+          "file": "app-full-x86-debug.apk",
+          "bytes": 94569181,
+          "sha256": "52DB06C3FBFB3130E576907A2F5171F787C79AEE61DBBA6A3662689576984C30"
+        }
+      ]
+    },
+    "desktop": {
+      "tasks": [":composeApp:desktopJar", ":composeApp:packageMsi"],
+      "result": "BUILD SUCCESSFUL",
+      "artifact": {
+        "file": "repos/desktop/composeApp/build/compose/release-msis/Telumia-Windows-x64-1.0.2-alpha.1.msi",
+        "bytes": 210903144,
+        "sha256": "746F9EE028AE79E10A596AFA495E5B4681AABB5AC438DFEDB12216A8D0C8418A"
+      },
+      "configurationCacheNote": "Compose packageMsi task is not configuration-cache compatible; Gradle discarded that cache entry."
+    }
+  },
+  "limitations": [
+    "APK packages use the .debug application ID and are for validation only; they cannot update the production installation.",
+    "No physical TV Box or Android TV performance measurement was performed.",
+    "No release was published in this increment; both source PRs remain open and require their preceding PR branches."
+  ]
+}

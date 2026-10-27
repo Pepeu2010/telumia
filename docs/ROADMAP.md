@@ -209,4 +209,11 @@ Escolha para mim, Guest/Kids, webcam/animated avatars, Cinema/Living Room/Ambien
 Mode — recebem incrementos próprios, preservando seu comportamento/capability.
 Nunca anunciá-las como prontas antes de implementação/QA.
 
+### Progresso — Fase 1-D, quotas HTTP na TV e no Desktop (27 de outubro de 2026)
+
+- Os caches HTTP fixos da TV agora usam `HTTP` e `ADDONS`; o cache de metadata MDBList conserva sua quota própria. O cache de GETs de addons foi integrado ao Desktop e recebe a mesma quota central. Todas as shares somam 100% e seus limites efetivos continuam subordinados ao modo Auto/Manual, à memória e ao armazenamento.
+- O modo somente leitura conserva hits existentes e marca respostas de rede como `no-store`; erros 4xx/5xx não são armazenados. A ocupação considera apenas os diretórios allowlisted.
+- Passaram 17 testes focados TV e 9 Desktop. Foram compilados cinco APKs Full Debug, JAR e MSI. Os APKs têm ID `.debug`; nenhum é instalador de atualização da versão de produção. Não houve medição em hardware físico. Evidência completa e hashes em [MEDIA_CACHE.md](MEDIA_CACHE.md#quotas-de-cache-http-na-tv-e-no-desktop--27-de-outubro) e [registro](telumia-cache-http-tv-desktop-r3-build.json).
+- PRs sequenciais: TV [#6](https://github.com/Pepeu2010/telumia-tv/pull/6) sobre TV [#4](https://github.com/Pepeu2010/telumia-tv/pull/4); Desktop [#2](https://github.com/Pepeu2010/telumia-desktop/pull/2) sobre Desktop [#1](https://github.com/Pepeu2010/telumia-desktop/pull/1). A solicitação está em [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). As branches continuam abertas e Fase 1-D não está concluída.
+
 

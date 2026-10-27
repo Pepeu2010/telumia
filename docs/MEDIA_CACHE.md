@@ -62,6 +62,20 @@ Os 5 testes de `MdbListRatingsDiskCacheTest` e 11 de `MdbListRatingsLoaderTest` 
 
 Fonte: branch `codex/1d-tv-mdblist-cache-quota`, commit `dc92702ef6977ff9b210a05a8c7244bec622a8c9`; [PR #4](https://github.com/Pepeu2010/telumia-tv/pull/4), vinculado à aprovação [telumia#10](https://github.com/Pepeu2010/telumia/issues/10). Pacotes, versões, tamanhos, hashes e comandos estão em [telumia-cache-metadata-tv-r1-build.json](telumia-cache-metadata-tv-r1-build.json). Este é um recorte parcial: ainda faltam os outros consumidores de cache, adaptação durante a sessão e QA de fluxos offline; a Fase 1-D segue aberta.
 
+## Quotas de cache HTTP na TV e no Desktop — 27 de outubro
+
+Os dois caches OkHttp da TV deixaram de usar o limite fixo de 50 MiB. `http_cache_v2` usa a quota `HTTP` e continua separado de `addon_http_cache`, que usa `ADDONS`. `METADATA` permanece independente para caches como o arquivo de avaliações MDBList. O cliente Desktop também passou a ter um cache HTTP isolado para GETs de addons, sob `media-cache-v1/addons/http`.
+
+As shares centrais agora são: imagens 40%, badges 4%, avatares 6%, previews 10%, thumbnails 8%, filmstrip 4%, metadata 10%, HTTP 5%, addons 5%, EPG 5% e Scene Info 3%. A soma é 100% nos dois clientes. Com os defaults iniciais, antes dos ajustes Auto por aparelho/armazenamento, `HTTP` e `ADDONS` começam em 12,8 MiB cada na TV e 51,2 MiB cada no Desktop. O total continua configurável; esses valores não são limites fixos por dispositivo. A redução de imagens de 50% para 40% abre espaço para os novos consumidores dentro da mesma partilha total.
+
+O Auto passou a incluir as pastas `http_cache_v2`, `addon_http_cache` e `metadata` da TV. No Desktop, o cache usa a pasta da categoria `ADDONS`, que já faz parte da enumeração allowlisted. Downloads, arquivos pessoais e dados duráveis seguem fora da medição.
+
+Em modo somente leitura, a política de rede marca a resposta recebida da rede com `Cache-Control: no-store`, inclusive para erros HTTP 4xx/5xx; um hit existente continua sendo servido sem passar pelo interceptor de rede. As duas origens continuam em diretórios separados. No Desktop, o OkHttp só grava GETs quando os cabeçalhos do servidor permitem; POSTs não entram no cache. Nenhum `max-age` artificial foi adicionado.
+
+Passaram 17 testes focados de TV e 9 testes focados de Desktop. Os cinco APKs Full Debug e o MSI Windows x64 foram compilados. Os APKs têm application ID `.debug`, portanto servem para validação e não atualizam a instalação de produção. Não houve teste de desempenho em hardware físico e os pacotes deste incremento não foram publicados em release. Os códigos e PRs são TV `064a638a` / [PR #6](https://github.com/Pepeu2010/telumia-tv/pull/6) e Desktop `29ff6916` / [PR #2](https://github.com/Pepeu2010/telumia-desktop/pull/2), ambos ligados à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Tamanhos, versões, comandos e SHA-256 estão em [telumia-cache-http-tv-desktop-r3-build.json](telumia-cache-http-tv-desktop-r3-build.json).
+
+Incremento parcial: a Fase 1-D continua aberta para os demais consumidores de cache, adaptação durante a sessão, fluxos offline reais e QA em hardware. A política não prova que toda ocupação de disco histórica já tenha sido contabilizada.
+
 ## Caches TMDB limitadas por tier de memória — 27 de outubro
 
 As sete caches em memória de `TmdbMetadataService` agora usam LRU separado e tetos por tier do `DeviceCapabilities`: LOW_RAM/UNKNOWN 62 entradas no total, BALANCED 124 e HIGH_CAPACITY 248. Os tetos individuais por tipo constam na [documentação do cliente TV](https://github.com/Pepeu2010/telumia-tv/blob/codex/1d-tv-tmdb-memory-cache/docs/TMDB_METADATA_CACHE.md). Eviction libera respostas antigas e uma consulta futura pode buscar novamente a metadata. As caches de requisições em voo mantêm sua função de coalescência.
