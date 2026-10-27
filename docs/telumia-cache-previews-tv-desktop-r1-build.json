@@ -1,0 +1,89 @@
+{
+  "milestone": "Fase 1-D: quota PREVIEWS na TV e Desktop",
+  "date": "2026-10-27",
+  "approvalIssue": "https://github.com/Pepeu2010/telumia/issues/12",
+  "policy": {
+    "category": "PREVIEWS",
+    "initialSharePercent": 10,
+    "configurable": true,
+    "storageMode": "Uses the current per-device Auto or Manual budget and storage reserve",
+    "normalPosterCategory": "IMAGES",
+    "previewMemoryCache": "Disabled per request to avoid retaining preview images in a second memory cache",
+    "tvAutoOccupancy": "Includes media-cache-v1/previews",
+    "tvHttpClient": "Shared across the normal image loader and preview loader",
+    "tvRevalidation": "Invalidates the loader-specific memory and disk cache"
+  },
+  "repositories": {
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-preview-image-cache",
+      "commit": "fdf69cead6809c825d5f2c3953cf3e0db280355c",
+      "baseBranch": "codex/1d-tv-subtitle-cache-quota",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/11",
+      "draft": true
+    },
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-preview-image-cache",
+      "commit": "ed13fa8722dab1728442a8778478d68cce872ae2",
+      "baseBranch": "codex/1d-desktop-subtitle-cache-quota",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/8",
+      "draft": true
+    }
+  },
+  "tests": {
+    "tv": {
+      "unitCommand": ".\\gradlew :app:testFullDebugUnitTest --tests com.nuvio.tv.core.storage.OwnedMediaCacheOccupancyTest --tests com.nuvio.tv.core.storage.MediaCachePolicyTest :app:assembleFullDebug --no-configuration-cache --console=plain",
+      "unitTests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build": "success",
+      "instrumentationCommand": ".\\gradlew :app:connectedFullDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.nuvio.tv.core.storage.PreviewImageCacheRoutingTest -Pandroid.injected.device.serial=emulator-5554 --no-configuration-cache --console=plain",
+      "instrumentation": {
+        "device": "Android TV API 33 AVD",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "gradleCollector": "Did not exit after reporting test completion; process cancelled after verifying the result XML"
+      },
+      "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionCode": 10008,
+      "versionName": "1.0.2-alpha.3",
+      "minimumSdk": 24
+    },
+    "desktop": {
+      "command": ".\\gradlew :composeApp:desktopTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest :composeApp:desktopJar :composeApp:packageMsi --no-configuration-cache --console=plain",
+      "unitTests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "desktopJar": "success",
+      "packageMsi": "success"
+    }
+  },
+  "artifacts": {
+    "tvApks": [
+      { "file": "app-full-arm64-v8a-debug.apk", "bytes": 96405951, "sha256": "22A4C2F8550FF11C791454DD9C50DBE8A8A98822B854FF18F2A1377457102644" },
+      { "file": "app-full-armeabi-v7a-debug.apk", "bytes": 94304361, "sha256": "C3354F1E100A63C3932C37D09572D52C28E37083E7EB5EE6669431BB1075977F" },
+      { "file": "app-full-universal-debug.apk", "bytes": 183377189, "sha256": "9FC9AAC727819C8F5998FB11CEBCF142EA5ECB51C942F1A796285D3F9AE8D3F7" },
+      { "file": "app-full-x86_64-debug.apk", "bytes": 98826466, "sha256": "FFB8CCB1E63C3142ADFC40CA194973D8E0709A79B5F59EED19DD565C0AB8AD73" },
+      { "file": "app-full-x86-debug.apk", "bytes": 97986601, "sha256": "E07314772C1203A0A05A73688C78A2B56671B29D3E9F132074AB7213B692E53F" }
+    ],
+    "desktopMsi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "path": "composeApp/build/compose/release-msis/Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210927720,
+      "sha256": "70156FD59E0E59FB99E0D709DBDF939D78A1F619A078CE16223C1B3C5B7D5C5B",
+      "published": false
+    }
+  },
+  "limitations": [
+    "Debug APKs use the .debug application ID and do not update production installations; no release was published.",
+    "The MSI is a validation build; application update installation was not tested.",
+    "Instrumentation ran on an Android TV API 33 AVD, not a physical TV Box; Gradle remained stuck in final result collection after the test XML was written.",
+    "No sustained memory, jank, frame pacing, or physical PC performance measurement was performed.",
+    "Fase 1-D remains open for SCENE_INFO cache integration, global legacy accounting, real offline flows, and physical QA."
+  ]
+}
