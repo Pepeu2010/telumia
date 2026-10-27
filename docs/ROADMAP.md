@@ -295,3 +295,10 @@ Nunca anunciá-las como prontas antes de implementação/QA.
 
 - O portal na janela Compose principal passou os três testes de lifecycle/composição e o AVI local chegou ao callback `media-ready` no `ComposePanel` real. `desktopJar` e MSI Windows x64 compilaram; MSI local de validação, não publicado. O registro dos hashes e comandos está em [PREVIEWS.md](PREVIEWS.md#gate-de-interop-do-hover-preview-windows--27-de-outubro) e [JSON do build](telumia-hover-preview-windows-overlay-r1-build.json).
 - Nenhuma captura visual válida nem entrada OS real foi obtida neste runner; o controle de trailer continua desativado no Windows. A Fase 3 mantém esse gate aberto.
+
+### Continuação da Fase 1-D — ocupação Auto assíncrona no Desktop e na TV (27 de outubro de 2026)
+
+- A varredura allowlisted dos caches saiu da thread que consulta o orçamento nos dois clientes. Um executor daemon de prioridade reduzida entrega o último snapshot imediatamente, renova a amostra quando o TTL de 15 s vence e invalida o orçamento após a leitura em segundo plano. Os scans mantêm limites e não leem conteúdo; falhas preservam os bytes conhecidos e indicam amostra incompleta.
+- TV: 25 testes JVM, 7 instrumentados no AVD Android TV API 33/1080p, cinco APKs Full Debug e APK de instrumentação passaram/compilaram. Desktop: 21 testes selecionados, JAR e MSI Windows x64 passaram/compilaram. Não houve QA de TV Box física nem medição de FPS/latência em hardware; builds são locais de validação, sem release.
+- TV: commits `59d18cec82d7a24f2b99452585ef83a1df906dba` e `c9e27e8263fa784c863d010fee421f44b221644b`, [PR draft #14](https://github.com/Pepeu2010/telumia-tv/pull/14) sobre #13. Desktop: commit `7e03e5abd60cbf65b9d03e2ae5749a08bf7e1edc`, [PR draft #9](https://github.com/Pepeu2010/telumia-desktop/pull/9) sobre #8. Evidências, comandos e checksums em [MEDIA_CACHE.md](MEDIA_CACHE.md#ocupação-assíncrona-do-cache-no-desktop-e-na-tv--27-de-outubro-de-2026) e [registro](telumia-cache-occupancy-async-tv-desktop-r1-build.json).
+- Não fecha a Fase 1-D. Persistem QA físico, fluxos offline e a revisão de como limites centrais devem interagir com os limites próprios de playback.

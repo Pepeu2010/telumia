@@ -193,3 +193,17 @@ Passaram 12 testes unitários de `OwnedMediaCacheOccupancyTest` e 7 testes instr
 TV: commit `69123dfd4535cbd3c74e4a71d00aa8d12944020d`, branch `codex/1d-tv-stream-cache-occupancy`, baseada no snapshot da Fase 1-D `e42eb3283e1e856b159dd9cdfe7df5bef412e085`.
 
 Incremento parcial: a Fase 1-D continua aberta para outros consumidores/caminhos legados, vinculação da quota central às gravações de playback, fluxos offline e QA físico de TV Box/PC.
+
+## Ocupação assíncrona do cache no Desktop e na TV — 27 de outubro de 2026
+
+As consultas ao orçamento não percorrem mais os diretórios allowlisted de cache na thread chamadora. Desktop e TV usam um executor daemon dedicado; o Desktop e a TV rodam a thread abaixo da prioridade normal. A primeira consulta devolve o snapshot conhecido imediatamente e agenda uma varredura. As varreduras continuam limitadas, read-only e sem leitura de conteúdo. Depois de 15 segundos, a próxima consulta agenda outra amostra; quando ela termina, invalida o orçamento para que a leitura seguinte refaça a estimativa Auto com os bytes ocupados atuais. Durante a primeira varredura, a ocupação desconhecida é tratada de forma conservadora; o gate de espaço livre real continua valendo antes de novas gravações. Se o filesystem falhar, a soma conhecida é preservada e marcada incompleta.
+
+O escopo retirado da thread chamadora é a enumeração dos arquivos allowlisted. A leitura pontual de RAM e espaço livre continua no caminho de amostragem. Esta entrega não muda limites de VOD/torrent, não remove arquivos e não conecta uma quota `SCENE_INFO` sem consumidor real.
+
+Na TV passaram 25 testes JVM selecionados (ocupação 12, monitor 2, política 11), mais 7 instrumentados em AVD Android TV API 33, 1920×1080. Os cinco APKs Full Debug e o APK androidTest foram compilados; versão `1.0.2-alpha.3`, código `10008`, ID `io.github.pepeu2010.telumia.tv.debug`. No Desktop passaram 21 testes selecionados (ocupação 8, monitor 2, política 11), `desktopJar` e `packageMsi`.
+
+Os APKs `.debug` e o MSI são artefatos de validação locais; não são atualizações de produção e não foram publicados. Não houve medição de FPS/latência em aparelho físico, QA em TV Box ou validação interativa de mouse no Windows. Comandos, hashes completos e limitações estão no [registro do build](telumia-cache-occupancy-async-tv-desktop-r1-build.json).
+
+TV: commits `59d18cec82d7a24f2b99452585ef83a1df906dba` e `c9e27e8263fa784c863d010fee421f44b221644b`, branch `codex/1d-tv-async-cache-occupancy`, [PR draft #14](https://github.com/Pepeu2010/telumia-tv/pull/14) sobre [#13](https://github.com/Pepeu2010/telumia-tv/pull/13). Desktop: commit `7e03e5abd60cbf65b9d03e2ae5749a08bf7e1edc`, branch `codex/1d-desktop-async-cache-occupancy`, [PR draft #9](https://github.com/Pepeu2010/telumia-desktop/pull/9) sobre [#8](https://github.com/Pepeu2010/telumia-desktop/pull/8). Ambos ligados à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12).
+
+A Fase 1-D continua aberta: falta validar fluxos offline reais, QA físico e decidir os próximos consumidores de quota sem sobrepor limites configuráveis existentes de playback.
