@@ -526,3 +526,45 @@ CPU, seek, playback prolongado nem freeze sob carga. O gate combinado PC/APK e a
 Fase 1-A permanecem abertos. Os resultados completos e hashes estão no
 [registro de QA R1](telumia-tv-sentry-startup-qa-r1.json); o código está no
 commit `34a4dcd594403ede807524bcf90a290a3ccfc9f4` e no [PR TV #2](https://github.com/Pepeu2010/telumia-tv/pull/2).
+
+### Referência Desktop de inicialização
+
+Em 27/10/2026, medi o MSI Windows já gerado no commit Desktop 63b4aa04
+(ProductVersion 2.0.1, SHA-256
+1E2B1A19DC09C367EB30A2A341A41F3D6C78F4F7A876792CBDBC23F13A536F86). O pacote
+foi extraído para uma pasta temporária e executado sem instalação. Usei três
+perfis novos, cada um com APPDATA e LOCALAPPDATA próprios e sem sessão iniciada.
+O PC de referência tinha Ryzen 5 5500, 6 núcleos/12 threads, 15,9 GiB de RAM e
+Windows 11 Pro build 26200. O processo foi iniciado a frio; o cache de disco do
+Windows não foi limpo.
+
+| Execução | Primeira janela | Working set após 7 s | Memória privada após 7 s | CPU ociosa em 5 s | Sondagem da janela |
+| --- | ---: | ---: | ---: | ---: | --- |
+| 1 | 3.403 ms | 731,9 MiB | 865,2 MiB | 0,05 s | mediana 0,1 ms; 0 timeouts |
+| 2 | 3.957 ms | 319,2 MiB | 456,3 MiB | 0,02 s | mediana 0,1 ms; 0 timeouts |
+| 3 | 4.272 ms | 322,1 MiB | 453,9 MiB | 0,03 s | mediana 0,1 ms; 0 timeouts |
+
+A mediana do primeiro aparecimento da janela foi 3,957 s. A mediana do working
+set foi 322,1 MiB e a da memória privada, 456,3 MiB; a primeira execução é um
+pico isolado e precisa ser reamostrada em qualquer comparação. As sondagens
+enviaram WM_NULL a cada 250 ms por cinco segundos depois da abertura. Elas
+mostram que a fila Win32 respondeu no estado ocioso; não exercitam foco,
+navegação, renderização de frames, player ou reprodução e não provam ausência
+de freeze sob carga.
+
+Uma execução diagnóstica separada identificou o processo da aplicação Java
+(323,2 MiB de working set) e o launcher (8,3 MiB). No primeiro aparecimento da
+janela, o processo Java acumulava 7,64 segundos de CPU em 3,932 segundos de
+relógio. A consulta da JVM reportou heap total de 151.552 KiB, 59.653 KiB
+usados, e Metaspace com 54.373 KiB usados. É uma amostra única: indica que o
+uso residente excede o heap Java, mas não atribui o restante a uma biblioteca
+ou componente específico.
+
+Esta rodada não alterou código nem criou uma medição candidata. O MSI extraído
+serve como referência de abertura e ociosidade, não como aprovação de
+desempenho da Fase 1-A. O próximo incremento que tocar inicialização, UI ou
+player precisa comparar a mesma referência PC e o caminho APK correspondente,
+além de medir interação e playback conforme o escopo alterado. A investigação
+deve identificar a origem da memória nativa e do CPU de inicialização antes de
+mudar preloads ou mover leituras para segundo plano. Os dados brutos estão em
+[telumia-desktop-startup-baseline-r1.json](telumia-desktop-startup-baseline-r1.json).

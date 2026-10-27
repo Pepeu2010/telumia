@@ -85,6 +85,12 @@ Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10
   não é release; hardware físico, jank/FPS e ausência de freeze sob carga seguem
   pendentes. Commit TV `34a4dcd5`, PR #2. [Evidências](NATIVE_FOUNDATION.md#continuação-1-a-tv-leitura-assíncrona-do-consentimento-sentry).
 
+- Referência de desempenho Desktop registrada em 27/10/2026: MSI extraído em
+  diretório isolado, três perfis vazios. A janela apareceu em 3,403–4,272 s
+  (mediana 3,957 s); sondagens ociosas não expiraram. Duas amostras ficaram em
+  ~320 MiB residentes e uma teve pico isolado de ~732 MiB. Não houve mudança de
+  código nem comparação antes/depois; o gate de desempenho PC/APK continua
+  aberto. [Medição e limitações](NATIVE_FOUNDATION.md#referência-desktop-de-inicialização).
 - Home: incremento nativo validado com 44 testes Desktop, 72 TV e 27 testes de componentes no emulador. [Entrega parcial](TELUMIA_HOME.md).
 - 2-A: timeline temporal, providers limitados e adapter dos skips integrados aos players; 93 testes Desktop, 83 TV e nove testes nativos TV aprovados. Capítulos embutidos foram ligados à timeline Desktop/libmpv e TV/Media3 em incrementos posteriores. A entrega inicial de Scene Info R1 veio depois, sobre essa base; bookmarks têm incrementos próprios. [Fundação e Scene Info R1](TIMED_METADATA.md), [capítulos](EMBEDDED_CHAPTERS.md).
 - 2-C parcial: Momentos salvos implementados na TV, com armazenamento durável e confirmação de fonte/corte. Passaram 153 testes selecionados, cinco APKs e 16 execuções nativas do painel em APIs 24/36 e 720p/1080p/4K. Desktop e validação completa no player continuam em execução; nenhuma nova release de bookmarks foi publicada. [Evidências e limites](SCENE_BOOKMARKS.md).

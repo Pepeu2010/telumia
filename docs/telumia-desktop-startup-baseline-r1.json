@@ -1,0 +1,79 @@
+{
+  "capturedAt": "2026-10-27",
+  "artifact": {
+    "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+    "productVersion": "2.0.1",
+    "sourceCommit": "63b4aa0432bcb76f27f4dfde5b54268ed7e62176",
+    "sha256": "1E2B1A19DC09C367EB30A2A341A41F3D6C78F4F7A876792CBDBC23F13A536F86",
+    "execution": "Extracted to a temporary directory and launched without installing"
+  },
+  "host": {
+    "cpu": "AMD Ryzen 5 5500",
+    "physicalCores": 6,
+    "logicalProcessors": 12,
+    "memoryGiB": 15.9,
+    "os": "Windows 11 Pro",
+    "osBuild": 26200
+  },
+  "scenario": {
+    "profiles": "Three fresh isolated APPDATA and LOCALAPPDATA directories; no signed-in session",
+    "processState": "Cold application process; Windows disk cache was not flushed",
+    "firstWindowDefinition": "First Telumia main window with a non-zero Win32 handle and title",
+    "idleMemorySample": "Seven seconds after first window, with the window hidden",
+    "idleCpuSample": "CPU time accumulated during twenty WM_NULL probes spaced 250 ms apart",
+    "uiProbe": "WM_NULL message response; this does not exercise Compose interaction, frame pacing, or playback"
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "firstWindowMs": 3403,
+      "workingSetMiB": 731.9,
+      "privateMemoryMiB": 865.2,
+      "idleCpuSecondsInFiveSeconds": 0.05,
+      "wmNullMedianMs": 0.1,
+      "wmNullTimeouts": 0
+    },
+    {
+      "trial": 2,
+      "firstWindowMs": 3957,
+      "workingSetMiB": 319.2,
+      "privateMemoryMiB": 456.3,
+      "idleCpuSecondsInFiveSeconds": 0.02,
+      "wmNullMedianMs": 0.1,
+      "wmNullTimeouts": 0
+    },
+    {
+      "trial": 3,
+      "firstWindowMs": 4272,
+      "workingSetMiB": 322.1,
+      "privateMemoryMiB": 453.9,
+      "idleCpuSecondsInFiveSeconds": 0.03,
+      "wmNullMedianMs": 0.1,
+      "wmNullTimeouts": 0
+    }
+  ],
+  "diagnosticSample": {
+    "firstWindowMs": 3932,
+    "javaProcessWorkingSetMiB": 323.2,
+    "launcherWorkingSetMiB": 8.3,
+    "javaProcessCpuSecondsAtFirstWindow": 7.64,
+    "jvm": {
+      "version": "17.0.20.1",
+      "heapTotalKiB": 151552,
+      "heapUsedKiB": 59653,
+      "metaspaceUsedKiB": 54373
+    },
+    "sampleCount": 1
+  },
+  "medians": {
+    "firstWindowMs": 3957,
+    "workingSetMiB": 322.1,
+    "privateMemoryMiB": 456.3
+  },
+  "limitations": [
+    "No code changed and no before/after candidate comparison was performed.",
+    "The 731.9 MiB working-set sample is an isolated outlier and needs remeasurement.",
+    "The window-message probe does not verify actual UI interaction, frame pacing, playback, or freezes under load.",
+    "This PC baseline does not close the combined PC/APK performance gate."
+  ]
+}
