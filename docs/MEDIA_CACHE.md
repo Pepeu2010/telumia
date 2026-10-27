@@ -95,3 +95,15 @@ A alteração passou 10 testes direcionados em cada cliente. No Windows, `deskto
 TV: commit `a66e237ffecb5767c36174b796fa9c2661eee0dc`, [PR #7](https://github.com/Pepeu2010/telumia-tv/pull/7) sobre [PR #6](https://github.com/Pepeu2010/telumia-tv/pull/6). Desktop: `4168dcb81bf20fb66d8d95537b0e663d6a723181`, [PR #3](https://github.com/Pepeu2010/telumia-desktop/pull/3) sobre [PR #2](https://github.com/Pepeu2010/telumia-desktop/pull/2). Os dois permanecem abertos e vinculados à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos, tamanhos e SHA-256: [registro de build](telumia-cache-dynamic-budget-tv-desktop-r1-build.json).
 
 A Fase 1-D permanece aberta para integrar e validar os demais consumidores, cobrir fluxos offline reais e fazer QA de desempenho em hardware. O intervalo de 15 segundos limita a frequência de amostra, mas não substitui uma medição física de armazenamento, jank ou consumo.
+
+## Cache de avatares remotos de membros na TV — 27 de outubro
+
+O cache remoto `cacheDir/member_profile_avatars` agora entra na categoria `AVATARS` (6% da partilha central) e na estimativa de ocupação Auto. Cada arquivo tem limite de 2 MiB; o diretório mantém no máximo 256 entradas e respeita o orçamento reavaliado. Ao escrever, usa arquivo temporário, renomeação atômica e eviction LRU. Os downloads autenticados simultâneos são limitados a dois.
+
+Hits anteriores no mesmo diretório e nomes versionados continuam legíveis quando a gravação fica suspensa. A evicção por quota preserva o arquivo usado mais recentemente. Avatares que a pessoa importou ou editou no armazenamento durável local não participam do cache e não são apagados. Uma redução automática sem nova gravação não remove imediatamente os hits já guardados; o aparo ocorre na próxima gravação.
+
+A API Supabase já usada por este cliente devolve o arquivo inteiro em `ByteArray`. A aplicação rejeita dados vazios ou acima de 2 MiB antes de escrevê-los em disco, mas o corpo remoto já foi materializado em memória. Limitar bytes antes dessa alocação exigirá uma API de streaming suportada pelo SDK; este incremento preserva a chamada atual.
+
+Passaram 24 testes unitários TV (cache de avatares, política, ocupação e interceptor HTTP), sem falhas/erros/skips; os cinco APKs Full Debug foram compilados. No Desktop, sem mudanças de fonte, passaram 10 testes de política/HTTP e `desktopJar`/`packageMsi` concluíram. Os APKs continuam com ID `.debug`, e nenhum pacote foi publicado ou testado em hardware físico. Versões, tamanhos, hashes e comandos estão no [registro do build](telumia-cache-avatar-tv-r1-build.json).
+
+TV: branch `codex/1d-tv-member-avatar-cache-quota`, commit `d0b31840b012b8af6ff1de4c987f738b2b198907`, [PR #8](https://github.com/Pepeu2010/telumia-tv/pull/8), empilhado sobre [PR #7](https://github.com/Pepeu2010/telumia-tv/pull/7). O MSI Desktop foi um gate cruzado sem alterações de fonte. A Fase 1-D ainda requer a integração dos demais caches, validação dos fluxos offline e QA em PC/TV Box físicos.
