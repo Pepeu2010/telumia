@@ -231,3 +231,13 @@ Passaram 9 testes direcionados sem falhas, erros ou skips: 4 de cota compartilha
 Desktop: commit `01e0ef3c` (branch `codex/1d-desktop-bound-legacy-profile-background-cache`), [PR draft #10](https://github.com/Pepeu2010/telumia-desktop/pull/10) sobre [PR #9](https://github.com/Pepeu2010/telumia-desktop/pull/9), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos, limites e hash completo estão no [registro do build](telumia-cache-legacy-profile-background-desktop-r1-build.json).
 
 Incremento parcial da Fase 1-D: seguem pendentes os fluxos offline completos, QA físico e a auditoria dos demais consumidores/diretórios que ainda não aplicam a quota compartilhada.
+
+## Limite conjunto do cache legado de GIFs no Desktop — 27 de outubro de 2026
+
+O gerenciador reutilizável aplica uma só alocação da categoria `IMAGES` a `media-cache-v1/images/gifs` e ao cache antigo `gif-cache`. Arquivos legados continuam identificados pelo SHA-256 da URL de origem, usam o máximo existente de 8 MiB por GIF e compartilham o limite de 200 arquivos. A migração valida a cópia hash antes de remover a origem; quando novas gravações estão bloqueadas, a cópia legada permanece legível offline. As leituras fazem a limpeza global no máximo uma vez a cada 15 segundos por instância; cada gravação ainda verifica toda a cota e remove por LRU o que for necessário.
+
+Passaram 11 testes direcionados sem falhas, erros ou skips: 6 do gerenciador e 5 do `BoundedFileCache`, incluindo leitura offline por hash antigo e migração. `desktopJar` e `packageMsi` passaram. MSI Windows x64 local: 210.968.680 bytes; SHA-256 `4ECDAE62F8AA0254F0A4360F00AAC97F4EC586D84FA557544F721849CED385F3`. Não foi publicado, e não houve APK, QA físico ou medição sustentada de desempenho.
+
+Desktop: commits `375aeb28` e `74cad5cc2901a45d45b8392627c43e3fa8d0881b`, branch `codex/1d-desktop-bound-legacy-gif-cache`, [PR draft #11](https://github.com/Pepeu2010/telumia-desktop/pull/11) sobre [PR #10](https://github.com/Pepeu2010/telumia-desktop/pull/10), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Evidências completas em [JSON do build](telumia-cache-legacy-gif-desktop-r1-build.json).
+
+Incremento parcial: seguem pendentes o cache legado de avatares, os fluxos offline completos, QA físico e a auditoria de outros caminhos de cache.

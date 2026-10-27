@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-27",
+  "objective": "Enforce the configurable IMAGES cache budget across Desktop GIF files in the current hashed cache and the legacy gif-cache directory while preserving offline hits.",
+  "implementation": {
+    "sharedCache": "The current media-cache-v1/images/gifs files and legacy cacheDir/gif-cache files now share the GIF allocation from the IMAGES category.",
+    "legacyKey": "Recognized old entries use the SHA-256 digest of the source URL followed by .gif.",
+    "fileAndCountLimits": {
+      "maxEntryBytes": 8388608,
+      "maxFiles": 200
+    },
+    "eviction": "Recognized regular files across both directories use one LRU byte/file budget. New writes check the current dynamic quota before storing data.",
+    "migration": "A valid legacy GIF is copied into the hashed cache, size-verified, and removed from the old directory only after successful migration.",
+    "readOnlyBehavior": "When storage policy disallows new writes, an existing valid legacy GIF is returned for offline use without creating a hashed copy.",
+    "readPerformance": "Read-triggered directory cleanup is rate-limited to once per 15 seconds per cache instance; writes still perform a complete budget check.",
+    "scopeLimits": [
+      "This is Desktop-only; no Android APK was changed or built.",
+      "No physical PC interaction or sustained performance measurement was performed.",
+      "The MSI is a local validation artifact and was not published."
+    ]
+  },
+  "repository": {
+    "platform": "Windows Desktop",
+    "repository": "https://github.com/Pepeu2010/telumia-desktop",
+    "branch": "codex/1d-desktop-bound-legacy-gif-cache",
+    "baseBranch": "codex/1d-desktop-bound-legacy-profile-background-cache",
+    "baseCommit": "01e0ef3c6437ee35ca9183954cbc579624e425cb",
+    "commits": [
+      "375aeb28bb1691a7879fc48b2db442fb9f750cbe",
+      "74cad5cc2901a45d45b8392627c43e3fa8d0881b"
+    ],
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/11",
+    "pullRequestState": "draft"
+  },
+  "verification": {
+    "unitTestCommand": ":composeApp:desktopTest --tests com.nuvio.app.core.storage.BoundedLegacyFileCacheTest --tests com.nuvio.app.core.storage.BoundedFileCacheTest",
+    "unitTests": {
+      "BoundedLegacyFileCacheTest": { "passed": 6, "failed": 0, "errors": 0, "skipped": 0 },
+      "BoundedFileCacheTest": { "passed": 5, "failed": 0, "errors": 0, "skipped": 0 },
+      "total": 11
+    },
+    "buildCommands": [":composeApp:desktopJar", ":composeApp:packageMsi"],
+    "buildSucceeded": true,
+    "msi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210968680,
+      "sha256": "4ECDAE62F8AA0254F0A4360F00AAC97F4EC586D84FA557544F721849CED385F3",
+      "releasePublished": false
+    },
+    "interactiveWindowsQa": false,
+    "releasePublished": false
+  }
+}
