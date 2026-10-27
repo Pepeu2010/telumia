@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-27",
+  "objective": "Finish the approved HTTP and addon disk-cache quota integration on Android TV while validating the existing Desktop addon cache integration.",
+  "implementation": {
+    "shares": {
+      "HTTP": 5,
+      "ADDONS": 5,
+      "METADATA": 10,
+      "allCategorySharesTotal": 100
+    },
+    "androidTv": [
+      "The first-party client uses the HTTP category and http_cache_v2.",
+      "The permissive addon client and Cloudstream baseClient share one OkHttp Cache instance under addon_http_cache and the ADDONS quota.",
+      "The former fixed 50 MiB cacheDir/http_cache is no longer opened; occupancy measurement keeps this legacy directory allowlisted and reads only file attributes.",
+      "Network responses receive Cache-Control: no-store when writes are disabled or the status is 4xx/5xx. Existing cache hits remain readable."
+    ],
+    "desktop": [
+      "The current Desktop branch already includes commit 29ff6916 for the addon HTTP cache at media-cache-v1/addons/http under the ADDONS category.",
+      "The existing source and cache tests were validated without Desktop source changes in this increment."
+    ],
+    "metadata": "METADATA remains its own category and directory; no Scene Info consumer is introduced."
+  },
+  "repositories": [
+    {
+      "platform": "Android TV",
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-managed-addon-http-cache",
+      "baseBranch": "codex/1d-tv-async-cache-occupancy",
+      "baseCommit": "c9e27e8263fa784c863d010fee421f44b221644b",
+      "commit": "1333565afcc95a1b6137de2279ec7514b30ed5d5",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/15",
+      "pullRequestState": "draft"
+    },
+    {
+      "platform": "Windows Desktop",
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-async-cache-occupancy",
+      "commit": "7e03e5abd60cbf65b9d03e2ae5749a08bf7e1edc",
+      "addonCacheCommit": "29ff6916",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/9",
+      "pullRequestState": "draft"
+    }
+  ],
+  "verification": {
+    "tv": {
+      "unitTestCommand": ":app:testFullDebugUnitTest --tests com.nuvio.tv.core.network.HttpCacheWritePolicyInterceptorTest --tests com.nuvio.tv.core.storage.MediaCachePolicyTest --tests com.nuvio.tv.core.storage.OwnedMediaCacheOccupancyTest",
+      "unitTests": {
+        "HttpCacheWritePolicyInterceptorTest": { "passed": 4, "failed": 0, "skipped": 0 },
+        "MediaCachePolicyTest": { "passed": 11, "failed": 0, "skipped": 0 },
+        "OwnedMediaCacheOccupancyTest": { "passed": 12, "failed": 0, "skipped": 0 },
+        "total": 27
+      },
+      "instrumentedTest": {
+        "class": "com.nuvio.tv.ui.screens.settings.MediaCacheSettingsTvTest",
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "device": "emulator-5554",
+        "model": "AOSP TV on x86",
+        "androidApi": 33,
+        "resolution": "1920x1080"
+      },
+      "buildCommands": [":app:assembleFullDebug", ":app:assembleFullDebugAndroidTest"],
+      "buildSucceeded": true,
+      "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionName": "1.0.2-alpha.3",
+      "versionCode": 10008,
+      "releasePublished": false,
+      "productionUpdate": false,
+      "artifacts": [
+        { "file": "app-full-universal-debug.apk", "bytes": 183377250, "sha256": "5C48ED72E0538D7E4F94FC8CA94B0844BB404ACC9D2ADD4E9099EC38DAD5130D" },
+        { "file": "app-full-arm64-v8a-debug.apk", "bytes": 96406012, "sha256": "4E464498EC807DAE409F23A489971A86B6A0FE92655C1CF97DC53C4FCB6B4E8A" },
+        { "file": "app-full-armeabi-v7a-debug.apk", "bytes": 94304422, "sha256": "1A18DB173B8C6D1AF44EF7619857A98FFAB6F91F8F7FA3C0407CD1FDE9BE8B76" },
+        { "file": "app-full-x86_64-debug.apk", "bytes": 98826527, "sha256": "516C5C17C3EB2C4AF8D408C3920236A24F35E830836F1C896F2FE2652701427A" },
+        { "file": "app-full-x86-debug.apk", "bytes": 97986662, "sha256": "B6A02CAF78C9ADAE205AAA23F11D6372B4B89B6CB19627A0D94B47CC2C787F9A" },
+        { "file": "app-full-debug-androidTest.apk", "bytes": 1649055, "sha256": "A182712CA878DDB879DACFF5B30E473516188C7B99C3B5ADDAF5342692556433" }
+      ],
+      "physicalTvBoxTested": false
+    },
+    "desktop": {
+      "testCommand": ":composeApp:desktopTest --tests com.nuvio.app.features.addons.AddonHttpCacheTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest --tests com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest --tests com.nuvio.app.core.storage.MediaCacheOccupancyMonitorTest",
+      "unitTests": {
+        "AddonHttpCacheTest": { "passed": 3, "failed": 0, "skipped": 0 },
+        "MediaCachePolicyTest": { "passed": 11, "failed": 0, "skipped": 0 },
+        "OwnedMediaCacheOccupancyTest": { "passed": 8, "failed": 0, "skipped": 0 },
+        "MediaCacheOccupancyMonitorTest": { "passed": 2, "failed": 0, "skipped": 0 },
+        "total": 24
+      },
+      "buildCommands": [":composeApp:desktopJar", ":composeApp:packageMsi"],
+      "tasksWereUpToDate": true,
+      "buildSucceeded": true,
+      "msi": {
+        "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+        "bytes": 210948200,
+        "sha256": "6B4309B29AF5C80616AC717E1DFF7D991FED93B19EFE4382B48CB0EFF5F2A1D6",
+        "releasePublished": false
+      },
+      "interactiveWindowsQa": false
+    },
+    "limits": [
+      "Android packages use the .debug application ID and do not update production installations.",
+      "No TV Box physical test or sustained PC/TV memory, latency or frame-rate measurement was performed."
+    ]
+  }
+}
