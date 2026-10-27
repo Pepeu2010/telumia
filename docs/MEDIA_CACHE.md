@@ -171,3 +171,13 @@ Passaram 29 testes unitários focados: 8 de migração MDBList, 11 de ocupação
 TV: commit `707a3912482900464557b534b19454644838379d`, branch `codex/1d-tv-preserve-legacy-metadata-cache`, [PR draft #12](https://github.com/Pepeu2010/telumia-tv/pull/12) sobre [#11](https://github.com/Pepeu2010/telumia-tv/pull/11). Versão `1.0.2-alpha.3`, código `10008`. Tamanhos, checksums e comandos estão no [registro do build](telumia-cache-metadata-legacy-tv-r1-build.json).
 
 Incremento parcial da Fase 1-D. A quota `SCENE_INFO` depende de um consumidor de dados de Scene Info já existente e não foi inventada neste passo; a contabilização dos demais caminhos legados, testes de fluxos offline e QA físico seguem pendentes.
+
+## Ocupação Auto do snapshot Continue assistindo na TV — 27 de outubro
+
+A medição de cache da TV agora inclui `filesDir/cw_enrichment`, onde o app mantém snapshots regeneráveis Next Up e Em andamento por perfil. Esses arquivos ficam no armazenamento persistente local, mas são cache reconstruível; contabilizá-los evita que ocupem espaço sem aparecer no cálculo Auto. A leitura continua por allowlist, somente estatísticas de arquivos, com limites de tempo/entradas e rejeição de links. DataStore, bookmarks de cena e os demais dados duráveis permanecem fora da medição e não são removidos nem movidos.
+
+A regressão primeiro falhou com os 17 bytes ignorados; após a correção passaram os 29 testes unitários focados (MDBList 8, ocupação 11, política 10). `:app:assembleFullDebug` passou e gerou cinco APKs Full Debug. O gate Desktop de política, JAR e MSI retornou sucesso sem mudanças de fonte, com três tarefas executadas e 26 `UP-TO-DATE`. Sem teste instrumentado ou QA físico neste recorte. APKs usam ID `.debug`, não são atualização de produção e não foram publicados.
+
+TV: commit `e42eb3283e1e856b159dd9cdfe7df5bef412e085`, branch `codex/1d-tv-count-cw-enrichment-cache`, [PR draft #13](https://github.com/Pepeu2010/telumia-tv/pull/13) sobre [#12](https://github.com/Pepeu2010/telumia-tv/pull/12). Builds e hashes: [registro](telumia-cache-continue-watching-occupancy-tv-r1-build.json).
+
+Incremento parcial da Fase 1-D: a allowlist legado agora cobre MDBList e snapshots Continue assistindo, não todo o armazenamento legado. Permanecem a auditoria das demais pastas de cache, consumidores reais para eventual quota `SCENE_INFO`, fluxos offline e QA em PC/TV Box físicos.

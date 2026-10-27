@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-27",
+  "milestone": "Fase 1-D: contabilizar snapshot Continue assistindo legado na TV",
+  "source": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/1d-tv-count-cw-enrichment-cache",
+    "commit": "e42eb3283e1e856b159dd9cdfe7df5bef412e085",
+    "pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/13",
+    "base_branch": "codex/1d-tv-preserve-legacy-metadata-cache",
+    "approved_issue": "https://github.com/Pepeu2010/telumia/issues/12",
+    "draft": true
+  },
+  "behavior": {
+    "additional_files_directory_allowlist": ["cw_enrichment"],
+    "already_counted_legacy_directories": ["mdblist_cache"],
+    "read_only_measurement": true,
+    "durable_data_excluded": ["datastore", "scene-bookmarks-v1"],
+    "files_moved_or_deleted": false
+  },
+  "tv": {
+    "application_id": "io.github.pepeu2010.telumia.tv.debug",
+    "version_code": 10008,
+    "version_name": "1.0.2-alpha.3",
+    "build_type": "Full Debug validation only; not production-updatable",
+    "unit_command": ".\\gradlew :app:testFullDebugUnitTest --tests com.nuvio.tv.data.mdblist.MdbListRatingsDiskCacheTest --tests com.nuvio.tv.core.storage.OwnedMediaCacheOccupancyTest --tests com.nuvio.tv.core.storage.MediaCachePolicyTest :app:assembleFullDebug --no-configuration-cache --console=plain",
+    "unit_tests": {
+      "MdbListRatingsDiskCacheTest": 8,
+      "OwnedMediaCacheOccupancyTest": 11,
+      "MediaCachePolicyTest": 10,
+      "total": 29,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "build": "success",
+    "artifacts": [
+      {"file":"app-full-arm64-v8a-debug.apk","bytes":96405951,"sha256":"20D99D2BA317405DA643A06F426F3BD01820041D956B1C8FF2471805FF4690C6"},
+      {"file":"app-full-armeabi-v7a-debug.apk","bytes":94304361,"sha256":"326F3BEB168EC15DFEF39AD009CF4F41D2B06BDB729BD132021972761A847D96"},
+      {"file":"app-full-universal-debug.apk","bytes":183377189,"sha256":"01C6AC3DBED8E5EDEE48AAC12A12A1D9FB1ADD1A4B9CCAE8C2C7E7AFE334E8FD"},
+      {"file":"app-full-x86_64-debug.apk","bytes":98826466,"sha256":"019FD5EB1E0D1AFFBD595A181162A28410F18D3AC1959194C68AC58786D1CFA1"},
+      {"file":"app-full-x86-debug.apk","bytes":97986601,"sha256":"27296C2EA68A216015CB749BD6864D35592211A3EFF95BFFA4EE5E4905D8BBDF"}
+    ]
+  },
+  "desktop_cross_gate": {
+    "source_changed": false,
+    "command": ".\\gradlew :composeApp:desktopTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest :composeApp:desktopJar :composeApp:packageMsi --no-configuration-cache --console=plain",
+    "result": "success; 3 tasks executed and 26 up-to-date"
+  },
+  "physical_performance_measurement": "not performed; no physical TV Box or PC QA in this increment",
+  "release_status": "no release published; debug APKs do not update production installations",
+  "phase_status": "partial; Fase 1-D remains open"
+}
