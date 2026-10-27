@@ -7,7 +7,7 @@
     "tv": {
       "repository": "https://github.com/Pepeu2010/telumia-tv",
       "branch": "codex/1d-tv-http-cache-policy",
-      "commit": "064a638a2e8219df0c94fc0aaaf42e1774ef505f",
+      "commit": "860ac552043cf7ca5e6cbbaaaab0eb7792b6f472",
       "baseBranch": "codex/1d-tv-mdblist-cache-quota",
       "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/6"
     },
@@ -56,28 +56,28 @@
       "artifacts": [
         {
           "file": "app-full-arm64-v8a-debug.apk",
-          "bytes": 92988531,
-          "sha256": "EAC15677DC8A53544BCF02340170E97A17BD64A80C9335E9E839A45198A193AB"
+          "bytes": 94668474,
+          "sha256": "8643C6C165636015C4FF4025C6DD4660116D7EE221088E8A8666C9FB4DC69BA7"
         },
         {
           "file": "app-full-armeabi-v7a-debug.apk",
-          "bytes": 90886941,
-          "sha256": "96056CD9159EB689225551CA332376A139E4155490ACD07C26F50FFDB0E59BC7"
+          "bytes": 92566884,
+          "sha256": "F254BE31CE3E7D40D63CC36A9D890FC0B0E0E8D15C3608ECD504C5A9F1C0026F"
         },
         {
           "file": "app-full-universal-debug.apk",
-          "bytes": 179959769,
-          "sha256": "10F1EA0673AAE91DF61C6B5CD2EC67FE19FE9E7C8D05BAE0A892E6B361226FCA"
+          "bytes": 181639712,
+          "sha256": "8006A8AB2F9F2FEA5FA6E1117E7EF491442FFD0B464434130FC2A07123A0D975"
         },
         {
           "file": "app-full-x86_64-debug.apk",
-          "bytes": 95409046,
-          "sha256": "7C260CA71FEE8F43A2597404C9ADEFF0559CA75C8EC1C96638DEE8846ADCCF6D"
+          "bytes": 97088989,
+          "sha256": "E410CE8037F16E89F1349E7C18B78BEA44DF4214E9311CE495EB80A82AC9FA86"
         },
         {
           "file": "app-full-x86-debug.apk",
-          "bytes": 94569181,
-          "sha256": "52DB06C3FBFB3130E576907A2F5171F787C79AEE61DBBA6A3662689576984C30"
+          "bytes": 96249124,
+          "sha256": "CF236628F8D7B0C9019E124BAAC2EF4980458E91EA6EB6D180444C26D13270D0"
         }
       ]
     },
