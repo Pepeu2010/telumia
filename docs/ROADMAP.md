@@ -153,6 +153,13 @@ Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10
 - Passaram 16 testes focados de TV; o Desktop sem mudanças de fonte passou 12 testes focados e compilou JAR/MSI. Foram gerados cinco APKs Full Debug, identificados como `.debug`, apenas para validação. Não são atualizações de produção e não foram publicados.
 - Incremento parcial. Fase 1-D permanece aberta para os consumidores restantes, adaptação dinâmica, fluxos offline e QA em hardware real. O build de ambos os clientes não comprova desempenho físico; nenhum aparelho foi medido neste recorte.
 
+### Progresso — Fase 1-D, caches de metadata TMDB em RAM na TV (27 de outubro de 2026)
+
+- As sete caches de respostas do `TmdbMetadataService` agora usam LRU com limite por tier de memória do dispositivo. `UNKNOWN` usa o limite conservador. Os itens em voo seguem separados e continuam coalescendo requests. Issue [telumia#11](https://github.com/Pepeu2010/telumia/issues/11), commit `8c1ba9fd07fc5e3ec395fbe024607957b47164fa`, [PR #5](https://github.com/Pepeu2010/telumia-tv/pull/5).
+- Passaram 31 testes direcionados e os cinco APKs Full Debug foram compilados. O `applicationId` `.debug` identifica pacotes de validação, não atualizadores de produção. A suíte total fez 2.058 testes: 13 falhas e 1 skip; as mesmas 13 falhas foram reproduzidas em dez classes no commit-base `e1e7d992`.
+- O gate Desktop sem mudança de fonte retornou sucesso, com tarefas de teste e MSI marcadas `UP-TO-DATE`. Não houve medição de heap, jank, CPU ou latência em hardware físico.
+- Incremento parcial: os tetos são quantidade de entradas, não orçamento exato de bytes; a Fase 1-D ainda requer os consumidores restantes e adaptação dinâmica.
+
 Cada milestone: inspecionar call sites → registrar impacto → implementar →
 testar → compilar → corrigir regressões → QA → documentar → commit.
 PRs serão feitos no fork quando houver remoto próprio; não enviar redesign ao

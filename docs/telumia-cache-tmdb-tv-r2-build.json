@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-27",
+  "milestone": "Fase 1-D: limitar caches em memória de metadata TMDB da TV por capacidade do aparelho",
+  "source": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/1d-tv-tmdb-memory-cache",
+    "commit": "8c1ba9fd07fc5e3ec395fbe024607957b47164fa",
+    "pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/5",
+    "approved_issue": "https://github.com/Pepeu2010/telumia/issues/11",
+    "base_commit": "e1e7d992c4ee1d9ccf9904e0ef54b0e8f23efd2f"
+  },
+  "cache_limits_entries_by_tier": {
+    "LOW_RAM_or_UNKNOWN": {
+      "enrichment": 12,
+      "episodes": 8,
+      "people": 12,
+      "recommendations": 6,
+      "entity_headers": 12,
+      "entity_rails": 6,
+      "entity_browse": 6,
+      "total": 62
+    },
+    "BALANCED": {
+      "enrichment": 24,
+      "episodes": 16,
+      "people": 24,
+      "recommendations": 12,
+      "entity_headers": 24,
+      "entity_rails": 12,
+      "entity_browse": 12,
+      "total": 124
+    },
+    "HIGH_CAPACITY": {
+      "enrichment": 48,
+      "episodes": 32,
+      "people": 48,
+      "recommendations": 24,
+      "entity_headers": 48,
+      "entity_rails": 24,
+      "entity_browse": 24,
+      "total": 248
+    }
+  },
+  "tv": {
+    "application_id": "io.github.pepeu2010.telumia.tv.debug",
+    "version_code": 10008,
+    "version_name": "1.0.2-alpha.3",
+    "build_type": "Full Debug; validation only; not production-updatable",
+    "unit_tests_focused": {
+      "BoundedLruCacheTest": 3,
+      "TmdbMetadataCacheLimitsTest": 2,
+      "TmdbMetadataServiceTest": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "full_unit_suite": {
+      "tests": 2058,
+      "failures": 13,
+      "errors": 0,
+      "skipped": 1,
+      "same_failing_classes_reproduced_on_base": true,
+      "baseline_selected_tests": 88,
+      "baseline_failures": 13,
+      "baseline_commit": "e1e7d992c4ee1d9ccf9904e0ef54b0e8f23efd2f",
+      "failing_classes": [
+        "androidx.media3.datasource.LocalhostZeroCopyDataSourceTest",
+        "androidx.media3.exoplayer.upstream.DefaultAllocatorTest",
+        "com.nuvio.tv.core.player.FrameRateUtilsMkvSparseTracksTest",
+        "com.nuvio.tv.core.player.MatroskaAfrProbeTest",
+        "com.nuvio.tv.core.plugin.PluginBinaryFetchTest",
+        "com.nuvio.tv.core.poster.CustomPosterUrlResolverTest",
+        "com.nuvio.tv.data.repository.CatalogRepositoryTypeTest",
+        "com.nuvio.tv.data.repository.TraktAuthServiceTest",
+        "com.nuvio.tv.ui.screens.player.PostPlayRecommendationStateTest",
+        "com.nuvio.tv.ui.screens.player.TrackSelectionInvestigationTest"
+      ]
+    },
+    "artifacts": [
+      {"file":"app-full-arm64-v8a-debug.apk","bytes":92986479,"sha256":"362521CF0A3FC89B1BDDAC282D5A5925BA052719D67F885095246BD54649A2EF"},
+      {"file":"app-full-armeabi-v7a-debug.apk","bytes":90884893,"sha256":"5DAB6DE9AD1367F3C9EBEFCA243E3E51BDAF5451A7E2F2CA3580DFF694F9D2E2"},
+      {"file":"app-full-universal-debug.apk","bytes":179957717,"sha256":"A2121016BCE7BCD5BB521D77201F7C9D517FB9E049BDB1D295C1D5E644CCE360"},
+      {"file":"app-full-x86_64-debug.apk","bytes":95406994,"sha256":"932A0E43970F387A46C15F18EE327C817DFE7E22D8CF26A68CC92667B9DF47B7"},
+      {"file":"app-full-x86-debug.apk","bytes":94567129,"sha256":"2F6694BD0A71B8C0CE870DD5ED493C6CF3488C009F6E1537543CEAAC3E94763A"}
+    ],
+    "android_build_command": ":app:compileFullDebugAndroidTestKotlin :app:assembleFullDebug --no-daemon --console=plain"
+  },
+  "desktop_cross_gate": {
+    "source_changed": false,
+    "result": "BUILD SUCCESSFUL; selected desktopTest and packageMsi tasks were UP-TO-DATE",
+    "selected_test_task": "com.nuvio.app.core.storage.MediaCachePolicyTest + com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest",
+    "msi": {
+      "file": "Telumia-2.0.1.msi",
+      "bytes": 210894952,
+      "sha256": "6B23E6989EDC0BACEAC12D61DEAC28A849EE098067EF97C1FAC1F6D081CC2FE2"
+    }
+  },
+  "physical_performance_measurement": "not performed; memory retention, heap, CPU, jank, and latency were not measured on physical TV Box or PC hardware",
+  "release_status": "no release published; debug APKs cannot update production installs",
+  "phase_status": "partial; Fase 1-D remains open"
+}
