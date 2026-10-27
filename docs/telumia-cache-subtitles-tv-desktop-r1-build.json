@@ -1,0 +1,90 @@
+{
+  "milestone": "Fase 1-D: cache de arquivos de legenda na TV e alinhamento da política Desktop",
+  "date": "2026-10-27",
+  "approvalIssue": "https://github.com/Pepeu2010/telumia/issues/12",
+  "policy": {
+    "category": "SUBTITLES",
+    "sharePercent": 2,
+    "previousImageSharePercent": 40,
+    "currentImageSharePercent": 38,
+    "sharesTotalPercent": 100,
+    "defaultCacheBudgetsAreInitialAndConfigurable": true,
+    "autoBudget": "Adapts to device memory and available storage, with the existing storage reserve; current budget is re-evaluated on demand",
+    "maximumResponseBytes": 4194304,
+    "maximumFileBytes": 4194304,
+    "maximumFileCount": 64,
+    "writes": "Uses the current per-device category quota, storage reserve, and atomic replacement",
+    "networkBody": "Streamed with a max+1 byte overflow probe; oversized bodies are rejected without materializing the complete response",
+    "unavailableLocalCache": "TV playback can fall back to the original external subtitle URL",
+    "desktopRuntimeSubtitleFileCache": false
+  },
+  "repositories": {
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-subtitle-cache-quota",
+      "commit": "34ff591411ac039db5e3cc770a76a25b398d4e51",
+      "baseBranch": "codex/1d-tv-member-background-cache-quota",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/10",
+      "draft": true
+    },
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-subtitle-cache-quota",
+      "commit": "adfa1b38a9452cb5dc6c40db8b58c8dd05590127",
+      "baseBranch": "codex/1d-desktop-profile-background-memory-budget",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/7",
+      "draft": true
+    }
+  },
+  "tests": {
+    "tv": {
+      "unitCommand": ".\\gradlew :app:testFullDebugUnitTest --tests BoundedSubtitleFileCacheTest --tests MediaCachePolicyTest",
+      "unitTests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "buildCommand": ".\\gradlew :app:assembleFullDebug",
+      "build": "success",
+      "instrumentationCommand": ".\\gradlew :app:connectedFullDebugAndroidTest --project-prop android.injected.device.serial=emulator-5554 --project-prop android.testInstrumentationRunnerArguments.class=com.nuvio.tv.core.player.SubtitleFileCacheBoundTest",
+      "instrumentationRuns": [
+        { "device": "Android TV API 33 AVD", "tests": 1, "failures": 0, "errors": 0, "skipped": 0 },
+        { "device": "sailfish - 10 (connected Android device)", "tests": 1, "failures": 0, "errors": 0, "skipped": 0 }
+      ],
+      "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionCode": 10008,
+      "versionName": "1.0.2-alpha.3",
+      "minimumSdk": 24
+    },
+    "desktop": {
+      "command": ".\\gradlew :composeApp:desktopTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest :composeApp:desktopJar :composeApp:packageMsi --console=plain",
+      "unitTests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "desktopJar": "success",
+      "packageMsi": "success"
+    }
+  },
+  "artifacts": {
+    "tvApks": [
+      { "file": "app-full-arm64-v8a-debug.apk", "bytes": 96406452, "sha256": "BAC0FF4F12BA4BFC3E6C94D3FB2488DCE07834B2289D8A265CD8C9664BA53ABD" },
+      { "file": "app-full-armeabi-v7a-debug.apk", "bytes": 94304862, "sha256": "FA0DA7B88E0C2CA1D628E3472BC2FFA8C3F29248ED9F1CD8C1C65EE82C97952D" },
+      { "file": "app-full-universal-debug.apk", "bytes": 183377690, "sha256": "E3F9CE58AADF3DF2B503976DC894B83926FAEF829C96E117C69AA87040819CEB" },
+      { "file": "app-full-x86_64-debug.apk", "bytes": 98826967, "sha256": "68828F528B986898CB472544B535EB9E707304E6C1255F98F68FE72AF7387865" },
+      { "file": "app-full-x86-debug.apk", "bytes": 97987102, "sha256": "ADBA0991FCED96DF58FA6EC32BE7B5CCB4977E7092053F1DE02151E868CD803A" }
+    ],
+    "desktopMsi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 213561504,
+      "sha256": "71A4846DB8DB0FF60CCB7B2A07790BBC48D447E6BE4B5F7C80913A59881547A6",
+      "published": false
+    }
+  },
+  "limitations": [
+    "Full Debug APKs use the .debug application ID and do not update production installations; no release was published.",
+    "The Desktop PR aligns the shared cache policy but this client has no runtime file-subtitle cache consumer.",
+    "Functional instrumentation ran on an Android TV AVD and one connected Android device, not a physical TV Box benchmark.",
+    "No sustained memory, jank, frame pacing, or physical PC performance measurement was performed.",
+    "Fase 1-D remains open for the PREVIEWS and SCENE_INFO consumers, global legacy accounting, real offline flows, and physical QA."
+  ]
+}

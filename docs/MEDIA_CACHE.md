@@ -4,11 +4,11 @@ Incremento nativo de 6 de outubro de 2026. Os dois clientes foram compilados e t
 
 ## Comportamento implementado no Desktop
 
-O modo Auto começa em 1 GiB, adapta o orçamento à memória detectada e ao armazenamento disponível e mantém reserva de 2 GiB. Manual permite escolher outro orçamento, inclusive superior ao default, respeitando o espaço disponível. A configuração pertence ao aparelho, em armazenamento Telumia versionado, e vale a partir da próxima abertura.
+No Desktop, 1 GiB é o default inicial do modo Auto, que adapta o orçamento à memória detectada e ao armazenamento disponível e mantém reserva de 2 GiB. Na TV, 256 MiB é o default inicial e o Auto considera memória e armazenamento, mantendo reserva de 256 MiB. Esses números são pontos de partida configuráveis, não limites rígidos finais. Manual permite escolher outro orçamento, respeitando o espaço disponível. A configuração pertence ao aparelho, em armazenamento Telumia versionado, e vale a partir da próxima abertura.
 
 Os carregadores existentes de imagens/badges e o cache de GIFs usam quotas da política central. GIFs têm limites de bytes, quantidade e tamanho por entrada; nomes derivados de hash; substituição atômica e eviction por uso recente. Arquivos antigos de GIF são lidos e migrados sob demanda, sem exigir rede. Eles ainda precisam de contabilização/migração global para assegurar um teto sobre todo o legado.
 
-Quando a reserva impede escrita, os carregadores preservam leitura dos caches disponíveis. Requests individuais de fundos/badges respeitam a política. Downloads, bookmarks, histórico, configurações e arquivos de usuário não pertencem às quotas de mídia. As outras categorias possuem quotas preparadas, mas seus consumidores ainda precisam ser integrados.
+Quando a reserva impede escrita, os carregadores preservam leitura dos caches disponíveis. Requests individuais de fundos/badges respeitam a política. Downloads, bookmarks, histórico, configurações e arquivos de usuário não pertencem às quotas de mídia. Os consumidores de cache são integrados por incrementos; confira o estado atualizado ao final deste documento. A fase ainda não contabiliza todos os caminhos legados nem cobre integralmente fluxos offline e QA físico.
 
 Salvar uma preferência ocorre fora da thread de interface, desabilita novas edições durante a operação e mantém a seleção anterior se falhar. A gravação existente de preferências Desktop agora substitui o arquivo de maneira atômica quando suportado; um erro em `putString` restaura também o valor em memória.
 
@@ -32,7 +32,7 @@ Passaram 96 testes unitários selecionados, sem falhas/erros/skips, e foram gera
 ![Cache TV 720p](evidence/telumia-cache/tv-cache-settings-720.png)
 ![Cache TV 4K](evidence/telumia-cache/tv-cache-settings-2160.png)
 
-Ainda faltam contabilização global de legado, os caches de fundos remotos de perfil no PC/TV, previews/thumbnails/filmstrip e Scene Info, fluxos offline reais e QA físico. A quota de EPG já está integrada na TV; avatares remotos de membros passaram a respeitar AVATARS em ambos os clientes nos incrementos documentados abaixo. O limite de armazenamento antes de baixar imagens e a validação de arquivos/URLs ainda precisam de revisão. O índice de metadata temporal não substitui um cache de Scene Info.
+Ainda faltam contabilização global dos caches legados, integração de PREVIEWS e da quota SCENE_INFO, validação de armazenamento antes de baixar imagens, revisão de arquivos/URLs, fluxos offline reais e QA físico. Fundos remotos e avatares de membros já usam quotas; thumbnails e filmstrip têm consumidores integrados à timeline, e EPG usa quota na TV. O índice de timed metadata não substitui uma cache de dados enriquecidos de Scene Info.
 
 Esta entrega não encerra a Fase 1-D nem a [meta integral](GOAL_OBJECTIVE_2026-10-05.md). A release `0.2.0-alpha.1` não inclui essas mudanças.
 
@@ -143,3 +143,11 @@ O teste Desktop passou 20 casos focados de policy, ocupação, memória LRU e se
 Desktop: branch `codex/1d-desktop-profile-background-memory-budget`, commit `9c195c96fc401eea7691f86ff6e9a4d9cdcad541`, [PR #6](https://github.com/Pepeu2010/telumia-desktop/pull/6) sobre [PR #5](https://github.com/Pepeu2010/telumia-desktop/pull/5), ligado à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comando, resultados, falha Android e checksum estão no [registro de build](telumia-profile-background-memory-desktop-r1-build.json).
 
 Incremento parcial; a Fase 1-D segue aberta para integrar os demais consumidores ainda sem quota própria, testar fluxos offline e fazer QA de desempenho em PC e TV Box físicos.
+
+## Cache de legendas por aparelho — 27 de outubro
+
+A TV integra arquivos de legendas externas e sidecars normalizados do MPV à categoria `SUBTITLES`, com 2% do orçamento atual de cache. A categoria `IMAGES` passa de 40% para 38%, mantendo a soma de todas as shares em 100%. A resposta HTTP é lida em streaming e rejeitada acima de 4 MiB antes da materialização completa; a escrita também aplica 4 MiB por arquivo, no máximo 64 arquivos, quota agregada atual, reserva de armazenamento e substituição atômica. Quando cache local não é permitido, a reprodução pode continuar pela URL externa original.
+
+O cliente Desktop não possui esse cache runtime de arquivos de legenda; ele recebe a mesma política compartilhada para manter a alocação consistente entre plataformas. A Fase 1-D continua aberta: PREVIEWS, quota SCENE_INFO, legado global, fluxos offline completos e QA físico permanecem pendentes.
+
+TV: commit `34ff591411ac039db5e3cc770a76a25b398d4e51`, [PR #10](https://github.com/Pepeu2010/telumia-tv/pull/10) sobre [PR #9](https://github.com/Pepeu2010/telumia-tv/pull/9). Desktop: commit `adfa1b38a9452cb5dc6c40db8b58c8dd05590127`, [PR #7](https://github.com/Pepeu2010/telumia-desktop/pull/7) sobre [PR #6](https://github.com/Pepeu2010/telumia-desktop/pull/6). Ambos são draft e vinculados à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Os 13 testes unitários TV, 9 testes Desktop, 2 execuções instrumentadas (AVD Android TV API 33 e dispositivo Android conectado), cinco APKs `1.0.2-alpha.3` Full Debug, JAR e MSI Windows passaram. Os APKs têm ID `.debug`; nenhum pacote foi publicado ou é atualizador da instalação de produção. Hashes, comandos, dimensões e limites constam no [registro de build](telumia-cache-subtitles-tv-desktop-r1-build.json). Não houve medição de fluidez ou memória sustentada em TV Box/PC físico.
