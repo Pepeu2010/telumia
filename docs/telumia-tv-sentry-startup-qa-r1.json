@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-27",
+  "milestone": "1-A TV startup responsiveness",
+  "source": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/tv-reduced-motion-fallback",
+    "commit": "34a4dcd594403ede807524bcf90a290a3ccfc9f4",
+    "versionName": "1.0.2-alpha.3",
+    "versionCode": 10008
+  },
+  "device": {
+    "type": "Android TV AVD",
+    "avd": "Telumia_TV_API30",
+    "api": 30,
+    "abi": "x86",
+    "resolution": "1920x1080",
+    "physicalHardware": false
+  },
+  "install": {
+    "baseline": {
+      "versionName": "1.0.2-alpha.3",
+      "bytes": 187818575,
+      "sha256": "3E2C80FFD33A1E01152CB16E3A1F06B7B08DF2471AB54C27CF6DD862E9E10BDE",
+      "origin": "APK extracted from the installation present before this change"
+    },
+    "candidate": {
+      "versionName": "1.0.2-alpha.3",
+      "versionCode": 10008,
+      "installedWithReplace": true,
+      "appDataCleared": false
+    }
+  },
+  "verification": {
+    "testCommand": ":app:testFullDebugUnitTest --tests com.nuvio.tv.core.diagnostics.SentryInitializerStartupTest",
+    "testCount": 1,
+    "failures": 0,
+    "combinedTestAndBuildCommand": ":app:testFullDebugUnitTest --tests com.nuvio.tv.core.diagnostics.SentryInitializerStartupTest :app:assembleFullDebug",
+    "buildResult": "BUILD SUCCESSFUL",
+    "buildDuration": "8m 03s"
+  },
+  "apkArtifacts": [
+    {
+      "file": "app-full-universal-debug.apk",
+      "bytes": 180031721,
+      "sha256": "D459B92AACCAB9BA52B9583F227A5C6FCB196900429602A2DD08E3AEFC802B21"
+    },
+    {
+      "file": "app-full-arm64-v8a-debug.apk",
+      "bytes": 93060479,
+      "sha256": "D73E1A09D8DD129446BB9EC5CBBC74E608ED6AAF4D3953D06BE18294EF086FAB"
+    },
+    {
+      "file": "app-full-armeabi-v7a-debug.apk",
+      "bytes": 90958893,
+      "sha256": "376175296A94DCA4454D7F81013F516275FDC5B53B5BBE1E9CAF2E424135B11C"
+    },
+    {
+      "file": "app-full-x86_64-debug.apk",
+      "bytes": 95480994,
+      "sha256": "CDD9BCCE8DC515322DD5AABA7B1143A9DCE31BA47BFFA6806B4382FB136488AA"
+    },
+    {
+      "file": "app-full-x86-debug.apk",
+      "bytes": 94641129,
+      "sha256": "7DCEF5879B9AA5B6799EAB3485C8A9D035385A59AFF14F70DF8A53D869252970"
+    }
+  ],
+  "startupComparison": {
+    "launchMethod": "adb shell am start -W",
+    "launchState": "COLD",
+    "preStartPidCheckedEmpty": true,
+    "pssSampleDelayAfterLaunchCommand": "3 seconds",
+    "baselineMs": [3972, 4251, 3932],
+    "candidateMs": [3939, 4257, 3986],
+    "baselineMedianMs": 3972,
+    "candidateMedianMs": 3986,
+    "medianDeltaMs": 14,
+    "baselinePssKiB": [221529, 219714, 219636],
+    "candidatePssKiB": [214279, 211671, 207819],
+    "baselineMedianPssKiB": 219714,
+    "candidateMedianPssKiB": 211671,
+    "interpretation": "No measurable cold-start improvement. The PSS median is lower in the candidate, but three emulator samples are insufficient to prove a memory reduction."
+  },
+  "runtime": {
+    "candidateActivityResumed": true,
+    "candidateProcessAlive": true,
+    "candidatePackageFatalOrAnrInLogcat": false
+  },
+  "limitations": [
+    "AVD x86 does not prove performance on a physical ARM TV Box with 2 GiB RAM.",
+    "No sustained FPS, jank, CPU, playback, seek, or freeze-under-load measurement was taken.",
+    "This commit changes only the TV client; no Desktop MSI build or Windows performance measurement is part of this increment.",
+    "The debug APKs are local verification artifacts and were not published as a release."
+  ]
+}

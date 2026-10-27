@@ -76,6 +76,14 @@ Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10
   Artefatos não publicados. FPS sustentado, TV Box física e freezes continuam
   pendentes. Commits Desktop `63b4aa04` e TV `438e5f2f`; PRs Desktop #1 e TV #2.
   [Detalhes, tamanhos, hashes e limites](NATIVE_FOUNDATION.md).
+- Continuação 1-A TV: leitura do consentimento Sentry saiu do caminho síncrono
+  de `Application.onCreate`; testes direcionados e `assembleFullDebug` passaram.
+  No mesmo AVD API 30/x86, três cold starts deram medianas de 3,972 s na base e
+  3,986 s no candidato, sem ganho mensurável; as amostras PSS foram menores no
+  candidato, mas ainda inconclusivas. O app ficou aberto sem FATAL/ANR. Este
+  incremento não altera o Desktop, não fecha a validação PC/APK da Fase 1-A e
+  não é release; hardware físico, jank/FPS e ausência de freeze sob carga seguem
+  pendentes. Commit TV `34a4dcd5`, PR #2. [Evidências](NATIVE_FOUNDATION.md#continuação-1-a-tv-leitura-assíncrona-do-consentimento-sentry).
 
 - Home: incremento nativo validado com 44 testes Desktop, 72 TV e 27 testes de componentes no emulador. [Entrega parcial](TELUMIA_HOME.md).
 - 2-A: timeline temporal, providers limitados e adapter dos skips integrados aos players; 93 testes Desktop, 83 TV e nove testes nativos TV aprovados. Capítulos embutidos foram ligados à timeline Desktop/libmpv e TV/Media3 em incrementos posteriores. A entrega inicial de Scene Info R1 veio depois, sobre essa base; bookmarks têm incrementos próprios. [Fundação e Scene Info R1](TIMED_METADATA.md), [capítulos](EMBEDDED_CHAPTERS.md).

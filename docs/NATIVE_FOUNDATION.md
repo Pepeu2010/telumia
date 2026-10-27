@@ -477,3 +477,52 @@ condições. Esse cenário frio expôs uma inicialização lenta nos dois lados,
 ANR; precisa ser perfilada por fase numa máquina de referência e não pode ser
 atribuída a este patch. O AVD x86 não substitui TV Box ARM de 2 GiB, e esta rodada
 não mediu FPS/jank sob carga sustentada.
+
+### Continuação 1-A TV: leitura assíncrona do consentimento Sentry
+
+Em 27/10/2026, `SentryInitializer.start()` deixou de executar
+`runBlocking(Dispatchers.IO) { settings.enabled.first() }` dentro do
+`Application.onCreate`. A primeira leitura do DataStore e as mudanças de
+consentimento agora são observadas em IO; o ciclo do SDK continua sendo aplicado
+na thread principal com `Dispatchers.Main.immediate`. Valores repetidos são
+ignorados. Isso retira a espera por disco do caminho síncrono antes da Activity,
+sem alterar a decisão de consentimento.
+
+`SentryInitializerStartupTest` passou (1 teste, 0 falhas), verificando que a
+coleta retorna sem esperar a primeira emissão e que valores repetidos não são
+aplicados de novo. A execução combinada do teste e de `:app:assembleFullDebug`
+passou em 8min03s. Os cinco APKs são builds debug locais, versão
+`1.0.2-alpha.3`, `versionCode 10008`; o universal tem 180.031.721 bytes e
+SHA-256 `D459B92AACCAB9BA52B9583F227A5C6FCB196900429602A2DD08E3AEFC802B21`.
+Tamanhos e hashes de todas as ABIs estão no [registro R1](telumia-tv-sentry-startup-qa-r1.json).
+
+### Comparação controlada no AVD
+
+O teste usou o AVD `Telumia_TV_API30`, API 30, x86, 1920×1080, depois de um
+boot completo. A base era o APK `1.0.2-alpha.3` salvo da instalação existente
+antes da mudança; o candidato foi instalado com `adb install -r`. Ambos
+mantiveram a mesma pasta de dados. Cada tentativa confirmou que `pidof` estava
+vazio antes de iniciar e reportou `LaunchState: COLD`.
+
+| Medida | Base | Candidato |
+| --- | ---: | ---: |
+| `am start -W` (ms), 3 execuções | 3.972 / 4.251 / 3.932 | 3.939 / 4.257 / 3.986 |
+| Mediana de cold start | 3,972 s | 3,986 s |
+| PSS (KiB), amostra após 3 s | 221.529 / 219.714 / 219.636 | 214.279 / 211.671 / 207.819 |
+| Mediana PSS | 219.714 KiB | 211.671 KiB |
+
+O delta mediano de início foi +14 ms, sem melhoria mensurável. O PSS mediano
+ficou 8.043 KiB menor no candidato, porém os valores variaram entre execuções e
+caíram ao longo das três amostras do candidato; não é prova de redução física de
+memória. O processo candidato permaneceu aberto com `MainActivity` retomada, e
+os logs não mostraram FATAL/ANR para o pacote. Uma leitura exploratória anterior,
+em outro estado do AVD, variou entre 8,7 e 10,4 s e teve comandos expirados;
+ela não foi usada na comparação pareada.
+
+O incremento toca somente o cliente TV. Nenhum MSI ou código Desktop foi
+alterado neste commit; a validação de desempenho do PC continua pendente. O AVD
+x86 não substitui TV Box ARM de 2 GiB, e esta execução não mediu FPS, jank,
+CPU, seek, playback prolongado nem freeze sob carga. O gate combinado PC/APK e a
+Fase 1-A permanecem abertos. Os resultados completos e hashes estão no
+[registro de QA R1](telumia-tv-sentry-startup-qa-r1.json); o código está no
+commit `34a4dcd594403ede807524bcf90a290a3ccfc9f4` e no [PR TV #2](https://github.com/Pepeu2010/telumia-tv/pull/2).
