@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-27",
+  "milestone": "Fase 3: gate técnico para trailer libmpv no popup de hover Windows",
+  "source": {
+    "repository": "Pepeu2010/telumia-desktop",
+    "tested_base_branch": "codex/1d-desktop-preview-image-cache",
+    "tested_base_commit": "ed13fa8722dab1728442a8778478d68cce872ae2",
+    "test_source_change": "temporary test-only override of trailerPreviewSupported and hoverPreviewTrailerEnabled; reverted after the experiment",
+    "release_or_pull_request": null
+  },
+  "command": ".\\gradlew :composeApp:desktopTest --tests com.nuvio.app.features.home.components.HomePosterHoverLifecycleTest.optInWindowsHoverPopupCanHostTheMutedNativeTrailerSurface --no-configuration-cache --console=plain",
+  "environment": {
+    "os": "Windows x64",
+    "desktop_host": "JVM Compose Desktop",
+    "test_surface": "HomePosterHoverPreview -> Compose Popup -> HeroTrailerPlayerSurface -> WindowsHeroTrailerPlayerSurface -> SwingPanel/NativePlayerHost"
+  },
+  "result": {
+    "status": "failed",
+    "error": "java.lang.IllegalStateException: LocalInteropContainer not provided",
+    "origin": "androidx.compose.ui.viewinterop.InteropContainer_skikoKt.LocalInteropContainer (InteropContainer.skiko.kt:38)",
+    "interpretation": "SwingPanel cannot compose in this Popup path; standalone ComposePanel/native surface gate is a different host and does not prove popup interop",
+    "feature_enabled": false
+  },
+  "decision": "Keep Windows hover trailer feature hidden until an app-window overlay or separately owned native host passes the real hover gate and visual frame review.",
+  "phase_status": "blocked at this integration gate; Phase 3 remains open; no app code or release changed"
+}

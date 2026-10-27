@@ -278,3 +278,9 @@ Nunca anunciá-las como prontas antes de implementação/QA.
 - O teste novo reproduziu primeiro a diferença (17 bytes ignorados). Depois da correção passaram 29 testes focados e os cinco APKs Full Debug foram compilados. Gate Desktop sem mudança de fonte passou (JAR/MSI/testes selecionados; 3 tarefas executadas, 26 up-to-date). Sem QA físico; APKs `.debug` não atualizam instalação de produção.
 - TV: commit `e42eb3283e1e856b159dd9cdfe7df5bef412e085`, [PR draft #13](https://github.com/Pepeu2010/telumia-tv/pull/13) sobre [#12](https://github.com/Pepeu2010/telumia-tv/pull/12). Evidências em [MEDIA_CACHE.md](MEDIA_CACHE.md#ocupação-auto-do-snapshot-continue-assistindo-na-tv--27-de-outubro) e [registro](telumia-cache-continue-watching-occupancy-tv-r1-build.json).
 - Parcial: Fase 1-D ainda precisa da auditoria dos outros caminhos legados, de fluxos offline reais e de QA físico; a categoria `SCENE_INFO` só será conectada quando houver um cache consumidor legítimo.
+
+### Fase 3 — gate de interop de trailer no hover Windows (27 de outubro de 2026)
+
+- O teste de integração real com `HomePosterHoverPreview` e suporte forçado ao surface libmpv falha em `SwingPanel`: `LocalInteropContainer not provided` em `InteropContainer.skiko.kt:38`, dentro do Compose Popup. O teste confirmou um limite de composição; não é indisponibilidade do trailer/resolver.
+- `AppFeaturePolicy.hoverTrailerPlaybackSupported` permanece falso no Windows, sem expor configuração que não funciona. A superfície nativa separada segue válida em uma janela Compose normal, mas isso não cobre o popup.
+- A próxima implementação da Fase 3 requer um host overlay na janela principal ou uma janela nativa com ownership e posicionamento próprios, seguido do mesmo teste real e revisão visual do frame. Evidência em [PREVIEWS.md](PREVIEWS.md#gate-de-interop-do-hover-preview-windows--27-de-outubro) e [registro do gate](telumia-preview-windows-popup-interop-gate-r1.json).

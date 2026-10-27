@@ -35,3 +35,9 @@ Quatro testes nativos passaram em cada API, Android 7 e Android 16, com os mesmo
 ## Pendências
 
 Ainda é necessário implementar trailers embutidos Windows e validar vídeo remoto, todas as superfícies de preview, DeviceCapabilities e desempenho físico. O código desta entrega é posterior à release `v0.2.1-alpha.1`; seus binários públicos continuam fixos nos commits originais. As falhas herdadas da suíte completa e os fluxos de conta/sync não são cobertos por este gate.
+
+## Gate de interop do hover preview Windows — 27 de outubro
+
+Antes de habilitar trailers no hover do Windows, executei o fluxo real `HomePosterHoverPreview` com `trailerPreviewSupported=true` e a superfície libmpv dentro do popup. O popup e o host Compose aparecem, mas a composição de `SwingPanel` falha com `IllegalStateException: LocalInteropContainer not provided` (`InteropContainer.skiko.kt:38`). A API Compose atual não fornece o container de interop nesse caminho de `Popup`; a superfície nativa continua funcional numa janela/ComposePanel normal, conforme os gates locais anteriores.
+
+Por isso o flag `hoverTrailerPlaybackSupported` e o controle default permanecem desativados no Windows. Nenhuma funcionalidade falsa foi exposta. O próximo gate precisa montar o host nativo num overlay pertencente à janela Compose principal (ou num host nativo separado com ownership/posicionamento controlados), cobrir o trajeto real de hover e revisar o frame visual antes da ativação. Evidência e comando em [registro do gate](telumia-preview-windows-popup-interop-gate-r1.json). Isto é uma pendência técnica da Fase 3, não um build/release.
