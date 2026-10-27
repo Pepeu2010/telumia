@@ -1,0 +1,64 @@
+{
+  "milestone": "Fase 1-D: cache remoto de fundos de perfil no Desktop com gate TV",
+  "date": "2026-10-27",
+  "repositories": {
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-member-background-cache-quota",
+      "commit": "e7ff92e6242b8c98ceea2df671cb54ecc5b7997d",
+      "baseBranch": "codex/1d-desktop-member-asset-cache-quota",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/5",
+      "approvalIssue": "https://github.com/Pepeu2010/telumia/issues/12"
+    },
+    "tvCrossGate": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-member-background-cache-quota",
+      "commit": "42d66acd2f38906b3cf5a736b4d4b0dfbc3a5787",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/9"
+    }
+  },
+  "tests": {
+    "desktop": {
+      "command": ".\\gradlew.bat :composeApp:desktopTest --tests com.nuvio.app.core.storage.BoundedFileCacheTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest --tests com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest --tests com.nuvio.app.features.addons.AddonHttpCacheTest :composeApp:desktopJar :composeApp:packageMsi --no-daemon --console=plain",
+      "unitTests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "desktopJar": "success",
+      "packageMsi": "success"
+    },
+    "tvCrossGate": {
+      "unitTests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build": "success",
+      "artifactSourceCommit": "42d66acd2f38906b3cf5a736b4d4b0dfbc3a5787"
+    }
+  },
+  "artifact": {
+    "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+    "bytes": 210919528,
+    "sha256": "3A8C1D412386FCECF48EA0D2976C2A349AA27FFC32D13CBB1A64F4D6ACB105FE",
+    "deltaFromPreviousCacheIncrementBytes": 8192,
+    "published": false
+  },
+  "policy": {
+    "cacheDirectory": "media-cache-v1/images/member-backgrounds",
+    "category": "IMAGES",
+    "imageSuballocationPercent": { "coil": 80, "gifs": 10, "remoteMemberBackgrounds": 10 },
+    "maximumEntryBytes": 8388608,
+    "maximumFileCount": 64,
+    "concurrentAuthenticatedDownloads": 2,
+    "legacyPath": "member_profile_backgrounds",
+    "legacyMigration": "Read offline; migrate only after validating file path/size and confirming the bounded cache entry",
+    "desktopCatalogMemory": "Loaded ByteArray values remain held in the common catalog StateFlow; a separate memory bound is still needed",
+    "currentSupabaseApi": "ByteArray response; entry size is checked after the response has been allocated",
+    "physicalDesktopPerformanceQa": "Not performed"
+  },
+  "limitations": [
+    "The APKs are debug validation builds, not production update packages.",
+    "The Desktop catalog's aggregate in-memory image bytes are not bounded by this disk-cache quota.",
+    "No physical Desktop performance measurement and no release publication occurred."
+  ]
+}
