@@ -161,3 +161,13 @@ TV: 20 testes unitários direcionados passaram e cinco APKs Full Debug foram ger
 Nenhum binário foi publicado. Os APKs têm application ID `.debug` e não atualizam instalações públicas. O MSI é somente artefato de validação; não houve teste de atualização, medição sustentada de jank/memória nem QA em TV Box ou PC físico.
 
 TV: commit `fdf69cead6809c825d5f2c3953cf3e0db280355c`, [PR draft #11](https://github.com/Pepeu2010/telumia-tv/pull/11) sobre [#10](https://github.com/Pepeu2010/telumia-tv/pull/10). Desktop: commit `ed13fa8722dab1728442a8778478d68cce872ae2`, [PR draft #8](https://github.com/Pepeu2010/telumia-desktop/pull/8) sobre [#7](https://github.com/Pepeu2010/telumia-desktop/pull/7). Ambos ligados à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). A Fase 1-D segue aberta para a quota `SCENE_INFO`, contabilização global do legado, fluxos offline reais e QA físico.
+
+## Migração resiliente do cache legado MDBList na TV — 27 de outubro
+
+A migração do arquivo legado `filesDir/mdblist_cache/ratings_v1.json` agora só o remove depois que uma cópia válida em `cacheDir/metadata/mdblist` foi gravada com sucesso. Em modo somente leitura ou se a quota não comportar os itens ainda válidos, a única cópia permanece disponível após reiniciar o app. Se o cache novo estiver inválido, a leitura volta ao arquivo legado preservado. A medição Auto da TV inclui somente a pasta allowlisted `filesDir/mdblist_cache`; DataStore e dados duráveis continuam fora da conta.
+
+Passaram 29 testes unitários focados: 8 de migração MDBList, 11 de ocupação e 10 da política. `:app:assembleFullDebug` compilou os cinco APKs Full Debug; o gate Desktop de política, JAR e MSI também retornou sucesso sem alterações de fonte Desktop. Não foi executado novo teste instrumentado neste recorte nem houve QA físico. Os APKs têm ID `.debug`, são artefatos de validação e não atualizam a instalação de produção.
+
+TV: commit `707a3912482900464557b534b19454644838379d`, branch `codex/1d-tv-preserve-legacy-metadata-cache`, [PR draft #12](https://github.com/Pepeu2010/telumia-tv/pull/12) sobre [#11](https://github.com/Pepeu2010/telumia-tv/pull/11). Versão `1.0.2-alpha.3`, código `10008`. Tamanhos, checksums e comandos estão no [registro do build](telumia-cache-metadata-legacy-tv-r1-build.json).
+
+Incremento parcial da Fase 1-D. A quota `SCENE_INFO` depende de um consumidor de dados de Scene Info já existente e não foi inventada neste passo; a contabilização dos demais caminhos legados, testes de fluxos offline e QA físico seguem pendentes.
