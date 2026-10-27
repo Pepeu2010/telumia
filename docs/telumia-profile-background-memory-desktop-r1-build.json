@@ -1,0 +1,55 @@
+{
+  "milestone": "Fase 1-D: limite de memória e pré-carregamento para fundos remotos no Desktop",
+  "date": "2026-10-27",
+  "repository": {
+    "url": "https://github.com/Pepeu2010/telumia-desktop",
+    "branch": "codex/1d-desktop-profile-background-memory-budget",
+    "commit": "9c195c96fc401eea7691f86ff6e9a4d9cdcad541",
+    "baseBranch": "codex/1d-desktop-member-background-cache-quota",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/6",
+    "approvalIssue": "https://github.com/Pepeu2010/telumia/issues/12"
+  },
+  "policy": {
+    "cachedImageModel": "Local file URI; catalog does not retain duplicate ByteArray once stored",
+    "preload": "Only already cached local images; authenticated download starts after profile open or explicit picker selection",
+    "fallbackMemoryBudget": {
+      "unknownOrAtMost1536MiB": 8388608,
+      "atMost4096MiB": 25165824,
+      "above4096MiB": 50331648
+    },
+    "fallbackEviction": "LRU by image version and orientation",
+    "maximumImageBytes": 8388608,
+    "maximumConcurrentAuthenticatedDownloads": 2,
+    "currentSupabaseApi": "ByteArray response; oversized bodies are rejected after allocation",
+    "physicalPerformanceQa": "Not performed"
+  },
+  "tests": {
+    "desktop": {
+      "command": ".\\gradlew.bat :composeApp:desktopTest --tests com.nuvio.app.features.membership.ProfileBackgroundMemoryPolicyTest --tests com.nuvio.app.features.membership.ProfileBackgroundTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest --tests com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest :composeApp:desktopJar :composeApp:packageMsi --no-daemon --console=plain",
+      "unitTests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "desktopJar": "success",
+      "packageMsi": "success"
+    },
+    "androidAppTarget": {
+      "command": ".\\gradlew.bat :androidApp:assembleFullDebug --no-daemon --console=plain",
+      "result": "failed before packaging at :composeApp:compileAndroidMain",
+      "failure": "Unresolved PointerButton/button references in common MainAppContent.kt and PlayerScreenContent.kt, and onPointerEvent in HomePosterHoverPreview.kt; none of those files changed in this PR.",
+      "apkProduced": false
+    },
+    "iosTargets": "Not buildable on this Windows host"
+  },
+  "artifact": {
+    "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+    "bytes": 210923624,
+    "sha256": "B9720A6E0C1F0B543341AC4A1A4022B2D0547432525E2BD6E57EE56E03A44D80",
+    "published": false
+  },
+  "limitations": [
+    "The current Supabase Storage API allocates the complete response as ByteArray before the 8 MiB limit is applied.",
+    "Android target compilation is blocked by unrelated pointer API references, and iOS targets cannot be built from Windows.",
+    "No physical Desktop/TV Box performance measurement or release publication occurred."
+  ]
+}
