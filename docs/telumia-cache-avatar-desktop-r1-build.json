@@ -1,0 +1,119 @@
+{
+  "milestone": "Fase 1-D: cache de avatar remoto no Desktop com gate cruzado TV",
+  "date": "2026-10-27",
+  "repositories": {
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-member-asset-cache-quota",
+      "commit": "6abb8401f20ebd6db50e9268310f7ab81d87fc31",
+      "baseBranch": "codex/1d-desktop-dynamic-cache-budget",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/4",
+      "approvalIssue": "https://github.com/Pepeu2010/telumia/issues/12"
+    },
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-member-avatar-cache-quota",
+      "commit": "d0b31840b012b8af6ff1de4c987f738b2b198907",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/8",
+      "sourceChangedByDesktopIncrement": false
+    }
+  },
+  "policy": {
+    "desktopCacheDirectory": "media-cache-v1/avatars/member-assets",
+    "category": "AVATARS",
+    "categorySharePercent": 6,
+    "maximumEntryBytes": 2097152,
+    "maximumFileCount": 256,
+    "concurrentAuthenticatedAvatarDownloads": 2,
+    "legacyAvatarPath": "member_profile_avatars",
+    "legacyMigration": "Read offline; migrate only after validating the file path/size and confirming the bounded cache entry",
+    "legacyMemberAssetOccupancy": [
+      "member_profile_avatars",
+      "member_profile_backgrounds"
+    ],
+    "remoteProfileBackgrounds": "Counted by Auto but not yet bounded by a dedicated cache",
+    "durableLocalAvatars": "Unchanged and outside MemberAssetStorage remote cache",
+    "oversizedDownload": "Rejected before disk write; the current Supabase API already materialized the response ByteArray",
+    "physicalDesktopPerformanceQa": "Not performed"
+  },
+  "tests": {
+    "desktop": {
+      "commands": [
+        ".\\gradlew.bat :composeApp:desktopTest --tests com.nuvio.app.core.storage.BoundedFileCacheTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest :composeApp:desktopJar :composeApp:packageMsi --no-daemon --console=plain",
+        ".\\gradlew.bat :composeApp:desktopTest --tests com.nuvio.app.features.addons.AddonHttpCacheTest --no-daemon --console=plain"
+      ],
+      "unitTests": {
+        "BoundedFileCacheTest": 5,
+        "MediaCachePolicyTest": 7,
+        "AddonHttpCacheTest": 3,
+        "total": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "desktopJar": "success",
+      "packageMsi": "success"
+    },
+    "androidAppInDesktopRepository": {
+      "command": ".\\gradlew.bat :androidApp:assembleFullDebug --no-daemon --console=plain",
+      "result": "failed",
+      "failure": "Unresolved PointerButton/button references in MainAppContent.kt and PlayerScreenContent.kt, and onPointerEvent in HomePosterHoverPreview.kt. Those files are not changed by this increment.",
+      "apkProduced": false
+    },
+    "tvCrossGate": {
+      "command": ".\\gradlew.bat :app:testFullDebugUnitTest --tests com.nuvio.tv.core.storage.BoundedAvatarImageCacheTest --tests com.nuvio.tv.core.storage.MediaCachePolicyTest --tests com.nuvio.tv.core.storage.OwnedMediaCacheOccupancyTest --tests com.nuvio.tv.core.network.HttpCacheWritePolicyInterceptorTest :app:assembleFullDebug --no-daemon --console=plain",
+      "unitTests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "build": "success",
+      "artifactSourceCommit": "d0b31840b012b8af6ff1de4c987f738b2b198907",
+      "packageId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionCode": 10008,
+      "versionName": "1.0.2-alpha.3"
+    }
+  },
+  "artifacts": {
+    "desktopMsi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210911336,
+      "sha256": "141957377F4AE9676BF7FA1E38434DEC72B70A46C967FFE4ECCFDE884015D327",
+      "sizeDeltaFromPreviousCacheIncrementBytes": 0,
+      "published": false
+    },
+    "tvApksForCrossGate": [
+      {
+        "file": "app-full-arm64-v8a-debug.apk",
+        "bytes": 94950251,
+        "sha256": "2E221FFF929B8FC7B3CC201411B8432F237F37BEFAE89EC6C5F69C23288ABADC"
+      },
+      {
+        "file": "app-full-armeabi-v7a-debug.apk",
+        "bytes": 92848661,
+        "sha256": "46991011567B9EC6716FE3D6D691A8D55CEB168620BB83766C798D2C46E55DCF"
+      },
+      {
+        "file": "app-full-universal-debug.apk",
+        "bytes": 181921489,
+        "sha256": "8F2FBE59017AD134C226649B71DBC769D2A38A5228CA924C27B943AEB875AECE"
+      },
+      {
+        "file": "app-full-x86_64-debug.apk",
+        "bytes": 97370766,
+        "sha256": "0D6D125DC8911122AA1122CFAE52991D70C6DD4468CDB85FFDFF169650312910"
+      },
+      {
+        "file": "app-full-x86-debug.apk",
+        "bytes": 96530901,
+        "sha256": "099271C0324DC843E3585C7043CE5F113E2D242F86AD2E81A92F467535064536"
+      }
+    ]
+  },
+  "limitations": [
+    "Debug APKs are validation artifacts and do not update production installations.",
+    "The Android app target in the Desktop repository currently fails on pointer API references in unrelated sources.",
+    "The current Supabase Storage API returns ByteArray, so oversized bodies are rejected after allocation in memory.",
+    "Remote profile background caches are measured but are not yet quota bounded.",
+    "No release was published and no physical performance measurements were taken."
+  ]
+}

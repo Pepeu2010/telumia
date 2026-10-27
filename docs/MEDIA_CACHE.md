@@ -32,7 +32,7 @@ Passaram 96 testes unitários selecionados, sem falhas/erros/skips, e foram gera
 ![Cache TV 720p](evidence/telumia-cache/tv-cache-settings-720.png)
 ![Cache TV 4K](evidence/telumia-cache/tv-cache-settings-2160.png)
 
-Ainda faltam contabilização global de legado, integração das caches de metadata/addons/EPG/previews/thumbnails/filmstrip/Scene Info e avatar remoto, adaptação dinâmica durante a sessão e QA de fluxos offline reais. O limite de armazenamento antes de baixar imagens e a validação de arquivos/URLs também exigem revisão própria. O índice de metadata temporal não substitui um cache de Scene Info.
+Ainda faltam contabilização global de legado, os caches de fundos remotos de perfil no PC/TV, previews/thumbnails/filmstrip e Scene Info, fluxos offline reais e QA físico. A quota de EPG já está integrada na TV; avatares remotos de membros passaram a respeitar AVATARS em ambos os clientes nos incrementos documentados abaixo. O limite de armazenamento antes de baixar imagens e a validação de arquivos/URLs ainda precisam de revisão. O índice de metadata temporal não substitui um cache de Scene Info.
 
 Esta entrega não encerra a Fase 1-D nem a [meta integral](GOAL_OBJECTIVE_2026-10-05.md). A release `0.2.0-alpha.1` não inclui essas mudanças.
 
@@ -107,3 +107,15 @@ A API Supabase já usada por este cliente devolve o arquivo inteiro em `ByteArra
 Passaram 24 testes unitários TV (cache de avatares, política, ocupação e interceptor HTTP), sem falhas/erros/skips; os cinco APKs Full Debug foram compilados. No Desktop, sem mudanças de fonte, passaram 10 testes de política/HTTP e `desktopJar`/`packageMsi` concluíram. Os APKs continuam com ID `.debug`, e nenhum pacote foi publicado ou testado em hardware físico. Versões, tamanhos, hashes e comandos estão no [registro do build](telumia-cache-avatar-tv-r1-build.json).
 
 TV: branch `codex/1d-tv-member-avatar-cache-quota`, commit `d0b31840b012b8af6ff1de4c987f738b2b198907`, [PR #8](https://github.com/Pepeu2010/telumia-tv/pull/8), empilhado sobre [PR #7](https://github.com/Pepeu2010/telumia-tv/pull/7). O MSI Desktop foi um gate cruzado sem alterações de fonte. A Fase 1-D ainda requer a integração dos demais caches, validação dos fluxos offline e QA em PC/TV Box físicos.
+
+## Cache remoto de avatar no Desktop — 27 de outubro
+
+O cliente Desktop agora grava avatares autenticados em `media-cache-v1/avatars/member-assets`, sob a categoria `AVATARS`. Os identificadores ficam somente como hash no nome do arquivo; cada entrada tem limite de 2 MiB e o diretório comporta até 256 arquivos, com eviction LRU e gravação atômica. A leitura retorna uma URI local compatível com o carregador existente, inclusive em modo somente leitura. Avatares remotos antigos em `member_profile_avatars` continuam legíveis e são migrados apenas depois que a entrada nova é validada. Os diretórios legados de avatar e fundo são contados pelo Auto; o cache legado de fundos ainda precisa ser limitado em outro incremento.
+
+A busca do catálogo de avatares de membros limita a dois downloads autenticados simultâneos. O SDK Supabase ainda devolve o conteúdo como `ByteArray`; acima de 2 MiB os bytes são descartados antes da gravação, após já estarem alocados em memória. A API de streaming não foi alterada.
+
+No Desktop, passaram 15 testes focados: `BoundedFileCacheTest` (5), `MediaCachePolicyTest` (7) e `AddonHttpCacheTest` (3). `desktopJar` e `packageMsi` passaram. O MSI Windows x64 teve 210.911.336 bytes, igual ao tamanho do pacote de referência anterior; seu SHA-256 é `141957377F4AE9676BF7FA1E38434DEC72B70A46C967FFE4ECCFDE884015D327`. Não houve medição em PC físico.
+
+O alvo Android opcional deste repositório foi compilado até `compileAndroidMain`, que falhou em referências de pointer de arquivos não alterados: `PointerButton`/`button` em `MainAppContent.kt` e `PlayerScreenContent.kt`, e `onPointerEvent` em `HomePosterHoverPreview.kt`. O APK TV é construído pelo repositório próprio `telumia-tv`; seu gate cruzado de 24 testes e cinco APKs Full Debug passou no commit TV `d0b31840b012b8af6ff1de4c987f738b2b198907`. APKs Debug são somente validação e não foram publicados.
+
+Desktop: branch `codex/1d-desktop-member-asset-cache-quota`, commit `6abb8401f20ebd6db50e9268310f7ab81d87fc31`, [PR #4](https://github.com/Pepeu2010/telumia-desktop/pull/4) sobre [PR #3](https://github.com/Pepeu2010/telumia-desktop/pull/3). Ambos os clientes continuam ligados à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). O [registro do Desktop](telumia-cache-avatar-desktop-r1-build.json) contém comandos e checksums dos pacotes TV usados no gate cruzado. A Fase 1-D segue aberta para os demais consumidores, caches de fundos remotos, fluxos offline e QA físico.

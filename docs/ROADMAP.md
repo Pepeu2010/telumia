@@ -228,3 +228,10 @@ Nunca anunciá-las como prontas antes de implementação/QA.
 - Passaram 24 testes direcionados de TV e 10 testes Desktop; cinco APKs Debug Full, `desktopJar` e MSI foram compilados. Os pacotes não foram publicados; APKs `.debug` não atualizam produção. Não houve QA físico. A API Supabase atual materializa a resposta em `ByteArray`; arquivos acima de 2 MiB são descartados antes da gravação, depois dessa alocação.
 - TV: commit `d0b31840b012b8af6ff1de4c987f738b2b198907`, [PR #8](https://github.com/Pepeu2010/telumia-tv/pull/8) sobre [#7](https://github.com/Pepeu2010/telumia-tv/pull/7); aprovação acompanhada em [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Evidência e checksums em [MEDIA_CACHE.md](MEDIA_CACHE.md#cache-de-avatares-remotos-de-membros-na-tv--27-de-outubro) e [registro](telumia-cache-avatar-tv-r1-build.json).
 - A Fase 1-D permanece aberta para os demais consumidores, fluxos offline e QA em PC/TV Box físicos.
+
+### Continuação — cache remoto de avatar no Desktop (27 de outubro de 2026)
+
+- O Desktop integrou avatares remotos de membros à quota `AVATARS`, com hash no nome do arquivo, 2 MiB por item, até 256 arquivos, LRU, reserva de armazenamento e leitura offline. Os arquivos antigos são migrados somente após validação; fundos legados agora são contados, mas ainda não limitados. Downloads autenticados simultâneos limitados a dois.
+- Passaram 15 testes Desktop e `desktopJar`/MSI. A compilação do alvo Android opcional deste repositório falhou em APIs de ponteiro de três arquivos não alterados; o build Full Debug e os 24 testes do cliente TV em seu repositório dedicado passaram. Nenhum pacote foi publicado nem houve QA físico.
+- Desktop: commit `6abb8401f20ebd6db50e9268310f7ab81d87fc31`, [PR #4](https://github.com/Pepeu2010/telumia-desktop/pull/4) sobre [#3](https://github.com/Pepeu2010/telumia-desktop/pull/3), vinculado a [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). MSI, testes e hashes de APK estão no [registro](telumia-cache-avatar-desktop-r1-build.json).
+- Fase 1-D continua aberta para os demais consumidores de cache, fundos remotos, fluxos offline e QA em PC/TV Box físicos.
