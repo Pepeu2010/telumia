@@ -85,12 +85,17 @@ Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10
   não é release; hardware físico, jank/FPS e ausência de freeze sob carga seguem
   pendentes. Commit TV `34a4dcd5`, PR #2. [Evidências](NATIVE_FOUNDATION.md#continuação-1-a-tv-leitura-assíncrona-do-consentimento-sentry).
 
-- Referência de desempenho Desktop registrada em 27/10/2026: MSI extraído em
-  diretório isolado, três perfis vazios. A janela apareceu em 3,403–4,272 s
-  (mediana 3,957 s); sondagens ociosas não expiraram. Duas amostras ficaram em
-  ~320 MiB residentes e uma teve pico isolado de ~732 MiB. Não houve mudança de
-  código nem comparação antes/depois; o gate de desempenho PC/APK continua
-  aberto. [Medição e limitações](NATIVE_FOUNDATION.md#referência-desktop-de-inicialização).
+- Continuação 1-A Desktop: o aquecimento oculto do WebView2 foi adiado até abrir
+  a superfície real do player; o carregamento da JNI no startup e o aquecimento
+  WebKitGTK no Linux foram preservados. Em árvore de processos completa, a
+  mediana do MSI passou de 594,1 para 323,1 MiB de working set agregado (-45,6%),
+  de 573,2 para 464,5 MiB privados (-19,0%) e de 3,206 para 3,020 s até a
+  primeira janela. WebView2 em repouso caiu de seis processos para zero. Testes
+  nativos direcionados, bridge e MSI passaram. Há um outlier isolado de startup
+  de 6,915 s; primeira abertura do player, carga contínua e interação real ainda
+  não foram medidas. Nenhuma alteração APK nesta entrega; gate PC/APK e 1-A
+  continuam abertos. Commit Desktop `9c5d9f58`, PR #1.
+  [Medição, artefato, testes e limites](NATIVE_FOUNDATION.md#otimização-desktop-adiar-webview2-no-windows).
 - Home: incremento nativo validado com 44 testes Desktop, 72 TV e 27 testes de componentes no emulador. [Entrega parcial](TELUMIA_HOME.md).
 - 2-A: timeline temporal, providers limitados e adapter dos skips integrados aos players; 93 testes Desktop, 83 TV e nove testes nativos TV aprovados. Capítulos embutidos foram ligados à timeline Desktop/libmpv e TV/Media3 em incrementos posteriores. A entrega inicial de Scene Info R1 veio depois, sobre essa base; bookmarks têm incrementos próprios. [Fundação e Scene Info R1](TIMED_METADATA.md), [capítulos](EMBEDDED_CHAPTERS.md).
 - 2-C parcial: Momentos salvos implementados na TV, com armazenamento durável e confirmação de fonte/corte. Passaram 153 testes selecionados, cinco APKs e 16 execuções nativas do painel em APIs 24/36 e 720p/1080p/4K. Desktop e validação completa no player continuam em execução; nenhuma nova release de bookmarks foi publicada. [Evidências e limites](SCENE_BOOKMARKS.md).

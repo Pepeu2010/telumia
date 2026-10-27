@@ -1,12 +1,5 @@
 {
   "capturedAt": "2026-10-27",
-  "artifact": {
-    "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
-    "productVersion": "2.0.1",
-    "sourceCommit": "63b4aa0432bcb76f27f4dfde5b54268ed7e62176",
-    "sha256": "1E2B1A19DC09C367EB30A2A341A41F3D6C78F4F7A876792CBDBC23F13A536F86",
-    "execution": "Extracted to a temporary directory and launched without installing"
-  },
   "host": {
     "cpu": "AMD Ryzen 5 5500",
     "physicalCores": 6,
@@ -15,65 +8,190 @@
     "os": "Windows 11 Pro",
     "osBuild": 26200
   },
-  "scenario": {
-    "profiles": "Three fresh isolated APPDATA and LOCALAPPDATA directories; no signed-in session",
+  "method": {
+    "profiles": "Fresh isolated APPDATA and LOCALAPPDATA directories, no signed-in session",
+    "execution": "Extracted MSI to a task-specific temporary directory and ran without installing",
     "processState": "Cold application process; Windows disk cache was not flushed",
     "firstWindowDefinition": "First Telumia main window with a non-zero Win32 handle and title",
-    "idleMemorySample": "Seven seconds after first window, with the window hidden",
-    "idleCpuSample": "CPU time accumulated during twenty WM_NULL probes spaced 250 ms apart",
-    "uiProbe": "WM_NULL message response; this does not exercise Compose interaction, frame pacing, or playback"
+    "processTreeSample": "Five seconds after first window; process descendants were attributed while Telumia roots were still alive",
+    "aggregateMemoryCaveat": "Summed process working set can count shared pages more than once; private memory is reported separately",
+    "idleCpuAndUiProbe": "CPU over a five-second idle interval; WM_NULL sent every 250 ms. Does not measure Compose interaction, frame cadence, or playback"
   },
-  "trials": [
-    {
-      "trial": 1,
-      "firstWindowMs": 3403,
-      "workingSetMiB": 731.9,
-      "privateMemoryMiB": 865.2,
-      "idleCpuSecondsInFiveSeconds": 0.05,
-      "wmNullMedianMs": 0.1,
-      "wmNullTimeouts": 0
-    },
-    {
-      "trial": 2,
-      "firstWindowMs": 3957,
-      "workingSetMiB": 319.2,
-      "privateMemoryMiB": 456.3,
-      "idleCpuSecondsInFiveSeconds": 0.02,
-      "wmNullMedianMs": 0.1,
-      "wmNullTimeouts": 0
-    },
-    {
-      "trial": 3,
-      "firstWindowMs": 4272,
-      "workingSetMiB": 322.1,
-      "privateMemoryMiB": 453.9,
+  "baselineArtifact": {
+    "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+    "sourceCommit": "63b4aa0432bcb76f27f4dfde5b54268ed7e62176",
+    "sha256": "1E2B1A19DC09C367EB30A2A341A41F3D6C78F4F7A876792CBDBC23F13A536F86",
+    "windowsBehavior": "Hidden WebView2 warmup runs during startup"
+  },
+  "baselineFullProcessTree": {
+    "trials": [
+      {
+        "id": "tree-r6",
+        "firstWindowMs": 3414,
+        "processCount": 8,
+        "webView2ProcessCount": 6,
+        "aggregateWorkingSetMiB": 594.1,
+        "aggregatePrivateMemoryMiB": 573.2
+      },
+      {
+        "id": "tree-r7",
+        "firstWindowMs": 3154,
+        "processCount": 8,
+        "webView2ProcessCount": 6,
+        "aggregateWorkingSetMiB": 593.2,
+        "aggregatePrivateMemoryMiB": 568.0
+      },
+      {
+        "id": "tree-r8",
+        "firstWindowMs": 3206,
+        "processCount": 8,
+        "webView2ProcessCount": 6,
+        "aggregateWorkingSetMiB": 595.7,
+        "aggregatePrivateMemoryMiB": 581.6
+      }
+    ],
+    "medians": {
+      "firstWindowMs": 3206,
+      "aggregateWorkingSetMiB": 594.1,
+      "aggregatePrivateMemoryMiB": 573.2,
+      "webView2ProcessCount": 6
+    }
+  },
+  "candidateArtifact": {
+    "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+    "sourceCommit": "9c5d9f5819836bd648166262ad1845a725083ac0",
+    "sha256": "00372F4609DD7F0F73E778FCEBAD878CB1503B6A0B6D88A0B6E5EAFF7BA17A24",
+    "sizeBytes": 210886760,
+    "execution": "Extracted to a temporary directory for inspection; not installed",
+    "windowsBehavior": "JNI library initializes on startup; hidden WebView2 warmup is deferred until the real player surface opens; Linux WebKitGTK warmup is preserved"
+  },
+  "candidateFullProcessTree": {
+    "trials": [
+      {
+        "id": "candidate-final-2",
+        "firstWindowMs": 3020,
+        "processCount": 2,
+        "webView2ProcessCount": 0,
+        "aggregateWorkingSetMiB": 325.6,
+        "aggregatePrivateMemoryMiB": 469.4,
+        "idleCpuSecondsInFiveSeconds": 0.0,
+        "wmNullMedianMs": 0.1,
+        "wmNullTimeouts": 0
+      },
+      {
+        "id": "candidate-final-3",
+        "firstWindowMs": 3015,
+        "processCount": 2,
+        "webView2ProcessCount": 0,
+        "aggregateWorkingSetMiB": 323.1,
+        "aggregatePrivateMemoryMiB": 464.5,
+        "idleCpuSecondsInFiveSeconds": 0.03,
+        "wmNullMedianMs": 0.1,
+        "wmNullTimeouts": 0
+      },
+      {
+        "id": "candidate-robust-r4",
+        "firstWindowMs": 3132,
+        "processCount": 2,
+        "webView2ProcessCount": 0,
+        "aggregateWorkingSetMiB": 322.9,
+        "aggregatePrivateMemoryMiB": 461.5,
+        "idleCpuSecondsInFiveSeconds": 0.03,
+        "wmNullMedianMs": 0.1,
+        "wmNullTimeouts": 0
+      }
+    ],
+    "medians": {
+      "firstWindowMs": 3020,
+      "aggregateWorkingSetMiB": 323.1,
+      "aggregatePrivateMemoryMiB": 464.5,
+      "webView2ProcessCount": 0,
       "idleCpuSecondsInFiveSeconds": 0.03,
       "wmNullMedianMs": 0.1,
       "wmNullTimeouts": 0
     }
-  ],
-  "diagnosticSample": {
-    "firstWindowMs": 3932,
-    "javaProcessWorkingSetMiB": 323.2,
-    "launcherWorkingSetMiB": 8.3,
-    "javaProcessCpuSecondsAtFirstWindow": 7.64,
-    "jvm": {
-      "version": "17.0.20.1",
-      "heapTotalKiB": 151552,
-      "heapUsedKiB": 59653,
-      "metaspaceUsedKiB": 54373
-    },
-    "sampleCount": 1
   },
-  "medians": {
-    "firstWindowMs": 3957,
-    "workingSetMiB": 322.1,
-    "privateMemoryMiB": 456.3
+  "comparison": {
+    "firstWindowMsDelta": -186,
+    "firstWindowPercentChange": -5.8,
+    "aggregateWorkingSetMiBDelta": -271.0,
+    "aggregateWorkingSetPercentChange": -45.6,
+    "aggregatePrivateMemoryMiBDelta": -108.7,
+    "aggregatePrivateMemoryPercentChange": -19.0,
+    "webView2ProcessesAtIdleDelta": -6
+  },
+  "historicalProcessOnlySeries": {
+    "scope": "Earlier report summed Telumia.exe processes only and omitted WebView2 helper processes; do not compare its memory figures with the full-tree measurements above",
+    "trials": [
+      {
+        "trial": 1,
+        "firstWindowMs": 3403,
+        "telumiaOnlyWorkingSetMiB": 731.9,
+        "telumiaOnlyPrivateMemoryMiB": 865.2,
+        "idleCpuSecondsInFiveSeconds": 0.05,
+        "wmNullMedianMs": 0.1,
+        "wmNullTimeouts": 0
+      },
+      {
+        "trial": 2,
+        "firstWindowMs": 3957,
+        "telumiaOnlyWorkingSetMiB": 319.2,
+        "telumiaOnlyPrivateMemoryMiB": 456.3,
+        "idleCpuSecondsInFiveSeconds": 0.02,
+        "wmNullMedianMs": 0.1,
+        "wmNullTimeouts": 0
+      },
+      {
+        "trial": 3,
+        "firstWindowMs": 4272,
+        "telumiaOnlyWorkingSetMiB": 322.1,
+        "telumiaOnlyPrivateMemoryMiB": 453.9,
+        "idleCpuSecondsInFiveSeconds": 0.03,
+        "wmNullMedianMs": 0.1,
+        "wmNullTimeouts": 0
+      }
+    ],
+    "diagnosticSample": {
+      "firstWindowMs": 3932,
+      "javaProcessWorkingSetMiB": 323.2,
+      "launcherWorkingSetMiB": 8.3,
+      "javaProcessCpuSecondsAtFirstWindow": 7.64,
+      "jvm": {
+        "version": "17.0.20.1",
+        "heapTotalKiB": 151552,
+        "heapUsedKiB": 59653,
+        "metaspaceUsedKiB": 54373
+      },
+      "sampleCount": 1
+    }
+  },
+  "isolatedStartupOutlier": {
+    "firstWindowMs": 6915,
+    "memorySampleValid": false,
+    "memoryInvalidReason": "Launcher exited before tree aggregation and Windows reused its PID, so unrelated descendant processes were included",
+    "includedInCandidateMedians": false,
+    "note": "Observed on an intermediate package with the same Windows no-warmup behavior; repeat before drawing a startup conclusion"
+  },
+  "verification": {
+    "tests": {
+      "command": ":composeApp:desktopTest --tests com.nuvio.app.features.player.desktop.NativeTimelineFramesTest",
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "buildTasks": [
+      ":composeApp:buildWindowsPlayerBridge",
+      ":composeApp:packageReleaseMsi"
+    ],
+    "buildResult": "BUILD SUCCESSFUL"
   },
   "limitations": [
-    "No code changed and no before/after candidate comparison was performed.",
-    "The 731.9 MiB working-set sample is an isolated outlier and needs remeasurement.",
-    "The window-message probe does not verify actual UI interaction, frame pacing, playback, or freezes under load.",
-    "This PC baseline does not close the combined PC/APK performance gate."
+    "The Windows candidate does not measure latency of the first real player surface or playback stability.",
+    "WM_NULL idle probes do not measure Compose interaction, frame pacing, jank, focus response, or freezes under load.",
+    "The isolated 6915 ms startup observation remains an outlier and should be repeated.",
+    "This increment changed only Desktop; no APK was rebuilt or benchmarked in this delivery.",
+    "Prior Android AVD measurements did not show a conclusive startup improvement and do not replace testing on a physical ARM TV Box with 2 GiB RAM.",
+    "The combined PC/APK performance gate and Phase 1-A remain open."
   ]
 }

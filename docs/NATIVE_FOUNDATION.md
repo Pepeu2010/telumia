@@ -527,44 +527,68 @@ Fase 1-A permanecem abertos. Os resultados completos e hashes estão no
 [registro de QA R1](telumia-tv-sentry-startup-qa-r1.json); o código está no
 commit `34a4dcd594403ede807524bcf90a290a3ccfc9f4` e no [PR TV #2](https://github.com/Pepeu2010/telumia-tv/pull/2).
 
-### Referência Desktop de inicialização
+### Otimização Desktop: adiar WebView2 no Windows
 
-Em 27/10/2026, medi o MSI Windows já gerado no commit Desktop 63b4aa04
-(ProductVersion 2.0.1, SHA-256
-1E2B1A19DC09C367EB30A2A341A41F3D6C78F4F7A876792CBDBC23F13A536F86). O pacote
-foi extraído para uma pasta temporária e executado sem instalação. Usei três
-perfis novos, cada um com APPDATA e LOCALAPPDATA próprios e sem sessão iniciada.
-O PC de referência tinha Ryzen 5 5500, 6 núcleos/12 threads, 15,9 GiB de RAM e
-Windows 11 Pro build 26200. O processo foi iniciado a frio; o cache de disco do
-Windows não foi limpo.
+Em 27/10/2026, comparei o MSI de referência (commit `63b4aa0432bcb76f27f4dfde5b54268ed7e62176`, SHA-256
+`1E2B1A19DC09C367EB30A2A341A41F3D6C78F4F7A876792CBDBC23F13A536F86`) com o MSI
+candidato do commit `9c5d9f5819836bd648166262ad1845a725083ac0`. Os pacotes foram
+extraídos em diretórios temporários e executados sem instalação, em perfis
+APPDATA/LOCALAPPDATA isolados e sem sessão. O PC tinha Ryzen 5 5500, 6
+núcleos/12 threads, 15,9 GiB de RAM e Windows 11 Pro build 26200. Os processos
+começaram a frio; o cache de disco do Windows não foi limpo.
 
-| Execução | Primeira janela | Working set após 7 s | Memória privada após 7 s | CPU ociosa em 5 s | Sondagem da janela |
-| --- | ---: | ---: | ---: | ---: | --- |
-| 1 | 3.403 ms | 731,9 MiB | 865,2 MiB | 0,05 s | mediana 0,1 ms; 0 timeouts |
-| 2 | 3.957 ms | 319,2 MiB | 456,3 MiB | 0,02 s | mediana 0,1 ms; 0 timeouts |
-| 3 | 4.272 ms | 322,1 MiB | 453,9 MiB | 0,03 s | mediana 0,1 ms; 0 timeouts |
+A primeira rodada documentada anteriormente somava apenas os processos
+`Telumia.exe`. Ela não incluía os seis processos auxiliares `msedgewebview2.exe`
+criados pela pré-inicialização, portanto seus cerca de 320 MiB não eram a
+memória total do aplicativo. Abaixo está a nova amostragem da árvore completa.
+O working set agregado soma páginas compartilhadas entre processos e pode
+contá-las mais de uma vez; memória privada é apresentada separadamente.
 
-A mediana do primeiro aparecimento da janela foi 3,957 s. A mediana do working
-set foi 322,1 MiB e a da memória privada, 456,3 MiB; a primeira execução é um
-pico isolado e precisa ser reamostrada em qualquer comparação. As sondagens
-enviaram WM_NULL a cada 250 ms por cinco segundos depois da abertura. Elas
-mostram que a fila Win32 respondeu no estado ocioso; não exercitam foco,
-navegação, renderização de frames, player ou reprodução e não provam ausência
-de freeze sob carga.
+| MSI / execução | Primeira janela | Processos / WebView2 | Working set agregado após 5 s | Memória privada agregada |
+| --- | ---: | ---: | ---: | ---: |
+| Base `tree-r6` | 3.414 ms | 8 / 6 | 594,1 MiB | 573,2 MiB |
+| Base `tree-r7` | 3.154 ms | 8 / 6 | 593,2 MiB | 568,0 MiB |
+| Base `tree-r8` | 3.206 ms | 8 / 6 | 595,7 MiB | 581,6 MiB |
+| Candidato `candidate-final-2` | 3.020 ms | 2 / 0 | 325,6 MiB | 469,4 MiB |
+| Candidato `candidate-final-3` | 3.015 ms | 2 / 0 | 323,1 MiB | 464,5 MiB |
+| Candidato `candidate-robust-r4` | 3.132 ms | 2 / 0 | 322,9 MiB | 461,5 MiB |
 
-Uma execução diagnóstica separada identificou o processo da aplicação Java
-(323,2 MiB de working set) e o launcher (8,3 MiB). No primeiro aparecimento da
-janela, o processo Java acumulava 7,64 segundos de CPU em 3,932 segundos de
-relógio. A consulta da JVM reportou heap total de 151.552 KiB, 59.653 KiB
-usados, e Metaspace com 54.373 KiB usados. É uma amostra única: indica que o
-uso residente excede o heap Java, mas não atribui o restante a uma biblioteca
-ou componente específico.
+As medianas da árvore completa passaram de 3.206 para 3.020 ms na primeira
+janela (-186 ms, aproximadamente 5,8%), de 594,1 para 323,1 MiB de working set
+(-271,0 MiB, aproximadamente 45,6%) e de 573,2 para 464,5 MiB de memória
+privada (-108,7 MiB, aproximadamente 19,0%). O número observado de processos
+WebView2 em repouso caiu de seis para zero. No candidato, a CPU acumulada em uma
+janela ociosa de cinco segundos foi 0,00/0,03/0,03 s; a mediana da sondagem
+Win32 WM_NULL foi 0,1 ms e não houve timeout. Isso verifica apenas resposta
+ociosa da fila de mensagens, não interação Compose, cadência de quadros/jank, player,
+reprodução prolongada ou ausência de freeze sob carga.
 
-Esta rodada não alterou código nem criou uma medição candidata. O MSI extraído
-serve como referência de abertura e ociosidade, não como aprovação de
-desempenho da Fase 1-A. O próximo incremento que tocar inicialização, UI ou
-player precisa comparar a mesma referência PC e o caminho APK correspondente,
-além de medir interação e playback conforme o escopo alterado. A investigação
-deve identificar a origem da memória nativa e do CPU de inicialização antes de
-mudar preloads ou mover leituras para segundo plano. Os dados brutos estão em
+O código mantém a inicialização da biblioteca JNI no startup. No Windows,
+`preloadAsync()` deixa de criar o controller/process tree oculto do WebView2; o
+WebView2 inicia quando a superfície real do player é aberta. A pré-inicialização
+WebKitGTK no Linux foi preservada. Assim, esta medida reduz trabalho e memória
+em repouso no Windows, mas não mede a latência da primeira entrada no player.
+Uma execução candidata isolada mostrou primeira janela em 6.915 ms; ela não foi
+incluída na mediana acima. A coleta de memória daquela tentativa foi inválida
+porque o launcher terminou e o Windows reutilizou seu PID, agregando processos
+alheios. A anomalia de abertura permanece registrada como outlier e merece nova
+amostragem.
+
+No código final passaram `:composeApp:desktopTest --tests
+com.nuvio.app.features.player.desktop.NativeTimelineFramesTest` (6 testes,
+0 falhas/erros), `:composeApp:buildWindowsPlayerBridge` e
+`:composeApp:packageReleaseMsi` (`BUILD SUCCESSFUL`). O MSI gerado foi
+`Telumia-Windows-x64-1.0.2-alpha.1.msi`, 210.886.760 bytes, SHA-256
+`00372F4609DD7F0F73E778FCEBAD878CB1503B6A0B6D88A0B6E5EAFF7BA17A24`; foi
+extraído para inspeção, não instalado. O registro bruto com as amostras, hashes,
+método e ressalvas está em
 [telumia-desktop-startup-baseline-r1.json](telumia-desktop-startup-baseline-r1.json).
+
+Este incremento só modifica o cliente Desktop. Os benchmarks anteriores do
+APK/AVD não mostraram melhoria de startup conclusiva; não houve novo build nem
+mudança Android nesta entrega. Continua pendente comparar um APK em TV Box ARM
+de 2 GiB, medir FPS/jank, uso de CPU/memória durante navegação e reprodução,
+latência da primeira abertura do player e freezes sob carga. Portanto o gate
+combinado PC/APK e a Fase 1-A permanecem abertos. O código está no commit
+`9c5d9f5819836bd648166262ad1845a725083ac0` e no
+[PR Desktop #1](https://github.com/Pepeu2010/telumia-desktop/pull/1).
