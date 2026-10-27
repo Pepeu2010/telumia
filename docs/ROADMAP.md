@@ -147,6 +147,12 @@ Estado mais recente: a release combinada `v1.0.2-alpha.4` foi publicada em 25/10
 
 ## Implementação incremental
 
+### Progresso — Fase 1-D, cache de metadata na TV (27 de outubro de 2026)
+
+- O cache de avaliações MDBList da TV passou a respeitar a quota `METADATA`, com TTL e limites de disco/memória, migração do arquivo legado e leitura preservada em política somente leitura. Implementação na branch `codex/1d-tv-mdblist-cache-quota`, commit `dc92702ef6977ff9b210a05a8c7244bec622a8c9`; [PR #4](https://github.com/Pepeu2010/telumia-tv/pull/4), vinculado à aprovação [telumia#10](https://github.com/Pepeu2010/telumia/issues/10).
+- Passaram 16 testes focados de TV; o Desktop sem mudanças de fonte passou 12 testes focados e compilou JAR/MSI. Foram gerados cinco APKs Full Debug, identificados como `.debug`, apenas para validação. Não são atualizações de produção e não foram publicados.
+- Incremento parcial. Fase 1-D permanece aberta para os consumidores restantes, adaptação dinâmica, fluxos offline e QA em hardware real. O build de ambos os clientes não comprova desempenho físico; nenhum aparelho foi medido neste recorte.
+
 Cada milestone: inspecionar call sites → registrar impacto → implementar →
 testar → compilar → corrigir regressões → QA → documentar → commit.
 PRs serão feitos no fork quando houver remoto próprio; não enviar redesign ao

@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-27",
+  "milestone": "Fase 1-D: integração do cache de avaliações MDBList da TV à quota METADATA",
+  "source": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/1d-tv-mdblist-cache-quota",
+    "commit": "dc92702ef6977ff9b210a05a8c7244bec622a8c9",
+    "pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/4",
+    "approved_issue": "https://github.com/Pepeu2010/telumia/issues/10"
+  },
+  "tv": {
+    "application_id": "io.github.pepeu2010.telumia.tv.debug",
+    "version_code": 10008,
+    "version_name": "1.0.2-alpha.3",
+    "build_type": "Full Debug; CI_USE_DEBUG_SIGNING=true; validation only, not production-updatable",
+    "commands": [
+      ":app:testFullDebugUnitTest --tests com.nuvio.tv.data.mdblist.MdbListRatingsDiskCacheTest --tests com.nuvio.tv.data.mdblist.MdbListRatingsLoaderTest --no-daemon --console=plain",
+      ":app:compileFullDebugAndroidTestKotlin :app:assembleFullDebug"
+    ],
+    "unit_tests": {
+      "MdbListRatingsDiskCacheTest": 5,
+      "MdbListRatingsLoaderTest": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "artifacts": [
+      {"file":"app-full-arm64-v8a-debug.apk","bytes":92987423,"sha256":"E4C44870A9F746CB7C46DE62858626DED67AFC453230E2A8CD2842E7AA75510C"},
+      {"file":"app-full-armeabi-v7a-debug.apk","bytes":90885837,"sha256":"DE94C8B8E110DB1650D621E68670387AF6E32C9E97636E86D9EF4252F247A03C"},
+      {"file":"app-full-universal-debug.apk","bytes":179958665,"sha256":"F0BF2C33DF2758E127AE86D66D18A217B26083F8EDC49AE86BA3B14839FB7D4E"},
+      {"file":"app-full-x86_64-debug.apk","bytes":95407938,"sha256":"57D02AAC719ECB47FCA9B77F20B8CA93E7473E6B443B8B5A2C9E3A9AD19362DF"},
+      {"file":"app-full-x86-debug.apk","bytes":94568073,"sha256":"538149C79C5174484A7F9AAB5D036C791660905484DEF02DBF1C167173F4CC25"}
+    ]
+  },
+  "desktop_cross_gate": {
+    "source_changed": false,
+    "commands": [
+      ":composeApp:desktopTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest --tests com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest --no-daemon --console=plain",
+      ":composeApp:packageMsi --no-daemon --console=plain"
+    ],
+    "selected_tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "msi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210894952,
+      "sha256": "6B23E6989EDC0BACEAC12D61DEAC28A849EE098067EF97C1FAC1F6D081CC2FE2",
+      "purpose": "cross-platform validation build only; not a new release"
+    }
+  },
+  "physical_performance_measurement": "not performed; no physical TV Box or PC measurement in this increment",
+  "release_status": "no release published; debug APKs are not update packages for production installs",
+  "phase_status": "partial; Fase 1-D remains open"
+}

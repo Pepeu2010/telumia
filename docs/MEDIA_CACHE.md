@@ -53,3 +53,11 @@ Na TV, passaram 120 testes unitários selecionados, sem falhas/erros/skips, e fo
 A TV usa a variante NIO do desugaring para disponibilizar a iteração de diretórios também nas APIs 24/25 suportadas. [Documentação oficial Android](https://developer.android.com/studio/write/java11-nio-support-table). A compatibilidade de todos os fluxos do aplicativo nessas versões não pode ser deduzida apenas da compilação.
 
 Essas alterações são posteriores à publicação `v0.2.1-alpha.1`; seus binários publicados permanecem preservados. A integração completa dos consumidores e o QA offline continuam obrigatórios.
+
+## Integração do cache de avaliações MDBList na TV — 27 de outubro
+
+O cache em disco de avaliações MDBList agora usa a categoria `METADATA` da política central na TV. A gravação fica limitada pela quota disponível e por 8 MiB por arquivo, expira após 12 horas, mantém no máximo 25 mil entradas em memória e executa leitura/gravação fora da thread de interface. O leitor rejeita arquivos maiores que 8 MiB. A migração lê o cache antigo em `filesDir` uma vez e o remove; em modo somente leitura, os dados ainda podem ser lidos e não recebem novas gravações.
+
+Os 5 testes de `MdbListRatingsDiskCacheTest` e 11 de `MdbListRatingsLoaderTest` passaram. Foram compilados os cinco APKs Full Debug e o APK de instrumentação. O identificador desses APKs termina em `.debug`; não são pacotes para atualizar instalações de produção nem foram publicados como release. O cliente Desktop não teve mudança de fonte: 12 testes selecionados de política/ocupação passaram junto com `desktopJar` e `packageMsi`, como gate cruzado da mesma entrega. Nenhum teste foi executado em hardware físico, portanto fluidez e impacto em aparelhos reais permanecem sem medição.
+
+Fonte: branch `codex/1d-tv-mdblist-cache-quota`, commit `dc92702ef6977ff9b210a05a8c7244bec622a8c9`; [PR #4](https://github.com/Pepeu2010/telumia-tv/pull/4), vinculado à aprovação [telumia#10](https://github.com/Pepeu2010/telumia/issues/10). Pacotes, versões, tamanhos, hashes e comandos estão em [telumia-cache-metadata-tv-r1-build.json](telumia-cache-metadata-tv-r1-build.json). Este é um recorte parcial: ainda faltam os outros consumidores de cache, adaptação durante a sessão e QA de fluxos offline; a Fase 1-D segue aberta.
