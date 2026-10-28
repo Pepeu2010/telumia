@@ -293,3 +293,13 @@ Passaram 26 testes selecionados: 4 da política nova, 9 de ocupação, 2 do moni
 Desktop: commit `c558178d815a993bdab234000da5f5db23f61236`, branch `codex/1d-desktop-image-memory-cache`, [PR draft #14](https://github.com/Pepeu2010/telumia-desktop/pull/14) sobre [PR #13](https://github.com/Pepeu2010/telumia-desktop/pull/13). API confirmada na Coil 3.6.3. Comandos, resultados e limites estão no [registro do build](telumia-cache-image-memory-desktop-r1-build.json).
 
 Incremento parcial da Fase 1-D: seguem pendentes os caminhos de cache regenerável restantes, fluxos offline reais e QA/performance em hardware físico.
+
+## Ocupação do DEX compilado dos addons no Auto da TV — 27 de outubro de 2026
+
+O cálculo Auto da TV passa a medir também a raiz exata `codeCacheDir/cs_dex_cache`, que guarda DEX compilado pelo loader de addons. O scan reutiliza o medidor allowlisted, limitado e read-only; não lê os arquivos, apaga conteúdo ou liga esta raiz à quota de eviction. Os addons originais em `filesDir/cs_extensions`, outros diretórios de código compilado, DataStore e dados duráveis continuam fora.
+
+Passaram 16 testes unitários de `OwnedMediaCacheOccupancyTest` e 10 testes instrumentados de `MediaCacheSettingsTvTest` no AVD Android TV API 33. Foram gerados cinco APKs Full Debug e o APK androidTest; application ID `io.github.pepeu2010.telumia.tv.debug`, versão `1.0.2-alpha.3`, código `10008`. São artefatos locais de validação, não atualizam a instalação de produção e não foram publicados. Não houve QA em TV Box física.
+
+TV: commit `69686ffab0444de719631a5a47605a1d2b5c6492`, branch `codex/1d-tv-code-cache-occupancy`, [PR draft #18](https://github.com/Pepeu2010/telumia-tv/pull/18) sobre [PR #17](https://github.com/Pepeu2010/telumia-tv/pull/17). Comandos e os seis hashes SHA-256 estão no [registro do build](telumia-cache-plugin-dex-occupancy-tv-r1-build.json).
+
+Incremento parcial da Fase 1-D: continuam pendentes a auditoria de outros arquivos regeneráveis, os fluxos offline reais e QA/performance em hardware físico.
