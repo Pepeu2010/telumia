@@ -331,3 +331,13 @@ Comandos usados:
 ```
 
 Limites: este incremento mede ocupação para a estimativa Auto, mas não atribui arquivo solto a uma categoria, não o apaga e não demonstra uso offline completo ou desempenho sustentado em hardware físico.
+
+## Pré-checagem de espaço nos caches Coil da TV e do Desktop — 28 de outubro de 2026
+
+Os loaders Coil principal, de previews e de badges dos dois clientes passaram a aplicar um interceptor de pré-checagem. Antes de prosseguir com uma requisição cuja política permite escrita, o interceptor consulta a quota efetiva da categoria e verifica se o espaço livre real continua acima da reserva do aparelho. Se a consulta falhar, a gravação é bloqueada. A checagem roda em IO e o último resultado é compartilhado por até um segundo entre requests do mesmo loader, evitando uma consulta de filesystem por imagem durante a rolagem.
+
+Com espaço insuficiente, a política `ENABLED` do request vira `READ_ONLY`: uma imagem já no cache de disco continua legível, mas uma resposta nova não é gravada. Uma política explicitamente desativada continua desativada; `WRITE_ONLY` vira `DISABLED`, sem habilitar leituras que o request não pediu. O default do loader permanece `ENABLED` para permitir que gravações retomem automaticamente após a recuperação do espaço, sem reiniciar o app. O ajuste não remove conteúdo existente nem inclui downloads ou dados duráveis na quota.
+
+TV: `CacheWritePreflightInterceptorTest` (6) e `MediaCachePolicyTest` (11) passaram; `:app:assembleFullDebug` gerou os cinco APKs. Desktop: `CacheWritePreflightInterceptorTest` (7) e `MediaCachePolicyTest` (12) passaram; `:composeApp:desktopJar` e `:composeApp:packageMsi` passaram. O MSI local é `Telumia-Windows-x64-1.0.2-alpha.1.msi`, apenas validação da fonte desta branch; nenhum pacote foi publicado. Versões, comandos e hashes estão no [registro de build](telumia-cache-image-storage-preflight-r1-build.json).
+
+O gate cobre a decisão antes do início de uma requisição e falha fechado quando a amostra não está disponível. Como o tamanho de respostas remotas é desconhecido nesse ponto e vários requests podem já estar em andamento, ainda pode haver consumo depois da amostra; esta checagem não é uma reserva de bytes durante toda a gravação. Os testes não esgotaram o volume nem demonstraram os fluxos offline completos numa instalação real. QA em PC/TV Box físicos, jank/memória e validação offline ponta a ponta seguem pendentes.

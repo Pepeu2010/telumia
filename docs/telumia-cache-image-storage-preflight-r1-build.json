@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — pré-checagem de espaço nos caches de imagem Coil",
+  "recordedAt": "2026-10-28",
+  "source": {
+    "tv": {
+      "repository": "Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-cache-storage-preflight",
+      "commit": "89cb832cd69e3cbdcd4c81b980c726c32dab9102",
+      "baseCommit": "4d23cb35d9b8e72f0612e3b4381f0543be487d3e",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/22"
+    },
+    "desktop": {
+      "repository": "Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-cache-storage-preflight",
+      "commit": "d4db73327602f5c9dd141c88c43504ff34adc7ed",
+      "baseCommit": "71dfb4c7f6b244d19c93d8bb82aa51d9ee224d65",
+      "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/18"
+    }
+  },
+  "verification": {
+    "tv": {
+      "command": ".\\gradlew.bat :app:testFullDebugUnitTest --tests 'com.nuvio.tv.core.image.CacheWritePreflightInterceptorTest' --tests 'com.nuvio.tv.core.storage.MediaCachePolicyTest' :app:assembleFullDebug --console=plain",
+      "result": "success",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "desktop": {
+      "command": ".\\gradlew.bat :composeApp:desktopTest --tests '*CacheWritePreflightInterceptorTest' --tests '*MediaCachePolicyTest' :composeApp:desktopJar :composeApp:packageMsi --no-configuration-cache --console=plain",
+      "result": "success",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "hostLimit": "Windows host disabled iOS native targets; Desktop JVM tasks completed."
+    }
+  },
+  "artifacts": {
+    "tv": {
+      "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionName": "1.0.2-alpha.3",
+      "versionCode": 10008,
+      "distributionStatus": "local validation only; debug-signed and not production update-compatible",
+      "files": [
+        { "name": "app-full-universal-debug.apk", "bytes": 181708036, "sha256": "7C635796657F7B3CEF1959D5F0F62717435830312705D078813A7760F1024F17" },
+        { "name": "app-full-arm64-v8a-debug.apk", "bytes": 94736794, "sha256": "2BC3EB9D69299A754FAD633F11FDEB34EFDD7429C65DAB5C4066E619CE86A3F5" },
+        { "name": "app-full-armeabi-v7a-debug.apk", "bytes": 92635208, "sha256": "5F4570F7011B5864DF99BC1213C2317F641D64317D7DAAF3F9FD078971F1B133" },
+        { "name": "app-full-x86_64-debug.apk", "bytes": 97157313, "sha256": "508C48A750BCAB5EFE0F0BB59763F4E325401A220B004F0F032D9D5C22FC5422" },
+        { "name": "app-full-x86-debug.apk", "bytes": 96317448, "sha256": "B7526C1A9DCE96C7F18A0F8762B824D1ACE4D833E3C499B959DE80C8321DE8B2" }
+      ]
+    },
+    "desktop": {
+      "distributionStatus": "local validation only; not published",
+      "files": [
+        { "name": "Telumia-Windows-x64-1.0.2-alpha.1.msi", "bytes": 210985064, "sha256": "866676D5581BA605F79A3A7B07D7E49B1A520CD1B6994ACD484AA501B0C0519D" }
+      ]
+    }
+  },
+  "limitations": [
+    "No low-storage volume exhaustion test was run on a device or PC.",
+    "No end-to-end offline image scenario was run against an installed release build.",
+    "Physical TV Box/PC performance, memory, and jank were not measured.",
+    "The preflight checks free space before a request; in-flight parallel requests and unknown response sizes can consume additional bytes after that check."
+  ]
+}
