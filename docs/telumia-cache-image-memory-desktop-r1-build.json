@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-27",
+  "objective": "Bound the combined decoded-image memory cache on Desktop based on host physical RAM while preserving preview isolation.",
+  "implementation": {
+    "memoryBudget": "1% of detected physical RAM, clamped to 16–96 MiB; 24 MiB fallback when RAM is unavailable or invalid.",
+    "loaderAllocation": {
+      "sharedImages": "7/8 of the total budget",
+      "badges": "1/8 of the total budget"
+    },
+    "previewIsolation": "Existing preview requests keep memory caching disabled and use their separate disk cache.",
+    "diskCachePolicyChanged": false,
+    "offlineReadPolicyChanged": false,
+    "coilVersion": "3.6.3",
+    "scopeLimits": [
+      "No interactive Windows or physical-device QA was performed.",
+      "No sustained image-memory, latency, or jank measurement was performed.",
+      "The MSI is a local validation artifact and was not published."
+    ]
+  },
+  "repository": {
+    "platform": "Windows Desktop",
+    "repository": "https://github.com/Pepeu2010/telumia-desktop",
+    "branch": "codex/1d-desktop-image-memory-cache",
+    "baseBranch": "codex/1d-desktop-runtime-cache-occupancy",
+    "baseCommit": "3829eaf3cf5780a1e80035910f94668020162af3",
+    "commit": "c558178d815a993bdab234000da5f5db23f61236",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/14",
+    "pullRequestState": "draft"
+  },
+  "verification": {
+    "unitTestCommand": ":composeApp:desktopTest --tests com.nuvio.app.core.storage.DesktopImageMemoryCachePolicyTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest --tests com.nuvio.app.core.storage.MediaCacheOccupancyMonitorTest --tests com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest",
+    "unitTests": {
+      "DesktopImageMemoryCachePolicyTest": { "passed": 4, "failed": 0, "errors": 0, "skipped": 0 },
+      "OwnedMediaCacheOccupancyTest": { "passed": 9, "failed": 0, "errors": 0, "skipped": 0 },
+      "MediaCacheOccupancyMonitorTest": { "passed": 2, "failed": 0, "errors": 0, "skipped": 0 },
+      "MediaCachePolicyTest": { "passed": 11, "failed": 0, "errors": 0, "skipped": 0 },
+      "total": 26
+    },
+    "buildCommands": [":composeApp:desktopJar", ":composeApp:packageMsi"],
+    "buildSucceeded": true,
+    "msi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210968680,
+      "sha256": "00228831E75B2A9F75F2F1FA6C8416BD4A3B5D90825B4509635343A16AFE91DE",
+      "releasePublished": false
+    },
+    "interactiveWindowsQa": false,
+    "releasePublished": false
+  }
+}

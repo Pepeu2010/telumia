@@ -283,3 +283,13 @@ Passaram 26 testes unitários focados (ocupação 15, política 11) e 10/10 test
 TV: commit `f51e71e2e333b92c59efb29cd9b619fe710a964b`, branch `codex/1d-tv-updater-apk-cache-occupancy`, [PR draft #17](https://github.com/Pepeu2010/telumia-tv/pull/17) sobre [PR #16](https://github.com/Pepeu2010/telumia-tv/pull/16), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos, resultados e hashes SHA-256 completos estão no [registro do build](telumia-cache-updater-apk-occupancy-tv-r1-build.json).
 
 Incremento parcial da Fase 1-D: continuam pendentes fluxos offline completos, QA/performance em hardware físico e a auditoria dos demais caminhos regeneráveis/legados.
+
+## Limite do cache de memória de imagens no Desktop — 27 de outubro de 2026
+
+Os `ImageLoader` principal e de badges agora compartilham um orçamento total de memória calculado em 1% da RAM física detectada, entre 16 e 96 MiB; quando a leitura da RAM falha, o fallback é 24 MiB. Sete oitavos ficam com imagens e um oitavo com badges. Assim, os loaders separados não recebem cada um o teto total. O loader de previews permanece isolado e os requests dessa superfície continuam com cache de memória desativado. As quotas de disco e a política de dados offline não mudaram.
+
+Passaram 26 testes selecionados: 4 da política nova, 9 de ocupação, 2 do monitor e 11 da política de cache, sem falhas, erros ou skips. `desktopJar` e `packageMsi` passaram. MSI local Windows x64: 210.968.680 bytes; SHA-256 `00228831E75B2A9F75F2F1FA6C8416BD4A3B5D90825B4509635343A16AFE91DE`. Não houve QA interativo nem medição sustentada da memória/jank em PC físico; o MSI é validação local, não foi publicado.
+
+Desktop: commit `c558178d815a993bdab234000da5f5db23f61236`, branch `codex/1d-desktop-image-memory-cache`, [PR draft #14](https://github.com/Pepeu2010/telumia-desktop/pull/14) sobre [PR #13](https://github.com/Pepeu2010/telumia-desktop/pull/13). API confirmada na Coil 3.6.3. Comandos, resultados e limites estão no [registro do build](telumia-cache-image-memory-desktop-r1-build.json).
+
+Incremento parcial da Fase 1-D: seguem pendentes os caminhos de cache regenerável restantes, fluxos offline reais e QA/performance em hardware físico.
