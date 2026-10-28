@@ -261,3 +261,15 @@ Passaram 22 testes selecionados (ocupação 9, monitor 2, política 11), sem fal
 Desktop: commit `3829eaf3cf5780a1e80035910f94668020162af3`, branch `codex/1d-desktop-runtime-cache-occupancy`, [PR draft #13](https://github.com/Pepeu2010/telumia-desktop/pull/13) sobre [PR #12](https://github.com/Pepeu2010/telumia-desktop/pull/12). Comandos, resultados e limites estão no [registro do build](telumia-cache-runtime-assets-desktop-r1-build.json).
 
 Incremento parcial da Fase 1-D: permanecem a revisão de outros caches regeneráveis e legados, fluxos offline reais e QA/performance em PC e TV Box físicos.
+
+## Ocupação dos scripts de addons por perfil na estimativa Auto da TV — 27 de outubro de 2026
+
+A estimativa Auto da TV passa a incluir os scripts JS regeneráveis mantidos em `filesDir/plugin_code` e `filesDir/plugin_code_p<id>`. A descoberta aceita apenas os nomes exatos gerados para a conta principal ou IDs numéricos de perfil; é limitada a 16.384 entradas, 128 diretórios e 10 ms. O scan dos diretórios encontrados continua read-only, assíncrono e limitado; ele lê atributos e tamanhos, nunca o conteúdo dos scripts.
+
+Os scripts não recebem quota central nem eviction. `DataStore`, avatares locais do Profile Studio, bookmarks, downloads e demais dados duráveis não entram na soma e são mantidos intactos. O registro de build contém os resultados unitários, teste no AVD e hashes dos pacotes.
+
+Passaram 25 testes unitários focados (ocupação 14, política 11), sem falhas, erros ou skips. `MediaCacheSettingsTvTest` passou 9/9 no AVD Android TV API 33. Foram gerados os cinco APKs Full Debug e o APK androidTest, versão `1.0.2-alpha.3`, código `10008`, application ID `.debug`; são pacotes de validação, não atualizam a instalação de produção e não foram publicados. Nenhuma fonte Desktop mudou neste incremento.
+
+TV: commit `8a9376032`, branch `codex/1d-tv-plugin-code-cache-occupancy`, [PR draft #16](https://github.com/Pepeu2010/telumia-tv/pull/16) sobre [PR #15](https://github.com/Pepeu2010/telumia-tv/pull/15), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos, seis hashes SHA-256 completos e limites estão no [registro do build](telumia-cache-plugin-code-occupancy-tv-r1-build.json).
+
+Incremento parcial da Fase 1-D: permanecem fluxos offline completos, QA/performance em hardware físico e auditoria de outros caminhos regeneráveis/legados.
