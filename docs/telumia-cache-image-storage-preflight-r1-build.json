@@ -28,13 +28,22 @@
       "skipped": 0
     },
     "desktop": {
-      "command": ".\\gradlew.bat :composeApp:desktopTest --tests '*CacheWritePreflightInterceptorTest' --tests '*MediaCachePolicyTest' :composeApp:desktopJar :composeApp:packageMsi --no-configuration-cache --console=plain",
+      "command": ".\\gradlew.bat :composeApp:desktopTest --tests '*CacheWritePreflightOfflineImageTest*' --tests '*CacheWritePreflightInterceptorTest*' --tests '*MediaCachePolicyTest*' :composeApp:desktopJar :composeApp:packageMsi --no-configuration-cache --console=plain",
       "result": "success",
-      "tests": 19,
+      "tests": 20,
       "failures": 0,
       "errors": 0,
       "skipped": 0,
       "hostLimit": "Windows host disabled iOS native targets; Desktop JVM tasks completed."
+    },
+    "tvOfflineImageInstrumentation": {
+      "command": ".\\gradlew.bat :app:connectedFullDebugAndroidTest '-Pandroid.testInstrumentationRunnerArguments.class=com.nuvio.tv.core.image.CacheWritePreflightOfflineImageTest' --console=plain",
+      "result": "success",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "device": "Android TV API 33 AVD"
     }
   },
   "artifacts": {
@@ -44,23 +53,23 @@
       "versionCode": 10008,
       "distributionStatus": "local validation only; debug-signed and not production update-compatible",
       "files": [
-        { "name": "app-full-universal-debug.apk", "bytes": 181708036, "sha256": "7C635796657F7B3CEF1959D5F0F62717435830312705D078813A7760F1024F17" },
-        { "name": "app-full-arm64-v8a-debug.apk", "bytes": 94736794, "sha256": "2BC3EB9D69299A754FAD633F11FDEB34EFDD7429C65DAB5C4066E619CE86A3F5" },
-        { "name": "app-full-armeabi-v7a-debug.apk", "bytes": 92635208, "sha256": "5F4570F7011B5864DF99BC1213C2317F641D64317D7DAAF3F9FD078971F1B133" },
-        { "name": "app-full-x86_64-debug.apk", "bytes": 97157313, "sha256": "508C48A750BCAB5EFE0F0BB59763F4E325401A220B004F0F032D9D5C22FC5422" },
-        { "name": "app-full-x86-debug.apk", "bytes": 96317448, "sha256": "B7526C1A9DCE96C7F18A0F8762B824D1ACE4D833E3C499B959DE80C8321DE8B2" }
+        { "name": "app-full-universal-debug.apk", "bytes": 181708224, "sha256": "B2F8802D545301C705B22451689A7680E2E85624E9C5DECE8B58E9E3F8A111D3" },
+        { "name": "app-full-arm64-v8a-debug.apk", "bytes": 94736982, "sha256": "47710BB670C378111B24A3174ADF101984DC4DCB15B8BE91E7FB6D873BE4EC87" },
+        { "name": "app-full-armeabi-v7a-debug.apk", "bytes": 92635396, "sha256": "059657B47C0BE343761C6029666179CAF16D8DD0D00B7BCABF209CE337391CDD" },
+        { "name": "app-full-x86_64-debug.apk", "bytes": 97157501, "sha256": "7BEDCAD44FA4955D52901A6DDDA48BD68E05A546E3B075839A54839787E9F91D" },
+        { "name": "app-full-x86-debug.apk", "bytes": 96317636, "sha256": "AA007631CD73D4D5F2D6A9E271694F0528AE77B501CDB693B621843701EA6FD6" }
       ]
     },
     "desktop": {
       "distributionStatus": "local validation only; not published",
       "files": [
-        { "name": "Telumia-Windows-x64-1.0.2-alpha.1.msi", "bytes": 210985064, "sha256": "866676D5581BA605F79A3A7B07D7E49B1A520CD1B6994ACD484AA501B0C0519D" }
+        { "name": "Telumia-2.0.1.msi", "bytes": 210985064, "sha256": "684CEA31DC66408C61149C5EB29CC89169907600C59245A651ACD84CC5979212" }
       ]
     }
   },
   "limitations": [
     "No low-storage volume exhaustion test was run on a device or PC.",
-    "No end-to-end offline image scenario was run against an installed release build.",
+    "Offline image verification used an isolated Coil loader and fixture server, not an installed release build or every application flow.",
     "Physical TV Box/PC performance, memory, and jank were not measured.",
     "The preflight checks free space before a request; in-flight parallel requests and unknown response sizes can consume additional bytes after that check."
   ]
