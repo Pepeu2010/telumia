@@ -303,3 +303,13 @@ Passaram 16 testes unitários de `OwnedMediaCacheOccupancyTest` e 10 testes inst
 TV: commit `69686ffab0444de719631a5a47605a1d2b5c6492`, branch `codex/1d-tv-code-cache-occupancy`, [PR draft #18](https://github.com/Pepeu2010/telumia-tv/pull/18) sobre [PR #17](https://github.com/Pepeu2010/telumia-tv/pull/17). Comandos e os seis hashes SHA-256 estão no [registro do build](telumia-cache-plugin-dex-occupancy-tv-r1-build.json).
 
 Incremento parcial da Fase 1-D: continuam pendentes a auditoria de outros arquivos regeneráveis, os fluxos offline reais e QA/performance em hardware físico.
+
+## Ocupação de arquivos diretos da raiz de cache na TV — 27 de outubro de 2026
+
+O modo Auto agora mede arquivos regulares colocados diretamente em `Context.cacheDir`, sem descer em subdiretórios. Isso cobre arquivos planos de cache do libmpv — cujo wrapper recebe essa raiz para o cache de shaders — e temporários que eventualmente restarem após uma interrupção. O scan é read-only, limitado a 16.384 entradas e 25 ms, e não abre conteúdo. Pastas continuam exclusivamente nas allowlists já existentes: `image_cache`, downloads e outros subdiretórios não são recursivamente medidos por este caminho nem duplicados.
+
+Passaram 19 testes unitários de `OwnedMediaCacheOccupancyTest` e 10 instrumentados de `MediaCacheSettingsTvTest` no AVD Android TV API 33. Foram gerados cinco APKs Full Debug, application ID `.debug`, versão `1.0.2-alpha.3`, código `10008`; são builds locais de validação, sem publicação ou atualização de instalação de produção. Não houve QA em TV Box física. O [manual oficial do mpv](https://mpv.io/manual/stable/#cache) descreve o diretório configurado para shader cache.
+
+TV: commit `4d23cb35d9b8e72f0612e3b4381f0543be487d3e`, branch `codex/1d-tv-cache-root-files`, [PR draft #19](https://github.com/Pepeu2010/telumia-tv/pull/19) sobre [PR #18](https://github.com/Pepeu2010/telumia-tv/pull/18). Comandos, APKs e hashes SHA-256 estão no [registro do build](telumia-cache-root-files-tv-r1-build.json).
+
+Incremento parcial da Fase 1-D: seguem pendentes os fluxos offline reais, QA/performance físico e auditoria dos caminhos regeneráveis que não são caches de mídia.
