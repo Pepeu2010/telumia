@@ -273,3 +273,13 @@ Passaram 25 testes unitários focados (ocupação 14, política 11), sem falhas,
 TV: commit `8a9376032`, branch `codex/1d-tv-plugin-code-cache-occupancy`, [PR draft #16](https://github.com/Pepeu2010/telumia-tv/pull/16) sobre [PR #15](https://github.com/Pepeu2010/telumia-tv/pull/15), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos, seis hashes SHA-256 completos e limites estão no [registro do build](telumia-cache-plugin-code-occupancy-tv-r1-build.json).
 
 Incremento parcial da Fase 1-D: permanecem fluxos offline completos, QA/performance em hardware físico e auditoria de outros caminhos regeneráveis/legados.
+
+## Ocupação do APK staged pelo atualizador no Auto da TV — 27 de outubro de 2026
+
+O modo Auto da TV agora inclui `cacheDir/updates`, onde o atualizador baixa o APK antes de solicitar a instalação. A allowlist mede somente atributos/tamanhos; não altera, move, apaga nem põe o pacote sob quotas de eviction. Assim, o arquivo continua disponível para o instalador. Nomes parecidos como `updates-backup`, downloads comuns e dados duráveis seguem fora.
+
+Passaram 26 testes unitários focados (ocupação 15, política 11) e 10/10 testes instrumentados no AVD Android TV API 33, incluindo a conferência de que os bytes staged permanecem intactos. Foram gerados cinco APKs Full Debug e o APK androidTest, versão `1.0.2-alpha.3`, código `10008`, application ID `.debug`. São pacotes de validação, não atualizam instalações de produção e não foram publicados. Este teste de armazenamento não comprova uma atualização assinada real da `1.0.0` para `1.0.2`. Desktop não mudou.
+
+TV: commit `f51e71e2e333b92c59efb29cd9b619fe710a964b`, branch `codex/1d-tv-updater-apk-cache-occupancy`, [PR draft #17](https://github.com/Pepeu2010/telumia-tv/pull/17) sobre [PR #16](https://github.com/Pepeu2010/telumia-tv/pull/16), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos, resultados e hashes SHA-256 completos estão no [registro do build](telumia-cache-updater-apk-occupancy-tv-r1-build.json).
+
+Incremento parcial da Fase 1-D: continuam pendentes fluxos offline completos, QA/performance em hardware físico e a auditoria dos demais caminhos regeneráveis/legados.
