@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-27",
+  "objective": "Include versioned, regenerable Desktop runtime assets in the allowlisted occupied-cache sample used by Auto storage budgeting.",
+  "implementation": {
+    "measuredRoots": [
+      "cacheDir/quickjs",
+      "cacheDir/native-player-bridge",
+      "cacheDir/player-ui"
+    ],
+    "measurement": "Existing bounded, asynchronous, read-only scanner counts regular-file attributes without reading binary or HTML contents.",
+    "policyEffect": "Measured bytes affect device storage occupancy used by Auto budgeting but are not assigned to a media category, evicted, cleared or modified.",
+    "excludedRoots": [
+      "Sentry diagnostic event cache",
+      "downloads and durable user files"
+    ],
+    "scopeLimits": [
+      "The change is Desktop-only; no Android APK was changed or built.",
+      "No physical PC interaction or sustained performance measurement was performed.",
+      "The MSI is a local validation artifact and was not published."
+    ]
+  },
+  "repository": {
+    "platform": "Windows Desktop",
+    "repository": "https://github.com/Pepeu2010/telumia-desktop",
+    "branch": "codex/1d-desktop-runtime-cache-occupancy",
+    "baseBranch": "codex/1d-desktop-bound-legacy-avatar-cache",
+    "baseCommit": "8818027e0029e14184da69ff3055ecee2c14a4a1",
+    "commit": "3829eaf3cf5780a1e80035910f94668020162af3",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/13",
+    "pullRequestState": "draft"
+  },
+  "verification": {
+    "unitTestCommand": ":composeApp:desktopTest --tests com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest --tests com.nuvio.app.core.storage.MediaCacheOccupancyMonitorTest --tests com.nuvio.app.core.storage.MediaCachePolicyTest",
+    "unitTests": {
+      "OwnedMediaCacheOccupancyTest": { "passed": 9, "failed": 0, "errors": 0, "skipped": 0 },
+      "MediaCacheOccupancyMonitorTest": { "passed": 2, "failed": 0, "errors": 0, "skipped": 0 },
+      "MediaCachePolicyTest": { "passed": 11, "failed": 0, "errors": 0, "skipped": 0 },
+      "total": 22
+    },
+    "buildCommands": [":composeApp:desktopJar", ":composeApp:packageMsi"],
+    "buildSucceeded": true,
+    "msi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210964584,
+      "sha256": "08F19EF2331BF0986F0B72B0B09D1B55BBD1520894BC5FE3FF79F960CED6A4F2",
+      "releasePublished": false
+    },
+    "interactiveWindowsQa": false,
+    "releasePublished": false
+  }
+}

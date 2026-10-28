@@ -251,3 +251,13 @@ Passaram 13 testes direcionados sem falhas, erros ou skips: 8 do gerenciador e 5
 Desktop: commit `8818027e0029e14184da69ff3055ecee2c14a4a1`, branch `codex/1d-desktop-bound-legacy-avatar-cache`, [PR draft #12](https://github.com/Pepeu2010/telumia-desktop/pull/12) sobre [PR #11](https://github.com/Pepeu2010/telumia-desktop/pull/11), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos e checksums completos em [JSON do build](telumia-cache-legacy-avatar-desktop-r1-build.json).
 
 Incremento parcial: permanecem os fluxos offline completos, QA físico e os caches regeneráveis fora das categorias de mídia a auditar.
+
+## Ocupação dos assets de runtime versionados no Auto do Desktop — 27 de outubro de 2026
+
+O modo Auto do Desktop agora inclui na medição read-only, por atributos de arquivo, os assets regeneráveis/versionados em `cacheDir/quickjs`, `cacheDir/native-player-bridge` e `cacheDir/player-ui`. Isso permite considerar essa ocupação ao estimar o espaço do aparelho. Os diretórios não são atribuídos a uma categoria de mídia, não entram em quotas de eviction e não são limpos nem alterados por esta política. A fila diagnóstica Sentry, downloads e arquivos duráveis continuam fora da allowlist.
+
+Passaram 22 testes selecionados (ocupação 9, monitor 2, política 11), sem falhas, erros ou skips. `desktopJar` e `packageMsi` passaram. MSI Windows x64 local: 210.964.584 bytes; SHA-256 `08F19EF2331BF0986F0B72B0B09D1B55BBD1520894BC5FE3FF79F960CED6A4F2`. Nenhum pacote foi publicado; não houve APK nem QA interativo em PC físico.
+
+Desktop: commit `3829eaf3cf5780a1e80035910f94668020162af3`, branch `codex/1d-desktop-runtime-cache-occupancy`, [PR draft #13](https://github.com/Pepeu2010/telumia-desktop/pull/13) sobre [PR #12](https://github.com/Pepeu2010/telumia-desktop/pull/12). Comandos, resultados e limites estão no [registro do build](telumia-cache-runtime-assets-desktop-r1-build.json).
+
+Incremento parcial da Fase 1-D: permanecem a revisão de outros caches regeneráveis e legados, fluxos offline reais e QA/performance em PC e TV Box físicos.
