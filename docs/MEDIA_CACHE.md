@@ -241,3 +241,13 @@ Passaram 12 testes direcionados sem falhas, erros ou skips: 7 do gerenciador e 5
 Desktop: commits `375aeb28`, `74cad5cc` e `c09cd93672f2952446052361f58dbf8e8c917fc4`, branch `codex/1d-desktop-bound-legacy-gif-cache`, [PR draft #11](https://github.com/Pepeu2010/telumia-desktop/pull/11) sobre [PR #10](https://github.com/Pepeu2010/telumia-desktop/pull/10), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Evidências completas em [JSON do build](telumia-cache-legacy-gif-desktop-r1-build.json).
 
 Incremento parcial: seguem pendentes o cache legado de avatares, os fluxos offline completos, QA físico e a auditoria de outros caminhos de cache.
+
+## Limite conjunto do cache legado de avatares no Desktop — 27 de outubro de 2026
+
+A pasta antiga `member_profile_avatars` e o cache hash `media-cache-v1/avatars/member-assets` agora usam uma só alocação dinâmica da categoria `AVATARS`. O nome legado sem extensão continua compatível, após sanitizar a chave e rejeitar segmentos inválidos. Os dois diretórios compartilham o máximo existente de 2 MiB por avatar e 256 arquivos. Um item antigo só é removido depois de a cópia hash ter sido verificada. Hits existentes seguem legíveis mesmo quando novas gravações estão bloqueadas ou a cota dinâmica chega a zero.
+
+Passaram 13 testes direcionados sem falhas, erros ou skips: 8 do gerenciador e 5 do `BoundedFileCache`. `desktopJar` e `packageMsi` passaram. MSI Windows x64 local: 210.968.680 bytes; SHA-256 `CAC6DC8641AC45B966A993B3264CA35A8FA0A2CFCEBA435E9B215ADFD7FF745D`. Não foi publicado, e não houve APK, QA físico ou medição sustentada de desempenho.
+
+Desktop: commit `8818027e0029e14184da69ff3055ecee2c14a4a1`, branch `codex/1d-desktop-bound-legacy-avatar-cache`, [PR draft #12](https://github.com/Pepeu2010/telumia-desktop/pull/12) sobre [PR #11](https://github.com/Pepeu2010/telumia-desktop/pull/11), ligado à issue [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Comandos e checksums completos em [JSON do build](telumia-cache-legacy-avatar-desktop-r1-build.json).
+
+Incremento parcial: permanecem os fluxos offline completos, QA físico e os caches regeneráveis fora das categorias de mídia a auditar.
