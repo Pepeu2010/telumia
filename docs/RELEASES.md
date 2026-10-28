@@ -1,6 +1,14 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até `v1.0.2-alpha.4`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra foi aplicada às releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.2`, incluindo as estáveis `v1.0.0` e `v1.0.1`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+
+## v1.0.2 — release estável combinada
+
+A [release estável principal](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.2) contém cinco APKs Full Debug (universal, ARM64, ARM32, x86_64 e x86), o MSI Windows x64 `Telumia-Windows-x64-1.0.2.msi`, fontes Desktop e TV, manifesto e `SHA256SUMS.txt`. Os nove arquivos cobertos pelo manifesto/checksums conferem com os digests publicados. O workflow [40778936963](https://github.com/Pepeu2010/telumia/actions/runs/40778936963) terminou com sucesso e publicou os pacotes da TV e o MSI Desktop estável `v1.0.2`.
+
+O MSI Desktop tem `ProductVersion` `2.0.2` e a release correspondente está em [telumia-desktop v1.0.2](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.2). Ela inclui o atualizador Desktop dentro do app, consulta somente releases estáveis e apresenta o progresso do download antes de iniciar o instalador do Windows.
+
+Os APKs usam o certificado persistente atual `a8e12bfa…ecdd9` para permitir atualizações futuras entre releases assinadas pela mesma chave. O APK 1.0.0 usava o certificado `ff2d4eda…51b746`; portanto, a migração Android inicial exige desinstalar e reinstalar, com risco de perda dos dados locais. O usuário aceitou essa migração e as notas da release orientam a preservar os dados antes da troca. O atualizador Android TV permanece em revisão no [PR #21](https://github.com/Pepeu2010/telumia-tv/pull/21), aprovado pela issue [#13](https://github.com/Pepeu2010/telumia/issues/13); ele ainda não faz parte desta release combinada.
 
 ## v1.0.2-alpha.4 — assinatura persistente e pacotes combinados
 
