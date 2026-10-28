@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-28",
+  "objective": "Include direct regular files in the Desktop app cache root in Auto occupancy without recursively scanning child directories.",
+  "implementation": {
+    "measuredRoot": "DesktopStorage.cacheDir direct regular files only",
+    "scanner": "Read-only attribute and size scan; does not open contents, follow links, or descend into child directories.",
+    "bounds": {
+      "maxEntries": 16384,
+      "maxMillis": 25
+    },
+    "directoryPolicy": "Existing allowlists remain the only recursive scans; direct files and allowlisted directory contents are disjoint.",
+    "excludedRoots": [
+      "sentry"
+    ],
+    "scopeLimits": [
+      "No interactive Windows QA or sustained PC performance measurement was performed.",
+      "The MSI is a local validation artifact and was not published.",
+      "No APK changed in this Desktop-only increment."
+    ]
+  },
+  "repository": {
+    "platform": "Windows Desktop",
+    "repository": "https://github.com/Pepeu2010/telumia-desktop",
+    "branch": "codex/1d-desktop-cache-root-files",
+    "baseBranch": "codex/1d-desktop-image-memory-cache",
+    "baseCommit": "c558178d815a993bdab234000da5f5db23f61236",
+    "commit": "71dfb4c7f6b244d19c93d8bb82aa51d9ee224d65",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/15",
+    "pullRequestState": "draft"
+  },
+  "verification": {
+    "unitTestCommand": ":composeApp:desktopTest --tests '*DirectCacheFileOccupancyTest' --tests '*OwnedMediaCacheOccupancyTest' --tests '*DesktopMediaCachePreferencesTest'",
+    "unitTests": {
+      "DirectCacheFileOccupancyTest": { "passed": 4, "failed": 0, "errors": 0, "skipped": 0 },
+      "OwnedMediaCacheOccupancyTest": { "passed": 9, "failed": 0, "errors": 0, "skipped": 0 },
+      "DesktopMediaCachePreferencesTest": { "passed": 4, "failed": 0, "errors": 0, "skipped": 0 },
+      "total": 17
+    },
+    "buildCommands": [":composeApp:desktopJar", ":composeApp:packageMsi"],
+    "buildSucceeded": true,
+    "msi": {
+      "file": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 210972776,
+      "sha256": "50E81AC682AABB0361A60B17505411146C37E639D23E5895E68CF8A4EB45D9E2",
+      "releasePublished": false
+    },
+    "releasePublished": false,
+    "physicalPcQa": false
+  }
+}

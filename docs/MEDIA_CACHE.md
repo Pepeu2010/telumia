@@ -313,3 +313,21 @@ Passaram 19 testes unitários de `OwnedMediaCacheOccupancyTest` e 10 instrumenta
 TV: commit `4d23cb35d9b8e72f0612e3b4381f0543be487d3e`, branch `codex/1d-tv-cache-root-files`, [PR draft #19](https://github.com/Pepeu2010/telumia-tv/pull/19) sobre [PR #18](https://github.com/Pepeu2010/telumia-tv/pull/18). Comandos, APKs e hashes SHA-256 estão no [registro do build](telumia-cache-root-files-tv-r1-build.json).
 
 Incremento parcial da Fase 1-D: seguem pendentes os fluxos offline reais, QA/performance físico e auditoria dos caminhos regeneráveis que não são caches de mídia.
+
+## Ocupação de arquivos diretos da raiz de cache no Desktop — 28 de outubro de 2026
+
+O modo Auto do Desktop inclui agora arquivos regulares colocados diretamente em `DesktopStorage.cacheDir`. A medição lê somente atributos e tamanho, não abre conteúdo, não segue links e não desce em diretórios. Ela para em 16.384 entradas ou 25 ms; se atingir um limite, informa a leitura parcial conservadoramente. As pastas de imagens, GIF, runtime, addons e demais caches continuam cobertas exclusivamente pelas allowlists atuais, evitando dupla contagem. A fila diagnóstica Sentry continua fora da estimativa.
+
+Passaram 17 testes selecionados sem falhas, erros ou skips: `DirectCacheFileOccupancyTest` (4), `OwnedMediaCacheOccupancyTest` (9) e `DesktopMediaCachePreferencesTest` (4). `:composeApp:desktopJar` e `:composeApp:packageMsi` passaram. MSI Windows x64 local: 210.972.776 bytes; SHA-256 `50E81AC682AABB0361A60B17505411146C37E639D23E5895E68CF8A4EB45D9E2`. O MSI não foi publicado; nenhum APK mudou e não houve QA interativo/medição de desempenho em PC físico.
+
+Desktop: commit `71dfb4c7f6b244d19c93d8bb82aa51d9ee224d65`, branch `codex/1d-desktop-cache-root-files`, [PR draft #15](https://github.com/Pepeu2010/telumia-desktop/pull/15) sobre a branch `codex/1d-desktop-image-memory-cache`. O build desabilitou alvos iOS por estar no host Windows e descartou o configuration cache por incompatibilidade da tarefa existente `packageMsi`; as tarefas Desktop terminaram com sucesso. Nenhuma release foi publicada.
+
+Comandos usados:
+
+```text
+:composeApp:desktopTest --tests '*DirectCacheFileOccupancyTest' --tests '*OwnedMediaCacheOccupancyTest' --tests '*DesktopMediaCachePreferencesTest'
+:composeApp:desktopJar
+:composeApp:packageMsi
+```
+
+Limites: este incremento mede ocupação para a estimativa Auto, mas não atribui arquivo solto a uma categoria, não o apaga e não demonstra uso offline completo ou desempenho sustentado em hardware físico.
