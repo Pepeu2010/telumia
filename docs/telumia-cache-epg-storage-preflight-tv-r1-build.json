@@ -43,6 +43,10 @@
       "errors": 0,
       "skipped": 0,
       "hostLimit": "Windows host disabled iOS native targets; Desktop JVM tasks completed."
+    },
+    "githubPullRequestTemplateCheck": {
+      "runId": 40794945213,
+      "result": "success"
     }
   },
   "artifacts": {
