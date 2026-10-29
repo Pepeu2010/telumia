@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — reserva real no cache de ratings MDBList da TV",
+  "recordedAt": "2026-10-28",
+  "source": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/1d-tv-metadata-storage-preflight",
+    "commit": "ba2abf56c8dc8a2691f8ef4e89cc362bea975d1f",
+    "baseCommit": "3b96cd4c8687992a00109d7feda82c1550c7be79",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/23"
+  },
+  "verification": {
+    "tv": {
+      "command": ".\\gradlew.bat :app:testFullDebugUnitTest --tests 'com.nuvio.tv.data.mdblist.MdbListRatingsDiskCacheTest' :app:assembleFullDebug --console=plain",
+      "result": "success",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cleanBuildDuration": "9m44s"
+    },
+    "desktopCrossGate": {
+      "command": ".\\gradlew.bat :composeApp:desktopTest --tests '*CacheWritePreflightOfflineImageTest*' --tests '*CacheWritePreflightInterceptorTest*' --tests '*MediaCachePolicyTest*' :composeApp:desktopJar :composeApp:packageMsi --no-configuration-cache --console=plain",
+      "result": "success; tasks were UP-TO-DATE because Desktop source did not change",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "hostLimit": "Windows host disabled iOS native targets; Desktop JVM tasks completed."
+    }
+  },
+  "artifacts": {
+    "tv": {
+      "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionName": "1.0.2-alpha.3",
+      "versionCode": 10008,
+      "distributionStatus": "local debug validation only; not production update-compatible and not published",
+      "files": [
+        { "name": "app-full-universal-debug.apk", "bytes": 180003753, "sha256": "162E25BE4F4DBFD49CAAB9943B2FF4D020607AEA5111B50826DC3A50EBB7EC65" },
+        { "name": "app-full-arm64-v8a-debug.apk", "bytes": 93032515, "sha256": "0821062A2327EA6EC4C8BF43EF84F3FBD4FF0A76F4E6C89030616C024A940FA3" },
+        { "name": "app-full-armeabi-v7a-debug.apk", "bytes": 90930929, "sha256": "8A8E6F14FDDF001C58D005CE8C0AFF3DCC35965C414FCE5F076DFDFC238E4027" },
+        { "name": "app-full-x86_64-debug.apk", "bytes": 95453030, "sha256": "2664633D417550587E163A643A198B6F38D2DBDAAB3B72F2D0FB0C1711F38109" },
+        { "name": "app-full-x86-debug.apk", "bytes": 94613165, "sha256": "D36C5E9DB4A22D79A587CDFBE5BE853C4B0EEDBDD9294EBD560C89E2CDA6EC57" }
+      ]
+    },
+    "desktopCrossGate": {
+      "distributionStatus": "unchanged local MSI validation only; no Desktop source changed or package published",
+      "files": [
+        { "name": "Telumia-2.0.1.msi", "bytes": 210985064, "sha256": "684CEA31DC66408C61149C5EB29CC89169907600C59245A651ACD84CC5979212" }
+      ]
+    }
+  },
+  "limitations": [
+    "The storage-denial path was injected in a test; no device volume was physically exhausted.",
+    "The preflight checks current free space before writing but does not reserve bytes for the duration of the write.",
+    "No physical TV Box or PC performance, memory, jank, or offline-release QA was performed.",
+    "The cache foundation remains open for other consumers and complete offline-flow verification."
+  ]
+}
