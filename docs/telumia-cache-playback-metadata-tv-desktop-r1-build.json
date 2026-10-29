@@ -12,7 +12,7 @@
     "tv": {
       "repository": "https://github.com/Pepeu2010/telumia-tv",
       "branch": "codex/1d-tv-cw-metadata-quota",
-      "commit": "5bac37ac76ac134b5e7900218283c5301b24906f",
+      "commit": "7a6cb53a53740de8df3aa8da7624b04a623b5630",
       "pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/26"
     }
   },
@@ -41,14 +41,15 @@
     },
     "tv": {
       "tests": {
-        "count": 31,
+        "count": 34,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
         "classes": [
           "BoundedPreferenceCachePolicyTest",
           "OwnedMediaCacheOccupancyTest",
-          "BoundedContinueWatchingSnapshotStoreTest"
+          "BoundedContinueWatchingSnapshotStoreTest",
+          "PlaybackMetadataCacheDataStoreTest"
         ]
       },
       "build": ":app:assembleFullDebug",
@@ -89,6 +90,6 @@
   "limitations": [
     "No complete offline playback run on a production installation.",
     "No physical PC or TV Box QA.",
-    "TV stream-link and binge-group stores have no dedicated end-to-end tests in this increment."
+    "The TV store tests use temporary DataStore files and are JVM tests, not Android instrumentation or full offline playback tests."
   ]
 }
