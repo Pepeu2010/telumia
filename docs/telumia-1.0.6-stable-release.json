@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-29",
+  "release": {
+    "repository": "https://github.com/Pepeu2010/telumia",
+    "tag": "v1.0.6",
+    "url": "https://github.com/Pepeu2010/telumia/releases/tag/v1.0.6",
+    "workflow_run": "https://github.com/Pepeu2010/telumia/actions/runs/40973005685",
+    "workflow_conclusion": "success",
+    "prerelease": false,
+    "published_at": "2026-10-29T23:34:56Z"
+  },
+  "sources": {
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/release-v1.0.6",
+      "commit": "d3e9036d5eb690da9455c243540b6af58f649ea9",
+      "cache_pr": "https://github.com/Pepeu2010/telumia-tv/pull/27",
+      "version_pr": "https://github.com/Pepeu2010/telumia-tv/pull/28"
+    },
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-dynamic-coil-quota",
+      "commit": "bed7ecf756abb6f49e7e222acba2460f69a20039",
+      "platform_release": "https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4"
+    }
+  },
+  "verification": {
+    "workflow": {
+      "release_tests": "passed",
+      "android_apk_build": "passed",
+      "apk_signature_verification": "passed with persistent CI signing key",
+      "release_asset_size_and_digest_validation": "passed",
+      "duration": "7m55s"
+    },
+    "tv": {
+      "version_name": "1.0.6",
+      "version_code": 10016,
+      "variants": [
+        {
+          "name": "Telumia-TV-1.0.6-universal-debug.apk",
+          "bytes": 180023189,
+          "sha256": "9a8e3f1f4069f65c61f32cb7b671c1f59bc42d5b8bbac38d3efb0af435daac8c"
+        },
+        {
+          "name": "Telumia-TV-1.0.6-arm64-v8a-debug.apk",
+          "bytes": 93051947,
+          "sha256": "b430c229dc88ce70438e4c5066e660d03ccd008119bcd080dce109c910f6104c"
+        },
+        {
+          "name": "Telumia-TV-1.0.6-armeabi-v7a-debug.apk",
+          "bytes": 90950361,
+          "sha256": "0ad2469eb9dba0ce9febc9fcb5054980a97b4e6e2b0f0fa8917e5b389ca981bb"
+        },
+        {
+          "name": "Telumia-TV-1.0.6-x86_64-debug.apk",
+          "bytes": 95472466,
+          "sha256": "9e851273222f01798669c630a17fc831f052d784b1c473f97fe2db953718641d"
+        },
+        {
+          "name": "Telumia-TV-1.0.6-x86-debug.apk",
+          "bytes": 94632601,
+          "sha256": "18b5ec6a4500c8932500356b7f4be48a3e85b5e17b21e64ead7dbdceac721c83"
+        }
+      ],
+      "focused_tmdb_tests": {
+        "count": 33,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "local_build": ":app:assembleFullDebug",
+        "result": "passed on parent source before release version bump"
+      }
+    },
+    "desktop": {
+      "asset": "Telumia-Windows-x64-1.0.4.msi",
+      "desktop_release_version": "1.0.4",
+      "product_version": "2.0.4",
+      "bytes": 211054696,
+      "sha256": "f59c7d2ac09bc1f9e7376866977452afb3fb7046839f43b7d9bce4505872c536",
+      "built_during_this_workflow": false,
+      "source": "copied byte-for-byte from the published Desktop v1.0.4 release and verified by the combined workflow"
+    },
+    "source_archives": [
+      {
+        "name": "Telumia-desktop-source.zip",
+        "bytes": 248120188,
+        "sha256": "0ed432ce12788b072cc1c682237018cc3d4216712fc3d43e9a60bfbf266454ac",
+        "lfs_objects": 142,
+        "unresolved_lfs_pointers": 0
+      },
+      {
+        "name": "Telumia-tv-source.zip",
+        "bytes": 82447391,
+        "sha256": "579a7257b6965556aaf46cb82bb9c14494cef520badd098d11a9265d03eb1922",
+        "lfs_objects": 0,
+        "unresolved_lfs_pointers": 0
+      }
+    ],
+    "checksums": {
+      "manifest_entries": 8,
+      "checksum_entries": 9,
+      "manifest_sha256": "e0f0bb5d80b0a76989b6f4519ebd97165c5407de62ea6e8230b7f55712afadf7",
+      "sha256sums_file_sha256": "a05d96f9b20f5a32f2537db2ae3d0a8f879f09f84298d5c8f781ee0c1e4980c1",
+      "github_asset_mismatches": 0
+    }
+  },
+  "limitations": [
+    "No physical Windows PC or Android TV/TV Box QA was performed.",
+    "The Windows MSI was reused from the latest published Desktop release v1.0.4; this workflow did not rebuild the Desktop client.",
+    "No physical MSI upgrade test was performed.",
+    "The Android 1.0.0 certificate differs; moving to the persistent release key requires the previously documented backup-and-reinstall migration.",
+    "TMDB cache limits are entry-count bounds rather than exact byte-accurate heap limits."
+  ]
+}

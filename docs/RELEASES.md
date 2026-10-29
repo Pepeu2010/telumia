@@ -1,6 +1,16 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.5`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.6`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+
+## v1.0.6 — cache LRU de metadata TMDB e atualização estável
+
+[Release estável principal](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.6), publicada pelo workflow [40973005685](https://github.com/Pepeu2010/telumia/actions/runs/40973005685). O job passou pelos testes Live TV, compilou e verificou cinco APKs Android TV/TV Box Full Debug assinados com a chave persistente, e conferiu manifesto, checksums e MSI antes da publicação. O Android usa `versionName` `1.0.6` e `versionCode` `10016`, permitindo atualização assinada sobre a versão 1.0.5.
+
+Os APKs disponíveis são universal, ARM64, ARM32, x86_64 e x86. O Windows PC está incluído como `Telumia-Windows-x64-1.0.4.msi` (Desktop 1.0.4, `ProductVersion` 2.0.4), copiado byte a byte da release estável Desktop [v1.0.4](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4); não houve mudança de fonte Desktop nem nova compilação do MSI nesta entrega. A versão Android e a versão Desktop são independentes.
+
+Fonte Android: commit [`d3e9036`](https://github.com/Pepeu2010/telumia-tv/commit/d3e9036d5eb690da9455c243540b6af58f649ea9), PR de versão [#28](https://github.com/Pepeu2010/telumia-tv/pull/28) empilhada sobre a implementação de cache [#27](https://github.com/Pepeu2010/telumia-tv/pull/27). Fonte Desktop: commit [`bed7ecf`](https://github.com/Pepeu2010/telumia-desktop/commit/bed7ecf756abb6f49e7e222acba2460f69a20039). O workflow terminou com sucesso; o build e os testes Live TV duraram 7m55s. Na validação focada anterior da fonte TMDB passaram 33 testes e `:app:assembleFullDebug` gerou cinco variantes.
+
+O manifesto contém oito artefatos e `SHA256SUMS.txt` lista os nove demais assets. Os dez uploads publicados coincidem com os tamanhos e digests do GitHub; hashes completos em [telumia-1.0.6-stable-release.json](telumia-1.0.6-stable-release.json). Não houve QA em PC ou TV Box física, nem teste físico de atualização do MSI.
 
 ## v1.0.5 — cache adaptativo e pacote estável combinado
 
