@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-29",
+  "purpose": "local validation only; no release published",
+  "source": {
+    "approved_issue": "https://github.com/Pepeu2010/telumia/issues/12",
+    "repository": "https://github.com/Pepeu2010/telumia-desktop",
+    "branch": "codex/1d-desktop-versioned-runtime-cache",
+    "commit": "bfd1c6de1bb0ef95adf452d139b6ea7f32c2f2a2",
+    "pull_request": "https://github.com/Pepeu2010/telumia-desktop/pull/21"
+  },
+  "verification": {
+    "tests": {
+      "count": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "classes": {
+        "DesktopCacheTest": 1,
+        "OwnedMediaCacheOccupancyTest": 9,
+        "DirectCacheFileOccupancyTest": 4
+      }
+    },
+    "build": ":composeApp:packageMsi",
+    "artifact": {
+      "name": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "bytes": 211021928,
+      "sha256": "CC91AC8772988F01B16D2A15ADD6BD20E7C08300E00AFAF7617EE4F753D7DA9B",
+      "platform": "Windows x64",
+      "release": false
+    }
+  },
+  "limitations": [
+    "No physical Windows QA or startup/jank measurement.",
+    "If an old asset file is locked or inaccessible, best-effort pruning leaves it for a later install attempt; Auto still measures it.",
+    "No TV source changes or APK rebuild in this increment."
+  ]
+}

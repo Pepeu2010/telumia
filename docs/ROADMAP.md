@@ -414,3 +414,10 @@ Nunca anunciá-las como prontas antes de implementação/QA.
 - Desktop: 18 testes direcionados e `:composeApp:packageMsi` passaram. TV: 34 testes direcionados e `:app:assembleFullDebug` passaram, gerando os cinco APKs. Três testes novos exercitam os stores de produção sobre DataStore temporários. São artefatos alpha/debug locais, com hashes em [registro de build](telumia-cache-playback-metadata-tv-desktop-r1-build.json); não foram publicados como releases.
 - PRs draft: [Desktop #20](https://github.com/Pepeu2010/telumia-desktop/pull/20) e [TV #26](https://github.com/Pepeu2010/telumia-tv/pull/26), commits `51bb8e41` e `7a6cb53a`, ligados à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12).
 - Limites: os testes TV não são instrumentação Android nem playback offline ponta a ponta; QA em hardware físico permanece pendente. Fase 1-D continua aberta.
+
+### Continuação da Fase 1-D — limpeza de assets versionados no Desktop (29 de outubro de 2026)
+
+- `DesktopCache.installVersionedFiles` agora limpa, após instalação bem-sucedida, somente diretórios de hash obsoletos dentro do namespace solicitado. Preserva a versão corrente, dados sem nome/hash de versão e os namespaces de outros assets; falha de remoção é best-effort e deixa o diretório disponível para nova tentativa.
+- Passaram 14 testes focados de cache/ocupação e o MSI Windows x64 compilou. Artefato alpha local, não publicado; comando, tamanho e SHA-256 em [registro do build](telumia-cache-versioned-runtime-assets-desktop-r1-build.json).
+- Desktop: commit `bfd1c6de`, branch `codex/1d-desktop-versioned-runtime-cache`, [PR draft #21](https://github.com/Pepeu2010/telumia-desktop/pull/21) sobre [PR #20](https://github.com/Pepeu2010/telumia-desktop/pull/20), vinculado à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Nenhuma mudança de TV.
+- Limites: sem QA em Windows físico ou medição de startup/jank; se a exclusão falhar, a medição Auto continua contando o diretório antigo. Fase 1-D permanece aberta.
