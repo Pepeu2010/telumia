@@ -10,22 +10,22 @@ O projeto acrescenta busca voltada ao Brasil, editores de avatar, cache configur
 
 ## Baixar e instalar
 
-Na [release estável combinada 1.0.3](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.3), escolha:
+Na [release estável combinada 1.0.5](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.5), escolha:
 
 | Aparelho | Arquivo |
 |---|---|
-| PC Windows de 64 bits | [Instalador MSI Desktop 1.0.2](https://github.com/Pepeu2010/telumia/releases/download/v1.0.3/Telumia-Windows-x64-1.0.2.msi) |
-| Android TV/TV Box, sem identificar a arquitetura | [APK universal 1.0.3](https://github.com/Pepeu2010/telumia/releases/download/v1.0.3/Telumia-TV-1.0.3-universal-debug.apk) |
-| Android TV/TV Box ARM 64 bits | [APK arm64-v8a](https://github.com/Pepeu2010/telumia/releases/download/v1.0.3/Telumia-TV-1.0.3-arm64-v8a-debug.apk) |
-| Android TV/TV Box ARM 32 bits | [APK armeabi-v7a](https://github.com/Pepeu2010/telumia/releases/download/v1.0.3/Telumia-TV-1.0.3-armeabi-v7a-debug.apk) |
-| Android TV/TV Box x86 | [APK x86](https://github.com/Pepeu2010/telumia/releases/download/v1.0.3/Telumia-TV-1.0.3-x86-debug.apk) |
-| Android TV/TV Box x86 64 bits | [APK x86_64](https://github.com/Pepeu2010/telumia/releases/download/v1.0.3/Telumia-TV-1.0.3-x86_64-debug.apk) |
+| PC Windows de 64 bits | [Instalador MSI Desktop 1.0.4](https://github.com/Pepeu2010/telumia/releases/download/v1.0.5/Telumia-Windows-x64-1.0.4.msi) |
+| Android TV/TV Box, sem identificar a arquitetura | [APK universal 1.0.5](https://github.com/Pepeu2010/telumia/releases/download/v1.0.5/Telumia-TV-1.0.5-universal-debug.apk) |
+| Android TV/TV Box ARM 64 bits | [APK arm64-v8a](https://github.com/Pepeu2010/telumia/releases/download/v1.0.5/Telumia-TV-1.0.5-arm64-v8a-debug.apk) |
+| Android TV/TV Box ARM 32 bits | [APK armeabi-v7a](https://github.com/Pepeu2010/telumia/releases/download/v1.0.5/Telumia-TV-1.0.5-armeabi-v7a-debug.apk) |
+| Android TV/TV Box x86 | [APK x86](https://github.com/Pepeu2010/telumia/releases/download/v1.0.5/Telumia-TV-1.0.5-x86-debug.apk) |
+| Android TV/TV Box x86 64 bits | [APK x86_64](https://github.com/Pepeu2010/telumia/releases/download/v1.0.5/Telumia-TV-1.0.5-x86_64-debug.apk) |
 
-Confira os checksums SHA-256 incluídos na release. Os APKs são **Android TV Full Debug**, assinados pela chave persistente do CI. A instalação sobre a versão Android 1.0.0 exige uma migração inicial porque ela usava outro certificado: faça backup dos dados locais, desinstale a versão antiga e instale o APK 1.0.3. Depois dessa migração, as versões assinadas pela chave atual podem atualizar a instalação existente. O MSI tem versão de pacote Windows 2.0.2 e continua sendo o Desktop estável 1.0.2, identificados separadamente da versão Android.
+Confira os checksums SHA-256 incluídos na release. Os APKs são **Android TV Full Debug**, assinados pela chave persistente do CI, com `versionName` 1.0.5 e `versionCode` 10015. A instalação sobre a versão Android 1.0.0 exige uma migração inicial porque ela usava outro certificado: faça backup dos dados locais, desinstale a versão antiga e instale o APK 1.0.5. Depois dessa migração, as versões assinadas pela chave atual podem atualizar a instalação existente. O MSI é o Desktop 1.0.4, com versão interna Windows Installer 2.0.4; a numeração Desktop é independente da Android.
 
-As próximas versões estáveis e de desenvolvimento, com pacotes de Android TV/TV Box e Windows PC na mesma página, ficam em [Releases](https://github.com/Pepeu2010/telumia/releases). O Desktop 1.0.2 e a TV 1.0.3 consultam apenas releases estáveis; ao atualizar, mostram o progresso do download e entregam a instalação ao instalador padrão de cada sistema.
+As próximas versões estáveis e de desenvolvimento, com pacotes de Android TV/TV Box e Windows PC na mesma página, ficam em [Releases](https://github.com/Pepeu2010/telumia/releases). O Desktop 1.0.4 e a TV 1.0.5 consultam apenas releases estáveis; ao atualizar, mostram o progresso do download e entregam a instalação ao instalador padrão de cada sistema.
 
-**Versão Android TV estável mais recente: 1.0.3.** A release principal reúne cinco APKs, o MSI Windows PC Desktop 1.0.2, fontes, manifesto e checksums conferidos. O atualizador TV busca a release estável no repositório principal, exibe o progresso e abre o instalador Android; o sistema ainda pede confirmação para instalar. O Phone Remote local oferece pareamento por QR/código e aprovação explícita na TV; validação com aparelhos físicos continua pendente. [Detalhes do Phone Remote](docs/PHONE_REMOTE.md) · [Histórico das releases](docs/RELEASES.md) · [Automação de APKs e MSI](docs/RELEASE_AUTOMATION.md).
+**Versão Android TV estável mais recente: 1.0.5.** A release principal reúne cinco APKs, o MSI Windows PC Desktop 1.0.4, fontes, manifesto e checksums conferidos. O atualizador TV busca a release estável no repositório principal, exibe o progresso e abre o instalador Android; o sistema ainda pede confirmação para instalar. O Phone Remote local oferece pareamento por QR/código e aprovação explícita na TV; validação com aparelhos físicos continua pendente. [Detalhes do Phone Remote](docs/PHONE_REMOTE.md) · [Histórico das releases](docs/RELEASES.md) · [Automação de APKs e MSI](docs/RELEASE_AUTOMATION.md).
 
 ## Melhorias já implementadas
 

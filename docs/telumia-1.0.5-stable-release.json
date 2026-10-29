@@ -1,0 +1,137 @@
+{
+  "date": "2026-10-29",
+  "release": {
+    "repository": "https://github.com/Pepeu2010/telumia",
+    "tag": "v1.0.5",
+    "url": "https://github.com/Pepeu2010/telumia/releases/tag/v1.0.5",
+    "workflow_run": "https://github.com/Pepeu2010/telumia/actions/runs/40968813219",
+    "workflow_conclusion": "success",
+    "prerelease": false
+  },
+  "sources": {
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-dynamic-coil-quota",
+      "commit": "bed7ecf756abb6f49e7e222acba2460f69a20039",
+      "platform_release": "https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4"
+    },
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-dynamic-coil-quota",
+      "commit": "d58ca1c807e691127e9e694f003fc69199dd8bd9"
+    }
+  },
+  "verification": {
+    "desktop": {
+      "local_tests": {
+        "count": 22,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "classes": [
+          "MediaCachePolicyTest",
+          "CacheWritePreflightInterceptorTest",
+          "CacheWritePreflightOfflineImageTest"
+        ]
+      },
+      "local_build": ":composeApp:packageMsi",
+      "release_workflow": {
+        "attempted": true,
+        "result": "stopped before build because required repository secrets were absent",
+        "missing_values": [
+          "LOCAL_PROPERTIES_BASE64",
+          "SENTRY_AUTH_TOKEN",
+          "SENTRY_DESKTOP_DSN"
+        ]
+      },
+      "published_msi": {
+        "name": "Telumia-Windows-x64-1.0.4.msi",
+        "desktop_release_version": "1.0.4",
+        "combined_release_manifest_display_version": "1.0.5",
+        "windows_installer_product_version": "2.0.4",
+        "bytes": 211054696,
+        "sha256": "f59c7d2ac09bc1f9e7376866977452afb3fb7046839f43b7d9bce4505872c536",
+        "administrative_extraction": "passed without installation; seven Windows binaries/resources and bundled Java runtime inspected",
+        "installation_or_upgrade_on_physical_pc": false
+      }
+    },
+    "tv": {
+      "local_tests": {
+        "count": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "classes": [
+          "MediaCachePolicyTest",
+          "CacheWritePreflightInterceptorTest"
+        ]
+      },
+      "local_build": ":app:assembleFullDebug",
+      "published_apks": {
+        "version_name": "1.0.5",
+        "version_code": 10015,
+        "signature": "persistent CI release key",
+        "artifacts": [
+          {
+            "name": "Telumia-TV-1.0.5-universal-debug.apk",
+            "bytes": 180019189,
+            "sha256": "45cb80673f9849ca4aa78ee5ec76887bd99db5411f2302ef6907ee6144f4146b"
+          },
+          {
+            "name": "Telumia-TV-1.0.5-arm64-v8a-debug.apk",
+            "bytes": 93047947,
+            "sha256": "19f99b274909e966a3ffb5d3bd768404004716c2b886bf9052acb275b84cbc63"
+          },
+          {
+            "name": "Telumia-TV-1.0.5-armeabi-v7a-debug.apk",
+            "bytes": 90946361,
+            "sha256": "193f3822fb3221f81d606c1acd1db8ede193cc650e8a14de493234f83bcf7923"
+          },
+          {
+            "name": "Telumia-TV-1.0.5-x86-debug.apk",
+            "bytes": 94628601,
+            "sha256": "b463164cd7f7d7fe262db51642eb5e6c25a507d82240f5d686430b9ace7c8b7d"
+          },
+          {
+            "name": "Telumia-TV-1.0.5-x86_64-debug.apk",
+            "bytes": 95468466,
+            "sha256": "b24543eeba9dedc37cb9a8767adf7d486114f839444c9da98c20d3c04acbe176"
+          }
+        ]
+      },
+      "workflow_live_tv_tests": "passed"
+    },
+    "source_archives": {
+      "desktop": {
+        "name": "Telumia-desktop-source.zip",
+        "bytes": 248120188,
+        "sha256": "0ed432ce12788b072cc1c682237018cc3d4216712fc3d43e9a60bfbf266454ac",
+        "lfs_objects": 142,
+        "lfs_bytes": 293336120,
+        "expanded_pointers": 0,
+        "unresolved_pointers": 0
+      },
+      "tv": {
+        "name": "Telumia-tv-source.zip",
+        "bytes": 82441723,
+        "sha256": "8267dcab66583943971498d4c09c6553cf315090a1fba2da9f5c087d862df9b6",
+        "lfs_objects": 0,
+        "expanded_pointers": 0,
+        "unresolved_pointers": 0
+      }
+    },
+    "checksums": {
+      "listed_artifacts": 9,
+      "manifest_artifact_entries": 8,
+      "manifest_sha256": "787ed13e990fad9c320bbaf77e36407725367ce0c47cd843d28fcc3e85edcff5",
+      "checksums_file_sha256": "6dda49f40266559388c2da49d30adc10f4380e3c125bea23f3cbf38fe3146c01",
+      "manifest_mismatches": 0
+    }
+  },
+  "limitations": [
+    "No physical Windows PC or Android TV/TV Box QA was performed.",
+    "The MSI was extracted and inspected, but installation over a previous MSI was not exercised on a physical PC.",
+    "The 1.0.0 Android certificate differs; moving to the persistent release key requires one backup-and-reinstall migration and can remove local data.",
+    "The dynamic preflight controls new Coil cache writes but does not reserve every byte for requests already in progress or prove complete offline playback."
+  ]
+}
