@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-29",
+  "purpose": "local validation only; no release published",
+  "source": {
+    "approved_issue": "https://github.com/Pepeu2010/telumia/issues/12",
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "branch": "codex/1d-desktop-cw-metadata-quota",
+      "commit": "51bb8e41494c11212e588d168a1f3600fe087691",
+      "pull_request": "https://github.com/Pepeu2010/telumia-desktop/pull/20"
+    },
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-cw-metadata-quota",
+      "commit": "5bac37ac76ac134b5e7900218283c5301b24906f",
+      "pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/26"
+    }
+  },
+  "verification": {
+    "desktop": {
+      "tests": {
+        "count": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "classes": [
+          "BoundedPreferenceCachePolicyTest",
+          "DesktopStorageTest",
+          "BoundedDesktopPreferenceCacheTest",
+          "DesktopMetadataPreferenceCachePolicyTest"
+        ]
+      },
+      "build": ":composeApp:packageMsi",
+      "artifact": {
+        "name": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+        "bytes": 211021928,
+        "sha256": "6D90A72725B18466543AD8872FDC7CF587594DA05445C75784ACE74EFB704639",
+        "platform": "Windows x64",
+        "release": false
+      }
+    },
+    "tv": {
+      "tests": {
+        "count": 31,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "classes": [
+          "BoundedPreferenceCachePolicyTest",
+          "OwnedMediaCacheOccupancyTest",
+          "BoundedContinueWatchingSnapshotStoreTest"
+        ]
+      },
+      "build": ":app:assembleFullDebug",
+      "application_id": "io.github.pepeu2010.telumia.tv.debug",
+      "version_name": "1.0.2-alpha.3",
+      "version_code": 10008,
+      "minimum_sdk": 24,
+      "artifacts": [
+        {
+          "name": "app-full-universal-debug.apk",
+          "bytes": 183434806,
+          "sha256": "249E67BE6F8A44B368E19B8A6BECC37EEF162668E6AC5C709ACDE567E17AD305"
+        },
+        {
+          "name": "app-full-arm64-v8a-debug.apk",
+          "bytes": 96463564,
+          "sha256": "5D50DAD9AF2962521058FAA6CDEC65C269AD3EA00701D514D65E87CB8DCD4788"
+        },
+        {
+          "name": "app-full-armeabi-v7a-debug.apk",
+          "bytes": 94361978,
+          "sha256": "478568B96AD5A1970FD7627299896ACB9DDFE7874AD451658EF3F0D98069654F"
+        },
+        {
+          "name": "app-full-x86_64-debug.apk",
+          "bytes": 98884083,
+          "sha256": "27AC2ACD9AA2569E979FBDC08350CF8F718C8566344599528403B1148F8C89D9"
+        },
+        {
+          "name": "app-full-x86-debug.apk",
+          "bytes": 98044218,
+          "sha256": "5F912F214701F7109CB86D43C97CD03BF86992C4CB9749538B2B0442FC6EEDE8"
+        }
+      ],
+      "release": false
+    }
+  },
+  "limitations": [
+    "No complete offline playback run on a production installation.",
+    "No physical PC or TV Box QA.",
+    "TV stream-link and binge-group stores have no dedicated end-to-end tests in this increment."
+  ]
+}

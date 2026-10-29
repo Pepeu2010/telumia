@@ -406,3 +406,11 @@ Nunca anunciá-las como prontas antes de implementação/QA.
 - A gravação confere o tamanho UTF-8 serializado, a soma dos outros snapshots e a reserva real antes do staging atômico. Recusa por quota ou armazenamento mantém o snapshot anterior legível.
 - Passaram 30 testes unitários direcionados e 2 testes instrumentados no AVD Android TV API 33; cinco APKs Full Debug `1.0.2-alpha.3` foram compilados para validação local, sem publicação. Desktop não mudou. Comandos e hashes no [registro](telumia-cache-cw-metadata-storage-preflight-tv-r1-build.json).
 - TV: commit `d0702181322ab7e53832e8946123097436ec0a35`, [PR draft #26](https://github.com/Pepeu2010/telumia-tv/pull/26) sobre [#25](https://github.com/Pepeu2010/telumia-tv/pull/25), vinculado à issue aprovada [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Não houve teste em API 24 ou TV Box física, nem esgotamento real do volume; a Fase 1-D continua aberta.
+
+### Continuação da Fase 1-D — caches de metadata de reprodução no Desktop e na TV (29 de outubro de 2026)
+
+- Integra cache de links de reprodução e grupos de binge à quota `METADATA` existente nos dois clientes, com limite de bytes/entradas, eviction entre itens do cache próprio, timestamps, preservação dos hits e bloqueio de novas gravações por quota/reserva.
+- No Desktop, os consumidores recebem até 8 MiB para streams e 2 MiB para binge depois da reserva de até 8 MiB para Continue assistindo. Na TV, a mesma partilha restante é dividida entre seis perfis; as allowlists Auto incluem DataStore primário e backup.
+- Desktop: 18 testes direcionados e `:composeApp:packageMsi` passaram. TV: 31 testes direcionados e `:app:assembleFullDebug` passaram, gerando os cinco APKs. São artefatos alpha/debug locais, com hashes em [registro de build](telumia-cache-playback-metadata-tv-desktop-r1-build.json); não foram publicados como releases.
+- PRs draft: [Desktop #20](https://github.com/Pepeu2010/telumia-desktop/pull/20) e [TV #26](https://github.com/Pepeu2010/telumia-tv/pull/26), commits `51bb8e41` e `5bac37ac`, ligados à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12).
+- Limites: a TV ainda não tem teste end-to-end dedicado para os dois stores, não houve playback offline completo nem QA em hardware físico. Fase 1-D permanece aberta.
