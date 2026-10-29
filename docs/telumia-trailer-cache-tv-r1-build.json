@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-29",
+  "milestone": "Fase 1-D: bounded LRU for TV trailer caches",
+  "source": {
+    "repository": "https://github.com/Pepeu2010/telumia-tv",
+    "branch": "codex/1d-tv-bounded-trailer-cache",
+    "commit": "0b28e22dad2f39e1e9c6ae3bd8794d925a0d4841",
+    "pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/29",
+    "base_pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/28",
+    "approved_issue": "https://github.com/Pepeu2010/telumia/issues/12"
+  },
+  "verification": {
+    "tv": {
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "test_classes": {
+        "BoundedLruCacheTest": 4,
+        "TrailerCacheLimitsTest": 2,
+        "TrailerServiceBoundedCacheTest": 2,
+        "TrailerServiceCancellationTest": 2,
+        "TrailerServiceCandidateRankingTest": 5,
+        "TrailerServiceUseTrailersGateTest": 2,
+        "TrailerServiceYouTubeSessionCacheTest": 2
+      },
+      "build": ":app:assembleFullDebug",
+      "build_duration": "7m40s",
+      "tasks_executed": 52,
+      "package_type": "Full Debug validation APKs; debug signature; not published",
+      "version_name": "1.0.6",
+      "version_code": 10016,
+      "application_id": "io.github.pepeu2010.telumia.tv.debug",
+      "artifacts": [
+        {
+          "name": "app-full-universal-debug.apk",
+          "bytes": 180026041,
+          "sha256": "0c8fce993f437e57cd9497f87dda1cd4e79698a4d7c6a90b7f3d51558b1577ed"
+        },
+        {
+          "name": "app-full-arm64-v8a-debug.apk",
+          "bytes": 93054799,
+          "sha256": "64c372524ad97583f0771e5e680c2ec3045251a2e3638b1a31e35e665bc6c9b0"
+        },
+        {
+          "name": "app-full-armeabi-v7a-debug.apk",
+          "bytes": 90953213,
+          "sha256": "607d1a56ee4f10a227c1496b724d013de4389b92ea02686c63c90bda241e98dd"
+        },
+        {
+          "name": "app-full-x86_64-debug.apk",
+          "bytes": 95475314,
+          "sha256": "b9c66d23a76fb7f8f4cc5d93016a778c47420c26ebb69948c2158078c6d11193"
+        },
+        {
+          "name": "app-full-x86-debug.apk",
+          "bytes": 94635449,
+          "sha256": "a56734a6f6ba8343946a21859f285543a78771268ac70a5f1162f9e6e507f27a"
+        }
+      ]
+    },
+    "desktop": {
+      "source_changed": false,
+      "tests": "UP-TO-DATE",
+      "package_msi": "UP-TO-DATE"
+    }
+  },
+  "cache_limits": {
+    "search_results": {
+      "low_ram_unknown": 12,
+      "balanced": 24,
+      "high_capacity": 48
+    },
+    "youtube_sources": {
+      "low_ram_unknown": 6,
+      "balanced": 12,
+      "high_capacity": 24
+    },
+    "youtube_source_ttl": "3h; URL expiry continues to take precedence",
+    "unit": "entries, not bytes"
+  },
+  "limitations": [
+    "No physical TV Box QA or heap/jank/latency measurement.",
+    "Local Full Debug APKs use the debug signature and do not update production installs.",
+    "Desktop was unchanged; its test and MSI tasks were UP-TO-DATE.",
+    "Cache tier is sampled when TrailerService is constructed; this increment does not re-evaluate the capacity during the session."
+  ]
+}
