@@ -5,7 +5,7 @@
   "source": {
     "repository": "Pepeu2010/telumia-tv",
     "branch": "codex/1d-tv-epg-storage-preflight",
-    "commit": "d9e22f61af5e6b3532e1e9215ddb48c251f30ed1",
+    "commit": "dc718ea9c6a7bf0cf41f613d4cbf5ca857fb3dea",
     "baseCommit": "ba2abf56c8dc8a2691f8ef4e89cc362bea975d1f",
     "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/24"
   },
@@ -13,7 +13,8 @@
     "tv": {
       "commands": [
         ".\\gradlew.bat :app:testFullDebugUnitTest --tests 'com.nuvio.tv.core.livetv.LiveTvGuideCacheTest' --console=plain",
-        ".\\gradlew.bat :app:assembleFullDebug --console=plain"
+        ".\\gradlew.bat :app:assembleFullDebug --console=plain",
+        ".\\gradlew.bat :app:connectedFullDebugAndroidTest '-Pandroid.testInstrumentationRunnerArguments.class=com.nuvio.tv.core.livetv.LiveTvGuideCacheAtomicReplaceTest' --console=plain"
       ],
       "result": "success",
       "tests": 5,
@@ -23,8 +24,25 @@
       "cleanTestBuildDuration": "7m42s",
       "apkBuildDuration": "2m15s"
     },
+    "androidTvInstrumentation": {
+      "result": "success",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "device": "Android TV API 33 AVD",
+      "duration": "1m09s"
+    },
     "desktop": {
-      "result": "no desktop source changed; no new desktop package generated"
+      "commands": [
+        ".\\gradlew.bat :composeApp:desktopTest --tests '*CacheWritePreflightOfflineImageTest*' --tests '*CacheWritePreflightInterceptorTest*' --tests '*MediaCachePolicyTest*' :composeApp:desktopJar :composeApp:packageMsi --no-configuration-cache --console=plain"
+      ],
+      "result": "success; test, JAR and MSI tasks were UP-TO-DATE because no Desktop source changed",
+      "previouslyValidatedSelectedTests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "hostLimit": "Windows host disabled iOS native targets; Desktop JVM tasks completed."
     }
   },
   "artifacts": {
