@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-29",
+  "purpose": "pre-release source validation; no stable release published",
+  "source": {
+    "repository": "https://github.com/Pepeu2010/telumia-tv",
+    "base_branch": "codex/1d-tv-dynamic-coil-quota",
+    "base_commit": "d58ca1c807e691127e9e694f003fc69199dd8bd9",
+    "branch": "codex/1d-tv-tmdb-memory-cache-on-stable",
+    "commit": "5ddd99b31ca461fb9e20b40b896572a8da7aeb93",
+    "pull_request": "https://github.com/Pepeu2010/telumia-tv/pull/27",
+    "approved_issue": "https://github.com/Pepeu2010/telumia/issues/11"
+  },
+  "change": {
+    "bounded_maps": 10,
+    "coverage": [
+      "seven response caches in TmdbMetadataService",
+      "movie collection cache",
+      "IMDB-to-TMDB ID mappings",
+      "TMDB-to-IMDB ID mappings"
+    ],
+    "eviction": "concurrent access-order LRU",
+    "capacity_by_memory_tier": {
+      "LOW_RAM_OR_UNKNOWN": {
+        "response_cache_entries": "6-12, according to cache",
+        "id_mappings_per_direction": 128
+      },
+      "BALANCED": {
+        "response_cache_entries": "12-24, according to cache",
+        "id_mappings_per_direction": 256
+      },
+      "HIGH_CAPACITY": {
+        "response_cache_entries": "24-48, according to cache",
+        "id_mappings_per_direction": 512
+      }
+    },
+    "in_flight_request_coalescing_changed": false
+  },
+  "verification": {
+    "tv_tests": {
+      "total": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "classes": {
+        "BoundedLruCacheTest": 3,
+        "TmdbMetadataCacheLimitsTest": 2,
+        "TmdbMetadataServiceTest": 27,
+        "TmdbServiceCacheTest": 1
+      },
+      "command": ":app:testFullDebugUnitTest --tests com.nuvio.tv.core.storage.BoundedLruCacheTest --tests com.nuvio.tv.core.tmdb.TmdbMetadataCacheLimitsTest --tests com.nuvio.tv.core.tmdb.TmdbMetadataServiceTest --tests com.nuvio.tv.core.tmdb.TmdbServiceCacheTest"
+    },
+    "tv_build": {
+      "command": ":app:assembleFullDebug",
+      "application_id": "io.github.pepeu2010.telumia.tv.debug",
+      "version_name": "1.0.5",
+      "version_code": 10015,
+      "artifacts": [
+        {
+          "name": "app-full-universal-debug.apk",
+          "bytes": 180023397,
+          "sha256": "b0dccd987cb51094035a6f76e476537dfb1f1fba1c32f48d4d545804b7f2bdd1"
+        },
+        {
+          "name": "app-full-arm64-v8a-debug.apk",
+          "bytes": 93052155,
+          "sha256": "55188857aef9c7fb6a712c121ea5513f8af8be3db019ddd463c8d0e37f45e014"
+        },
+        {
+          "name": "app-full-armeabi-v7a-debug.apk",
+          "bytes": 90950569,
+          "sha256": "d1ff23b4cd6b2f8d2d6c85e6fa0cdabb86c4ea63cceafaf1c21990d070478566"
+        },
+        {
+          "name": "app-full-x86-debug.apk",
+          "bytes": 94632805,
+          "sha256": "1ea077ebef3f928eae14220a63f73c1bb859b28540447f87930a7a2e8af84eb3"
+        },
+        {
+          "name": "app-full-x86_64-debug.apk",
+          "bytes": 95472670,
+          "sha256": "976169fcdb287725c97e4c3046e2f1cd4a4d74114f70a38093792f080eb388d9"
+        }
+      ]
+    },
+    "desktop_cross_gate": {
+      "tests": {
+        "total": 22,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "classes": {
+          "MediaCachePolicyTest": 14,
+          "CacheWritePreflightInterceptorTest": 7,
+          "CacheWritePreflightOfflineImageTest": 1
+        }
+      },
+      "msi_task": "packageMsi succeeded UP-TO-DATE; Desktop source did not change in this TV-only increment",
+      "existing_msi": {
+        "name": "Telumia-Windows-x64-1.0.4.msi",
+        "bytes": 211054696,
+        "sha256": "f59c7d2ac09bc1f9e7376866977452afb3fb7046839f43b7d9bce4505872c536"
+      }
+    },
+    "diff_check": "passed"
+  },
+  "limitations": [
+    "LRU capacities are entry counts, not exact heap-byte budgets.",
+    "Memory tier is sampled at service construction and is not re-evaluated during this session.",
+    "No full test suite, physical TV Box heap/jank/latency measurement, or full offline playback validation was run.",
+    "Debug APKs are local validation artifacts and were not published as production updates."
+  ]
+}
