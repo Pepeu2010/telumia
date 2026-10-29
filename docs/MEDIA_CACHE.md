@@ -350,3 +350,12 @@ Se a reserva não comporta o snapshot, o cache permanece em memória e o arquivo
 Passaram 9 testes focados de MdbListRatingsDiskCacheTest, sem falhas, erros ou skips, e os cinco APKs Full Debug foram gerados (application ID .debug, versão 1.0.2-alpha.3, código 10008). O gate Desktop não teve alterações de fonte: desktopTest, desktopJar e packageMsi passaram como UP-TO-DATE; o MSI local permanece Telumia-2.0.1.msi, apenas validação, sem publicação. Comandos, hashes e commit estão no registro de build telumia-cache-metadata-storage-preflight-tv-r1-build.json.
 
 O teste simula a recusa da política de espaço e não esgota fisicamente o volume. A checagem é prévia e não reserva bytes durante a gravação; QA em aparelho real e restante dos consumidores de cache da Fase 1-D seguem pendentes.
+## Pré-checagem de espaço no cache EPG da TV — 28 de outubro de 2026
+
+Antes de serializar uma nova cópia do guia, `LiveTvGuideCache` consulta `TvMediaCache.canBeginCacheWrite(EPG)`, que verifica a reserva contra o espaço livre real no armazenamento. A checagem ocorre antes de criar a pasta, limpar temporários ou substituir o arquivo do guia. Falha da consulta ou falta de espaço bloqueia a gravação e preserva a cópia offline anterior. Leituras permanecem disponíveis em modo somente leitura.
+
+Passaram 5 testes focados de `LiveTvGuideCacheTest`, sem falhas, erros ou skips. `:app:assembleFullDebug` compilou os cinco APKs Full Debug de validação, application ID `.debug`, versão `1.0.2-alpha.3`, código `10008`; não são atualizações instaláveis de produção e não foram publicados. Este incremento altera apenas o cliente TV, por isso não gerou MSI novo.
+
+TV: commit `d9e22f61af5e6b3532e1e9215ddb48c251f30ed1`, branch `codex/1d-tv-epg-storage-preflight`, [PR draft #24](https://github.com/Pepeu2010/telumia-tv/pull/24), sobre o cache MDBList em [PR #23](https://github.com/Pepeu2010/telumia-tv/pull/23). Comandos, tamanhos e SHA-256 estão no [registro do build](telumia-cache-epg-storage-preflight-tv-r1-build.json).
+
+Limites: o teste injeta a recusa de espaço; não esgota um volume físico. A checagem antecede o staging, mas não reserva espaço durante toda a gravação. QA em TV Box físico, desempenho e o fluxo offline completo permanecem pendentes.

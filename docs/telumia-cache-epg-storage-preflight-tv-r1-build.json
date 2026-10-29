@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — reserva real antes da gravação do cache EPG na TV",
+  "recordedAt": "2026-10-28",
+  "source": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/1d-tv-epg-storage-preflight",
+    "commit": "d9e22f61af5e6b3532e1e9215ddb48c251f30ed1",
+    "baseCommit": "ba2abf56c8dc8a2691f8ef4e89cc362bea975d1f",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/24"
+  },
+  "verification": {
+    "tv": {
+      "commands": [
+        ".\\gradlew.bat :app:testFullDebugUnitTest --tests 'com.nuvio.tv.core.livetv.LiveTvGuideCacheTest' --console=plain",
+        ".\\gradlew.bat :app:assembleFullDebug --console=plain"
+      ],
+      "result": "success",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cleanTestBuildDuration": "7m42s",
+      "apkBuildDuration": "2m15s"
+    },
+    "desktop": {
+      "result": "no desktop source changed; no new desktop package generated"
+    }
+  },
+  "artifacts": {
+    "tv": {
+      "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+      "versionName": "1.0.2-alpha.3",
+      "versionCode": 10008,
+      "distributionStatus": "local debug validation only; not production update-compatible and not published",
+      "files": [
+        { "name": "app-full-universal-debug.apk", "bytes": 180004117, "sha256": "B55D092485B2993FCBE2816F8990A595F3E5F40C25F0AE7F2BE70C7AEB146834" },
+        { "name": "app-full-arm64-v8a-debug.apk", "bytes": 93032879, "sha256": "C2446F74B9D9FCC3555B246655C54E0FFC39732E959419FCE30D27764BF7CD16" },
+        { "name": "app-full-armeabi-v7a-debug.apk", "bytes": 90931289, "sha256": "AE911740A1BAD501921FBE58AFCA410AFB161D0440E68AADB750B97995DDC0FB" },
+        { "name": "app-full-x86_64-debug.apk", "bytes": 95453394, "sha256": "41FB1283761E44D10A8AFF75813D8BA54128614AD4A8189E9C8B364B88F9C036" },
+        { "name": "app-full-x86-debug.apk", "bytes": 94613529, "sha256": "61B26F8E14C35E71C7B1A69C3AEA815D562390B156DB3519C2E112BA7A7639C8" }
+      ]
+    }
+  },
+  "limitations": [
+    "The storage-denial path was injected in a unit test; no device volume was physically exhausted.",
+    "The preflight rechecks actual free storage before staging but does not reserve bytes for the full write duration.",
+    "No physical TV Box performance, memory, jank, or offline-release QA was performed.",
+    "The cache foundation remains open for remaining consumers and full offline-flow verification."
+  ]
+}
