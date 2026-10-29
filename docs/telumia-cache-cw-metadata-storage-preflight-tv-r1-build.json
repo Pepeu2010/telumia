@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — quota dos snapshots Continue assistindo na TV",
+  "recordedAt": "2026-10-28",
+  "source": {
+    "repository": "Pepeu2010/telumia-tv",
+    "branch": "codex/1d-tv-cw-metadata-quota",
+    "commit": "56ff387d4d41d8ab5b1ee7f1adcc612f85ae219d",
+    "baseCommit": "df3727dadb2ee73d6a1163bb5950b6582153eb94",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/26",
+    "basePullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/25"
+  },
+  "verification": {
+    "unitCommand": ".\\gradlew.bat :app:testFullDebugUnitTest --tests 'com.nuvio.tv.data.local.BoundedContinueWatchingSnapshotStoreTest' --tests 'com.nuvio.tv.ui.screens.home.ContinueWatchingCachePolicyTest' --tests 'com.nuvio.tv.data.mdblist.MdbListRatingsDiskCacheTest' --tests 'com.nuvio.tv.core.storage.MediaCachePolicyTest' --console=plain",
+    "unitResult": "success",
+    "tests": 30,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unitBuildDuration": "6m56s",
+    "assembleCommand": ".\\gradlew.bat :app:assembleFullDebug --console=plain",
+    "assembleResult": "success",
+    "assembleDuration": "1m51s",
+    "environment": "Windows x64; Android SDK selected via ANDROID_HOME for the build session."
+  },
+  "artifacts": {
+    "applicationId": "io.github.pepeu2010.telumia.tv.debug",
+    "versionName": "1.0.2-alpha.3",
+    "versionCode": 10008,
+    "distributionStatus": "local Full Debug validation only; not production-update compatible and not published",
+    "files": [
+      {
+        "name": "app-full-universal-debug.apk",
+        "bytes": 180009749,
+        "sha256": "3ADCC49AA8D58A582319DB16E46CAA7777AF57208F83ECF564861F5C2925AD5E"
+      },
+      {
+        "name": "app-full-arm64-v8a-debug.apk",
+        "bytes": 93038507,
+        "sha256": "E0AB46C3FC57C9F7471926BED2BB58EBD13B914738A5FD515C8E37B17F3DABFD"
+      },
+      {
+        "name": "app-full-armeabi-v7a-debug.apk",
+        "bytes": 90936921,
+        "sha256": "A513AFD40124CC2B7063CBFA708A820ECB1ED1D38E9CA469FAABE2CBBFD8CCAE"
+      },
+      {
+        "name": "app-full-x86_64-debug.apk",
+        "bytes": 95459026,
+        "sha256": "C13030F7F5806350353D03DAADE65BC81BA5FB92D986D2C4027919271E7C35DD"
+      },
+      {
+        "name": "app-full-x86-debug.apk",
+        "bytes": 94619161,
+        "sha256": "5CC78FD8D5EB00B89F866D388E1B55415F06971212CBD42EF0CDC75AC174268E"
+      }
+    ]
+  },
+  "limitations": [
+    "Storage denial was injected in unit tests; no physical volume was exhausted.",
+    "No instrumented test or physical TV Box QA was performed for this increment.",
+    "Snapshots are regenerated from Continue Watching data; denied writes preserve existing copies, and the old cache read path remains available up to its 32 MiB read guard.",
+    "The Desktop client was not changed by this TV-only increment."
+  ],
+  "pullRequestTemplateCheck": {
+    "runId": 40798927437,
+    "conclusion": "success"
+  }
+}

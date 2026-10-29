@@ -314,6 +314,18 @@ TV: commit `4d23cb35d9b8e72f0612e3b4381f0543be487d3e`, branch `codex/1d-tv-cache
 
 Incremento parcial da Fase 1-D: seguem pendentes os fluxos offline reais, QA/performance físico e auditoria dos caminhos regeneráveis que não são caches de mídia.
 
+## Quota de snapshots Continue assistindo na TV — 28 de outubro de 2026
+
+O modo Auto já contabilizava `filesDir/cw_enrichment`, mas os snapshots de próximos episódios e progresso em andamento podiam crescer sem quota nem pré-checagem de espaço. Agora ambos usam a categoria `METADATA`, com alocação compartilhada: ratings MDBList recebem até 8 MiB e todos os snapshots de até seis perfis compartilham até 8 MiB. A quota restante da categoria limita o teto do Continue assistindo quando o orçamento do aparelho é menor.
+
+Antes do staging atômico, a gravação confere os bytes UTF-8 exatos, o total dos snapshots de outros perfis e a reserva real de armazenamento. Falha de leitura, falta de espaço, snapshot acima da quota ou ocupação agregada excessiva recusam a gravação sem substituir/remover o arquivo anterior. Leituras continuam disponíveis em modo somente leitura; arquivos antigos válidos continuam sendo carregados.
+
+Passaram 30 testes unitários selecionados: `BoundedContinueWatchingSnapshotStoreTest` (5), `ContinueWatchingCachePolicyTest` (4), `MdbListRatingsDiskCacheTest` (9) e `MediaCachePolicyTest` (12), sem falhas, erros ou skips. `:app:assembleFullDebug` compilou os cinco APKs de validação local, application ID `.debug`, versão `1.0.2-alpha.3`, código `10008`; não foram publicados e não atualizam instalação de produção. O cliente Desktop não mudou. Tamanhos, comandos e hashes estão no [registro do build](telumia-cache-cw-metadata-storage-preflight-tv-r1-build.json).
+
+TV: commit `56ff387d4d41d8ab5b1ee7f1adcc612f85ae219d`, branch `codex/1d-tv-cw-metadata-quota`, [PR draft #26](https://github.com/Pepeu2010/telumia-tv/pull/26) sobre [#25](https://github.com/Pepeu2010/telumia-tv/pull/25), vinculado à issue aprovada [telumia#12](https://github.com/Pepeu2010/telumia/issues/12).
+
+Limites: o teste injeta a reserva e não esgota um volume físico; não houve teste instrumentado ou QA em TV Box física. A Fase 1-D continua aberta para os outros consumidores, validação offline completa e desempenho em hardware real.
+
 ## Ocupação de arquivos diretos da raiz de cache no Desktop — 28 de outubro de 2026
 
 O modo Auto do Desktop inclui agora arquivos regulares colocados diretamente em `DesktopStorage.cacheDir`. A medição lê somente atributos e tamanho, não abre conteúdo, não segue links e não desce em diretórios. Ela para em 16.384 entradas ou 25 ms; se atingir um limite, informa a leitura parcial conservadoramente. As pastas de imagens, GIF, runtime, addons e demais caches continuam cobertas exclusivamente pelas allowlists atuais, evitando dupla contagem. A fila diagnóstica Sentry continua fora da estimativa.
