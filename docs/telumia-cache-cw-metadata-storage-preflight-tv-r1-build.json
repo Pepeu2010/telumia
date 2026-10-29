@@ -5,7 +5,7 @@
   "source": {
     "repository": "Pepeu2010/telumia-tv",
     "branch": "codex/1d-tv-cw-metadata-quota",
-    "commit": "56ff387d4d41d8ab5b1ee7f1adcc612f85ae219d",
+    "commit": "d0702181322ab7e53832e8946123097436ec0a35",
     "baseCommit": "df3727dadb2ee73d6a1163bb5950b6582153eb94",
     "pullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/26",
     "basePullRequest": "https://github.com/Pepeu2010/telumia-tv/pull/25"
@@ -21,7 +21,22 @@
     "assembleCommand": ".\\gradlew.bat :app:assembleFullDebug --console=plain",
     "assembleResult": "success",
     "assembleDuration": "1m51s",
-    "environment": "Windows x64; Android SDK selected via ANDROID_HOME for the build session."
+    "environment": "Windows x64; Android SDK selected via ANDROID_HOME for the build session.",
+    "instrumentation": {
+      "command": ".\\\\gradlew.bat :app:connectedFullDebugAndroidTest '-Pandroid.testInstrumentationRunnerArguments.class=com.nuvio.tv.data.local.BoundedContinueWatchingSnapshotStoreInstrumentedTest' --console=plain",
+      "result": "success",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "device": "Android TV API 33 AVD",
+      "duration": "51s"
+    },
+    "minSdkNioSupport": {
+      "minSdk": 24,
+      "desugaringDependency": "com.android.tools:desugar_jdk_libs_nio:2.1.4",
+      "api24RuntimeTest": "not run; no API 24 AVD is installed"
+    }
   },
   "artifacts": {
     "applicationId": "io.github.pepeu2010.telumia.tv.debug",
@@ -58,12 +73,12 @@
   },
   "limitations": [
     "Storage denial was injected in unit tests; no physical volume was exhausted.",
-    "No instrumented test or physical TV Box QA was performed for this increment.",
-    "Snapshots are regenerated from Continue Watching data; denied writes preserve existing copies, and the old cache read path remains available up to its 32 MiB read guard.",
+    "The Android instrumentation tests ran on an API 33 AVD; API 24 runtime behavior and physical TV Box QA were not tested.",
+    "Snapshots are regenerated from Continue Watching data; denied writes preserve existing copies, and old cache reads remain guarded at 32 MiB.",
     "The Desktop client was not changed by this TV-only increment."
   ],
   "pullRequestTemplateCheck": {
-    "runId": 40798927437,
+    "runId": 40799437818,
     "conclusion": "success"
   }
 }
