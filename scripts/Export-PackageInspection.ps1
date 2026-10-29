@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [ValidateSet('desktop','tv')][string[]]$Targets = @('desktop','tv'),
-    [ValidatePattern('^[a-z0-9-]+\.json$')][string]$OutputName = 'package-inspection.json'
+    [ValidatePattern('^[a-z0-9-]+\.json$')][string]$OutputName = 'package-inspection.json',
+    [ValidateSet('debug','release')][string]$TvBuildType = 'debug'
 )
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path $PSScriptRoot -Parent
@@ -40,23 +41,36 @@ $results = foreach ($target in $Targets) {
         if (-not $java) { throw 'JDK 17 missing.' }
         $env:JAVA_HOME = $java.FullName
         $buildTools = Join-Path $env:LOCALAPPDATA 'Android/Sdk/build-tools/35.0.0'
-        $files = @(Get-ChildItem (Join-Path $checkout 'app/build/outputs/apk/full/debug') -Filter '*.apk')
+        $files = @(Get-ChildItem (Join-Path $checkout "app/build/outputs/apk/full/$TvBuildType") -Filter '*.apk')
         if (-not $files.Count) { throw 'TV APKs missing.' }
         foreach ($file in $files) {
             $badging = & (Join-Path $buildTools 'aapt2.exe') dump badging $file.FullName
             if ($LASTEXITCODE -ne 0) { throw 'APK manifest inspection failed.' }
             $packageLine = $badging | Where-Object { $_.StartsWith('package:') } | Select-Object -First 1
             $package = [regex]::Match($packageLine, "name='([^']+)'").Groups[1].Value
-            if ($package -ne 'io.github.pepeu2010.telumia.tv.debug') { throw "APK identity mismatch: $package" }
+            $expectedPackage = if ($TvBuildType -eq 'release') { 'io.github.pepeu2010.telumia.tv' } else { 'io.github.pepeu2010.telumia.tv.debug' }
+            if ($package -ne $expectedPackage) { throw "APK identity mismatch: $package" }
             $labelLine = $badging | Where-Object { $_.StartsWith('application-label:') } | Select-Object -First 1
-            if ($labelLine -notlike '*Telumia Debug*') { throw 'APK label mismatch.' }
+            $expectedLabel = if ($TvBuildType -eq 'release') { '*Telumia*' } else { '*Telumia Debug*' }
+            if ($labelLine -notlike $expectedLabel) { throw 'APK label mismatch.' }
+            if ($TvBuildType -eq 'release') {
+                $manifest = & (Join-Path $buildTools 'aapt.exe') dump xmltree $file.FullName AndroidManifest.xml
+                if ($LASTEXITCODE -ne 0) { throw 'APK manifest tree inspection failed.' }
+                if ($manifest | Where-Object { $_ -match 'android:debuggable' -and $_ -match '(0xffffffff|=true)' }) {
+                    throw 'Release APK is debuggable.'
+                }
+            }
             $null = & (Join-Path $buildTools 'apksigner.bat') verify $file.FullName
             if ($LASTEXITCODE -ne 0) { throw 'APK signature verification failed.' }
             $versionName = [regex]::Match($packageLine, "versionName='([^']+)'").Groups[1].Value
             $versionCode = [regex]::Match($packageLine, "versionCode='([^']+)'").Groups[1].Value
             $artifacts += [ordered]@{file=$file.Name;bytes=$file.Length;sha256=(Get-FileHash $file.FullName).Hash.ToLowerInvariant();applicationId=$package;versionName=$versionName;versionCode=$versionCode;signatureVerified=$true}
         }
-        $inspection = [ordered]@{label='Telumia Debug';distribution='development debug only'}
+        $inspection = if ($TvBuildType -eq 'release') {
+            [ordered]@{label='Telumia';distribution='production release';buildType='release'}
+        } else {
+            [ordered]@{label='Telumia Debug';distribution='development debug only';buildType='debug'}
+        }
     }
     [ordered]@{target=$target;sourceCommit=(git -C $checkout rev-parse HEAD).Trim();installed=$false;inspection=$inspection;artifacts=$artifacts}
 }

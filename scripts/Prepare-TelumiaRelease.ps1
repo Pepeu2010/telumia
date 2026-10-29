@@ -34,6 +34,9 @@ foreach ($result in $inspection.results) {
 }
 $pc = $inspection.results | Where-Object target -eq desktop
 $tv = $inspection.results | Where-Object target -eq tv
+if ($tv.inspection.buildType -ne 'release' -or $tv.inspection.distribution -ne 'production release') {
+    throw 'Regular release preparation requires Full Release APKs; debug packages are development-only.'
+}
 $runtimeGates = $null
 if (-not $Tag.Contains('-')) {
     $runtimeGates = Get-Content -LiteralPath (Join-Path $workspace "docs/$LabelPrefix-runtime-gates.json") -Raw | ConvertFrom-Json
@@ -66,13 +69,13 @@ function Assert-InspectedFile($path, $record) {
 Assert-InspectedFile $msi $pc.artifacts[0]
 Copy-Item -LiteralPath $msi -Destination (Join-Path $output 'Telumia-Windows-x64.msi')
 foreach ($apk in $tv.artifacts) {
-    $abi = [regex]::Match($apk.file, '^app-full-(.+)-debug\.apk$').Groups[1].Value
+    $abi = [regex]::Match($apk.file, '^app-full-(.+)-release\.apk$').Groups[1].Value
     if ($abi -notin @('universal','arm64-v8a','armeabi-v7a','x86','x86_64')) { throw "Unexpected ABI: $abi" }
-    $apkPath = Join-Path $workspace "repos/tv/app/build/outputs/apk/full/debug/$($apk.file)"
+    $apkPath = Join-Path $workspace "repos/tv/app/build/outputs/apk/full/release/$($apk.file)"
     Assert-InspectedFile $apkPath $apk
     if ($apk.versionName -and $apk.versionName -ne $Tag.Substring(1)) { throw 'APK version does not match the release tag.' }
     Copy-Item -LiteralPath $apkPath `
-        -Destination (Join-Path $output "Telumia-TV-$abi-debug.apk")
+        -Destination (Join-Path $output "Telumia-TV-$abi.apk")
 }
 $sourceArchiveInspections = @()
 foreach ($target in @('desktop','tv')) {

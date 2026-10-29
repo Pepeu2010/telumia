@@ -279,6 +279,36 @@ jobs:
         if: steps.release.outputs.action == 'build'
         uses: gradle/actions/setup-gradle@v6
 
+      - name: Configure official backend for the production APK
+        if: steps.release.outputs.action == 'build'
+        shell: bash
+        env:
+          NUVIO_SUPABASE_URL: ${{ secrets.NUVIO_SUPABASE_URL }}
+          NUVIO_SUPABASE_ANON_KEY: ${{ secrets.NUVIO_SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          url = os.environ.get("NUVIO_SUPABASE_URL", "").strip()
+          key = os.environ.get("NUVIO_SUPABASE_ANON_KEY", "").strip()
+          parsed = urlparse(url)
+          if parsed.scheme != "https" or not parsed.netloc or "\n" in url or "\r" in url:
+              raise SystemExit("Configure the repository secret NUVIO_SUPABASE_URL with the HTTPS production backend.")
+          if len(key) < 20 or "\n" in key or "\r" in key:
+              raise SystemExit("Configure the repository secret NUVIO_SUPABASE_ANON_KEY with the production publishable key.")
+          properties = Path("repos/tv/local.properties")
+          if properties.exists():
+              raise SystemExit("Refusing to overwrite local.properties in the TV source checkout.")
+          properties.write_text(
+              f"NUVIO_SUPABASE_URL={url}\nNUVIO_SUPABASE_ANON_KEY={key}\n",
+              encoding="utf-8",
+          )
+          print("Production backend configuration validated and supplied to the TV build.")
+          PY
+
       - name: Configure persistent signing for published TV APKs
         if: steps.release.outputs.action == 'build'
         shell: bash
@@ -302,7 +332,6 @@ jobs:
             printf 'NUVIO_RELEASE_KEY_ALIAS=%s\n' "${NUVIO_RELEASE_KEY_ALIAS}"
             printf 'NUVIO_RELEASE_STORE_PASSWORD=%s\n' "${NUVIO_RELEASE_STORE_PASSWORD}"
             printf 'NUVIO_RELEASE_KEY_PASSWORD=%s\n' "${NUVIO_RELEASE_KEY_PASSWORD}"
-            printf 'TELUMIA_SIGN_FULL_DEBUG_WITH_RELEASE_KEY=true\n'
           } >> "${GITHUB_ENV}"
 
       - name: Set the generated Android version in the fetched source
@@ -344,7 +373,7 @@ jobs:
         run: |
           set -euo pipefail
           ./gradlew \
-            :app:testFullDebugUnitTest \
+            :app:testFullReleaseUnitTest \
             --tests '*LiveTvGuideCacheTest' \
             --tests '*LiveTvGuideRefreshJobTest' \
             --tests '*LiveTvSourceImporterTest' \
@@ -358,7 +387,7 @@ jobs:
             --tests '*PhoneRemotePairingAuthorityTest' \
             --tests '*PhoneRemoteServerTest' \
             --tests '*ForkIdentityTest' \
-            :app:assembleFullDebug \
+            :app:assembleFullRelease \
             --no-daemon \
             --stacktrace
 
@@ -478,7 +507,7 @@ jobs:
           DESKTOP_RELEASE_MANIFEST_PATH: ${{ runner.temp }}/telumia-desktop-release-manifest.json
         run: |
           set -euo pipefail
-          apk_dir='repos/tv/app/build/outputs/apk/full/debug'
+          apk_dir='repos/tv/app/build/outputs/apk/full/release'
           output_dir="artifacts/releases/${RELEASE_TAG}"
           mkdir -p "${output_dir}"
           sdk_root="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
@@ -495,15 +524,21 @@ jobs:
 
           abis=(universal arm64-v8a armeabi-v7a x86_64 x86)
           for abi in "${abis[@]}"; do
-            source="${apk_dir}/app-full-${abi}-debug.apk"
-            destination="${output_dir}/Telumia-TV-${ANDROID_VERSION}-${abi}-debug.apk"
+            source="${apk_dir}/app-full-${abi}-release.apk"
+            destination="${output_dir}/Telumia-TV-${ANDROID_VERSION}-${abi}.apk"
             if [[ ! -s "${source}" ]]; then
               echo "Missing APK for ${abi}: ${source}" >&2
               exit 1
             fi
             badging="$("${aapt}" dump badging "${source}" | head -n 1)"
-            if [[ "${badging}" != *"versionCode='${ANDROID_VERSION_CODE}' versionName='${ANDROID_VERSION}'"* ]]; then
-              echo "APK ${abi} does not contain the generated version ${ANDROID_VERSION} (${ANDROID_VERSION_CODE})." >&2
+            if [[ "${badging}" != *"package: name='io.github.pepeu2010.telumia.tv'"* || \
+                  "${badging}" != *"versionCode='${ANDROID_VERSION_CODE}' versionName='${ANDROID_VERSION}'"* ]]; then
+              echo "APK ${abi} does not contain the production application ID and generated version ${ANDROID_VERSION} (${ANDROID_VERSION_CODE})." >&2
+              exit 1
+            fi
+            manifest_tree="$("${aapt}" dump xmltree "${source}" AndroidManifest.xml)"
+            if grep -Eiq 'android:debuggable.*(0xffffffff|=true)' <<<"${manifest_tree}"; then
+              echo "APK ${abi} is debuggable and cannot be published as a stable package." >&2
               exit 1
             fi
             "${apksigner}" verify --verbose "${source}"
@@ -555,7 +590,7 @@ jobs:
               },
               "distributions": {
                   "android": {
-                      "distribution": "Full sideload APKs signed with persistent CI release key",
+                      "distribution": "Full production sideload APKs signed with persistent CI release key",
                       "versionCode": os.environ["ANDROID_VERSION_CODE"],
                       "versionName": os.environ["ANDROID_VERSION"],
                       "versioningStrategy": "generated from the latest published Android release when either platform source changes",
@@ -567,12 +602,14 @@ jobs:
                       "sourceReleaseUrl": os.environ["DESKTOP_RELEASE_URL"],
                   },
               },
-              "scope": "Android TV debug APKs built from the selected TV source commit; Windows x64 MSI copied from the selected Desktop release.",
+              "scope": "Android TV fullRelease production APKs built from the selected TV source commit; Windows x64 MSI copied from the selected Desktop release.",
               "validationLabel": "platform-release-workflow",
               "runtimeGates": None,
               "assets": assets,
               "sourceArchiveInspections": [desktop_source_inspection, tv_source_inspection],
           }
+          if manifest["distributions"]["android"]["versionName"] != os.environ["ANDROID_VERSION"]:
+              raise SystemExit("Production Android release manifest version mismatch.")
           (directory / "release-manifest.json").write_text(
               json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
               encoding="utf-8",
@@ -585,7 +622,7 @@ jobs:
 
           Esta release reúne os pacotes Android TV e Windows PC na página principal da Telumia.
 
-          **Android TV/TV Box ${ANDROID_VERSION}** (código ${ANDROID_VERSION_CODE}): APK universal e variantes ARM64, ARM32, x86_64 e x86. A versão de instalação é incrementada automaticamente quando a automação identifica uma nova fonte de TV ou Windows; o código-fonte exato permanece no arquivo da fonte. Fonte TV: [${ANDROID_SOURCE_SHA}](https://github.com/Pepeu2010/telumia-tv/commit/${ANDROID_SOURCE_SHA}). Os APKs Full usam uma chave persistente de assinatura do CI para permitir atualizações entre releases futuras. A instalação v1.0.0 assinada com outro certificado exige uma migração inicial; preserve os dados locais antes de remover o APK antigo. Telumia-tv-source.zip contém o código-fonte TV desse commit.
+          **Android TV/TV Box ${ANDROID_VERSION}** (código ${ANDROID_VERSION_CODE}): APK de produção universal e variantes ARM64, ARM32, x86_64 e x86. A versão de instalação é incrementada automaticamente quando a automação identifica uma nova fonte de TV ou Windows; o código-fonte exato permanece no arquivo da fonte. Fonte TV: [${ANDROID_SOURCE_SHA}](https://github.com/Pepeu2010/telumia-tv/commit/${ANDROID_SOURCE_SHA}). Os APKs usam uma chave persistente de assinatura do CI para permitir atualizações entre releases futuras. A instalação v1.0.0 assinada com outro certificado exige uma migração inicial; preserve os dados locais antes de remover o APK antigo. Telumia-tv-source.zip contém o código-fonte TV desse commit.
 
           **Windows PC ${DESKTOP_VERSION}** (ProductVersion ${DESKTOP_INSTALLER_VERSION}): MSI x64 copiado da [release Desktop ${DESKTOP_TAG}](${DESKTOP_RELEASE_URL}). A versão de PC é identificada separadamente da versão Android. Telumia-desktop-source.zip corresponde à mesma release Desktop.
 
