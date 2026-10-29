@@ -380,3 +380,42 @@ Passaram 5 testes de `HttpCacheWritePolicyInterceptorTest` e 12 de `MediaCachePo
 TV: commit `df3727dadb2ee73d6a1163bb5950b6582153eb94`, [PR draft #25](https://github.com/Pepeu2010/telumia-tv/pull/25), sobre o preflight EPG em [#24](https://github.com/Pepeu2010/telumia-tv/pull/24). Desktop: commit `0f162d86e60a4f413bec49a5efd2e18a3d84e214`, [PR draft #19](https://github.com/Pepeu2010/telumia-desktop/pull/19), sobre [#18](https://github.com/Pepeu2010/telumia-desktop/pull/18). Comandos e todos os tamanhos/checksums estão no [registro do build](telumia-cache-http-storage-preflight-tv-desktop-r1-build.json).
 
 Limites: o teste injeta o resultado da reserva e não esgota um volume físico. A checagem força uma amostra atual antes do cache, mas não reserva bytes durante toda a gravação; o tamanho desconhecido ou várias respostas concorrentes podem consumir espaço depois da amostra. Ainda faltam QA em PC/TV Box físicos e validação de todos os fluxos offline numa instalação de release.
+
+## Quota dos snapshots Continue assistindo no Desktop — 29 de outubro de 2026
+
+O Desktop mantém snapshots regeneráveis por perfil e fonte na loja dedicada
+`nuvio_continue_watching_enrichment.properties`, preservando a integração e os
+formatos atuais. As gravações agora respeitam a quota efetiva da categoria
+`METADATA`, com alocação local máxima de 8 MiB para todos os perfis/fontes. Esse
+valor é o teto deste consumidor; o orçamento total continua vindo do modo
+configurável Auto/Manual e das capacidades/armazenamento detectados.
+
+O tamanho UTF-8 serializado e a soma dos demais snapshots são verificados antes
+da gravação. A checagem de espaço usa o volume real da loja de preferências e
+reserva bytes suficientes para reescrever o arquivo de forma atômica. Uma nova
+gravação recusada mantém o snapshot anterior legível para uso offline. O arquivo
+dedicado também foi incluído na medição Auto através de uma allowlist de um único
+arquivo na pasta de dados; nenhuma outra preferência ou dado durável entra na
+conta.
+
+O teste de regressão falhou primeiro ao aceitar um segundo snapshot acima do
+agregado. Depois passaram 8 testes focados Desktop (4 da cache comum e 4 da
+política de armazenamento), `desktopJar` e `packageMsi`. A suíte completa teve
+1.670 casos: 38 falhas e 4 skips. A execução do commit-base `0f162d86` teve
+1.665 casos, com as mesmas 38 falhas e 4 skips; a comparação dos identificadores
+de falha encontrou zero casos novos ou resolvidos. O MSI local Windows x64 tem
+210.993.256 bytes, SHA-256
+`E5762B6C31DE591C0BB8EE5428C3A6D3AC63DD568803C950307EFE0035095D59`.
+
+Como gate cruzado sem alterações de fonte TV, passaram 17 testes focados
+(12 de política de cache, 5 de snapshots) e `:app:assembleFullDebug` concluiu
+para os cinco APKs; estavam `UP-TO-DATE`. São pacotes `.debug` de validação,
+não atualizam instalações de produção e não foram publicados. Os resultados,
+hashes e comandos completos estão em
+[telumia-cache-cw-metadata-desktop-r1-build.json](telumia-cache-cw-metadata-desktop-r1-build.json).
+
+Incremento parcial da Fase 1-D. Não houve QA em PC ou TV Box físicos, nem teste
+de upgrade/release. A suíte Desktop continua com falhas herdadas reproduzidas no
+commit-base; os targets Android/iOS do projeto KMP Desktop não foram compilados
+nesta entrega. O fluxo offline real em instalação de release e a revisão dos
+outros caminhos de cache permanecem pendentes.

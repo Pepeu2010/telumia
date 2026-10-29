@@ -1,0 +1,104 @@
+{
+  "milestone": "Phase 1-D: Desktop Continue Watching metadata quota",
+  "date": "2026-10-29",
+  "issue": "https://github.com/Pepeu2010/telumia/issues/12",
+  "desktop": {
+    "repository": "Pepeu2010/telumia-desktop",
+    "branch": "codex/1d-desktop-cw-metadata-quota",
+    "baseCommit": "0f162d86e60a4f413bec49a5efd2e18a3d84e214",
+    "commit": "348261ad0e11999d6839d5f083bdb5c4336df987",
+    "tests": {
+      "regressionFirstRun": {
+        "tests": 1,
+        "failed": 1,
+        "expectedFailure": "Second profile snapshot was accepted after aggregate exceeded 8 MiB"
+      },
+      "focusedFinal": {
+        "classes": [
+          "ContinueWatchingEnrichmentCacheTest",
+          "DesktopContinueWatchingSnapshotStoreTest"
+        ],
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "fullSuite": {
+        "base": {
+          "tests": 1665,
+          "failures": 38,
+          "skipped": 4
+        },
+        "candidate": {
+          "tests": 1670,
+          "failures": 38,
+          "skipped": 4
+        },
+        "newFailures": 0,
+        "resolvedFailures": 0,
+        "failureSetSha256": "0F1E99F8DB06862541AF879C16BB683334C6BFC8A4256503FED2B5154A1EEEC4"
+      },
+      "commands": [
+        ":composeApp:desktopTest --tests '*ContinueWatchingEnrichmentCacheTest*' --tests '*DesktopContinueWatchingSnapshotStoreTest*' --no-configuration-cache --console=plain",
+        ":composeApp:desktopJar :composeApp:packageMsi --no-configuration-cache --console=plain",
+        ":composeApp:desktopTest --no-configuration-cache --console=plain"
+      ]
+    },
+    "build": {
+      "desktopJar": "passed",
+      "packageMsi": "passed",
+      "msi": {
+        "name": "Telumia-2.0.1.msi",
+        "bytes": 210993256,
+        "sha256": "E5762B6C31DE591C0BB8EE5428C3A6D3AC63DD568803C950307EFE0035095D59",
+        "published": false
+      }
+    }
+  },
+  "tvCrossGate": {
+    "repository": "Pepeu2010/telumia-tv",
+    "commit": "d0702181322ab7e53832e8946123097436ec0a35",
+    "sourceChanged": false,
+    "tests": {
+      "BoundedContinueWatchingSnapshotStoreTest": 5,
+      "MediaCachePolicyTest": 12,
+      "totalPassed": 17,
+      "failures": 0
+    },
+    "build": "assembleFullDebug passed; tasks were UP-TO-DATE",
+    "apkArtifacts": [
+      {
+        "name": "app-full-arm64-v8a-debug.apk",
+        "bytes": 93038507,
+        "sha256": "E0AB46C3FC57C9F7471926BED2BB58EBD13B914738A5FD515C8E37B17F3DABFD"
+      },
+      {
+        "name": "app-full-armeabi-v7a-debug.apk",
+        "bytes": 90936921,
+        "sha256": "A513AFD40124CC2B7063CBFA708A820ECB1ED1D38E9CA469FAABE2CBBFD8CCAE"
+      },
+      {
+        "name": "app-full-universal-debug.apk",
+        "bytes": 180009749,
+        "sha256": "3ADCC49AA8D58A582319DB16E46CAA7777AF57208F83ECF564861F5C2925AD5E"
+      },
+      {
+        "name": "app-full-x86_64-debug.apk",
+        "bytes": 95459026,
+        "sha256": "C13030F7F5806350353D03DAADE65BC81BA5FB92D986D2C4027919271E7C35DD"
+      },
+      {
+        "name": "app-full-x86-debug.apk",
+        "bytes": 94619161,
+        "sha256": "5CC78FD8D5EB00B89F866D388E1B55415F06971212CBD42EF0CDC75AC174268E"
+      }
+    ],
+    "published": false,
+    "installableProductionRelease": false
+  },
+  "limitations": [
+    "No physical PC or Android TV Box performance QA was available.",
+    "The Desktop KMP Android/iOS targets were not compiled in this milestone.",
+    "No stable or alpha release was published."
+  ]
+}
