@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-30",
+  "milestone": "Fase 1-D: Desktop updater staging occupancy",
+  "repository": "Pepeu2010/telumia-desktop",
+  "branch": "codex/1d-desktop-updater-staging-occupancy",
+  "baseBranch": "codex/1d-desktop-torrserver-runtime-occupancy",
+  "commit": "336ab039438bd83440548c77d18894b0bce557c8",
+  "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/24",
+  "scope": {
+    "measuredPath": "DesktopStorage.rootDir/updates",
+    "behavior": "Read-only occupancy measurement for updater packages staged before installation; no quota or eviction is applied.",
+    "excluded": [
+      "User media downloads",
+      "TorrServer configuration and process data",
+      "Unrelated durable app data"
+    ]
+  },
+  "tests": {
+    "command": ".\\gradlew.bat :composeApp:desktopTest --tests 'com.nuvio.app.core.storage.DesktopCacheOccupancyTest' --tests 'com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest' --tests 'com.nuvio.app.core.storage.DirectCacheFileOccupancyTest'",
+    "count": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "regressionObservedBeforeFix": true
+  },
+  "build": {
+    "command": ".\\gradlew.bat :composeApp:packageMsi",
+    "status": "BUILD SUCCESSFUL",
+    "artifact": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+    "bytes": 211021928,
+    "sha256": "D9F14F3DD9FBA0DB08173AE02D007D030F9EA03D9FC25C511F6DF8911ABD0F27",
+    "published": false
+  },
+  "limitations": [
+    "No real updater installation or physical Windows QA",
+    "No Android source changes or APK build in this Desktop-only increment",
+    "Fase 1-D remains open for remaining cache-path audit, complete offline-flow validation, and physical PC/TV Box QA"
+  ]
+}
