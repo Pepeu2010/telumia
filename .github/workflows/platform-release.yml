@@ -6,7 +6,7 @@ on:
       tv_ref:
         description: Branch ou commit do cliente Android TV
         required: false
-        default: codex/telumia-brand-theme
+        default: codex/fix-tv-login-qr-generation
         type: string
       desktop_version:
         description: Versão Desktop publicada; vazio seleciona a release publicada mais recente
@@ -40,7 +40,7 @@ jobs:
     name: Android TV APKs + Windows PC MSI
     runs-on: ubuntu-latest
     env:
-      TV_REF: ${{ github.event.inputs.tv_ref || 'codex/telumia-brand-theme' }}
+      TV_REF: ${{ github.event.inputs.tv_ref || 'codex/fix-tv-login-qr-generation' }}
       DESKTOP_VERSION_INPUT: ${{ github.event.inputs.desktop_version || '' }}
       RELEASE_MODE: ${{ github.event.inputs.mode || 'publish' }}
 
