@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — limites LRU dos caches Trakt de remapeamento de episódios no Desktop",
+  "date": "2026-10-30",
+  "repository": "Pepeu2010/telumia-desktop",
+  "source": {
+    "branch": "codex/1d-desktop-trakt-episode-map-cache",
+    "commit": "fefc3198bd078b5c247baa93433b01b0ad315200",
+    "baseBranch": "codex/1d-desktop-tmdb-id-cache",
+    "baseCommit": "f70182f697d34bacb52afa1203775c42ed39032f",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/29"
+  },
+  "change": {
+    "cacheCount": 5,
+    "limitsByPhysicalMemoryEntries": {
+      "unknownOrAtMost2GiB": {
+        "remappedEpisodes": 96,
+        "addonEpisodeLists": 4,
+        "traktEpisodeLists": 4,
+        "reverseRemaps": 96,
+        "normalizedEpisodeTitles": 512
+      },
+      "above2GiBThrough3GiB": {
+        "remappedEpisodes": 192,
+        "addonEpisodeLists": 8,
+        "traktEpisodeLists": 8,
+        "reverseRemaps": 192,
+        "normalizedEpisodeTitles": 1024
+      },
+      "above3GiB": {
+        "remappedEpisodes": 384,
+        "addonEpisodeLists": 16,
+        "traktEpisodeLists": 16,
+        "reverseRemaps": 384,
+        "normalizedEpisodeTitles": 2048
+      }
+    },
+    "memorySource": "MemberAssetStorage.profileBackgroundDeviceMemoryBytes; Desktop reports physical host RAM.",
+    "unknownMemoryFallback": "LOW_RAM tier",
+    "implementation": "Mutex-protected bounded LRU caches. Existing title normalization and episode remapping algorithms are preserved. In-flight addon and Trakt request deduplication remains separate and unchanged. clearCache is suspending to clear all synchronized caches safely."
+  },
+  "validation": {
+    "environment": {
+      "os": "Microsoft Windows NT 10.0.26300.0",
+      "architecture": "x64"
+    },
+    "commands": [
+      ".\\gradlew.bat :composeApp:desktopTest --tests '*BoundedLruCacheTest' --tests '*TraktEpisodeMapping*' --tests '*EpisodeTitleNormalizerTest' --no-daemon",
+      ".\\gradlew.bat :composeApp:desktopJar :composeApp:packageMsi --no-daemon"
+    ],
+    "tests": {
+      "BoundedLruCacheTest": { "passed": 5, "failures": 0, "errors": 0, "skipped": 0 },
+      "TraktEpisodeMappingCacheLimitsTest": { "passed": 3, "failures": 0, "errors": 0, "skipped": 0 },
+      "EpisodeTitleNormalizerTest": { "passed": 3, "failures": 0, "errors": 0, "skipped": 0 },
+      "TraktEpisodeMappingServiceTest": { "passed": 8, "failures": 0, "errors": 0, "skipped": 0 }
+    },
+    "desktopJar": "passed",
+    "packageMsi": "passed",
+    "msiArtifact": {
+      "filename": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "sizeBytes": 211058792,
+      "sha256": "5D084D8EE974F422FEF58FB0B234867A761F05CBC02DC9EB059BC1DCDE05924C",
+      "validationOnly": true,
+      "published": false
+    }
+  },
+  "limitations": [
+    "The MSI is an alpha-labelled local validation artifact, not a stable release; it was not published.",
+    "iOS targets were disabled on the Windows host; no Android TV source changed in this Desktop increment.",
+    "Entry-count bounds are not exact heap-byte budgets.",
+    "No physical-PC heap, CPU, jank, Trakt network, offline-flow, or installation measurement was performed; Phase 1-D remains open.",
+    "Stable release v1.0.13 remains unchanged. Login and authentication were not changed; the app continues to use the Nuvio login flow."
+  ]
+}
