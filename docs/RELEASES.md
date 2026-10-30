@@ -1,6 +1,16 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.10`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.11`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+
+## v1.0.11 — correção do login por QR na TV
+
+[Release estável principal](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.11), publicada pelo workflow [41084731928](https://github.com/Pepeu2010/telumia/actions/runs/41084731928). O workflow concluiu em 7m49s; os testes selecionados de Live TV e o build APK levaram 5m40s e passaram. Android 1.0.11 usa versionCode 10022. A tag está publicada como estável (`prerelease=false`).
+
+A página inclui APK universal e variantes ARM64, ARM32, x86_64 e x86, fontes, manifesto e `SHA256SUMS.txt`. Os APKs Full Debug foram assinados com a chave persistente do CI. O MSI Windows é `Telumia-Windows-x64-1.0.4.msi` (Desktop 1.0.4, ProductVersion 2.0.4), copiado e verificado da release Desktop [v1.0.4](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4); o código Desktop não mudou e o MSI não foi recompilado.
+
+A correção do login por QR prefere `verification_uri_complete` e aceita a URL base ou a URL configurada quando a resposta não inclui uma URL completa. A geração do bitmap foi movida para `Dispatchers.Default`; pixels preto/branco sem antialias e quiet zone de quatro módulos reduzem bloqueio e melhoram a leitura. A origem TV distribuída é o commit [`4afb3243`](https://github.com/Pepeu2010/telumia-tv/commit/4afb3243e83e42fd8423f2398a256da0ee523cdc), implementação no [PR #34](https://github.com/Pepeu2010/telumia-tv/pull/34) empilhado sobre o [PR #32](https://github.com/Pepeu2010/telumia-tv/pull/32); o commit da implementação é `76121d4b85e197b2418cf8742deec7b2bb4a9d55`. Fonte Desktop: `bed7ecf756abb6f49e7e222acba2460f69a20039`.
+
+Seis testes unitários focados no payload e na matriz QR passaram. `:app:assembleFullDebug` e `:app:assembleFullDebugAndroidTest` passaram localmente; o teste instrumentado de decodificação foi compilado, não executado porque não há dispositivo/emulador ADB disponível. O CI oficial passou seus testes selecionados de Live TV e gerou/publicou os APKs. Não houve validação do login em TV Box física. Tamanhos e SHA-256 de todos os pacotes, manifesto e checksums estão em [telumia-1.0.11-stable-release.json](telumia-1.0.11-stable-release.json); detalhes do fix em [LOGIN_QR.md](https://github.com/Pepeu2010/telumia-tv/blob/codex/fix-tv-login-qr-generation/docs/LOGIN_QR.md).
 
 ## v1.0.10 — limites LRU para remapeamento de episódios Trakt
 
