@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — limite do cache de metadata da tela de detalhes no Desktop",
+  "date": "2026-10-30",
+  "repository": "Pepeu2010/telumia-desktop",
+  "source": {
+    "branch": "codex/1d-desktop-meta-details-cache",
+    "commit": "8387e54b52c2be7fd81b791418eab8036bbcf531",
+    "baseBranch": "codex/1d-desktop-trakt-episode-map-cache",
+    "baseCommit": "fefc3198bd078b5c247baa93433b01b0ad315200",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/30"
+  },
+  "change": {
+    "cache": "MetaDetailsRepository.cachedMetaByRequestKey",
+    "limitsByPhysicalMemoryEntries": {
+      "unknownOrAtMost4GiB": 8,
+      "above4GiBThrough8GiB": 16,
+      "above8GiB": 24
+    },
+    "memorySource": "MemberAssetStorage.profileBackgroundDeviceMemoryBytes; Desktop reports physical host RAM.",
+    "unknownMemoryFallback": 8,
+    "implementation": "Synchronous thread-safe LRU preserves load and peek call sites and guards concurrent fetch callers. A cache entry retains its base metadata and optional settings-fingerprinted enriched metadata. Eviction leaves active UI state intact; a later miss uses the existing fetch path."
+  },
+  "validation": {
+    "environment": {
+      "os": "Microsoft Windows NT 10.0.26300.0",
+      "architecture": "x64"
+    },
+    "commands": [
+      ".\\gradlew.bat :composeApp:desktopTest --tests '*SynchronizedBoundedLruCacheTest' --tests '*MetaDetailsCacheLimitsTest' --tests '*MetaDetailsPosterNavigationTest' --no-daemon",
+      ".\\gradlew.bat :composeApp:desktopJar :composeApp:packageMsi --no-daemon",
+      ".\\gradlew.bat :composeApp:testAndroidHostTest --tests '*MetaDetailsPosterNavigationTest' --no-daemon"
+    ],
+    "tests": {
+      "SynchronizedBoundedLruCacheTest": { "passed": 5, "failures": 0, "errors": 0, "skipped": 0 },
+      "MetaDetailsCacheLimitsTest": { "passed": 3, "failures": 0, "errors": 0, "skipped": 0 },
+      "MetaDetailsPosterNavigationTest": {
+        "passed": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "status": "not-run; compileAndroidMain failed before tests"
+      }
+    },
+    "desktopJar": "passed",
+    "packageMsi": "passed",
+    "androidHostTest": {
+      "status": "blocked before test execution",
+      "failure": "compileAndroidMain reports unresolved PointerButton/button/onPointerEvent in MainAppContent.kt, HomePosterHoverPreview.kt, and PlayerScreenContent.kt.",
+      "baseline": "All three files are unchanged from the PR base branch."
+    },
+    "msiArtifact": {
+      "filename": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "sizeBytes": 211062888,
+      "sha256": "AB9F940FCD7E2845C38A07D6C548ABEE05F8E71BCBD415FC653CB63378C7165C",
+      "validationOnly": true,
+      "published": false
+    }
+  },
+  "limitations": [
+    "The Android host test did not run because the unchanged baseline branch fails to compile pointer-event APIs in three common source files.",
+    "iOS targets were disabled by the Windows host.",
+    "The MSI is an alpha-labelled local validation artifact and is not a stable release; it was not published.",
+    "Entry-count limits are not exact heap-byte budgets, and no physical-PC heap/jank measurement or QA was performed.",
+    "Stable release v1.0.13 is unchanged. Login and authentication were not changed; the app continues to use the Nuvio login flow."
+  ]
+}
