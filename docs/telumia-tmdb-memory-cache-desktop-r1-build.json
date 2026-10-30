@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — limites LRU nos caches TMDB em memória do Desktop",
+  "date": "2026-10-30",
+  "repository": "Pepeu2010/telumia-desktop",
+  "source": {
+    "branch": "codex/1d-desktop-tmdb-memory-cache",
+    "commit": "b9110bd110c201eb5f1ac70dfa1d67df3f353009",
+    "baseBranch": "codex/1d-desktop-sentry-cache-occupancy",
+    "baseCommit": "cc8d0340369c1f1b16d02a7b312d91fa53fa69aa",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/27"
+  },
+  "change": {
+    "cacheCount": 9,
+    "limitsByCacheEntries": {
+      "enrichment": 24,
+      "episodes": 16,
+      "recommendations": 12,
+      "collections": 12,
+      "trailers": 12,
+      "people": 24,
+      "entityBrowse": 12,
+      "entityHeaders": 24,
+      "entityRails": 12
+    },
+    "implementation": "Mutex-synchronized LRU. Reads refresh recency; writes replace existing keys and evict least-recently-used entries above the per-cache limit.",
+    "existingBackdropCache": "Unchanged; independently capped at 256 entries."
+  },
+  "validation": {
+    "environment": {
+      "os": "Microsoft Windows NT 10.0.26300.0",
+      "architecture": "x64"
+    },
+    "command": ".\\gradlew.bat :composeApp:desktopTest --tests '*BoundedLruCacheTest' --tests '*TmdbMetadataServiceTest' :composeApp:desktopJar :composeApp:packageMsi --no-daemon",
+    "tests": {
+      "BoundedLruCacheTest": {
+        "passed": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "TmdbMetadataServiceTest": {
+        "passed": 17,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "desktopJar": "passed",
+    "packageMsi": "passed",
+    "msiArtifact": {
+      "filename": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "sizeBytes": 211038312,
+      "sha256": "1E465528242ADE3A388552BB0FA6FABE6B18B0D89A3096E6CCEFA596776E673A",
+      "validationOnly": true,
+      "published": false
+    }
+  },
+  "limitations": [
+    "The MSI is an alpha-labelled local validation artifact and is not a stable release.",
+    "This Desktop repository branch exposes no Android APK assemble task; the TV client was not changed.",
+    "Entry-count bounds are not exact heap-byte budgets.",
+    "No physical-PC heap, CPU, jank, offline-flow, or installation measurement was performed; Phase 1-D remains open."
+  ]
+}
