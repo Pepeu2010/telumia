@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-30",
+  "milestone": "Fase 1-D: TorrServer runtime occupancy on Desktop",
+  "repository": "Pepeu2010/telumia-desktop",
+  "branch": "codex/1d-desktop-torrserver-runtime-occupancy",
+  "baseBranch": "codex/1d-desktop-versioned-runtime-cache",
+  "commit": "6adedceb8f2393d45abdac1e8b7ba3874311cc86",
+  "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/23",
+  "scope": {
+    "measuredPath": "DesktopStorage.rootDir/torrserver/bin",
+    "behavior": "Read-only occupancy measurement for the Auto cache budget; no quota or eviction is applied to the bundled runtime binary.",
+    "excluded": [
+      "TorrServer configuration and process data",
+      "Downloads",
+      "Unrelated files under the app data directory"
+    ]
+  },
+  "tests": {
+    "command": ".\\gradlew.bat :composeApp:desktopTest --tests 'com.nuvio.app.core.storage.DesktopCacheOccupancyTest' --tests 'com.nuvio.app.core.storage.OwnedMediaCacheOccupancyTest' --tests 'com.nuvio.app.core.storage.DirectCacheFileOccupancyTest'",
+    "count": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "regressionObservedBeforeFix": true
+  },
+  "build": {
+    "command": ".\\gradlew.bat :composeApp:packageMsi",
+    "status": "BUILD SUCCESSFUL",
+    "artifact": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+    "bytes": 211021928,
+    "sha256": "F967FB57F33E3DA96E76A9E31201ABD5AC01754A9BC75E35FCD6FE0D38D0A7ED",
+    "published": false
+  },
+  "limitations": [
+    "No physical Windows QA or release-installer validation",
+    "No Android source changes or APK build in this Desktop-only increment",
+    "Fase 1-D remains open for remaining cache-path audit, complete offline-flow validation, and physical PC/TV Box QA"
+  ]
+}
