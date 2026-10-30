@@ -305,34 +305,6 @@ jobs:
             printf 'TELUMIA_SIGN_FULL_DEBUG_WITH_RELEASE_KEY=true\n'
           } >> "${GITHUB_ENV}"
 
-      - name: Configure the Telumia login backend for production APKs
-        if: steps.release.outputs.action == 'build'
-        working-directory: repos/tv
-        shell: bash
-        env:
-          TELUMIA_SUPABASE_URL: ${{ secrets.TELUMIA_SUPABASE_URL }}
-          TELUMIA_SUPABASE_ANON_KEY: ${{ secrets.TELUMIA_SUPABASE_ANON_KEY }}
-          TELUMIA_SUPABASE_FALLBACK_URL: ${{ secrets.TELUMIA_SUPABASE_FALLBACK_URL }}
-        run: |
-          set -euo pipefail
-          if [[ -z "${TELUMIA_SUPABASE_URL}" || -z "${TELUMIA_SUPABASE_ANON_KEY}" ]]; then
-            echo 'Production login backend is not configured. Set TELUMIA_SUPABASE_URL and TELUMIA_SUPABASE_ANON_KEY as repository secrets before publishing.' >&2
-            exit 1
-          fi
-          if [[ "${TELUMIA_SUPABASE_URL}" != https://* ]]; then
-            echo 'TELUMIA_SUPABASE_URL must use HTTPS.' >&2
-            exit 1
-          fi
-          {
-            printf 'NUVIO_SUPABASE_URL=%s\n' "${TELUMIA_SUPABASE_URL}"
-            printf 'NUVIO_SUPABASE_ANON_KEY=%s\n' "${TELUMIA_SUPABASE_ANON_KEY}"
-            if [[ -n "${TELUMIA_SUPABASE_FALLBACK_URL}" ]]; then
-              printf 'NUVIO_SUPABASE_FALLBACK_URL=%s\n' "${TELUMIA_SUPABASE_FALLBACK_URL}"
-            fi
-          } > local.properties
-          chmod 600 local.properties
-          echo 'Production login backend configuration is present.'
-
       - name: Set the generated Android version in the fetched source
         if: steps.release.outputs.action == 'build'
         shell: bash
