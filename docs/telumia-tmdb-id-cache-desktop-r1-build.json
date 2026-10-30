@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — limites LRU dos mapas de IDs TMDB↔IMDB do Desktop",
+  "date": "2026-10-30",
+  "repository": "Pepeu2010/telumia-desktop",
+  "source": {
+    "branch": "codex/1d-desktop-tmdb-id-cache",
+    "commit": "f70182f697d34bacb52afa1203775c42ed39032f",
+    "baseBranch": "codex/1d-desktop-tmdb-memory-cache",
+    "baseCommit": "b9110bd110c201eb5f1ac70dfa1d67df3f353009",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/28"
+  },
+  "change": {
+    "cacheCount": 2,
+    "limitsPerDirectionEntries": {
+      "unknownOrAtMost2GiB": 128,
+      "above2GiBThrough3GiB": 256,
+      "above3GiB": 512
+    },
+    "memorySource": "MemberAssetStorage.profileBackgroundDeviceMemoryBytes; Desktop reports physical host RAM.",
+    "unknownMemoryFallback": 128,
+    "implementation": "Synchronized reciprocal IMDB-to-TMDB and TMDB-to-IMDB caches using the shared bounded LRU utility. Media type normalization and reciprocal insertion are preserved."
+  },
+  "validation": {
+    "environment": {
+      "os": "Microsoft Windows NT 10.0.26300.0",
+      "architecture": "x64"
+    },
+    "command": ".\\gradlew.bat :composeApp:desktopTest --tests '*BoundedLruCacheTest' --tests '*TmdbIdMappingCache*' --tests '*TmdbMetadataServiceTest' --no-daemon",
+    "tests": {
+      "BoundedLruCacheTest": { "passed": 5, "failures": 0, "errors": 0, "skipped": 0 },
+      "TmdbIdMappingCacheLimitsTest": { "passed": 3, "failures": 0, "errors": 0, "skipped": 0 },
+      "TmdbIdMappingCacheTest": { "passed": 2, "failures": 0, "errors": 0, "skipped": 0 },
+      "TmdbMetadataServiceTest": { "passed": 17, "failures": 0, "errors": 0, "skipped": 0 }
+    },
+    "desktopJar": "passed",
+    "packageMsi": "passed",
+    "msiArtifact": {
+      "filename": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "sizeBytes": 211046504,
+      "sha256": "6D0460EBF95CCE1BA7B182FFB753EA74AD15AE62E15F8F41AA13C6D0B4A96379",
+      "validationOnly": true,
+      "published": false
+    }
+  },
+  "limitations": [
+    "The MSI is an alpha-labelled local validation artifact and is not a stable release.",
+    "This Desktop repository branch exposes no Android APK assemble task; the TV client was not changed.",
+    "Entry-count bounds are not exact heap-byte budgets.",
+    "No physical-PC heap, CPU, jank, offline-flow, or installation measurement was performed; Phase 1-D remains open."
+  ]
+}
