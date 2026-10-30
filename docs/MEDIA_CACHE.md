@@ -423,6 +423,16 @@ Passaram 33 testes direcionados: `BoundedLruCacheTest` (3), `TmdbMetadataCacheLi
 
 Limites: são tetos de entradas, não orçamentos exatos de heap; itens têm tamanhos diferentes. O tier é avaliado ao construir os serviços e não é reamostrado nesta entrega. Não houve teste de heap, CPU, jank ou latência em aparelho físico, suíte completa, nem validação integral offline. Os APKs locais são debug de validação, não foram publicados nem atualizam produção. A Fase 1-D continua aberta.
 
+## Limites LRU nos caches de resolução de IDs do Simkl na TV — 30 de outubro de 2026
+
+Os três mapas permanentes de `SimklIdResolver` agora usam TTL/LRU: IDs resolvidos, listas de mapeamento Simkl↔TVDB e listas de temporadas de anime. Todas as entradas expiram após dez minutos. As capacidades iniciais por LOW_RAM/UNKNOWN, BALANCED e HIGH_CAPACITY são, respectivamente: IDs `24/48/96`, listas de episódios `4/8/16` e temporadas `8/16/32`. Respostas válidas vazias continuam cacheáveis; erros de rede e respostas inválidas não são armazenados. As chaves, a resolução de aliases e o fallback permanecem iguais.
+
+Passaram cinco testes novos: três de budgets e dois com MockWebServer para reuso das respostas de IDs, episódios e temporadas irmãs. A seleção ampliada de Trakt, Simkl e caches executou 190 testes, com uma falha herdada em `TraktAuthServiceTest`, reproduzida no commit-base limpo `6224107be17ed15db4b9a030c5409839b6dc7f3c`. `:app:assembleFullDebug` compilou as cinco variantes locais Full Debug em versionName `1.0.9`/versionCode `10019`; tamanhos e hashes constam no registro [telumia-1.0.9-stable-release.json](telumia-1.0.9-stable-release.json). A release estável [v1.0.9](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.9) repetiu os testes selecionados de Live TV, gerou os APKs com assinatura persistente e verificou manifesto, checksums e MSI.
+
+Fonte TV: commit de implementação [`5212a62`](https://github.com/Pepeu2010/telumia-tv/commit/5212a62b85e0a857f878dcabfd5ca62a2610593d), versionamento estável `1.0.9` no commit `201de3a4885dee43eb8c1ded9c6e0f933745ae36`, [PR #31](https://github.com/Pepeu2010/telumia-tv/pull/31) empilhado sobre o [#30](https://github.com/Pepeu2010/telumia-tv/pull/30), vinculado à fundação aprovada [Telumia #12](https://github.com/Pepeu2010/telumia/issues/12).
+
+Limites: não houve QA em TV Box física, medição de heap/jank ou validação offline ponta a ponta. Os budgets limitam contagem de chaves, não bytes exatos; a Fase 1-D continua aberta.
+
 ## Limites LRU nos caches relacionados de Trakt e Simkl na TV — 30 de outubro de 2026
 
 Os caches de itens relacionados de Trakt e Simkl agora usam TTL de dez minutos e LRU limitado por tier de memória. LOW_RAM/UNKNOWN retém até quatro chaves por serviço, BALANCED até oito e HIGH_CAPACITY até dezesseis. O limite abrange entradas vazias também; `forceRefresh`, ordenação, tratamento de erro e cancelamento continuam no contrato existente. A remoção condicional de item expirado evita excluir uma atualização concorrente. Os tetos contam entradas e não representam bytes de heap.
