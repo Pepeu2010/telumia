@@ -423,6 +423,16 @@ Passaram 33 testes direcionados: `BoundedLruCacheTest` (3), `TmdbMetadataCacheLi
 
 Limites: são tetos de entradas, não orçamentos exatos de heap; itens têm tamanhos diferentes. O tier é avaliado ao construir os serviços e não é reamostrado nesta entrega. Não houve teste de heap, CPU, jank ou latência em aparelho físico, suíte completa, nem validação integral offline. Os APKs locais são debug de validação, não foram publicados nem atualizam produção. A Fase 1-D continua aberta.
 
+## Limites LRU nos caches relacionados de Trakt e Simkl na TV — 30 de outubro de 2026
+
+Os caches de itens relacionados de Trakt e Simkl agora usam TTL de dez minutos e LRU limitado por tier de memória. LOW_RAM/UNKNOWN retém até quatro chaves por serviço, BALANCED até oito e HIGH_CAPACITY até dezesseis. O limite abrange entradas vazias também; `forceRefresh`, ordenação, tratamento de erro e cancelamento continuam no contrato existente. A remoção condicional de item expirado evita excluir uma atualização concorrente. Os tetos contam entradas e não representam bytes de heap.
+
+Passaram nove testes focados: seis de `TtlLruCacheTest` e três de `RelatedServiceCacheLimitsTest`. O conjunto focado ampliado reuniu 185 testes e teve uma falha em `TraktAuthServiceTest` sobre verificação do mock ao limpar credenciais após refresh 400; a mesma falha ocorreu no commit-base `6224107be17ed15db4b9a030c5409839b6dc7f3c`, sem relação com o novo cache. O workflow da release estável [v1.0.8](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.8) passou os testes selecionados Live TV e compilou/assinou os cinco APKs. O MSI Desktop 1.0.4 foi incluído sem rebuild porque o código Desktop não mudou. Pacotes, hashes e evidências estão em [telumia-1.0.8-stable-release.json](telumia-1.0.8-stable-release.json).
+
+Fonte TV: commit [`11c17af`](https://github.com/Pepeu2010/telumia-tv/commit/11c17af1d2208a3081f4b7a43c07c0e328f43b33), [PR #30](https://github.com/Pepeu2010/telumia-tv/pull/30) empilhado sobre o cache de trailers [#29](https://github.com/Pepeu2010/telumia-tv/pull/29), aprovado dentro da fundação de cache [Telumia #12](https://github.com/Pepeu2010/telumia/issues/12).
+
+Limites: não houve QA em TV Box física nem medição de heap, jank ou latência. O tier de capacidade é capturado ao criar os serviços e as quotas são contagens de entradas; fluxo offline integral e outros consumidores de cache continuam pendentes. A Fase 1-D permanece aberta.
+
 ## Limites LRU nos caches de trailers da TV — 29 de outubro de 2026
 
 Os resultados de busca do `TrailerService` (positivos e negativos) e as fontes de reprodução resolvidas do YouTube agora usam LRU sincronizado por tier de memória. LOW_RAM/UNKNOWN retém até 12 buscas e 6 fontes YouTube; BALANCED, 24/12; HIGH_CAPACITY, 48/24. A expiração atual dos links e o TTL de três horas permanecem. A remoção condicional só apaga o valor que foi identificado como expirado, preservando uma atualização concorrente. Os limites são contagem de entradas, não bytes.
