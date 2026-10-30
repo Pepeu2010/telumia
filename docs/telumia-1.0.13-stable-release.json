@@ -63,6 +63,12 @@
         "count": 6,
         "failures": 0
       },
+        "instrumented_qr_bitmap_decode": {
+          "count": 1,
+          "failures": 0,
+          "device": "Android TV API 33 AVD",
+          "source_matches_released_commit": true
+        },
       "official_nuvio_login_rpc": "A RPC de início de sessão retornou os campos para exibir o QR; não foi aprovada uma conta real."
     },
     "windows": {
