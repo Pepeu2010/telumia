@@ -443,6 +443,14 @@ Fonte TV: commit [`11c17af`](https://github.com/Pepeu2010/telumia-tv/commit/11c1
 
 Limites: não houve QA em TV Box física nem medição de heap, jank ou latência. O tier de capacidade é capturado ao criar os serviços e as quotas são contagens de entradas; fluxo offline integral e outros consumidores de cache continuam pendentes. A Fase 1-D permanece aberta.
 
+## Limites LRU nos remapeamentos de episódios Trakt na TV — 30 de outubro de 2026
+
+Os caches do `TraktEpisodeMappingService` para remapeamentos diretos/reversos, listas de episódios vindas do addon e do Trakt e títulos normalizados agora têm TTL de dez minutos e LRU limitado pelo tier de memória. LOW_RAM/UNKNOWN retém 96 remapeamentos por direção, quatro listas de cada origem e 512 títulos; BALANCED 192/8/1.024; HIGH_CAPACITY 384/16/2.048. O deduplicador de chamadas em voo e as regras de equivalência por estrutura, título e índice permanecem iguais. Listas vazias e erros continuam sem gravação nos caches de listas.
+
+Passaram seis testes focados. A seleção ampliada Trakt/Simkl/cache executou 196 testes; 195 passaram e uma falha de verificação de mock em `TraktAuthServiceTest` foi reproduzida no commit-base limpo `6224107be17ed15db4b9a030c5409839b6dc7f3c`. `:app:assembleFullDebug` compilou cinco APKs locais Full Debug v1.0.10/code10020, IDs `.debug` e assinatura de desenvolvimento; não são os APKs assinados de distribuição. O workflow estável [v1.0.10](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.10) repetiu os testes selecionados de Live TV, gerou os APKs com chave persistente e validou o MSI, manifesto e checksums. Os APKs publicados, hashes e detalhes estão em [telumia-1.0.10-stable-release.json](telumia-1.0.10-stable-release.json).
+
+TV: commit [`eb417f0`](https://github.com/Pepeu2010/telumia-tv/commit/eb417f089f2412dd56ac97f1735e6e8ada16363a), [PR #32](https://github.com/Pepeu2010/telumia-tv/pull/32) sobre [PR #31](https://github.com/Pepeu2010/telumia-tv/pull/31), vinculado à fundação aprovada [Telumia #12](https://github.com/Pepeu2010/telumia/issues/12). Desktop não mudou; MSI 1.0.4 reutilizado sem recompilação. Limites são contagens de entradas, não bytes exatos; não houve QA físico, medição de heap/jank ou validação offline ponta a ponta. A Fase 1-D continua aberta.
+
 ## Limites LRU nos caches de trailers da TV — 29 de outubro de 2026
 
 Os resultados de busca do `TrailerService` (positivos e negativos) e as fontes de reprodução resolvidas do YouTube agora usam LRU sincronizado por tier de memória. LOW_RAM/UNKNOWN retém até 12 buscas e 6 fontes YouTube; BALANCED, 24/12; HIGH_CAPACITY, 48/24. A expiração atual dos links e o TTL de três horas permanecem. A remoção condicional só apaga o valor que foi identificado como expirado, preservando uma atualização concorrente. Os limites são contagem de entradas, não bytes.

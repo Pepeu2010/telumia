@@ -1,0 +1,153 @@
+{
+  "date": "2026-10-30",
+  "release": {
+    "repository": "https://github.com/Pepeu2010/telumia",
+    "tag": "v1.0.10",
+    "url": "https://github.com/Pepeu2010/telumia/releases/tag/v1.0.10",
+    "workflow_run": "https://github.com/Pepeu2010/telumia/actions/runs/40987925313",
+    "workflow_conclusion": "success",
+    "prerelease": false,
+    "published_at": "2026-10-30T01:56:24Z"
+  },
+  "sources": {
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "branch": "codex/1d-tv-trakt-episode-mapping-lru",
+      "implementation_commit": "7d6279505e52069d583d859c235deea493c2168e",
+      "commit": "eb417f089f2412dd56ac97f1735e6e8ada16363a",
+      "feature_pr": "https://github.com/Pepeu2010/telumia-tv/pull/32",
+      "stacked_on_pr": "https://github.com/Pepeu2010/telumia-tv/pull/31",
+      "approved_issue": "https://github.com/Pepeu2010/telumia/issues/12"
+    },
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "commit": "bed7ecf756abb6f49e7e222acba2460f69a20039",
+      "platform_release": "https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4"
+    }
+  },
+  "verification": {
+    "workflow": {
+      "selected_live_tv_tests": "passed",
+      "android_apk_build": "passed",
+      "apk_persistent_ci_signature": "passed",
+      "release_asset_size_and_digest_validation": "passed",
+      "duration": "9m09s",
+      "live_tv_tests_and_apk_build_duration": "7m08s"
+    },
+    "android": {
+      "version_name": "1.0.10",
+      "version_code": 10020,
+      "distribution": "Full Debug sideload APKs signed with persistent CI release key",
+      "variants": [
+        {
+          "name": "Telumia-TV-1.0.10-universal-debug.apk",
+          "bytes": 180030529,
+          "sha256": "76eca17ca286a47497a16a237025332a762923f97adf01ca30090db414b8271e"
+        },
+        {
+          "name": "Telumia-TV-1.0.10-arm64-v8a-debug.apk",
+          "bytes": 93059287,
+          "sha256": "d4fb4b02a6de259e521759a2d74c68bbb74eaeceb29127305acbd502da65b0f9"
+        },
+        {
+          "name": "Telumia-TV-1.0.10-armeabi-v7a-debug.apk",
+          "bytes": 90957701,
+          "sha256": "7112791523c91b4f65beea84a151caad5ff5ecbe0d66e2d1922ebafe82e3970d"
+        },
+        {
+          "name": "Telumia-TV-1.0.10-x86_64-debug.apk",
+          "bytes": 95479806,
+          "sha256": "8e2c89f5cf2e9f1bca45ad867cd7611608536a99115978f86f6236f3e7f7806c"
+        },
+        {
+          "name": "Telumia-TV-1.0.10-x86-debug.apk",
+          "bytes": 94639941,
+          "sha256": "e9aff5832f16c6177ba366a9650b896a5dcc332a8b4bd7108ef33dd7d2a2050c"
+        }
+      ],
+      "focused_trakt_episode_mapping_tests": {
+        "count": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "result": "passed locally"
+      },
+      "broader_selected_test_run": {
+        "count": 196,
+        "passed": 195,
+        "failures": 1,
+        "test": "TraktAuthServiceTest: refresh token 400 clears credentials and prevents another refresh",
+        "reproduced_on_base_commit": "6224107be17ed15db4b9a030c5409839b6dc7f3c",
+        "classification": "pre-existing failure outside this episode mapping cache change"
+      }
+    },
+    "windows": {
+      "asset": "Telumia-Windows-x64-1.0.4.msi",
+      "desktop_release_version": "1.0.4",
+      "product_version": "2.0.4",
+      "bytes": 211054696,
+      "sha256": "f59c7d2ac09bc1f9e7376866977452afb3fb7046839f43b7d9bce4505872c536",
+      "built_during_this_workflow": false,
+      "source": "copied byte-for-byte from published Desktop v1.0.4 and verified by the combined workflow"
+    },
+    "source_archives": [
+      {
+        "name": "Telumia-desktop-source.zip",
+        "bytes": 248120188,
+        "sha256": "0ed432ce12788b072cc1c682237018cc3d4216712fc3d43e9a60bfbf266454ac",
+        "lfs_objects": 142,
+        "unresolved_lfs_pointers": 0
+      },
+      {
+        "name": "Telumia-tv-source.zip",
+        "bytes": 82464714,
+        "sha256": "9c3b52e0bd00e3dcc375fa7ff7ce60d9a700d09b92a214e89236e0fb9b4c2bf8",
+        "lfs_objects": 0,
+        "unresolved_lfs_pointers": 0
+      }
+    ],
+    "checksums": {
+      "manifest_entries": 8,
+      "checksum_entries": 9,
+      "manifest_bytes": 3262,
+      "manifest_sha256": "fdc584714eff9bedc07b8156a07e535124cd8628498ff604d91bb4146742eb96",
+      "sha256sums_bytes": 896,
+      "sha256sums_sha256": "0e30ef556a65d64499cacd451593978e83e8e643559e0d7e445e1f981ccaa301",
+      "github_asset_mismatches": 0,
+      "validation": "workflow verified asset names, sizes, GitHub digests, manifest and checksum file before publishing"
+    }
+  },
+  "trakt_episode_mapping_cache_limits": {
+    "ttl_minutes": 10,
+    "LOW_RAM_or_UNKNOWN": {
+      "direct_remaps": 96,
+      "addon_episode_lists": 4,
+      "trakt_episode_lists": 4,
+      "reverse_remaps": 96,
+      "normalized_titles": 512
+    },
+    "BALANCED": {
+      "direct_remaps": 192,
+      "addon_episode_lists": 8,
+      "trakt_episode_lists": 8,
+      "reverse_remaps": 192,
+      "normalized_titles": 1024
+    },
+    "HIGH_CAPACITY": {
+      "direct_remaps": 384,
+      "addon_episode_lists": 16,
+      "trakt_episode_lists": 16,
+      "reverse_remaps": 384,
+      "normalized_titles": 2048
+    }
+  },
+  "limitations": [
+    "No physical Windows PC or Android TV/TV Box QA was performed.",
+    "The Windows MSI was reused from Desktop v1.0.4; no MSI rebuild was performed because Desktop source did not change.",
+    "No physical MSI upgrade test was performed.",
+    "Android APKs use the Full Debug variant; Android 1.0.0 signed with the old certificate still requires the accepted backup-and-reinstall migration.",
+    "Cache budgets bound entry counts, not exact heap bytes; no physical heap or jank measurement was performed.",
+    "The broader selected test run had one Trakt auth mock-verification failure reproduced on the clean base commit.",
+    "The change does not complete Phase 1-D; other cache consumers, full offline workflows, and physical-device validation remain pending."
+  ]
+}

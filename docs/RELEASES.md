@@ -1,6 +1,16 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.9`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.10`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+
+## v1.0.10 — limites LRU para remapeamento de episódios Trakt
+
+[Release estável principal](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.10), publicada pelo workflow [40987925313](https://github.com/Pepeu2010/telumia/actions/runs/40987925313). O job passou os testes selecionados de Live TV, compilou e assinou cinco APKs Android TV/TV Box Full Debug com a chave persistente e validou assets, manifesto e checksums. O job levou 9m09s; testes e compilação Android, 7m08s. Android 1.0.10 usa versionCode 10020.
+
+A página contém o [APK universal](https://github.com/Pepeu2010/telumia/releases/download/v1.0.10/Telumia-TV-1.0.10-universal-debug.apk), variantes ARM64, ARM32, x86_64 e x86, fontes, manifesto e SHA256SUMS.txt. O MSI Windows é `Telumia-Windows-x64-1.0.4.msi` (Desktop 1.0.4, ProductVersion 2.0.4), copiado e verificado byte a byte da release Desktop [v1.0.4](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4); o cliente Desktop não mudou e o MSI não foi recompilado.
+
+Na TV, os remapeamentos diretos/reversos por episódio, listas do addon/Trakt e normalização de títulos passaram a usar TTL de dez minutos e limites LRU por tier. Seis testes focados passaram. A seleção ampliada executou 196 testes e teve uma falha herdada em `TraktAuthServiceTest`, reproduzida no commit-base limpo `6224107be17ed15db4b9a030c5409839b6dc7f3c`. A fonte TV é [`eb417f0`](https://github.com/Pepeu2010/telumia-tv/commit/eb417f089f2412dd56ac97f1735e6e8ada16363a), implementação no [PR #32](https://github.com/Pepeu2010/telumia-tv/pull/32), empilhado sobre [PR #31](https://github.com/Pepeu2010/telumia-tv/pull/31), dentro da aprovação [Telumia #12](https://github.com/Pepeu2010/telumia/issues/12). Fonte Desktop: `bed7ecf756abb6f49e7e222acba2460f69a20039`.
+
+Tamanhos, SHA-256, manifesto, checksums e testes estão em [telumia-1.0.10-stable-release.json](telumia-1.0.10-stable-release.json). Não houve QA em TV Box/PC físico, medição de heap/jank ou teste offline integral; a Fase 1-D permanece aberta.
 
 ## v1.0.9 — cache limitado de resolução Simkl
 
