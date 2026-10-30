@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Fase 1-D — caches LRU de metadata relacionada de Trakt e Simkl no Desktop",
+  "date": "2026-10-30",
+  "repository": "Pepeu2010/telumia-desktop",
+  "source": {
+    "branch": "codex/1d-desktop-related-metadata-cache",
+    "commit": "be7d38f79113c5b960d865e1e33d437499371a9f",
+    "baseBranch": "codex/1d-desktop-meta-details-cache",
+    "baseCommit": "8387e54b52c2be7fd81b791418eab8036bbcf531",
+    "pullRequest": "https://github.com/Pepeu2010/telumia-desktop/pull/31"
+  },
+  "change": {
+    "caches": ["TraktRelatedRepository", "SimklRelatedRepository"],
+    "limitsByPhysicalMemoryEntries": {
+      "unknownOrAtMost4GiB": 12,
+      "above4GiBThrough8GiB": 24,
+      "above8GiB": 48
+    },
+    "memorySource": "MemberAssetStorage.profileBackgroundDeviceMemoryBytes; Desktop reports physical host RAM.",
+    "unknownMemoryFallback": 12,
+    "resultLimitPerResponse": 20,
+    "ttlMs": 600000,
+    "implementation": "One synchronized timed LRU expires entries on access, refreshes access recency without refreshing TTL, removes forced-refresh entries, and evicts the least-recently-used key over capacity. Existing provider response and empty-result handling remain unchanged."
+  },
+  "validation": {
+    "environment": {
+      "os": "Microsoft Windows NT 10.0.26300.0",
+      "architecture": "x64"
+    },
+    "commands": [
+      ".\\gradlew.bat :composeApp:desktopTest --tests '*TimedBoundedLruCacheTest' --tests '*RelatedMetadataCacheLimitsTest' --no-daemon",
+      ".\\gradlew.bat :composeApp:desktopJar :composeApp:packageMsi --no-daemon"
+    ],
+    "tests": {
+      "TimedBoundedLruCacheTest": { "passed": 5, "failures": 0, "errors": 0, "skipped": 0 },
+      "RelatedMetadataCacheLimitsTest": { "passed": 3, "failures": 0, "errors": 0, "skipped": 0 }
+    },
+    "desktopJar": "passed",
+    "packageMsi": "passed",
+    "msiArtifact": {
+      "filename": "Telumia-Windows-x64-1.0.2-alpha.1.msi",
+      "sizeBytes": 211066984,
+      "sha256": "12E7A8104E3E1AF0232151AE8C743E246027F662A419080553E94C7AEDA709E9",
+      "validationOnly": true,
+      "published": false
+    }
+  },
+  "limitations": [
+    "The MSI is an alpha-labelled local validation artifact and is not a stable release; it was not published.",
+    "The Android TV repository was not changed by this Desktop-only increment.",
+    "Entry-count limits are not exact heap-byte budgets; no physical-PC heap, CPU, jank, Trakt/Simkl network, or offline-flow measurement was performed.",
+    "Stable release v1.0.13 remains unchanged. Login and authentication were not changed; the app continues to use the Nuvio login flow."
+  ]
+}
