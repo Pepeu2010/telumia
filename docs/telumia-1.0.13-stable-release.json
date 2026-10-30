@@ -1,0 +1,135 @@
+{
+  "date": "2026-10-30",
+  "release": {
+    "repository": "https://github.com/Pepeu2010/telumia",
+    "tag": "v1.0.13",
+    "url": "https://github.com/Pepeu2010/telumia/releases/tag/v1.0.13",
+    "workflow_run": "https://github.com/Pepeu2010/telumia/actions/runs/41132887106",
+    "workflow_conclusion": "success",
+    "prerelease": false,
+    "published_at": "2026-10-30T21:51:01Z"
+  },
+  "sources": {
+    "tv": {
+      "repository": "https://github.com/Pepeu2010/telumia-tv",
+      "commit": "2e71e3ea1ea9281259db62cd93887cea49a7dac7",
+      "login": "Defaults públicos do Nuvio Cloud; nenhuma secret Supabase é exigida pelo workflow."
+    },
+    "desktop": {
+      "repository": "https://github.com/Pepeu2010/telumia-desktop",
+      "commit": "bed7ecf756abb6f49e7e222acba2460f69a20039",
+      "platform_release": "https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4"
+    }
+  },
+  "verification": {
+    "workflow": {
+      "conclusion": "success",
+      "android_tests_and_build": "passed",
+      "persistent_android_signature": "passed",
+      "release_asset_manifest_and_checksums": "passed"
+    },
+    "android": {
+      "version_name": "1.0.13",
+      "version_code": 10025,
+      "distribution": "Full sideload APKs signed with persistent CI release key",
+      "variants": [
+        {
+          "name": "Telumia-TV-1.0.13-arm64-v8a-debug.apk",
+          "bytes": 93072347,
+          "sha256": "5879199832c5cfec1b47f3ee55a34ba85237b0ebac25d767f9850ecbdf9f8b30"
+        },
+        {
+          "name": "Telumia-TV-1.0.13-armeabi-v7a-debug.apk",
+          "bytes": 90970757,
+          "sha256": "4d2a9ec9d4aba812983d3849d2bf0a7c2e5c8c625d388be3b81de00286fa0dfc"
+        },
+        {
+          "name": "Telumia-TV-1.0.13-universal-debug.apk",
+          "bytes": 180043585,
+          "sha256": "c0a90eb66b2aedf50275782bfce552faae1b391ec00d8b6acccf08d3b3356b70"
+        },
+        {
+          "name": "Telumia-TV-1.0.13-x86-debug.apk",
+          "bytes": 94652997,
+          "sha256": "3e6a0bc144338753e9bbfb9c00e48683e335d172e815b66c0cffd181cf2e6993"
+        },
+        {
+          "name": "Telumia-TV-1.0.13-x86_64-debug.apk",
+          "bytes": 95492862,
+          "sha256": "11ea40a642d4310cf7cb1ce4e383c4ccab4afd4ea22d0ec7a725dff06dd250bd"
+        }
+      ],
+      "focused_qr_unit_tests": {
+        "count": 6,
+        "failures": 0
+      },
+      "official_nuvio_login_rpc": "A RPC de início de sessão retornou os campos para exibir o QR; não foi aprovada uma conta real."
+    },
+    "windows": {
+      "asset": "Telumia-Windows-x64-1.0.4.msi",
+      "display_version": "1.0.13",
+      "desktop_release_version": "1.0.4",
+      "product_version": "2.0.4",
+      "copied_from_stable_desktop_release": true,
+      "package_built_during_workflow": false
+    },
+    "assets": [
+      {
+        "name": "release-manifest.json",
+        "bytes": 3262,
+        "sha256": "909b0425bbd4f45d72d7777e0aa6b80230c59c8f68964306880537079ea6e859"
+      },
+      {
+        "name": "SHA256SUMS.txt",
+        "bytes": 896,
+        "sha256": "28a521ecab80017bd696c1ee4e80faaf5b46fce662649b479c3f66f362d7cb43"
+      },
+      {
+        "name": "Telumia-desktop-source.zip",
+        "bytes": 248120188,
+        "sha256": "0ed432ce12788b072cc1c682237018cc3d4216712fc3d43e9a60bfbf266454ac"
+      },
+      {
+        "name": "Telumia-TV-1.0.13-arm64-v8a-debug.apk",
+        "bytes": 93072347,
+        "sha256": "5879199832c5cfec1b47f3ee55a34ba85237b0ebac25d767f9850ecbdf9f8b30"
+      },
+      {
+        "name": "Telumia-TV-1.0.13-armeabi-v7a-debug.apk",
+        "bytes": 90970757,
+        "sha256": "4d2a9ec9d4aba812983d3849d2bf0a7c2e5c8c625d388be3b81de00286fa0dfc"
+      },
+      {
+        "name": "Telumia-TV-1.0.13-universal-debug.apk",
+        "bytes": 180043585,
+        "sha256": "c0a90eb66b2aedf50275782bfce552faae1b391ec00d8b6acccf08d3b3356b70"
+      },
+      {
+        "name": "Telumia-TV-1.0.13-x86-debug.apk",
+        "bytes": 94652997,
+        "sha256": "3e6a0bc144338753e9bbfb9c00e48683e335d172e815b66c0cffd181cf2e6993"
+      },
+      {
+        "name": "Telumia-TV-1.0.13-x86_64-debug.apk",
+        "bytes": 95492862,
+        "sha256": "11ea40a642d4310cf7cb1ce4e383c4ccab4afd4ea22d0ec7a725dff06dd250bd"
+      },
+      {
+        "name": "Telumia-tv-source.zip",
+        "bytes": 88829119,
+        "sha256": "981709d72b9dd41db6527cc4aab98e52294dcfdef16c208cc2a2c02498f42c5f"
+      },
+      {
+        "name": "Telumia-Windows-x64-1.0.4.msi",
+        "bytes": 211054696,
+        "sha256": "f59c7d2ac09bc1f9e7376866977452afb3fb7046839f43b7d9bce4505872c536"
+      }
+    ]
+  },
+  "limitations": [
+    "Não houve teste de aprovação de conta real nem QA em TV Box física.",
+    "O MSI Desktop 1.0.4 foi reutilizado da release estável da plataforma; não foi recompilado.",
+    "Os APKs usam arquivos Full Debug assinados com a chave persistente de distribuição; a migração do certificado antigo Android 1.0.0 continua necessária.",
+    "A release não conclui a Fase 1-D; auditoria de caches, fluxos offline e QA físico continuam abertos."
+  ]
+}

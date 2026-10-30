@@ -1,6 +1,14 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.11`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.13`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+
+## v1.0.13 — login Nuvio por QR e release estável combinada
+
+[Release principal](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.13), publicada pelo workflow [41132887106](https://github.com/Pepeu2010/telumia/actions/runs/41132887106) em 30 de outubro de 2026. A tag está estável (`prerelease=false`). Android TV/TV Box usa `versionName` 1.0.13 e `versionCode` 10025; os cinco APKs Full são assinados com a chave persistente do CI. A página também contém o MSI Windows x64 Desktop 1.0.4/ProductVersion 2.0.4, fontes, manifesto e SHA256SUMS.txt.
+
+A geração do login QR usa os defaults públicos do backend oficial Nuvio Cloud quando não há override local. Nenhum secret Supabase precisa ser cadastrado no repositório. Seis testes QR focados passaram, BuildConfig confirmou URL/chave configuradas sem registrar o valor e a RPC oficial retornou os campos necessários para apresentar o QR. Isso não confirma aprovação de uma conta real nem autenticação ponta a ponta. Os assets, tamanhos, SHA-256 e commits de origem estão em [telumia-1.0.13-stable-release.json](telumia-1.0.13-stable-release.json). O MSI Desktop foi copiado da release estável [v1.0.4](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4); não foi recompilado nesta execução.
+
+Android 1.0.0 ainda exige a migração única de certificado já aceita pelo usuário, com backup dos dados locais antes de remover a versão antiga. Não houve QA em TV Box física. A Fase 1-D segue aberta.
 
 ## v1.0.11 — correção do login por QR na TV
 
