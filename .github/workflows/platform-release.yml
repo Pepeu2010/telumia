@@ -15,19 +15,11 @@ on:
       mode:
         description: Compilar e guardar como artefato, ou publicar no repositório principal
         required: true
-        default: publish
+        default: build-only
         type: choice
         options:
           - publish
           - build-only
-  schedule:
-    - cron: "0 */6 * * *"
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/platform-release.yml
-
 permissions:
   contents: write
 
@@ -42,7 +34,7 @@ jobs:
     env:
       TV_REF: ${{ github.event.inputs.tv_ref || 'codex/fix-tv-login-qr-generation' }}
       DESKTOP_VERSION_INPUT: ${{ github.event.inputs.desktop_version || '' }}
-      RELEASE_MODE: ${{ github.event.inputs.mode || 'publish' }}
+      RELEASE_MODE: ${{ github.event.inputs.mode || 'build-only' }}
 
     steps:
       - name: Check out the main Telumia repository
@@ -302,7 +294,6 @@ jobs:
             printf 'NUVIO_RELEASE_KEY_ALIAS=%s\n' "${NUVIO_RELEASE_KEY_ALIAS}"
             printf 'NUVIO_RELEASE_STORE_PASSWORD=%s\n' "${NUVIO_RELEASE_STORE_PASSWORD}"
             printf 'NUVIO_RELEASE_KEY_PASSWORD=%s\n' "${NUVIO_RELEASE_KEY_PASSWORD}"
-            printf 'TELUMIA_SIGN_FULL_DEBUG_WITH_RELEASE_KEY=true\n'
           } >> "${GITHUB_ENV}"
 
       - name: Set the generated Android version in the fetched source
@@ -344,7 +335,7 @@ jobs:
         run: |
           set -euo pipefail
           ./gradlew \
-            :app:testFullDebugUnitTest \
+            :app:testFullReleaseUnitTest \
             --tests '*LiveTvGuideCacheTest' \
             --tests '*LiveTvGuideRefreshJobTest' \
             --tests '*LiveTvSourceImporterTest' \
@@ -358,7 +349,7 @@ jobs:
             --tests '*PhoneRemotePairingAuthorityTest' \
             --tests '*PhoneRemoteServerTest' \
             --tests '*ForkIdentityTest' \
-            :app:assembleFullDebug \
+            :app:assembleFullRelease \
             --no-daemon \
             --stacktrace
 
@@ -478,7 +469,7 @@ jobs:
           DESKTOP_RELEASE_MANIFEST_PATH: ${{ runner.temp }}/telumia-desktop-release-manifest.json
         run: |
           set -euo pipefail
-          apk_dir='repos/tv/app/build/outputs/apk/full/debug'
+          apk_dir='repos/tv/app/build/outputs/apk/full/release'
           output_dir="artifacts/releases/${RELEASE_TAG}"
           mkdir -p "${output_dir}"
           sdk_root="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
@@ -495,8 +486,8 @@ jobs:
 
           abis=(universal arm64-v8a armeabi-v7a x86_64 x86)
           for abi in "${abis[@]}"; do
-            source="${apk_dir}/app-full-${abi}-debug.apk"
-            destination="${output_dir}/Telumia-TV-${ANDROID_VERSION}-${abi}-debug.apk"
+            source="${apk_dir}/app-full-${abi}-release.apk"
+            destination="${output_dir}/Telumia-TV-${ANDROID_VERSION}-${abi}.apk"
             if [[ ! -s "${source}" ]]; then
               echo "Missing APK for ${abi}: ${source}" >&2
               exit 1
@@ -567,7 +558,7 @@ jobs:
                       "sourceReleaseUrl": os.environ["DESKTOP_RELEASE_URL"],
                   },
               },
-              "scope": "Android TV debug APKs built from the selected TV source commit; Windows x64 MSI copied from the selected Desktop release.",
+              "scope": "Production Android TV fullRelease APKs signed with the persistent release key; Windows x64 MSI copied from the selected Desktop release.",
               "validationLabel": "platform-release-workflow",
               "runtimeGates": None,
               "assets": assets,
