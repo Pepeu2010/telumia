@@ -431,3 +431,13 @@ Nunca anunciá-las como prontas antes de implementação/QA.
 - Passaram 14 testes focados de cache/ocupação e o MSI Windows x64 compilou. Artefato alpha local, não publicado; comando, tamanho e SHA-256 em [registro do build](telumia-cache-versioned-runtime-assets-desktop-r1-build.json).
 - Desktop: commit `bfd1c6de`, branch `codex/1d-desktop-versioned-runtime-cache`, [PR draft #21](https://github.com/Pepeu2010/telumia-desktop/pull/21) sobre [PR #20](https://github.com/Pepeu2010/telumia-desktop/pull/20), vinculado à aprovação [telumia#12](https://github.com/Pepeu2010/telumia/issues/12). Nenhuma mudança de TV.
 - Limites: sem QA em Windows físico ou medição de startup/jank; se a exclusão falhar, a medição Auto continua contando o diretório antigo. Fase 1-D permanece aberta.
+
+## Progresso das Fases 1, 3 e 5 — 31 de outubro de 2026
+
+### Fase 1-D — metadata Skip Intro e restauração EPG offline
+
+A TV agora mantém caches de intervalos Skip Intro e mapeamentos AniList→AniSkip limitados por tier, além de preservar o guia EPG persistido em leitura quando a atualização falha. O código de Skip Intro passou 6 testes focados e compilou os cinco APKs Full Debug locais ([PR draft #39](https://github.com/Pepeu2010/telumia-tv/pull/39)); a restauração offline EPG passou 8 testes do ViewModel ([PR draft #38](https://github.com/Pepeu2010/telumia-tv/pull/38)). Os limites de metadata são contagens de entradas, não bytes exatos. Não houve QA em TV Box física nem reprodução offline ponta a ponta. Fase 1-D continua aberta.
+
+### Fase 5 — foco e alinhamento da ação principal da Home TV
+
+A ação continua ancorada à esquerda com o texto centrado no botão. O texto passou a ocupar a caixa do conteúdo para centrar também na vertical. Quando começa um trailer em tela cheia, a ação invisível perde foco e o D-pad navega para a fileira; ao terminar, a CTA recupera foco e continua acionável. O PR draft [#36](https://github.com/Pepeu2010/telumia-tv/pull/36) passou 8 testes instrumentados no AVD API 33 em 1280×720, 1920×1080 e viewport 3840×2160. O caso de 390 dp é uma fixture de configuração móvel. Não houve validação em TV Box física ou telefone físico; a Fase 5 permanece aberta.
