@@ -553,7 +553,7 @@ jobs:
                   },
                   "windows": {
                       "installerVersion": os.environ["DESKTOP_INSTALLER_VERSION"],
-                      "displayVersion": os.environ["ANDROID_VERSION"],
+                  "displayVersion": os.environ["DESKTOP_VERSION"],
                       "sourceReleaseTag": os.environ["DESKTOP_TAG"],
                       "sourceReleaseUrl": os.environ["DESKTOP_RELEASE_URL"],
                   },
