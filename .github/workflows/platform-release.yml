@@ -328,7 +328,7 @@ jobs:
           print(f"Android build version: {version} ({version_code})")
           PY
 
-      - name: Run Live TV unit tests and build all Android TV APKs
+      - name: Run release regressions and build production Android TV APKs
         if: steps.release.outputs.action == 'build'
         working-directory: repos/tv
         shell: bash
@@ -349,6 +349,11 @@ jobs:
             --tests '*PhoneRemotePairingAuthorityTest' \
             --tests '*PhoneRemoteServerTest' \
             --tests '*ForkIdentityTest' \
+            --tests '*AuthManagerStartupRestoreTest' \
+            --tests '*HeroSectionLayoutTest' \
+            --tests '*LiveTvAddonCatalogsTest' \
+            --tests '*ModernHomeLayoutMetricsTest' \
+            --tests '*SettingsWorkspaceLayoutTest' \
             :app:assembleFullRelease \
             --no-daemon \
             --stacktrace
