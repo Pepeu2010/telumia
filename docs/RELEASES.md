@@ -1,6 +1,33 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.14`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.15`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+
+## v1.0.15 — release estável combinada
+
+[Release estável principal](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.15), publicada pelo workflow [41209126509](https://github.com/Pepeu2010/telumia/actions/runs/41209126509), que concluiu com sucesso em 31 de outubro de 2026. A tag está estável (`prerelease=false`). Android TV/TV Box usa `versionName` 1.0.15 e `versionCode` 10028; os cinco APKs Full foram assinados com a chave persistente do CI.
+
+A release reúne cinco APKs Full (universal, ARM64, ARM32, x86_64 e x86), o MSI x64 `Telumia-Windows-x64-1.0.4.msi`, duas fontes, manifesto e `SHA256SUMS.txt`. Os nomes de APK mantêm o sufixo `debug` do artefato Full, mas os pacotes publicados estão assinados com a chave persistente de release.
+
+| Asset | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `Telumia-TV-1.0.15-arm64-v8a-debug.apk` | 93072343 | `da7e4cc92242c005f717edd42c0c5415f3b7a6788de67101001fd7511d2fc7d5` |
+| `Telumia-TV-1.0.15-armeabi-v7a-debug.apk` | 90970757 | `d1cdcb69e73450076ea97ed24d40056e6a98f9cba8456b15fca39bd9ef0aac92` |
+| `Telumia-TV-1.0.15-universal-debug.apk` | 180043585 | `e0b9503e1e6465f1e513464506814001df1fa8d51378e004833bcba570f5339c` |
+| `Telumia-TV-1.0.15-x86-debug.apk` | 94652993 | `bcc785c1cbda95484efc10e6aaad920394472ee21a68b6e49bb9297c2e7f0634` |
+| `Telumia-TV-1.0.15-x86_64-debug.apk` | 95492858 | `ba8468b7c12c3300b541a6828182f51a0aeb672477e573747214a498ba5896ac` |
+| `Telumia-Windows-x64-1.0.4.msi` | 211054696 | `f59c7d2ac09bc1f9e7376866977452afb3fb7046839f43b7d9bce4505872c536` |
+| `Telumia-desktop-source.zip` | 248120188 | `0ed432ce12788b072cc1c682237018cc3d4216712fc3d43e9a60bfbf266454ac` |
+| `Telumia-tv-source.zip` | 88829387 | `6e6bc6a7bde09a49dd5d84edcbe752b33e501534ddc63f7d387ebc245f833148` |
+| `release-manifest.json` | 3262 | `c8dde4131776b1f128fa9b781ecf09d54012ebcf845a251b198ea361aa9b1d7c` |
+| `SHA256SUMS.txt` | 896 | `118bc833e86cad6d54dacbaa64313217ab3fbf2581c1817c3bbeed0ed3da0fe0` |
+
+Os oito artefatos de pacote estão no [manifesto publicado](https://github.com/Pepeu2010/telumia/releases/download/v1.0.15/release-manifest.json); seus tamanhos e hashes correspondem às entradas de [SHA256SUMS.txt](https://github.com/Pepeu2010/telumia/releases/download/v1.0.15/SHA256SUMS.txt). O manifesto também está listado nos checksums. Como `SHA256SUMS.txt` não pode listar o próprio hash, seu digest acima vem dos metadados do asset no GitHub.
+
+Fonte TV distribuída: commit [`180b38ee`](https://github.com/Pepeu2010/telumia-tv/commit/180b38eee4a347a6029ccbba963cd2c8287c6798). Comparada à fonte da v1.0.14 ([`75c6c299`](https://github.com/Pepeu2010/telumia-tv/commit/75c6c299cd554e3d350241b80ad625f61d7cab5a)), a diferença contém um commit e altera somente `app/build.gradle.kts` para o incremento de `versionName`/`versionCode`; portanto, esta release parte da fonte da v1.0.14 com apenas o bump de versão da release. A comparação pode ser consultada [aqui](https://github.com/Pepeu2010/telumia-tv/compare/75c6c299cd554e3d350241b80ad625f61d7cab5a...180b38eee4a347a6029ccbba963cd2c8287c6798).
+
+A fonte Desktop é o commit [`bed7ecf7`](https://github.com/Pepeu2010/telumia-desktop/commit/bed7ecf756abb6f49e7e222acba2460f69a20039). O MSI foi copiado sem alteração da release Desktop estável [v1.0.4](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4): o asset original `Telumia-Windows-x64.msi` e a cópia publicada `Telumia-Windows-x64-1.0.4.msi` têm 211054696 bytes e SHA-256 idêntico. A versão/ProductVersion Desktop permanece 1.0.4/2.0.4; o MSI não foi recompilado.
+
+O workflow passou os testes selecionados de Live TV, a compilação Full dos APKs e as verificações do MSI, manifesto e checksums. A release não inclui as mudanças dos PRs TV [#36](https://github.com/Pepeu2010/telumia-tv/pull/36), [#39](https://github.com/Pepeu2010/telumia-tv/pull/39) e [#35](https://github.com/Pepeu2010/telumia-tv/pull/35), este último ainda em andamento. A publicação não conclui as Fases 1-D, 3 ou 5; QA físico e demais requisitos seguem pendentes.
 
 ## v1.0.14 — release estável combinada
 
