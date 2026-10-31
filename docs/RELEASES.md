@@ -1,6 +1,16 @@
 # Releases da Telumia
 
-Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.11`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+Toda release combinada deve listar APK Android TV e instalador Windows PC na mesma página, inclusive no repositório principal `Pepeu2010/telumia`, além das releases dos clientes Desktop e TV. Cada versão de plataforma fica identificada nos assets e checksums. A regra vale para as releases públicas de `v0.2.0-alpha.1` até a estável `v1.0.14`, incluindo as estáveis `v1.0.0`–`v1.0.4`; onde faltava, o MSI Desktop foi anexado e os checksums regenerados. A preparação/publicação do repositório principal exige APK e MSI, e a verificação reconhece o MSI genérico ou com a versão própria da plataforma.
+
+## v1.0.14 — release estável combinada
+
+[Release estável principal](https://github.com/Pepeu2010/telumia/releases/tag/v1.0.14), publicada pelo workflow [41206806889](https://github.com/Pepeu2010/telumia/actions/runs/41206806889). O build-only [41206072924](https://github.com/Pepeu2010/telumia/actions/runs/41206072924) passou antes da publicação. Android 1.0.14 usa versionCode 10027 e a chave persistente do CI; a tag tem `prerelease=false` e está marcada Latest.
+
+A release reúne cinco APKs Full (universal, ARM64, ARM32, x86_64 e x86), o MSI x64 `Telumia-Windows-x64-1.0.4.msi`, duas fontes, manifesto e `SHA256SUMS.txt`. O MSI de 211.054.696 bytes foi copiado e verificado da release Desktop [v1.0.4](https://github.com/Pepeu2010/telumia-desktop/releases/tag/v1.0.4); ProductVersion 2.0.4 e o código Desktop não mudaram. A recompilação local de verificação produziu hash diferente e não substituiu o pacote publicado. Os APKs têm sufixo `debug` no nome herdado do artefato Full, mas são assinados com a chave persistente de release.
+
+Fonte TV distribuída: [`75c6c299`](https://github.com/Pepeu2010/telumia-tv/commit/75c6c299cd554e3d350241b80ad625f61d7cab5a). Fonte Desktop: [`bed7ecf7`](https://github.com/Pepeu2010/telumia-desktop/commit/bed7ecf756abb6f49e7e222acba2460f69a20039). Todos os dez assets publicados — cinco APKs, MSI, duas fontes, manifesto e checksums — tiveram tamanho/digest comparados ao manifesto e ao resultado do workflow.
+
+Esta release parte do código da alpha.1 com incremento estável de versão. Não incorpora as mudanças que seguem em PRs draft: [Desktop #32](https://github.com/Pepeu2010/telumia-desktop/pull/32), [TV #36](https://github.com/Pepeu2010/telumia-tv/pull/36), [#38](https://github.com/Pepeu2010/telumia-tv/pull/38) e [#39](https://github.com/Pepeu2010/telumia-tv/pull/39). A publicação não conclui as Fases 1-D, 3 ou 5; QA físico e demais requisitos permanecem pendentes. Tamanhos, hashes e versão estão no [manifesto](https://github.com/Pepeu2010/telumia/releases/download/v1.0.14/release-manifest.json) e nos [checksums](https://github.com/Pepeu2010/telumia/releases/download/v1.0.14/SHA256SUMS.txt).
 
 ## v1.0.11 — correção do login por QR na TV
 
