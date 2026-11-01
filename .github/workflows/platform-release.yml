@@ -60,6 +60,8 @@ jobs:
       - name: Select the Windows PC source release
         id: desktop_source
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           desktop_api='https://api.github.com/repos/Pepeu2010/telumia-desktop/releases'
@@ -70,10 +72,18 @@ jobs:
               exit 1
             fi
             desktop_tag="v${requested}"
-            curl --fail --silent --show-error --location "${desktop_api}/tags/${desktop_tag}" \
+            curl --fail --silent --show-error --location --retry 5 --retry-all-errors --retry-delay 2 --retry-max-time 60 \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header 'Accept: application/vnd.github+json' \
+              --user-agent 'Telumia-Release-Workflow/1.0' \
+              "${desktop_api}/tags/${desktop_tag}" \
               --output "${RUNNER_TEMP}/telumia-desktop-release.json"
           else
-            curl --fail --silent --show-error --location "${desktop_api}?per_page=100" \
+            curl --fail --silent --show-error --location --retry 5 --retry-all-errors --retry-delay 2 --retry-max-time 60 \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header 'Accept: application/vnd.github+json' \
+              --user-agent 'Telumia-Release-Workflow/1.0' \
+              "${desktop_api}?per_page=100" \
               --output "${RUNNER_TEMP}/telumia-desktop-releases.json"
             desktop_release_json="$(jq -c '[.[] | select(.draft == false)][0] // empty' "${RUNNER_TEMP}/telumia-desktop-releases.json")"
             if [[ -z "${desktop_release_json}" ]]; then
