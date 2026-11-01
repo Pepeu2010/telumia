@@ -191,7 +191,8 @@ jobs:
             fi
           fi
 
-          if [[ -n "${published}" && "${tv_sha}" == "${published_tv_sha}" && \
+          if [[ -n "${published}" && "$(jq -r '.prerelease' <<<"${published}")" == 'false' && \
+                "${tv_sha}" == "${published_tv_sha}" && \
                 "${desktop_sha}" == "${published_desktop_sha}" && "${desktop_tag}" == "${published_desktop_tag}" && \
                 "${RELEASE_MODE}" != 'build-only' ]]; then
             echo "The published release ${published_tag} already contains the selected TV and Windows sources."
@@ -203,12 +204,19 @@ jobs:
           if [[ -n "${published_version}" ]]; then
             version_args+=(--published-version "${published_version}" --published-code "${published_version_code}")
           fi
+          if [[ "${RELEASE_MODE}" == 'publish' ]]; then
+            if [[ "${desktop_tag}" == *-* ]]; then
+              echo 'Stable releases require a stable Windows Desktop source release.' >&2
+              exit 1
+            fi
+            version_args+=(--channel stable)
+          fi
           python3 scripts/resolve_telumia_release_version.py "${version_args[@]}" >> "${GITHUB_OUTPUT}"
           version="$(sed -n 's/^version=//p' "${GITHUB_OUTPUT}" | tail -n 1)"
           version_code="$(sed -n 's/^version_code=//p' "${GITHUB_OUTPUT}" | tail -n 1)"
           tag="v${version}"
           prerelease=false
-          if [[ "${version}" == *-* || "${desktop_tag}" == *-* ]]; then
+          if [[ "${RELEASE_MODE}" == 'build-only' && ( "${version}" == *-* || "${desktop_tag}" == *-* ) ]]; then
             prerelease=true
           fi
 

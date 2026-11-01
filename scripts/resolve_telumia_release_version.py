@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Choose a monotonically increasing Android prerelease version for Telumia."""
+"""Resolve a monotonically increasing Android package version for Telumia."""
 
 from __future__ import annotations
 
@@ -54,6 +54,20 @@ def next_prerelease(value: str) -> str:
     return f"{major}.{minor}.{patch + 1}-alpha.1"
 
 
+def stable_version(value: str) -> str:
+    match = VERSION_PATTERN.fullmatch(value)
+    if match is None:
+        raise ValueError(f"Invalid Telumia version: {value}")
+    return ".".join(str(int(match.group(key))) for key in ("major", "minor", "patch"))
+
+
+def next_stable(value: str) -> str:
+    current = parse_version(value)
+    if "-" in value:
+        return f"{current.major}.{current.minor}.{current.patch}"
+    return f"{current.major}.{current.minor}.{current.patch + 1}"
+
+
 def positive_integer(value: str, label: str) -> int:
     try:
         number = int(value)
@@ -64,19 +78,29 @@ def positive_integer(value: str, label: str) -> int:
     return number
 
 
-def resolve(source_version: str, source_code: str, published_version: str | None, published_code: str | None) -> tuple[str, int]:
+def resolve(
+    source_version: str,
+    source_code: str,
+    published_version: str | None,
+    published_code: str | None,
+    channel: str = "prerelease",
+) -> tuple[str, int]:
+    if channel not in {"prerelease", "stable"}:
+        raise ValueError(f"Invalid release channel: {channel}")
+
     source_key = parse_version(source_version)
     source_code_value = positive_integer(source_code, "Source versionCode")
 
     if published_version is None or published_code is None:
-        return source_version, source_code_value
+        target_version = stable_version(source_version) if channel == "stable" else source_version
+        return target_version, source_code_value
 
     published_key = parse_version(published_version)
     published_code_value = positive_integer(published_code, "Published versionCode")
     if source_key > published_key:
-        target_version = source_version
+        target_version = stable_version(source_version) if channel == "stable" else source_version
     else:
-        target_version = next_prerelease(published_version)
+        target_version = next_stable(published_version) if channel == "stable" else next_prerelease(published_version)
 
     target_code = max(source_code_value, published_code_value + 1)
     if target_code > MAX_ANDROID_VERSION_CODE:
@@ -90,6 +114,7 @@ def main() -> int:
     parser.add_argument("--source-code", required=True)
     parser.add_argument("--published-version")
     parser.add_argument("--published-code")
+    parser.add_argument("--channel", choices=("prerelease", "stable"), default="prerelease")
     args = parser.parse_args()
 
     if bool(args.published_version) != bool(args.published_code):
@@ -101,6 +126,7 @@ def main() -> int:
             args.source_code,
             args.published_version,
             args.published_code,
+            args.channel,
         )
     except ValueError as error:
         print(error, file=sys.stderr)

@@ -1,6 +1,6 @@
 import unittest
 
-from resolve_telumia_release_version import next_prerelease, parse_version, resolve
+from resolve_telumia_release_version import next_prerelease, next_stable, parse_version, resolve
 
 
 class TelumiaReleaseVersionTests(unittest.TestCase):
@@ -21,6 +21,25 @@ class TelumiaReleaseVersionTests(unittest.TestCase):
         self.assertEqual(
             resolve("1.0.1", "10007", "1.0.1", "10007"),
             ("1.0.2-alpha.1", 10008),
+        )
+
+    def test_stable_channel_advances_to_a_stable_patch(self):
+        self.assertEqual(next_stable("1.0.1"), "1.0.2")
+        self.assertEqual(
+            resolve("1.0.1", "10007", "1.0.1", "10007", "stable"),
+            ("1.0.2", 10008),
+        )
+
+    def test_stable_channel_promotes_a_published_alpha_without_reusing_its_code(self):
+        self.assertEqual(
+            resolve("1.1.0", "10029", "1.1.1-alpha.1", "10031", "stable"),
+            ("1.1.1", 10032),
+        )
+
+    def test_stable_channel_normalizes_a_newer_alpha_source(self):
+        self.assertEqual(
+            resolve("1.1.2-alpha.3", "10033", "1.1.1", "10032", "stable"),
+            ("1.1.2", 10033),
         )
 
     def test_android_prerelease_order_matches_release_order(self):
