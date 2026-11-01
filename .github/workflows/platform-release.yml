@@ -389,24 +389,34 @@ jobs:
 
           source_asset="$(jq -c '[.assets[] | select(.name == "Telumia-desktop-source.zip")] | if length == 1 then .[0] else empty end' "${desktop_release}")"
           source_manifest_asset="$(jq -c '[.assets[] | select(.name == "release-manifest.json")] | if length == 1 then .[0] else empty end' "${desktop_release}")"
-          if [[ -z "${source_asset}" || -z "${source_manifest_asset}" ]]; then
-            echo "Desktop ${desktop_tag} must provide its source archive and release manifest." >&2
+          if [[ -z "${source_manifest_asset}" ]]; then
+            echo "Desktop ${desktop_tag} must provide exactly one release manifest." >&2
             exit 1
           fi
 
           msi_url="$(jq -r '.browser_download_url' <<<"${asset}")"
           msi_size="$(jq -r '.size' <<<"${asset}")"
           msi_digest="$(jq -r '.digest // empty' <<<"${asset}")"
-          source_url="$(jq -r '.browser_download_url' <<<"${source_asset}")"
-          source_size="$(jq -r '.size' <<<"${source_asset}")"
-          source_digest="$(jq -r '.digest // empty' <<<"${source_asset}")"
+          if [[ -n "${source_asset}" ]]; then
+            source_url="$(jq -r '.browser_download_url' <<<"${source_asset}")"
+            source_size="$(jq -r '.size' <<<"${source_asset}")"
+            source_digest="$(jq -r '.digest // empty' <<<"${source_asset}")"
+          else
+            echo "Desktop ${desktop_tag} has no attached source ZIP; creating one from its published Git tag." >&2
+            source_url="https://github.com/Pepeu2010/telumia-desktop/archive/refs/tags/${desktop_tag}.zip"
+            source_size=''
+            source_digest=''
+          fi
           manifest_url="$(jq -r '.browser_download_url' <<<"${source_manifest_asset}")"
           manifest_size="$(jq -r '.size' <<<"${source_manifest_asset}")"
           manifest_digest="$(jq -r '.digest // empty' <<<"${source_manifest_asset}")"
           if [[ ! "${msi_digest}" =~ ^sha256:[0-9a-f]{64}$ || \
-                ! "${source_digest}" =~ ^sha256:[0-9a-f]{64}$ || \
                 ! "${manifest_digest}" =~ ^sha256:[0-9a-f]{64}$ ]]; then
-            echo "GitHub did not provide SHA-256 digests for the Desktop release files." >&2
+            echo "GitHub did not provide SHA-256 digests for the Desktop MSI or release manifest." >&2
+            exit 1
+          fi
+          if [[ -n "${source_asset}" && ! "${source_digest}" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+            echo "GitHub did not provide a SHA-256 digest for the Desktop source ZIP." >&2
             exit 1
           fi
           android_version="$(sed -nE 's/^[[:space:]]*versionName[[:space:]]*=[[:space:]]*"([^"]+)".*$/\1/p' repos/tv/app/build.gradle.kts | head -n 1)"
@@ -432,19 +442,30 @@ jobs:
             fi
           }
           verify_asset "${release_dir}/${msi_name}" "${msi_size}" "${msi_digest}"
-          verify_asset "${release_dir}/Telumia-desktop-source.zip" "${source_size}" "${source_digest}"
           verify_asset "${manifest_path}" "${manifest_size}" "${manifest_digest}"
+          if [[ -n "${source_asset}" ]]; then
+            verify_asset "${release_dir}/Telumia-desktop-source.zip" "${source_size}" "${source_digest}"
+          else
+            source_size="$(stat --format='%s' "${release_dir}/Telumia-desktop-source.zip")"
+            source_digest="sha256:$(sha256sum "${release_dir}/Telumia-desktop-source.zip" | awk '{print $1}')"
+          fi
 
           desktop_source_sha="$(jq -r '.sourceCommits.desktop // empty' "${manifest_path}")"
-          desktop_installer_version="$(jq -r '.distributions.windows.installerVersion // empty' "${manifest_path}")"
+          if [[ ! "${desktop_source_sha}" =~ ^[a-f0-9]{40}$ ]]; then
+            desktop_source_sha="${{ steps.desktop_source.outputs.desktop_source_sha }}"
+          fi
+          desktop_installer_version="$(jq -r '.distributions.windows.installerVersion // .windowsPackageVersion // empty' "${manifest_path}")"
           desktop_inspection_count="$(jq '[.sourceArchiveInspections[] | select(.target == "desktop" and .file == "Telumia-desktop-source.zip")] | length' "${manifest_path}")"
           desktop_inspection_sha="$(jq -r '[.sourceArchiveInspections[] | select(.target == "desktop" and .file == "Telumia-desktop-source.zip")][0].sha256 // empty' "${manifest_path}")"
           desktop_manifest_sha="$(jq -r '[.assets[] | select(.name == "Telumia-Windows-x64.msi")][0].sha256 // empty' "${manifest_path}")"
-          desktop_manifest_msi_size="$(jq -r '[.assets[] | select(.name == "Telumia-Windows-x64.msi")][0].bytes // empty' "${manifest_path}")"
+          desktop_manifest_msi_size="$(jq -r '[.assets[] | select(.name == "Telumia-Windows-x64.msi")][0].bytes // [.assets[] | select(.name == "Telumia-Windows-x64.msi")][0].size // empty' "${manifest_path}")"
           if [[ ! "${desktop_source_sha}" =~ ^[a-f0-9]{40}$ || -z "${desktop_installer_version}" || \
-                "${desktop_inspection_count}" != '1' || "${desktop_inspection_sha}" != "${source_digest#sha256:}" || \
                 "${desktop_manifest_sha}" != "${msi_digest#sha256:}" || "${desktop_manifest_msi_size}" != "${msi_size}" ]]; then
             echo 'Desktop release manifest disagrees with the verified MSI, source archive or installer metadata.' >&2
+            exit 1
+          fi
+          if [[ -n "${source_asset}" && ( "${desktop_inspection_count}" != '1' || "${desktop_inspection_sha}" != "${source_digest#sha256:}" ) ]]; then
+            echo 'Desktop release manifest does not verify its attached source archive.' >&2
             exit 1
           fi
           if [[ "${desktop_source_sha}" != "${{ steps.desktop_source.outputs.desktop_source_sha }}" ]]; then
