@@ -99,7 +99,15 @@ jobs:
             "$(jq -r '.browser_download_url' <<<"${manifest_asset}")" --output "${manifest_path}"
           desktop_source_sha="$(jq -r '.sourceCommits.desktop // empty' "${manifest_path}")"
           if [[ ! "${desktop_source_sha}" =~ ^[a-f0-9]{40}$ ]]; then
-            echo "Desktop ${desktop_tag} has no valid source commit in its manifest." >&2
+            echo "Desktop ${desktop_tag} manifest omits its source commit; resolving the immutable release tag." >&2
+            desktop_repository='https://github.com/Pepeu2010/telumia-desktop.git'
+            desktop_source_sha="$(git ls-remote "${desktop_repository}" "refs/tags/${desktop_tag}^{}" | awk 'NR == 1 { print $1 }')"
+            if [[ -z "${desktop_source_sha}" ]]; then
+              desktop_source_sha="$(git ls-remote "${desktop_repository}" "refs/tags/${desktop_tag}" | awk 'NR == 1 { print $1 }')"
+            fi
+          fi
+          if [[ ! "${desktop_source_sha}" =~ ^[a-f0-9]{40}$ ]]; then
+            echo "Desktop ${desktop_tag} has no valid source commit in its manifest or Git tag." >&2
             exit 1
           fi
           {
