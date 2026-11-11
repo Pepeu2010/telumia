@@ -340,6 +340,33 @@ jobs:
             printf 'NUVIO_RELEASE_KEY_PASSWORD=%s\n' "${NUVIO_RELEASE_KEY_PASSWORD}"
           } >> "${GITHUB_ENV}"
 
+      - name: Configure official account service for TV release
+        if: steps.release.outputs.action == 'build'
+        shell: bash
+        env:
+          NUVIO_SUPABASE_URL: ${{ secrets.TELUMIA_NUVIO_SUPABASE_URL }}
+          NUVIO_SUPABASE_ANON_KEY: ${{ secrets.TELUMIA_NUVIO_SUPABASE_ANON_KEY }}
+          NUVIO_SUPABASE_FALLBACK_URL: ${{ secrets.TELUMIA_NUVIO_SUPABASE_FALLBACK_URL }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${NUVIO_SUPABASE_URL}" || -z "${NUVIO_SUPABASE_ANON_KEY}" ]]; then
+            echo 'The official account backend is not configured; refusing to build an APK without login.' >&2
+            exit 1
+          fi
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          keys = ('NUVIO_SUPABASE_URL', 'NUVIO_SUPABASE_ANON_KEY', 'NUVIO_SUPABASE_FALLBACK_URL')
+          values = {key: os.environ.get(key, '') for key in keys}
+          if any('\n' in value or '\r' in value for value in values.values()):
+              raise SystemExit('Account service configuration contains an invalid newline.')
+          path = Path('repos/tv/local.properties')
+          with path.open('a', encoding='utf-8') as config:
+              config.write('\n')
+              for key, value in values.items():
+                  config.write(f'{key}={value}\n')
+          PY
+
       - name: Set the generated Android version in the fetched source
         if: steps.release.outputs.action == 'build'
         shell: bash
@@ -401,6 +428,37 @@ jobs:
             :app:assembleFullRelease \
             --no-daemon \
             --stacktrace
+
+      - name: Verify TV account configuration and QR session
+        if: steps.release.outputs.action == 'build'
+        shell: bash
+        env:
+          ACCOUNT_URL: ${{ secrets.TELUMIA_NUVIO_SUPABASE_URL }}
+          ACCOUNT_KEY: ${{ secrets.TELUMIA_NUVIO_SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, re, secrets, urllib.request
+          from pathlib import Path
+          text = Path('repos/tv/app/build/generated/source/buildConfig/full/release/com/nuvio/tv/BuildConfig.java').read_text(encoding='utf-8')
+          for name in ('SUPABASE_URL', 'SUPABASE_ANON_KEY'):
+              match = re.search(r'\b' + name + r'\s*=\s*"([^"]*)"', text)
+              if not match or not match.group(1):
+                  raise SystemExit('Release configuration is missing ' + name)
+          base = os.environ['ACCOUNT_URL'].rstrip('/')
+          if not base.startswith('https://'):
+              raise SystemExit('Account endpoint must use HTTPS')
+          body = json.dumps({'p_device_nonce': secrets.token_hex(32),
+                             'p_redirect_base_url': 'https://nuvio.tv/tv-login',
+                             'p_device_name': 'Telumia release verification'}).encode()
+          request = urllib.request.Request(base + '/rest/v1/rpc/start_tv_login_session', data=body,
+              headers={'apikey': os.environ['ACCOUNT_KEY'], 'Content-Type': 'application/json'})
+          with urllib.request.urlopen(request, timeout=30) as response:
+              rows = json.load(response)
+          if not isinstance(rows, list) or not rows or not rows[0].get('web_url'):
+              raise SystemExit('Account service did not return a QR login URL')
+          print('TV account configuration and QR session verified')
+          PY
 
       - name: Download and verify the Windows Desktop MSI
         if: steps.release.outputs.action == 'build'
