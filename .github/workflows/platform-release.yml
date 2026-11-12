@@ -291,14 +291,16 @@ jobs:
         shell: bash
         env:
           DESKTOP_SOURCE_SHA: ${{ steps.desktop_source.outputs.desktop_source_sha }}
+          # The Desktop source archive is the one already published (and LFS-inspected) with the
+          # Desktop release, verified below by its GitHub SHA-256; the LFS binaries are not
+          # downloaded again, so a spent LFS bandwidth budget cannot block a TV release.
+          GIT_LFS_SKIP_SMUDGE: "1"
         run: |
           set -euo pipefail
           git init repos/desktop
           git -C repos/desktop remote add origin https://github.com/Pepeu2010/telumia-desktop.git
           git -C repos/desktop fetch --depth=1 --no-tags origin "${DESKTOP_SOURCE_SHA}"
           git -C repos/desktop checkout --detach FETCH_HEAD
-          git -C repos/desktop lfs install --local
-          git -C repos/desktop lfs pull origin
           if [[ "$(git -C repos/desktop rev-parse HEAD)" != "${DESKTOP_SOURCE_SHA}" ]]; then
             echo 'The Desktop checkout does not match the source commit selected from its release.' >&2
             exit 1
@@ -528,10 +530,42 @@ jobs:
           verify_asset "${release_dir}/${msi_name}" "${msi_size}" "${msi_digest}"
           verify_asset "${manifest_path}" "${manifest_size}" "${manifest_digest}"
 
-          pwsh -NoProfile -File scripts/Export-TelumiaSourceArchive.ps1 \
-            -Target desktop \
-            -Commit "${DESKTOP_SOURCE_SHA}" \
-            -OutputPath "${release_dir}/Telumia-desktop-source.zip"
+          source_asset="$(jq -c '[.assets[] | select(.name == "Telumia-desktop-source.zip")] | if length == 1 then .[0] else empty end' "${desktop_release}")"
+          if [[ -z "${source_asset}" ]]; then
+            echo "Desktop ${desktop_tag} does not contain exactly one Telumia-desktop-source.zip asset." >&2
+            exit 1
+          fi
+          source_size="$(jq -r '.size' <<<"${source_asset}")"
+          source_digest="$(jq -r '.digest // empty' <<<"${source_asset}")"
+          if [[ ! "${source_digest}" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+            echo "GitHub did not provide a SHA-256 digest for the Desktop source archive." >&2
+            exit 1
+          fi
+          curl --fail --silent --show-error --location --retry 5 --retry-all-errors \
+            "$(jq -r '.browser_download_url' <<<"${source_asset}")" --output "${release_dir}/Telumia-desktop-source.zip"
+          verify_asset "${release_dir}/Telumia-desktop-source.zip" "${source_size}" "${source_digest}"
+          python3 - "${release_dir}/Telumia-desktop-source.zip" "${DESKTOP_SOURCE_SHA}" "${source_digest#sha256:}" <<'PY'
+          import json, sys, zipfile
+          path, commit, sha256 = sys.argv[1:]
+          with zipfile.ZipFile(path) as archive:
+              if archive.testzip() is not None:
+                  raise SystemExit('The Desktop source archive is corrupt.')
+              for info in archive.infolist():
+                  if 0 < info.file_size <= 1024 and not info.filename.endswith('/'):
+                      head = archive.read(info.filename)[:40]
+                      if head.startswith(b'version https://git-lfs.github.com/spec/v1'):
+                          raise SystemExit('An unresolved Git LFS pointer remains in the Desktop source archive.')
+          inspection = {
+              'sourceCommit': commit,
+              'target': 'desktop',
+              'file': 'Telumia-desktop-source.zip',
+              'sha256': sha256,
+              'unresolvedLfsPointers': 0,
+              'scope': 'Published Desktop release archive: GitHub SHA-256 verified, ZIP integrity checked, no unresolved LFS pointers; LFS objects not re-downloaded in this run',
+          }
+          with open(path + '.inspection.json', 'w', encoding='utf-8') as out:
+              json.dump(inspection, out, indent=2)
+          PY
 
           desktop_source_sha="$(jq -r '.sourceCommits.desktop // empty' "${manifest_path}")"
           if [[ ! "${desktop_source_sha}" =~ ^[a-f0-9]{40}$ ]]; then
