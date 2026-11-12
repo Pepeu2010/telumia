@@ -291,14 +291,16 @@ jobs:
         shell: bash
         env:
           DESKTOP_SOURCE_SHA: ${{ steps.desktop_source.outputs.desktop_source_sha }}
+          # The Windows MSI and the Desktop source archive are copied from the published Desktop
+          # release, so the large LFS binaries are not needed here (and the account's LFS budget
+          # can be exhausted). Only the pinned commit is verified.
+          GIT_LFS_SKIP_SMUDGE: "1"
         run: |
           set -euo pipefail
           git init repos/desktop
           git -C repos/desktop remote add origin https://github.com/Pepeu2010/telumia-desktop.git
           git -C repos/desktop fetch --depth=1 --no-tags origin "${DESKTOP_SOURCE_SHA}"
           git -C repos/desktop checkout --detach FETCH_HEAD
-          git -C repos/desktop lfs install --local
-          git -C repos/desktop lfs pull origin
           if [[ "$(git -C repos/desktop rev-parse HEAD)" != "${DESKTOP_SOURCE_SHA}" ]]; then
             echo 'The Desktop checkout does not match the source commit selected from its release.' >&2
             exit 1
