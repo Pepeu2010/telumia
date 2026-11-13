@@ -162,7 +162,7 @@ jobs:
           published_desktop_tag=''
           if [[ -n "${published}" ]]; then
             published_tag="$(jq -r '.tag_name' <<<"${published}")"
-            published_apk_count="$(jq '[.assets[] | select(.name | endswith(".apk"))] | length' <<<"${published}")"
+            published_apk_count="$(jq '[.assets[] | select(.name | startswith("Telumia-TV-") and endswith(".apk"))] | length' <<<"${published}")"
             published_msi_count="$(jq '[.assets[] | select(.name | endswith(".msi"))] | length' <<<"${published}")"
             published_zip_count="$(jq '[.assets[] | select(.name | endswith(".zip"))] | length' <<<"${published}")"
             published_manifest_count="$(jq '[.assets[] | select(.name == "release-manifest.json")] | length' <<<"${published}")"
